@@ -1,28 +1,31 @@
-// pi.dev Fabric template extension: honest workflow/asset status and MCP
-// guidance. The extension never executes or fabricates MCP dispatch: MCP
-// servers are called by the host MCP bridge (mcporter) and exposed as host
-// tools (mcp.$search / mcp.$call) or via Fabric's tools.search / tools.call.
-// This extension only reports status and returns guidance.
+// pi.dev Fabric template extension: provider-neutral research capability status
+// and guidance. The extension never executes research: MCP servers are executed
+// by the host MCP bridge (mcporter) and surfaced as host tools (mcp.$search /
+// mcp.$call, or tools.search / tools.call from Fabric). It only reports status
+// and returns exact refs.
 import type { AgentToolResult, ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 import { existsSync, readdirSync } from "node:fs";
+import { homedir } from "node:os";
 import { resolve } from "node:path";
 import {
-  buildMcpGuidance,
+  buildResearchGuidance,
   listMcpCapabilities,
   parseMcpConfig,
+  providerStatus,
   readJsonFile,
   type McpConfig,
 } from "../../scripts/template-lib.ts";
 
-const McpGuidanceParams = Type.Object({
-  server: Type.Optional(Type.String({ description: "Optional MCP server name to check, e.g. exa or deepwiki" })),
-  tool: Type.Optional(Type.String({ description: "Optional tool name the model wants to call" })),
-  query: Type.Optional(Type.String({ description: "Optional search query to route via mcp.$search" })),
+const ResearchGuidanceParams = Type.Object({
+  intent: Type.Optional(Type.String({ description: "Research intent text; routed to a lane (library docs, repository, web facts)" })),
+  provider: Type.Optional(Type.String({ description: "Optional provider name to inspect: omniroute, context7, deepwiki" })),
+  query: Type.Optional(Type.String({ description: "Optional query text; used for intent routing" })),
 });
 
-export function readMcpConfig(root: string = process.cwd()): McpConfig {
-  for (const candidate of [resolve(root, ".mcporter", "config.json"), resolve(root, "mcporter.json")]) {
+export function readResearchConfig(root: string = process.cwd()): McpConfig {
+  const candidates = [resolve(root, ".mcporter", "config.json"), resolve(homedir(), ".config", "mcp", "mcp.json"), resolve(root, "mcporter.json")];
+  for (const candidate of candidates) {
     if (existsSync(candidate)) {
       const v = readJsonFile(candidate);
       if (v && typeof v === "object" && !Array.isArray(v)) return v as McpConfig;
@@ -36,34 +39,40 @@ export function createWorkflowStatusTool(loadConfig: () => McpConfig) {
     name: "workflow_status",
     label: "Workflow status",
     description:
-      "Report template state: prewalk lifecycle config, discovered skills, prompts, workflows, extensions, and configured MCP servers with ready/degraded status. Read-only.",
+      "Report template state: prewalk lifecycle config, discovered skills by pack, prompts, extensions, and research provider status (omniroute, context7, deepwiki) with ready/degraded status and exact host refs. Read-only.",
     parameters: Type.Object({}),
     async execute(): Promise<AgentToolResult<unknown>> {
-      const status = buildWorkflowStatusText(process.cwd(), loadConfig());
-      return { content: [{ type: "text" as const, text: status }], details: { code: "ok" } };
+      const text = buildWorkflowStatusText(process.cwd(), loadConfig());
+      return { content: [{ type: "text" as const, text }], details: { code: "ok" } };
     },
   };
 }
 
-export function createMcpGuidanceTool(loadConfig: () => McpConfig) {
+export function createResearchGuidanceTool(loadConfig: () => McpConfig) {
   return {
-    name: "mcp_guidance",
-    label: "MCP guidance",
+    name: "research_guidance",
+    label: "Research guidance",
     description:
-      "Return honest guidance for calling MCP servers through the host MCP bridge: which host tools to use (mcp.$search / mcp.$call, or tools.search / tools.call from Fabric), whether a server is configured and ready, and which env secrets are missing. Read-only; never fabricates execution.",
-    parameters: McpGuidanceParams,
+      "Return provider-neutral research guidance: which lane fits the intent (library docs, repository Q&A, general web), whether omniroute/context7/deepwiki are configured and ready, and the exact host tools to call. Read-only; never fabricates execution.",
+    parameters: ResearchGuidanceParams,
     async execute(
       _toolCallId: string,
-      params: { server?: string; tool?: string; query?: string },
+      params: { intent?: string; provider?: string; query?: string },
     ): Promise<AgentToolResult<unknown>> {
-      const guidance = buildMcpGuidance(loadConfig(), {
-        server: params.server,
-        tool: params.tool,
+      const g = buildResearchGuidance(loadConfig(), {
+        intent: params.intent,
+        provider: params.provider,
         query: params.query,
       });
       return {
-        content: [{ type: "text" as const, text: guidance.guidance }],
-        details: { code: "guidance", refs: guidance.refs, servers: guidance.servers, ready: guidance.ready, degraded: guidance.degraded },
+        content: [{ type: "text" as const, text: g.guidance }],
+        details: {
+          code: "guidance",
+          lane: g.lane.lane,
+          provider: g.lane.provider,
+          refs: g.refs,
+          providers: g.providers.map((p) => ({ name: p.name, configured: p.configured, aliasUsed: p.aliasUsed, envMissing: p.envMissing })),
+        },
       };
     },
   };
@@ -72,37 +81,51 @@ export function createMcpGuidanceTool(loadConfig: () => McpConfig) {
 export function buildWorkflowStatusText(root: string, config: McpConfig): string {
   const fabric = (readJsonFile(resolve(root, ".pi", "fabric.json")) ?? {}) as Record<string, unknown>;
   const prewalk = (fabric.prewalk ?? {}) as Record<string, unknown>;
-  const listDirs = (dir: string, ext: string): string[] => {
-    const full = resolve(root, dir);
-    if (!existsSync(full)) return [];
-    if (ext === "skill") {
-      return readdirSync(full, { withFileTypes: true })
-        .filter((e) => e.isDirectory() && existsSync(resolve(full, e.name, "SKILL.md")))
-        .map((e) => e.name)
-        .sort();
+  const skillsRoot = resolve(root, ".pi", "skills");
+  let skillList: string[] = [];
+  const packCounts: Record<string, number> = {};
+  if (existsSync(skillsRoot)) {
+    for (const pack of readdirSync(skillsRoot)) {
+      const packDir = resolve(skillsRoot, pack);
+      if (!existsSync(resolve(packDir, "SKILL.md")) && existsSync(packDir) && readdirSync(packDir, { withFileTypes: true }).some((e) => e.isDirectory())) {
+        const names = readdirSync(packDir)
+          .filter((n) => existsSync(resolve(packDir, n, "SKILL.md")))
+          .sort();
+        packCounts[pack] = names.length;
+        skillList.push(...names.map((n) => pack + "/" + n));
+      } else if (existsSync(resolve(packDir, "SKILL.md"))) {
+        skillList.push(pack);
+      }
     }
-    return readdirSync(full).filter((f) => f.endsWith(ext)).sort();
-  };
+  }
+  skillList = skillList.sort();
   const caps = listMcpCapabilities(config);
+  const providers = providerStatus(config);
+  const providerLine = providers
+    .map((p) => {
+      if (!p.configured) return p.name + " (not configured)";
+      const missing = p.envMissing.length > 0 ? " degraded: missing " + p.envMissing.join(",") : " ready";
+      return p.name + " (" + missing + (p.aliasUsed ? ", alias \"" + p.aliasUsed + "\"" : "") + ")";
+    })
+    .join(" | ");
+  const packLine = Object.keys(packCounts).length > 0 ? Object.entries(packCounts).map(([p, c]) => p + "=" + c).join(", ") : "none";
   return [
     "Prewalk: " + String(prewalk.verificationMode ?? "unset") + " | arm: " + String(prewalk.arm ?? "unset") + " | model: " + String(prewalk.model ?? "unset"),
-    "Skills: " + (listDirs(".pi/skills", "skill").length > 0 ? listDirs(".pi/skills", "skill").join(", ") : "none"),
-    "Prompts: " + (listDirs(".pi/prompts", ".md").length > 0 ? listDirs(".pi/prompts", ".md").join(", ") : "none"),
-    "Extensions: " + (listDirs(".pi/extensions", ".ts").length > 0 ? listDirs(".pi/extensions", ".ts").join(", ") : "none"),
-    "MCP configured: " + (caps.servers.length > 0 ? caps.servers.join(", ") : "none") +
-      " | ready: " + (caps.ready.length > 0 ? caps.ready.join(", ") : "none") +
-      " | degraded: " + (caps.degraded.length > 0 ? caps.degraded.map((d) => d.name + " (missing " + d.missing.join(",") + ")").join("; ") : "none") +
-      " | host tools: mcp.$search, mcp.$call (or tools.search / tools.call from Fabric)",
+    "Skill packs: " + packLine + " (" + skillList.length + " skills)",
+    "Prompts: " + (existsSync(resolve(root, ".pi", "prompts")) ? readdirSync(resolve(root, ".pi", "prompts")).filter((f) => f.endsWith(".md")).sort().join(", ") : "none"),
+    "Extensions: " + (existsSync(resolve(root, ".pi", "extensions")) ? readdirSync(resolve(root, ".pi", "extensions")).filter((f) => f.endsWith(".ts")).sort().join(", ") : "none"),
+    "Research providers: " + (providerLine || "none") + " | servers: " + (caps.servers.length > 0 ? caps.servers.join(", ") : "none") + " | fallback: " + caps.fallback,
+    "Host research refs: mcp.$search, mcp.$call, mcp.context7.query-docs, mcp.exa.omniroute_web_search, mcp.exa.omniroute_web_fetch, mcp.deepwiki.read_wiki_contents, mcp.deepwiki.ask_question (or tools.search / tools.call from Fabric)",
   ].join("\n");
 }
 
 export default function workflowExtension(pi: ExtensionAPI): void {
-  pi.registerTool(createWorkflowStatusTool(() => readMcpConfig()));
-  pi.registerTool(createMcpGuidanceTool(() => readMcpConfig()));
+  pi.registerTool(createWorkflowStatusTool(() => readResearchConfig()));
+  pi.registerTool(createResearchGuidanceTool(() => readResearchConfig()));
   pi.registerCommand("workflow", {
-    description: "Show template workflow status: prewalk lifecycle, skills, prompts, extensions, and MCP providers",
+    description: "Show template workflow status: prewalk lifecycle, skill packs, prompts, extensions, and research providers",
     handler: async (_args, ctx) => {
-      ctx.ui.notify(buildWorkflowStatusText(process.cwd(), readMcpConfig()), "info");
+      ctx.ui.notify(buildWorkflowStatusText(process.cwd(), readResearchConfig()), "info");
     },
   });
 }

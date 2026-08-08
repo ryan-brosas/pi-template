@@ -1,13 +1,16 @@
 {
   "roots": {
     "pi-core": "/home/ryanj/work/projects/pi-core",
-    "opencode-template": "/home/ryanj/work/inspo/opencode-template"
+    "opencode-template": "/home/ryanj/work/inspo/opencode-template",
+    "pi-agent": "/home/ryanj/.pi/agent",
+    "omniroute-fork": "/home/ryanj/work/projects/omniroute-fork",
+    "pi-docs": "/home/ryanj/.local/lib/node_modules/@earendil-works/pi-coding-agent/docs"
   },
   "entries": [
     {
       "name": "brainstorming",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/brainstorming/SKILL.md",
-      "vendorPath": ".pi/skills/brainstorming/SKILL.md",
+      "vendorPath": ".pi/skills/packs/delivery/brainstorming/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "8dcdbacab2c2af08cc9f486b1754d20ebd34aef12bf87f5b1bb454f7a97c50bf",
@@ -16,7 +19,7 @@
     {
       "name": "spec-driven-development",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/spec-driven-development/SKILL.md",
-      "vendorPath": ".pi/skills/spec-driven-development/SKILL.md",
+      "vendorPath": ".pi/skills/packs/delivery/spec-driven-development/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "d48f855fd7071641faab13891c136316c56ba0a3bec0eeb753996a7fab2d436f",
@@ -25,16 +28,52 @@
     {
       "name": "test-driven-development",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/test-driven-development/SKILL.md",
-      "vendorPath": ".pi/skills/test-driven-development/SKILL.md",
+      "vendorPath": ".pi/skills/packs/delivery/test-driven-development/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "6fa5fa93bf1103fd6085689e318b534685ebdc8cba5daa105ecf7cf3ce0f3218",
       "vendorSha256": "feec1976fbfbcbb78d8e9084e97759edad69506cc36fce64a686e6fb84330d88"
     },
     {
+      "name": "testing-anti-patterns",
+      "source": "/home/ryanj/work/projects/pi-core/.pi/skills/testing-anti-patterns/SKILL.md",
+      "vendorPath": ".pi/skills/packs/delivery/testing-anti-patterns/SKILL.md",
+      "license": "pi-core private; see docs/sources.md",
+      "synth": false,
+      "sourceSha256": "7462a9d78cf6bab800bd55c6fd1768eb1172aa661f3e1a29eca5bf61011adba2",
+      "vendorSha256": "8e32e92b8da18b45ff4553fb37fb8b4cbad201000abb038d902f3847dddb3b8b"
+    },
+    {
+      "name": "using-git-worktrees",
+      "source": "/home/ryanj/work/projects/pi-core/.pi/skills/using-git-worktrees/SKILL.md",
+      "vendorPath": ".pi/skills/packs/delivery/using-git-worktrees/SKILL.md",
+      "license": "pi-core private; see docs/sources.md",
+      "synth": false,
+      "sourceSha256": "5f6b7d3e4102661a19909cf02e4bb120ff95728162322e6dfc0119269cf14bc5",
+      "vendorSha256": "9ce192f1fe6e3669605b2fe01631dea699c1c5c14682ae0d833bd07b01d23a45"
+    },
+    {
+      "name": "workflow-lifecycle",
+      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/development-lifecycle-workflow.md",
+      "vendorPath": ".pi/skills/packs/delivery/workflow-lifecycle/SKILL.md",
+      "license": "opencode-template; see docs/sources.md",
+      "synth": true,
+      "sourceSha256": "14cdbd886684ea6dd090a54678fe97b2aafc702d7a6f4604a215670239e2da09",
+      "vendorSha256": "bd8d95d44e7181e3ca978eb78de83f838be171766d2a2c88a2ae0a4baf467818"
+    },
+    {
+      "name": "workflow-batch-implement",
+      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/batch-implement.md",
+      "vendorPath": ".pi/skills/packs/delivery/workflow-batch-implement/SKILL.md",
+      "license": "opencode-template; see docs/sources.md",
+      "synth": true,
+      "sourceSha256": "58d76eacfb9d7d0304aa3612c8bbb905db844f4b75df852fdb2881a53cc53126",
+      "vendorSha256": "13f7e5d81665d05721ae157c10197f48c0008e96db5cbe35c39f3098ff3166bb"
+    },
+    {
       "name": "debugging-and-error-recovery",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/debugging-and-error-recovery/SKILL.md",
-      "vendorPath": ".pi/skills/debugging-and-error-recovery/SKILL.md",
+      "vendorPath": ".pi/skills/packs/quality/debugging-and-error-recovery/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "8ab3334d10ad9bab01f01592aee047cc5e85d422cadb4a48e00f8c51627995a4",
@@ -43,7 +82,7 @@
     {
       "name": "verification-before-completion",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/verification-before-completion/SKILL.md",
-      "vendorPath": ".pi/skills/verification-before-completion/SKILL.md",
+      "vendorPath": ".pi/skills/packs/quality/verification-before-completion/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "a303bc9cf89159f3e61f80db291ec0025da1f1fbecfecf12009a18784ead7645",
@@ -52,43 +91,52 @@
     {
       "name": "agent-code-quality-gate",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/agent-code-quality-gate/SKILL.md",
-      "vendorPath": ".pi/skills/agent-code-quality-gate/SKILL.md",
+      "vendorPath": ".pi/skills/packs/quality/agent-code-quality-gate/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "6dd0fd6f0f5baf93881775752943229c83954317385e0d5301f46f3dc2c234a8",
       "vendorSha256": "ef7765846ac6b5162fe6fc8ce29a00d38a0e482b29a7ac17de59123e679e35ce"
     },
     {
-      "name": "testing-anti-patterns",
-      "source": "/home/ryanj/work/projects/pi-core/.pi/skills/testing-anti-patterns/SKILL.md",
-      "vendorPath": ".pi/skills/testing-anti-patterns/SKILL.md",
-      "license": "pi-core private; see docs/sources.md",
-      "synth": false,
-      "sourceSha256": "7462a9d78cf6bab800bd55c6fd1768eb1172aa661f3e1a29eca5bf61011adba2",
-      "vendorSha256": "8e32e92b8da18b45ff4553fb37fb8b4cbad201000abb038d902f3847dddb3b8b"
-    },
-    {
       "name": "api-and-interface-design",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/api-and-interface-design/SKILL.md",
-      "vendorPath": ".pi/skills/api-and-interface-design/SKILL.md",
+      "vendorPath": ".pi/skills/packs/quality/api-and-interface-design/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "6a2b9ea25fe37d62b7b8f937997e2f8b4b05903f36b5f5557f005e4eb4ae95e3",
       "vendorSha256": "d008033a0c8c4e37c0de52d82793f91e568623576eeb68f2b19c0c7d31336ec6"
     },
     {
-      "name": "using-git-worktrees",
-      "source": "/home/ryanj/work/projects/pi-core/.pi/skills/using-git-worktrees/SKILL.md",
-      "vendorPath": ".pi/skills/using-git-worktrees/SKILL.md",
+      "name": "typescript-coding-standards",
+      "source": "/home/ryanj/work/projects/pi-core/.pi/skills/typescript-coding-standards/SKILL.md",
+      "vendorPath": ".pi/skills/packs/quality/typescript-coding-standards/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
-      "sourceSha256": "5f6b7d3e4102661a19909cf02e4bb120ff95728162322e6dfc0119269cf14bc5",
-      "vendorSha256": "9ce192f1fe6e3669605b2fe01631dea699c1c5c14682ae0d833bd07b01d23a45"
+      "sourceSha256": "3c27e2178f77140dc9911fc75054147de9e4e26672ba2d590a78f90b03d88867",
+      "vendorSha256": "412138bbe3520f296d2450020d3423ddafedd26821278b1a9e8cde281e537402"
+    },
+    {
+      "name": "workflow-audit",
+      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/audit-pattern.md",
+      "vendorPath": ".pi/skills/packs/quality/workflow-audit/SKILL.md",
+      "license": "opencode-template; see docs/sources.md",
+      "synth": true,
+      "sourceSha256": "fa61fb3356ca578355b09cd7c8fb69ec7b1bd32bed44e780681b19c17f7a78eb",
+      "vendorSha256": "ece5852361b66c8b82bc44876bae09e523e7caa1cfd4d80190cea4276e0c3e59"
+    },
+    {
+      "name": "workflow-gc",
+      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/garbage-collection.md",
+      "vendorPath": ".pi/skills/packs/quality/workflow-gc/SKILL.md",
+      "license": "opencode-template; see docs/sources.md",
+      "synth": true,
+      "sourceSha256": "f3b22be01bb5c71c3dc7571b16e9d3b4c3de30ab21034d9610e9931e712a0a04",
+      "vendorSha256": "d619ba5565d7bdc9cb6de8a956994ba0b679c9390f1910685fb551d2bdad9636"
     },
     {
       "name": "capability-delegation",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/capability-delegation/SKILL.md",
-      "vendorPath": ".pi/skills/capability-delegation/SKILL.md",
+      "vendorPath": ".pi/skills/packs/agents/capability-delegation/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "e27581b22cdf8fe9ac141f176bb4c2330c4e9b9d2966b8f99dcadce14b7ab902",
@@ -97,7 +145,7 @@
     {
       "name": "agent-observability",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/agent-observability/SKILL.md",
-      "vendorPath": ".pi/skills/agent-observability/SKILL.md",
+      "vendorPath": ".pi/skills/packs/agents/agent-observability/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "8d1bb6860e3d54bf53f2d0a1b61051cf1c33b500aa83cb9abce4e1c88195f07c",
@@ -106,74 +154,74 @@
     {
       "name": "agent-supervision",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/agent-supervision/SKILL.md",
-      "vendorPath": ".pi/skills/agent-supervision/SKILL.md",
+      "vendorPath": ".pi/skills/packs/agents/agent-supervision/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "30b5b86b45d511580919ea7c1ba2534100d4681070b38c3e734192fd438e55f1",
       "vendorSha256": "7e3b1de711a5e29c4280417cf6e2b0bec5627e5c071945cf0d7f2f96e988bd31"
     },
     {
-      "name": "typescript-coding-standards",
-      "source": "/home/ryanj/work/projects/pi-core/.pi/skills/typescript-coding-standards/SKILL.md",
-      "vendorPath": ".pi/skills/typescript-coding-standards/SKILL.md",
-      "license": "pi-core private; see docs/sources.md",
-      "synth": false,
-      "sourceSha256": "3c27e2178f77140dc9911fc75054147de9e4e26672ba2d590a78f90b03d88867",
-      "vendorSha256": "412138bbe3520f296d2450020d3423ddafedd26821278b1a9e8cde281e537402"
-    },
-    {
       "name": "writing-skills",
       "source": "/home/ryanj/work/projects/pi-core/.pi/skills/writing-skills/SKILL.md",
-      "vendorPath": ".pi/skills/writing-skills/SKILL.md",
+      "vendorPath": ".pi/skills/packs/agents/writing-skills/SKILL.md",
       "license": "pi-core private; see docs/sources.md",
       "synth": false,
       "sourceSha256": "4c1087c169afca5376681fd449be5bfcf3033dd26ec0baf60008c387bc5133da",
       "vendorSha256": "9e23ae2eee5097a2368fe3d98a55c4ac410f004e84d5e44e32d9013aa8a580bc"
     },
     {
-      "name": "workflow-lifecycle",
-      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/development-lifecycle-workflow.md",
-      "vendorPath": ".pi/skills/workflow-lifecycle/SKILL.md",
-      "license": "opencode-template; see docs/sources.md",
-      "synth": true,
-      "sourceSha256": "14cdbd886684ea6dd090a54678fe97b2aafc702d7a6f4604a215670239e2da09",
-      "vendorSha256": "bd8d95d44e7181e3ca978eb78de83f838be171766d2a2c88a2ae0a4baf467818"
-    },
-    {
       "name": "workflow-deep-research",
       "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/deep-research.md",
-      "vendorPath": ".pi/skills/workflow-deep-research/SKILL.md",
+      "vendorPath": ".pi/skills/packs/research/workflow-deep-research/SKILL.md",
       "license": "opencode-template; see docs/sources.md",
       "synth": true,
       "sourceSha256": "ff14edb13930df66c8691275de61932cfd690ebbd4e5c45eeed4f40f6418f163",
       "vendorSha256": "1dd1f30ae486d9ed99b6eb9404ab295e9c937fb1cffc98da3ab4c6c37e8c25f9"
     },
     {
-      "name": "workflow-audit",
-      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/audit-pattern.md",
-      "vendorPath": ".pi/skills/workflow-audit/SKILL.md",
-      "license": "opencode-template; see docs/sources.md",
+      "name": "research-router",
+      "source": "/home/ryanj/.pi/agent/research-enforcement.json",
+      "vendorPath": ".pi/skills/packs/research/research-router/SKILL.md",
+      "license": "personal Ultra Fabric config; see docs/sources.md",
       "synth": true,
-      "sourceSha256": "fa61fb3356ca578355b09cd7c8fb69ec7b1bd32bed44e780681b19c17f7a78eb",
-      "vendorSha256": "ece5852361b66c8b82bc44876bae09e523e7caa1cfd4d80190cea4276e0c3e59"
+      "sourceSha256": "3c97c846e8ff3f1a0206c65e9ecf536e3fddbaf1c3688bc6f85b081d94bd49d0",
+      "vendorSha256": "a2376e6a18f171c6fa32cb1699d67c68d483f8530fb93c9c1ad81c42782cbad8"
     },
     {
-      "name": "workflow-batch-implement",
-      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/batch-implement.md",
-      "vendorPath": ".pi/skills/workflow-batch-implement/SKILL.md",
-      "license": "opencode-template; see docs/sources.md",
+      "name": "omniroute-research",
+      "source": "/home/ryanj/work/projects/omniroute-fork/open-sse/mcp-server/schemas/tools.ts",
+      "vendorPath": ".pi/skills/packs/research/omniroute-research/SKILL.md",
+      "license": "OmniRoute fork; see docs/sources.md",
       "synth": true,
-      "sourceSha256": "58d76eacfb9d7d0304aa3612c8bbb905db844f4b75df852fdb2881a53cc53126",
-      "vendorSha256": "13f7e5d81665d05721ae157c10197f48c0008e96db5cbe35c39f3098ff3166bb"
+      "sourceSha256": "131785e113605125cb57e380e01f94ffde8051a9539ad59fbdf89f1bb9e50476",
+      "vendorSha256": "da7d858c65934f23e40301743ee195fbc6ba4cf85466aed7ead86ba3342276ce"
     },
     {
-      "name": "workflow-gc",
-      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/workflows/garbage-collection.md",
-      "vendorPath": ".pi/skills/workflow-gc/SKILL.md",
+      "name": "context7-docs",
+      "source": "/home/ryanj/work/inspo/opencode-template/.opencode/tool/context7.ts",
+      "vendorPath": ".pi/skills/packs/research/context7-docs/SKILL.md",
       "license": "opencode-template; see docs/sources.md",
       "synth": true,
-      "sourceSha256": "f3b22be01bb5c71c3dc7571b16e9d3b4c3de30ab21034d9610e9931e712a0a04",
-      "vendorSha256": "d619ba5565d7bdc9cb6de8a956994ba0b679c9390f1910685fb551d2bdad9636"
+      "sourceSha256": "aacb4f5ee4c148e1143f116e3492d2a14f2bd7ee2260b91227df7423671494a6",
+      "vendorSha256": "801092064d9838359c5f812a6de0336126ab484b679567d16e5d340fa3f2a10a"
+    },
+    {
+      "name": "deepwiki-repositories",
+      "source": "/home/ryanj/.pi/agent/research-enforcement.json",
+      "vendorPath": ".pi/skills/packs/research/deepwiki-repositories/SKILL.md",
+      "license": "personal Ultra Fabric config; see docs/sources.md",
+      "synth": true,
+      "sourceSha256": "3c97c846e8ff3f1a0206c65e9ecf536e3fddbaf1c3688bc6f85b081d94bd49d0",
+      "vendorSha256": "0a5177dd9efbc4fe53e664902ccb65efb9c95c2272923132b1479d54eaa84c7a"
+    },
+    {
+      "name": "pack-router",
+      "source": "/home/ryanj/.local/lib/node_modules/@earendil-works/pi-coding-agent/docs/skills.md",
+      "vendorPath": ".pi/skills/pack-router/SKILL.md",
+      "license": "pi docs; see docs/sources.md",
+      "synth": true,
+      "sourceSha256": "de38956dcdb3f060b62a891c23b5c0facc568d26039cd0addd6d5adfbed2762f",
+      "vendorSha256": "f3d6b9945162720cba23adf7634610ad636da7df3b2b7eb8432db22e64ccd6f6"
     }
   ]
 }

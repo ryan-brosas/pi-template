@@ -8,31 +8,49 @@ const here = fileURLToPath(import.meta.url);
 const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === here;
 const root = process.cwd();
 const MIN_SKILLS = 12;
-const SOURCE_ROOTS = ["/home/ryanj/work/projects/pi-core", "/home/ryanj/work/inspo/opencode-template"];
+const SOURCE_ROOTS = [
+  "/home/ryanj/work/projects/pi-core",
+  "/home/ryanj/work/inspo/opencode-template",
+  "/home/ryanj/.pi/agent",
+  "/home/ryanj/work/projects/omniroute-fork",
+  "/home/ryanj/.local/lib/node_modules/@earendil-works/pi-coding-agent/docs",
+];
 
 export function main() {
   const errors = [];
-  const skillsDir = join(root, ".pi", "skills");
-  const dirs = existsSync(skillsDir) ? readdirSync(skillsDir).filter((n) => existsSync(join(skillsDir, n, "SKILL.md"))).sort() : [];
-  if (dirs.length < MIN_SKILLS) errors.push("expected at least " + MIN_SKILLS + " skills, found " + dirs.length);
+  const skillsRoot = join(root, ".pi", "skills");
+  const walk = (dir) => {
+    let found = [];
+    if (!existsSync(dir)) return found;
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (existsSync(join(full, "SKILL.md"))) found.push(full);
+        else found = found.concat(walk(full));
+      }
+    }
+    return found;
+  };
+  const skillDirs = walk(skillsRoot);
+  if (skillDirs.length < MIN_SKILLS) errors.push("expected at least " + MIN_SKILLS + " skills, found " + skillDirs.length);
   const reports = [];
-  for (const dir of dirs) {
-    const text = readFileSync(join(skillsDir, dir, "SKILL.md"), "utf8");
+  for (const dir of skillDirs) {
+    const rel = dir.slice(skillsRoot.length + 1);
+    const text = readFileSync(join(dir, "SKILL.md"), "utf8");
     const fm = parseFrontmatter(text);
     if (!fm) {
-      errors.push(dir + ": missing frontmatter");
+      errors.push(rel + ": missing frontmatter");
       continue;
     }
-    if (!fm.name || !String(fm.name).trim()) errors.push(dir + ": frontmatter name required");
-    if (!fm.description || !String(fm.description).trim()) errors.push(dir + ": frontmatter description required");
-    if (!text.includes("source: /home/ryanj/work/projects/pi-core") && !text.includes("source: /home/ryanj/work/inspo/opencode-template")) {
-      errors.push(dir + ": missing source annotation (pi-core or opencode-template)");
-    }
-    if (!text.toLowerCase().includes("prewalk")) errors.push(dir + ": body must mention prewalk");
-    reports.push(dir + " (name=" + fm.name + ")");
+    if (!fm.name || !String(fm.name).trim()) errors.push(rel + ": frontmatter name required");
+    if (!fm.description || !String(fm.description).trim()) errors.push(rel + ": frontmatter description required");
+    const annotated = SOURCE_ROOTS.some((r0) => text.includes("source: " + r0));
+    if (!annotated) errors.push(rel + ": missing source annotation");
+    if (!text.toLowerCase().includes("prewalk")) errors.push(rel + ": body must mention prewalk");
+    reports.push(rel + " (" + fm.name + ")");
   }
   if (errors.length > 0) return { ok: false, message: "skills: FAIL\n  - " + errors.join("\n  - ") };
-  return { ok: true, message: "skills: OK — " + dirs.length + " discovered (min " + MIN_SKILLS + ")\n  " + reports.join("\n  ") };
+  return { ok: true, message: "skills: OK — " + skillDirs.length + " discovered (min " + MIN_SKILLS + ")\n  " + reports.join("\n  ") };
 }
 
 if (isMain) {

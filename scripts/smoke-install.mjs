@@ -24,7 +24,7 @@ export async function main() {
     execFileSync("git", ["init", "-q"], { cwd: tmp });
     execFileSync("git", ["add", "-A"], { cwd: tmp });
     execFileSync("npm", ["install", "--omit=dev", "--no-audit", "--no-fund", "--silent"], { cwd: tmp });
-    for (const v of ["validate-structure", "validate-config", "validate-skills", "validate-workflows", "validate-prompts", "validate-mcp", "validate-sources", "scan-secrets"]) {
+    for (const v of ["validate-structure", "validate-config", "validate-packs", "validate-research", "validate-skills", "validate-prompts", "validate-mcp", "validate-sources", "scan-secrets"]) {
       const out = execFileSync("node", ["scripts/" + v + ".mjs"], { cwd: tmp, encoding: "utf8" });
       lines.push("validator " + v + ": " + out.trim().split("\n")[0]);
     }

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "omniroute": {
+      "baseUrl": "http://127.0.0.1:20128/api/mcp/stream",
+      "allowedTools": [
+        "omniroute_web_search",
+        "omniroute_web_fetch",
+        "omniroute_tool_search"
+      ]
+    }
+  }
+}

@@ -2,43 +2,48 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { buildMcpGuidance, listMcpCapabilities, providerStatus, parseMcpConfig, scanForSecrets, FALLBACK_MCP_SEARCH, MCP_CALL_REF, EXAMPLE_PROVIDERS } from "./template-lib.ts";
+import { listMcpCapabilities, providerStatus, parseMcpConfig, scanForSecrets, buildResearchGuidance, FALLBACK_MCP_SEARCH } from "./template-lib.ts";
 
 const here = fileURLToPath(import.meta.url);
 const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === here;
 const root = process.cwd();
 
-const EXA_ENV = { EXA_API_KEY: "${EXA_API_KEY}" };
-const DEEP_HEADERS = { Authorization: "Bearer ${DEEPWIKI_API_KEY}" };
-const BOTH = { mcpServers: { exa: { command: "npx", args: ["-y", "@exa/mcp-server"], env: EXA_ENV }, deepwiki: { url: "https://mcp.deepwiki.com/mcp", headers: DEEP_HEADERS } } };
-const ONE = { mcpServers: { exa: { command: "npx", args: ["-y", "@exa/mcp-server"], env: EXA_ENV } } };
+const OMNI = { mcpServers: { omniroute: { baseUrl: "http://127.0.0.1:20128/api/mcp/stream", allowedTools: ["omniroute_web_search", "omniroute_web_fetch"] } } };
+const ALL = {
+  mcpServers: {
+    omniroute: { baseUrl: "http://127.0.0.1:20128/api/mcp/stream" },
+    context7: { command: "npx", args: ["-y", "@upstash/context7-mcp@3.2.5"], env: { CONTEXT7_API_KEY: "${CONTEXT7_API_KEY}" } },
+    deepwiki: { baseUrl: "https://mcp.deepwiki.com/mcp", headers: { Authorization: "Bearer ${DEEPWIKI_API_KEY}" } },
+  },
+};
 const NONE = {};
 
 export function main() {
   const errors = [];
   const mcpDir = join(root, "mcp");
   const examples = existsSync(mcpDir) ? readdirSync(mcpDir).filter((n) => n.endsWith(".example.json")).sort() : [];
-  for (const want of ["deepwiki.example.json", "exa.example.json"]) if (!examples.includes(want)) errors.push("missing mcp example: " + want);
+  for (const want of ["deepwiki.example.json", "omniroute.example.json"]) if (!examples.includes(want)) errors.push("missing mcp example: " + want);
+  if (examples.includes("exa.example.json")) errors.push("standalone exa example must be removed");
   const serverNames = new Set();
   for (const f of examples) {
     const cfg = parseMcpConfig(readFileSync(join(mcpDir, f), "utf8"));
     for (const name of Object.keys(cfg.mcpServers || {})) serverNames.add(name);
   }
-  for (const want of EXAMPLE_PROVIDERS) if (!serverNames.has(want)) errors.push("example does not declare server: " + want);
+  if (!serverNames.has("omniroute")) errors.push("omniroute example missing");
   const secrets = scanForSecrets(mcpDir);
   if (secrets.length > 0) errors.push("mcp examples contain secret assignments: " + secrets.map((s) => s.file + ":" + s.line).join(", "));
-  const both = listMcpCapabilities(BOTH);
-  if (both.servers.length !== 2 || both.fallback !== FALLBACK_MCP_SEARCH) errors.push("both-provider fixture: expected 2 servers + fallback " + FALLBACK_MCP_SEARCH);
-  if (providerStatus(BOTH).filter((p) => p.configured).length !== 2) errors.push("both-provider fixture: both should be configured");
-  const one = listMcpCapabilities(ONE);
-  if (one.servers.length !== 1) errors.push("one-provider fixture: expected 1 server");
+  const all = listMcpCapabilities(ALL);
+  if (all.fallback !== FALLBACK_MCP_SEARCH) errors.push("generic fallback must be " + FALLBACK_MCP_SEARCH);
+  if (providerStatus(ALL).filter((p) => p.configured).length !== 3) errors.push("three lanes should be configured");
+  const omniOnly = listMcpCapabilities(OMNI);
+  if (omniOnly.servers.length !== 1 || omniOnly.ready.includes("omniroute") !== true) errors.push("omniroute-only fixture: expected 1 ready server");
   const none = listMcpCapabilities(NONE);
-  if (none.servers.length !== 0 || none.fallback !== FALLBACK_MCP_SEARCH) errors.push("no-provider fixture: expected 0 servers + fallback");
-  const g = buildMcpGuidance(BOTH, { server: "missing-server", tool: "search" });
-  if (!g.guidance.includes(FALLBACK_MCP_SEARCH) || !g.guidance.includes(MCP_CALL_REF)) errors.push("guidance must reference host tools " + FALLBACK_MCP_SEARCH + " and " + MCP_CALL_REF);
+  if (none.servers.length !== 0) errors.push("no-provider fixture: expected 0 servers");
+  const g = buildResearchGuidance(ALL, { intent: "current news about ai agents" });
+  if (g.lane.provider !== "omniroute") errors.push("general web intent must route to omniroute");
   if (g.guidance.includes("Dispatch ready") || g.guidance.includes("dispatch-ready")) errors.push("guidance must not fabricate a dispatch plan");
   if (errors.length > 0) return { ok: false, message: "mcp: FAIL\n  - " + errors.join("\n  - ") };
-  return { ok: true, message: "mcp: OK — examples: " + examples.join(", ") + " | both/one/none fixtures pass | guidance refs " + g.refs.join(", ") };
+  return { ok: true, message: "mcp: OK — examples: " + examples.join(", ") + " | lanes omniroute/context7/deepwiki | fallback " + FALLBACK_MCP_SEARCH + " | omniroute primary" };
 }
 
 if (isMain) {

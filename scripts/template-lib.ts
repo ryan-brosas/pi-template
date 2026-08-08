@@ -1,20 +1,58 @@
-// Shared pure helpers for the pi.dev Fabric template: MCP guidance, source
-// provenance, prewalk-contract mirror, frontmatter parsing, and secret scanning.
-// Single source of truth used by validators, tests, and the project extension.
+// Shared pure helpers for the pi.dev Fabric template: research lane routing,
+// provider status, source provenance, prewalk-contract mirror, frontmatter
+// parsing, and secret scanning. Single source of truth for validators, tests,
+// and the project extension.
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative, resolve } from "node:path";
 
-export const EXAMPLE_PROVIDERS = ["exa", "deepwiki"] as const;
 export const FALLBACK_MCP_SEARCH = "mcp.$search";
 export const MCP_CALL_REF = "mcp.$call";
+
+// Canonical research lanes. OmniRoute is the primary general-web/fetch lane and
+// is reached through a local MCP endpoint; the legacy global alias for it is
+// "exa" (an OmniRoute transport, not the standalone Exa product). Context7 is
+// the authoritative library-docs lane; DeepWiki the public-repository Q&A lane.
+export type ResearchLane = {
+  name: string;
+  lane: "general-web" | "library-docs" | "repo-qa";
+  aliases: string[];
+  refs: string[];
+  note: string;
+};
+
+export const RESEARCH_LANES: ResearchLane[] = [
+  {
+    name: "omniroute",
+    lane: "general-web",
+    aliases: ["exa"],
+    refs: ["mcp.exa.omniroute_web_search", "mcp.exa.omniroute_web_fetch"],
+    note: "primary general web search and URL fetch via OmniRoute's gateway (provider failover; Exa may be one backend).",
+  },
+  {
+    name: "context7",
+    lane: "library-docs",
+    aliases: [],
+    refs: ["mcp.context7.query-docs"],
+    note: "authoritative up-to-date library/API documentation; resolve a library ID first, then query a topic.",
+  },
+  {
+    name: "deepwiki",
+    lane: "repo-qa",
+    aliases: [],
+    refs: ["mcp.deepwiki.read_wiki_contents", "mcp.deepwiki.ask_question"],
+    note: "repository Q&A for unfamiliar public repositories; not a general web search lane.",
+  },
+];
 
 export type McpServerEntry = {
   command?: string;
   args?: string[];
   url?: string;
+  baseUrl?: string;
   headers?: Record<string, string>;
   env?: Record<string, string>;
+  allowedTools?: string[];
 };
 
 export type McpConfig = { mcpServers?: Record<string, McpServerEntry> };
@@ -47,25 +85,35 @@ export function requiredEnvNames(entry: McpServerEntry | undefined): string[] {
   return [...names];
 }
 
+// Resolve the config entry for a canonical lane, accepting its legacy aliases.
+export function laneEntry(config: McpConfig, lane: ResearchLane): McpServerEntry | undefined {
+  const servers = config.mcpServers ?? {};
+  const alias = lane.aliases[0];
+  return servers[lane.name] ?? (alias ? servers[alias] : undefined);
+}
+
 export type ProviderStatus = {
   name: string;
+  lane: ResearchLane["lane"];
   configured: boolean;
+  aliasUsed: string | null;
   envKeys: string[];
-  envPresent: string[];
   envMissing: string[];
+  refs: string[];
 };
 
 export function providerStatus(config: McpConfig): ProviderStatus[] {
-  const servers = config.mcpServers ?? {};
-  return EXAMPLE_PROVIDERS.map((name) => {
-    const entry = servers[name];
+  return RESEARCH_LANES.map((lane) => {
+    const entry = laneEntry(config, lane);
+    const servers = config.mcpServers ?? {};
+    const alias = lane.aliases[0];
+    const aliasUsed = servers[lane.name] ? null : alias && servers[alias] ? alias : null;
     const envKeys = entry ? requiredEnvNames(entry) : [];
-    const envPresent = envKeys.filter((k) => {
+    const envMissing = envKeys.filter((k) => {
       const v = process.env[k];
-      return v !== undefined && v !== "";
+      return v === undefined || v === "";
     });
-    const envMissing = envKeys.filter((k) => !envPresent.includes(k));
-    return { name, configured: Boolean(entry), envKeys, envPresent, envMissing };
+    return { name: lane.name, lane: lane.lane, configured: Boolean(entry), aliasUsed, envKeys, envMissing, refs: lane.refs };
   });
 }
 
@@ -85,54 +133,92 @@ export function listMcpCapabilities(config: McpConfig): CapabilityReport {
   const degraded = providers
     .filter((p) => p.configured && p.envMissing.length > 0)
     .map((p) => ({ name: p.name, missing: p.envMissing }));
-  const known = new Set<string>(EXAMPLE_PROVIDERS);
+  const known = new Set<string>(RESEARCH_LANES.flatMap((l) => [l.name, ...l.aliases]));
   const unknown = names.filter((n) => !known.has(n));
   return { servers: names, ready, degraded, unknown, fallback: FALLBACK_MCP_SEARCH };
 }
 
-export type McpGuidance = {
+export type IntentLane = {
+  lane: ResearchLane["lane"];
+  provider: string;
   refs: string[];
-  guidance: string;
-  servers: string[];
-  ready: string[];
-  degraded: Array<{ name: string; missing: string[] }>;
+  fallback: string;
+  note: string;
 };
 
-// Honest guidance: MCP calls are executed by the host MCP bridge (mcporter) and
-// surfaced to the model as host tools (mcp.$search / mcp.$call) or via Fabric's
-// tools.search / tools.call. This helper never fabricates a dispatch plan.
-export function buildMcpGuidance(
-  config: McpConfig,
-  opts: { server?: string; tool?: string; query?: string } = {},
-): McpGuidance {
-  const caps = listMcpCapabilities(config);
-  const parts: string[] = [];
-  parts.push("MCP servers are executed by the host MCP bridge (mcporter) and exposed as host tools.");
-  if (opts.server && !caps.servers.includes(opts.server)) {
-    parts.push(
-      'Server "' + opts.server + '" is not configured. Add it to .mcporter/config.json (see mcp/*.example.json) or use generic discovery via ' + FALLBACK_MCP_SEARCH + '.',
-    );
-  } else if (opts.server) {
-    const degraded = caps.degraded.find((d) => d.name === opts.server);
-    parts.push(
-      'Server "' + opts.server + '" is configured' +
-        (degraded ? ' but requires env secrets ' + degraded.missing.join(", ") + " (see .env.example)" : " and ready") +
-        ".",
-    );
+// Deterministic research-intent routing. Library/API docs -> Context7;
+// public-repository architecture -> DeepWiki; current web facts / URL fetch ->
+// OmniRoute; local code -> CGC/codemap (never external search).
+export function researchIntent(text: string): IntentLane {
+  const t = text.toLowerCase();
+  const omni = RESEARCH_LANES[0]!;
+  const ctx7 = RESEARCH_LANES[1]!;
+  const deep = RESEARCH_LANES[2]!;
+  if (/(library|api docs|api reference|documentation|^docs? |versioned)/.test(t)) {
+    return {
+      lane: "library-docs",
+      provider: "context7",
+      refs: ctx7.refs,
+      fallback: FALLBACK_MCP_SEARCH + " then OmniRoute fetch",
+      note: "resolve the library ID first, then query a topic; verify against official source when the answer is a versioned fact.",
+    };
   }
-  parts.push("Use the host tool " + FALLBACK_MCP_SEARCH + " for discovery, or " + MCP_CALL_REF + " with { server, tool, args } to call a configured server.");
-  parts.push("From a Fabric run, the same bridge is reachable via tools.search and tools.call.");
+  if (/(repository|repo|codebase|github .* architecture|how is .* organized|what does .* do in the .* repo)/.test(t)) {
+    return {
+      lane: "repo-qa",
+      provider: "deepwiki",
+      refs: deep.refs,
+      fallback: "CGC/local clone, GitHub, then OmniRoute",
+      note: "for local code, use codemap/CGC instead; DeepWiki answers are for unfamiliar public repositories only.",
+    };
+  }
   return {
-    refs: [FALLBACK_MCP_SEARCH, MCP_CALL_REF],
-    guidance: parts.join(" "),
-    servers: caps.servers,
-    ready: caps.ready,
-    degraded: caps.degraded,
+    lane: "general-web",
+    provider: "omniroute",
+    refs: omni.refs,
+    fallback: FALLBACK_MCP_SEARCH,
+    note: "current web facts and URL fetch go through OmniRoute's gateway with automatic provider failover.",
   };
 }
 
-// Mirror of Ultra Fabric's research-prewalk checklist contract so the template
-// can pin the lifecycle seam with executable tests without importing the host.
+export type ResearchGuidance = {
+  lane: IntentLane;
+  providers: ProviderStatus[];
+  guidance: string;
+  refs: string[];
+};
+
+// Honest guidance: research is read-only and executed by the host MCP bridge
+// (mcporter) through the refs returned here; this helper never fabricates
+// execution and never claims the extension runs the search itself.
+export function buildResearchGuidance(
+  config: McpConfig,
+  opts: { intent?: string; provider?: string; query?: string } = {},
+): ResearchGuidance {
+  const providers = providerStatus(config);
+  const lane = opts.provider
+    ? researchIntent(opts.provider)
+    : researchIntent(opts.intent ?? opts.query ?? "");
+  const parts: string[] = [];
+  parts.push("Research is read-only and never bypasses prewalk.");
+  parts.push("Lane: " + lane.lane + " -> " + lane.provider + " (" + lane.note + ")");
+  const target = providers.find((p) => p.name === lane.provider);
+  if (target) {
+    if (!target.configured) {
+      parts.push(
+        'Provider "' + target.name + '" is not configured. Add it to .mcporter/config.json (see mcp/*.example.json) or use generic discovery via ' + FALLBACK_MCP_SEARCH + '.',
+      );
+    } else if (target.envMissing.length > 0) {
+      parts.push('Provider "' + target.name + '" is configured but requires env secrets ' + target.envMissing.join(", ") + " (see .env.example).");
+    } else {
+      parts.push('Provider "' + target.name + '" is configured and ready' + (target.aliasUsed ? " (via legacy alias \"" + target.aliasUsed + "\")" : "") + ".");
+    }
+  }
+  parts.push("Call the host tools: " + lane.refs.join(", ") + ". Discovery first via " + FALLBACK_MCP_SEARCH + "; from Fabric, the same bridge is tools.search / tools.call.");
+  return { lane, providers, refs: lane.refs, guidance: parts.join(" ") };
+}
+
+// Mirror of Ultra Fabric's research-prewalk checklist contract.
 export type ChecklistContract = {
   items: Array<{ task: string; validation: string }>;
   schema: {
@@ -250,8 +336,6 @@ export function sourcesFooter(source: string, license: string): string {
 
 export type Frontmatter = { name?: string; description?: string; raw: Record<string, string> };
 
-// Lenient Agent Skills frontmatter parser: handles folded (>- / |-) descriptions
-// by joining indented continuation lines.
 export function parseFrontmatter(text: string): Frontmatter | null {
   const fm = /^---\n([\s\S]*?)\n---\n?/.exec(text);
   if (!fm) return null;

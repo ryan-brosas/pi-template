@@ -1,86 +1,77 @@
 # Verification
 
-Structural verification for the pi-template correction cycle: curated pi-core
-skills, opencode-inspired workflows, honest MCP guidance, and source provenance.
+Structural verification for the pi-template skill-pack and research-routing cycle.
 
 ## Changed-file scope
 
-**Skills (replaced the four shallow phases):**
-
-- 14 curated skills vendored from pi-core with provenance footers:
-  brainstorming, spec-driven-development, test-driven-development,
-  debugging-and-error-recovery, verification-before-completion,
-  agent-code-quality-gate, testing-anti-patterns, api-and-interface-design,
-  using-git-worktrees, capability-delegation, agent-observability,
-  agent-supervision, typescript-coding-standards, writing-skills.
-- 5 workflow contracts adapted from opencode-template: workflow-lifecycle,
-  workflow-deep-research, workflow-audit, workflow-batch-implement, workflow-gc.
-- Old shallow skills (research, implementation, testing, review) deleted.
-
-**Extension:** `.pi/extensions/workflow.ts` rewritten — fake `mcp_invoke`
-dispatch removed; now `workflow_status` + `mcp_guidance` (honest status and
-host-bridge guidance) plus `/workflow`.
-
-**Prompts:** replaced with seven thin commands: create, fix, audit, research,
-implement, review, gc.
-
-**Tooling:** `sources/manifest.json`, `scripts/sync-sources.mjs`,
-`scripts/validate-workflows.mjs`, `scripts/validate-sources.mjs`; validators for
-skills/prompts/mcp/structure rewritten; smoke runner updated.
-
-**Tests:** skills-catalog, workflow-routing, prewalk-contract, mcp-guidance,
-source-drift, template-smoke, extension (mcp-routing replaced).
-
-**Docs:** README, architecture, operators, sources rewritten; verification new.
-
-`tsconfig.json`, `.gitignore`, `.env.example`, `mcp/*.example.json` unchanged
-behavior; `.pi/fabric.json` preserved verbatim. `pnpm-lock.yaml` refreshed by
-install.
+- **Packs:** skills moved to `.pi/skills/packs/{delivery,quality,agents,research}/`;
+  `pack-router` added at `.pi/skills/pack-router/SKILL.md`. 24 skills discovered.
+- **Research:** four detailed skills added to the research pack (research-router,
+  omniroute-research, context7-docs, deepwiki-repositories); `workflow-deep-research`
+  moved into the pack.
+- **Providers:** the standalone Exa example and env key were removed; the
+  OmniRoute example was added; Context7 and DeepWiki lanes documented.
+- **Extension:** rewritten provider-neutral — `workflow_status` + `research_guidance`
+  + `/workflow`; reads project and global MCP config; reports lanes incl. legacy
+  alias; never fabricates execution.
+- **Validators:** `validate:packs`, `validate:research` added; skills/prompts/mcp/
+  structure validators updated; smoke runner extended.
+- **Tests:** skill-packs, research-routing, context7, deepwiki, omniroute added;
+  prewalk-contract, source-drift, template-smoke, extension updated.
+- **Docs:** README (9 sections incl. Skill packs, How to trigger skills, Research
+  routing), docs/research-routing.md, architecture/operators/sources updated.
+- `tsconfig.json`, `.gitignore` unchanged; `.pi/fabric.json` preserved verbatim.
 
 ## Public symbols: refs + cascade evidence
 
-Codemap refs plus a full grep sweep (the AST index under-covers `tests/` and
-`.pi/` imports) enumerate every call site; none is out of scope.
-
-| Symbol (file) | Verified call sites |
+| Symbol (file) | Call sites |
 | --- | --- |
-| `buildMcpGuidance` (`scripts/template-lib.ts:104`) | `validate-mcp.mjs:37`; `mcp-guidance.test.mjs:38,46`; `workflow.ts:59` |
-| `createWorkflowStatusTool` (`workflow.ts:33`) | `workflow.ts:100`; `extension.test.mjs:24` |
-| `createMcpGuidanceTool` (`workflow.ts:50`) | `workflow.ts:101`; `extension.test.mjs:33,42` |
-| `buildWorkflowStatusText` (`workflow.ts:80`) | `workflow.ts:105`; `extension.test.mjs:47` |
-| `readMcpConfig` (`workflow.ts:22`) | `workflow.ts:100,101,105` |
-| `workflowExtension` default (`workflow.ts:99`) | pi host loader entry (2 tools + 1 command) |
-| `parseFrontmatter` (`template-lib.ts:254`) | `validate-skills.mjs:21`, `validate-workflows.mjs:22`, `skills-catalog.test.mjs:29,34` |
-| `sourcesFooter` (`template-lib.ts:246`) | `sync-sources.mjs:34`, `validate-sources.mjs:37`, `source-drift.test.mjs:32` |
-| `loadManifest` (`template-lib.ts:276`) | `sync-sources.mjs:14`, `validate-sources.mjs:15`, `source-drift.test.mjs:11,23` |
-| `sha256` (`template-lib.ts:238`) | `sync-sources.mjs`, `validate-sources.mjs`, `source-drift.test.mjs` |
-| `listMcpCapabilities` (`template-lib.ts:78`) | `validate-mcp.mjs:30,33,35`, `mcp-guidance.test.mjs:18,25,32`, `workflow.ts:12` |
-| `scanForSecrets` (`template-lib.ts:214`) | `scan-secrets.mjs`, `validate-mcp.mjs:28`, `mcp-guidance.test.mjs:58` |
-| `validateChecklistContract` (`template-lib.ts:160`) | `prewalk-contract.test.mjs:37,42,48` |
-| `FALLBACK_MCP_SEARCH` / `MCP_CALL_REF` | guidance in validate-mcp, mcp-guidance tests, lib |
+| `researchIntent` (`scripts/template-lib.ts`) | `buildResearchGuidance`; research-routing/context7/deepwiki/omniroute tests |
+| `buildResearchGuidance` (`scripts/template-lib.ts`) | `validate-mcp.mjs`, `research_guidance` tool, routing/context7/deepwiki/omniroute tests |
+| `providerStatus` / `listMcpCapabilities` (`scripts/template-lib.ts`) | extension status tool, validate-mcp, tests |
+| `createWorkflowStatusTool` / `createResearchGuidanceTool` (`workflow.ts`) | default registration; extension tests |
+| `buildWorkflowStatusText` (`workflow.ts`) | `/workflow` command; extension tests |
+| `readResearchConfig` (`workflow.ts`) | default registration; extension tests |
+| `validate-packs` / `validate-research` scripts | package.json check chain; smoke install |
 
-Codemap cascade from `scripts/template-lib.ts`: `scripts/scan-secrets.mjs`,
-`scripts/validate-mcp.mjs`, `tests/mcp-guidance.test.mjs`,
-`tests/prewalk-contract.test.mjs` — all template files in scope.
+Codemap cascade from `scripts/template-lib.ts` reaches validators, extension,
+and research tests; all in scope.
 
-## Repository gate (2026-08-08)
+## Concrete refs/cascade sweep
 
-`npm run check` exits 0:
+- `researchIntent` -> `buildResearchGuidance` (internal, `template-lib.ts:200-201`);
+  context7/deepwiki/research-routing/omniroute tests.
+- `buildResearchGuidance` -> `validate-mcp.mjs:37`, `workflow.ts:59`
+  (`research_guidance` tool), context7/deepwiki/research-routing/omniroute tests.
+- `providerStatus` -> `template-lib.ts:131,198`, `validate-mcp.mjs:37`,
+  `workflow.ts:103` (status tool).
+- `listMcpCapabilities` -> `validate-mcp.mjs:35,38,40`, `workflow.ts:102`,
+  omniroute tests.
+- `createWorkflowStatusTool` / `createResearchGuidanceTool` -> default
+  registration (`workflow.ts:123-124`) and extension tests.
+- `buildWorkflowStatusText` -> `/workflow` command (`workflow.ts:128`),
+  extension tests.
+- `readResearchConfig` -> `workflow.ts:123,124,128`.
+- `workflowExtension` default -> pi host loader entry (2 tools + 1 command);
+  no stray callers.
 
-- typecheck: strict TS, exit 0
-- structure: README (6 headings), docs, scripts
-- config: research chain + gated mutation boundary (fabric preserved)
-- skills: 19 discovered (min 12), frontmatter + provenance
-- workflows: 5 contracts with role boundaries
-- prompts: 7 thin commands
-- mcp: both/one/none + guidance refs `mcp.$search`/`mcp.$call`
-- sources: 19 entries verified, docs/sources.md present
-- secrets: no committed secrets
-- test: 34/34 (skills-catalog, workflow-routing, prewalk-contract, mcp-guidance,
-  source-drift, template-smoke, extension)
-- smoke:install: clean temp install — 8 validators pass, extension loads
-  `workflow_status` + `mcp_guidance` + `/workflow`, 34 temp tests pass, clean
-  worktree
+## Provider findings (direct evidence)
 
-`git grep -n "Dispatch ready" -- .pi/extensions tests` exits 1 and
-`git grep -n "returns a dispatch plan" -- README.md docs` exits 1.
+- OmniRoute (omniroute-fork) is a local MCP endpoint whose gateway includes Exa
+  among many failover providers; standalone Exa example/key removed from the
+  template.
+- Global MCP alias `exa` is an OmniRoute transport; template treats the lane as
+  `omniroute` and detects the alias (documented in docs and skills).
+- Context7 (`@upstash/context7-mcp@3.2.5`) resolve-then-query restored as the
+  library-docs lane; DeepWiki scoped to public-repository Q&A.
+- Installed research-enforcement.json categories map 1:1 to the template lanes.
+
+## Repository gate
+
+`npm run check` exits 0: typecheck, structure (9 headings), config, packs (4
+packs, 24 skills), research (4 skills, 7 sections, refs, omniroute primary),
+skills (24), prompts (7), mcp (lanes + fallback + no standalone exa), sources
+(24 entries), secrets (clean), tests, smoke:install (clean temp install with
+9 validators, extension load, tests pass, clean worktree).
+
+`git grep` for the retired standalone Exa identifiers (env key, package, example path) exits 1.

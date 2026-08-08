@@ -1,74 +1,66 @@
 # Architecture
 
-## Why curated skills, workflows, and prewalk
+## Layers
 
-Ultra Fabric's prewalk already owns research, checklist acceptance, handoff,
-and verification gates. This template never forks that orchestration. It adds
-three layers around it:
+Ultra Fabric prewalk is the progression authority. Around it the template adds
+three layers:
 
-1. **Curated skills** (`.pi/skills/`, vendored from pi-core with provenance)
-   — proven execution guidance for planning, TDD, debugging, verification,
-   quality gating, API design, worktrees, delegation, observability,
-   supervision, TypeScript standards, and skill authoring.
-2. **Workflow contracts** (`.pi/skills/workflow-*/`, adapted from the
-   opencode-template lifecycle) — read-only roles (`scout`, `explore`, `plan`,
-   `review`) and the single mutating role (`build`, the executor after prewalk
-   handoff).
-3. **Thin prompts** (`.pi/prompts/`) — one command per phase (`create`, `fix`,
-   `audit`, `research`, `implement`, `review`, `gc`) that selects the right
-   skill/workflow and defers progression to prewalk.
+1. **Triggerable skill packs** (`.pi/skills/packs/<pack>/<skill>/SKILL.md`). Pi
+   discovers `SKILL.md` recursively, so every skill registers `/skill:<name>`
+   and auto-loads from its description. `pack-router` maps packs to intents.
+   - `delivery` — brainstorm, spec, TDD, worktrees, lifecycle/batch workflows.
+   - `quality` — debugging, verification gate, quality gate, API/TS standards,
+     audit/gc workflows.
+   - `agents` — delegation, observability, supervision, skill authoring.
+   - `research` — research-router + provider skills + deep-research workflow.
+2. **Detailed research lanes** (see `docs/research-routing.md`): OmniRoute for
+   general web/fetch, Context7 for library docs, DeepWiki for public-repo Q&A,
+   codemap/CGC for code. Standalone Exa is retired; the legacy global MCP alias
+   named `exa` is an OmniRoute endpoint and is documented as such.
+3. **Thin prompts** (`.pi/prompts/`) — one command per phase that selects the
+   right skill/workflow and defers progression to prewalk.
 
-## Ultra Fabric lifecycle contract
+## Ultra Fabric lifecycle
 
 ```
 research -> schema-backed checklist -> acceptance -> handoff -> executor -> verification
 ```
 
-- Mutation is blocked before acceptance (`.pi/fabric.json` prewalk
-  `verificationMode: gated`, `arm: session`).
-- Read-only roles (scout/explore/plan/review) never mutate; only the executor
-  (build) mutates, strictly after handoff and inside `localScope.files`.
-- Review runs codemap refs/cascade on changed public symbols and confirms the
-  changed-file scope before completion.
+- Mutation is blocked before acceptance (`.pi/fabric.json` prewalk gated).
+- Research (scout/explore) is read-only; only the executor (build) mutates
+  after handoff and inside `localScope.files`.
+- Review runs codemap refs/cascade and confirms the changed-file scope.
 
-## Extension design (honest status only)
+## Extension (provider-neutral status)
 
-`.pi/extensions/workflow.ts` registers:
+`.pi/extensions/workflow.ts` registers `workflow_status` and
+`research_guidance` plus `/workflow`. It reads the project `.mcporter/config.json`
+(or the global `~/.config/mcp/mcp.json`), reports provider status for
+omniroute/context7/deepwiki (including the legacy `exa` alias), and returns the
+exact host refs to call. It never executes research and never fabricates a
+dispatch.
 
-- `workflow_status` — prewalk config, discovered skills/prompts/extensions, and
-  configured MCP servers with ready/degraded status. Read-only.
-- `mcp_guidance` — returns guidance for calling MCP servers through the host
-  MCP bridge: which host tools to use (`mcp.$search`, `mcp.$call`, or
-  `tools.search` / `tools.call` from Fabric), whether a server is configured and
-  ready, and which env secrets are missing. It never fabricates or executes a
-  dispatch.
-- `/workflow` — status notification command.
+## MCP and research providers
 
-The extension has no runtime imports beyond `typebox` and relative template
-helpers, and performs no file writes.
+- Servers are executed by the host MCP bridge (mcporter) and surfaced as host
+  tools: `mcp.$search`, `mcp.$call`, plus the lane refs. From Fabric runs the
+  same bridge is `tools.search` / `tools.call`.
+- `mcp/omniroute.example.json` and `mcp/deepwiki.example.json` are the only
+  examples; the standalone `exa` example and key are removed.
 
-## MCP and external research
+## Shared logic and provenance
 
-- MCP servers are configured in `.mcporter/config.json` (gitignored) and
-  executed by the host bridge; credentials come from the environment only.
-- `mcp/*.example.json` provides optional Exa/DeepWiki fragments; `mcp.$search`
-  remains the generic fallback.
-- External research during the research phase uses scout/explore roles and the
-  host MCP tools; no template component shells out to providers itself.
+`scripts/template-lib.ts` is the single source of truth: research lane routing
+(`researchIntent`, `buildResearchGuidance`), provider status, prewalk-contract
+mirror, frontmatter parsing, secret scanning, and hash/provenance helpers.
 
-## Shared logic and source provenance
-
-`scripts/template-lib.ts` is the single source of truth for MCP guidance,
-prewalk-contract validation (mirroring Ultra Fabric's rules), frontmatter
-parsing, secret scanning, and hash/provenance helpers.
-
-`sources/manifest.json` + `scripts/sync-sources.mjs` track every curated asset:
-source path, source/vendor sha256, and synth status. `validate:sources` fails on
-drift; `docs/sources.md` records provenance and the exclusion policy.
+`sources/manifest.json` + `scripts/sync-sources.mjs` track every asset with
+source path, hashes, and synth status across roots pi-core, opencode-template,
+pi-agent, omniroute-fork, and pi-docs. `validate:sources` fails on drift.
 
 ## Secrets
 
-- Example configs reference env vars only (`${EXA_API_KEY}`,
-  `${DEEPWIKI_API_KEY}`); the environment is the only value source.
+- Example configs reference env vars only (`${CONTEXT7_API_KEY}`,
+  `${DEEPWIKI_API_KEY}`); OmniRoute is a local endpoint and needs no key.
 - `.env.example` ships with empty values; `scan:secrets` fails the gate on any
   assignment carrying a value.

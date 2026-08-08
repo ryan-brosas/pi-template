@@ -2,20 +2,19 @@
 
 ## Provenance
 
-All template assets under `.pi/skills/` are either **vendored** (copied from a
-source with a provenance footer) or **synthesized** (`synth: true`, hand-authored
-adaptations of a source). `sources/manifest.json` records for every entry:
+Template assets under `.pi/skills/` are **vendored** (copied with a provenance
+footer) or **synthesized** (`synth: true`, hand-authored adaptations).
+`sources/manifest.json` records `source`, `sourceSha256`/`vendorSha256`, and
+`license` per entry, across declared roots:
 
-- `source` — absolute path in `/home/ryanj/work/projects/pi-core` (curated
-  execution skills) or `/home/ryanj/work/inspo/opencode-template` (workflow
-  contracts).
-- `sourceSha256` / `vendorSha256` — content hashes; `npm run validate:sources`
-  fails when either drifts, and `npm run sync:sources` re-vendors and refreshes
-  them.
-- `license` — pi-core and opencode-template are private/author works with no
-  license headers; reuse here is for the template's own purpose with attribution
-  to the source path. `writing-skills` content is governed by the license noted
-  in its source repository.
+- `pi-core` — `/home/ryanj/work/projects/pi-core` (execution skills)
+- `opencode-template` — `/home/ryanj/work/inspo/opencode-template` (workflows, Context7 tool)
+- `pi-agent` — `/home/ryanj/.pi/agent` (research-enforcement.json routing)
+- `omniroute-fork` — `/home/ryanj/work/projects/omniroute-fork` (web search/fetch schemas)
+- `pi-docs` — `/home/ryanj/.local/lib/node_modules/@earendil-works/pi-coding-agent/docs` (pack semantics)
+
+`npm run sync:sources` re-vendors curated skills and refreshes hashes;
+`npm run validate:sources` fails on drift.
 
 ## Vendored (adapted at prewalk seams only)
 
@@ -25,25 +24,36 @@ agent-code-quality-gate, testing-anti-patterns, api-and-interface-design,
 using-git-worktrees, capability-delegation, agent-observability,
 agent-supervision, typescript-coding-standards, writing-skills.
 
-## Synthesized (workflow contracts)
+## Synthesized
 
 workflow-lifecycle, workflow-deep-research, workflow-audit,
-workflow-batch-implement, workflow-gc — adapted from the opencode-template
-workflows and role agents (scout/explore/plan/build/review), re-stated around
-Ultra Fabric prewalk authority.
+workflow-batch-implement, workflow-gc (opencode workflows); research-router,
+omniroute-research, context7-docs, deepwiki-repositories (research lanes);
+pack-router (pack semantics).
+
+## Research provider policy
+
+- **OmniRoute is the primary general-web lane.** Standalone Exa install,
+  example, and env key are removed; OmniRoute may internally use Exa as one
+  failover backend.
+- The **legacy global MCP alias named `exa`** is an OmniRoute endpoint; the
+  template detects it and recommends renaming the server to `omniroute`
+  outside the template.
+- Context7 is the authoritative library-docs lane; DeepWiki is scoped to
+  public-repository Q&A. No credentials are embedded anywhere.
 
 ## Exclusion policy
 
-Project-specific domain skills in pi-core are deliberately **excluded**:
-conversion-copywriting, copy-on-write-variations, core-data-expert,
-course-content-publishing, supabase, astro-developer, swiftui-expert-skill,
-youtube-transcript, vercel-deploy-claimable, wrangler, and similar. The template
-is a Fabric-focused development template, not a domain kit. Anything with
-credentials, private project paths, or single-project intent is also excluded.
+Project-specific domain skills in pi-core (conversion-copywriting,
+core-data-expert, supabase, astro-developer, swiftui-expert-skill,
+youtube-transcript, vercel-deploy-claimable, wrangler, and similar) are
+deliberately excluded — this is a Fabric-focused development template, not a
+domain kit. Anything with credentials, private project paths, or single-project
+intent is also excluded.
 
 ## Refresh flow
 
-1. Edit a source in pi-core or opencode-template.
-2. `npm run sync:sources` — re-vendors curated skills and refreshes hashes.
-3. `npm run validate:sources` — verifies sources exist and vendor files match.
+1. Edit a source (pi-core, opencode-template, OmniRoute fork, pi docs).
+2. `npm run sync:sources` — re-vendors and refreshes hashes.
+3. `npm run validate:sources` — verifies sources and vendor files.
 4. `npm run check` — full gate.

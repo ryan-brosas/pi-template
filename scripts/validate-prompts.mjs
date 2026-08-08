@@ -7,12 +7,11 @@ const here = fileURLToPath(import.meta.url);
 const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === here;
 const root = process.cwd();
 
-const EXPECTED = ["create", "fix", "audit", "research", "implement", "review", "gc"];
 const TARGETS = {
   "create.md": ["spec-driven-development", "brainstorming"],
   "fix.md": ["debugging-and-error-recovery"],
   "audit.md": ["agent-code-quality-gate", "workflow-audit"],
-  "research.md": ["workflow-deep-research"],
+  "research.md": ["research-router", "workflow-deep-research"],
   "implement.md": ["test-driven-development", "workflow-batch-implement"],
   "review.md": ["verification-before-completion", "agent-code-quality-gate"],
   "gc.md": ["workflow-gc"]
