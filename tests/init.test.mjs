@@ -54,6 +54,25 @@ test("init: idempotency forbids blind overwrite and preserves maintainer notes",
   assert.match(flat, /show a proposed merge and ask/);
 });
 
+
+
+test("init: AGENTS baseline captures universal operating rules", () => {
+  for (const phrase of ["user override", "no file deletion", "landing the plane", "sources/", "verified locally"]) assert.ok(flat.includes(phrase), phrase);
+  assert.match(flat, /git reset --hard/);
+  assert.match(flat, /do not narrate tool calls/);
+  assert.match(flat, /before proposing a root cause/);
+  assert.match(flat, /find all references and call sites/);
+  assert.match(flat, /never put secrets in instructions/);
+});
+
+test("init: environment and completion rules are concrete", () => {
+  assert.match(flat, /confirm the working directory/);
+  assert.match(flat, /bash, fish, zsh/);
+  assert.match(flat, /file issues for remaining work/);
+  assert.match(flat, /run the project's quality gates/);
+  assert.match(flat, /hand off context/);
+});
+
 test("init: verification checks scope, secrets, refs, and exact outcomes", () => {
   assert.match(prompt, /git diff --name-only/);
   assert.match(flat, /no runtime state or credentials/);

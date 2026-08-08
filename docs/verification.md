@@ -7,7 +7,10 @@ Structural verification for the pi-template skill-pack and research-routing cycl
 - **Init:** `.pi/prompts/init.md` added as an operational prompt with exactly
   `/init` and `/init --deep`; AGENTS.md + `.pi/project/{tech-stack,architecture,
   conventions,commands,research-baseline}.md` artifact contract; prewalk-safe
-  preview/handoff/verify flow.
+  preview/handoff/verify flow. The AGENTS.md baseline now covers user override,
+  file/destructive-command safety, communication/writing, accuracy/debugging,
+  semantic navigation, secrets, Git/shell, memory, agent escalation, sources/
+  discovery, and the landing-the-plane completion checklist.
 - **OmniRoute:** skill expanded to the authoritative search/fetch schemas (9
   search providers, 4 fetch providers, formats, depth/selector, output evidence,
   usage telemetry); validators and tests pin the contract.

@@ -25,8 +25,9 @@ Reject every other flag or positional argument and print the two valid forms.
 
 1. Parse `$ARGUMENTS` exactly. Empty means `default`; the sole flag `--deep`
    means `deep`. Do not infer undocumented modes.
-2. Resolve the root with `git rev-parse --show-toplevel`; without Git, use the
-   current directory and report that initialization is provisional.
+2. Confirm the working directory and resolve the root with
+   `pwd` then `git rev-parse --show-toplevel`; without Git, use the current
+   directory and report that initialization is provisional.
 3. Establish the allowed write scope before research:
    - `AGENTS.md`
    - `.pi/project/tech-stack.md`
@@ -54,7 +55,30 @@ Never overwrite blindly. If a file has no recognizable generated sections,
 show a proposed merge and ask before replacing content. Never invent a command,
 architecture boundary, dependency, provider, or verification result.
 
+Safety rules that apply to every phase of this workflow:
+
+- Never delete a file or folder without the user's written permission.
+- Never run an irreversible command (`git reset --hard`, `git clean -fd`,
+  `rm -rf`, force-push) unless the user states the exact command and confirms
+  they understand the consequences, in the same message.
+- Prefer non-destructive options (`git status`, `git diff`, `git stash`, copies)
+  before any cleanup or rollback.
+- If an approved destructive command runs, record the user's verbatim
+  authorization, the command, and the time in the completion report.
+
 ## 3. Read-only discovery
+
+Read the project's own context before asking the user anything:
+
+1. `AGENTS.md` / `CLAUDE.md`, config files, and the project memory dir
+   (`~/.pi/memory-md/<project>/` when present). Real architecture and house
+   rules often live there.
+2. `sources/` directories early — they may contain reference implementations
+   or upstream code that defines the patterns to follow.
+3. For upstream or mod source, clone the repository into `sources/` and read
+   locally instead of fetching individual files.
+4. Confirm the shell environment before running commands; note the shell the
+   project actually uses (Bash, fish, zsh) before writing command guidance.
 
 ### Default mode
 
@@ -70,6 +94,9 @@ Build a bounded evidence inventory:
    representative entrypoint to its downstream boundary.
 7. Conventions: cite three consistent examples before calling a pattern a
    convention; otherwise label it “observed, not established.”
+8. Generated files: identify anything auto-generated from a manifest or
+   generator so the commands/conventions never treat generated output as
+   hand-edited source.
 
 Use codemap first for symbols and call paths. Use bounded grep only for raw text
 or files outside the index. Do not install dependencies during discovery.
@@ -123,20 +150,77 @@ After accepted handoff, create `.pi/project/` and write only declared artifacts.
 
 ### `AGENTS.md`
 
-Purpose; repository map; setup and verified commands; code/test conventions;
-architecture boundaries; security/data cautions; “do not” rules; Ultra Fabric
-lifecycle; links to `.pi/project/*`. Keep it actionable.
+Write project operating instructions for AI agents in this repository. Beyond
+the project-specific facts, include a **universal rules baseline** so agents
+behave consistently regardless of model. Adapt these rules; do not copy them
+verbatim, and merge any stronger project-specific rules the user already has:
+
+1. **User override (rule zero).** When the user gives a direct instruction, it
+   overrides every convention below. The user is in charge.
+2. **No file deletion / file safety.** Never delete a file without express written permission. Run
+   no irreversible command (`git reset --hard`, `git clean -fd`, `rm -rf`,
+   force-push) unless the user provides the exact command and confirms the
+   consequences. Prefer non-destructive alternatives first.
+3. **Communication.** Do not narrate tool calls. Do not echo file contents
+   back. Keep explanations proportional to complexity. Avoid box-drawing
+   characters; keep tables minimal.
+4. **Workflow.** Check `sources/` directories early. Read the project's own
+   context (AGENTS.md/CLAUDE.md, configs, memory dir) before asking intent
+   questions. Use a formal planning workflow before non-trivial work.
+   Implement the smallest slice that could work, then verify with tests or
+   probes before expanding. Run tests after changes when a suite exists.
+5. **Writing.** Eliminate AI-slop prose by system, not word blacklists: one
+   name per thing (no rotating synonyms), active voice, no hedging or stacked
+   auxiliaries, no marketing adjectives, no soft phrasal verbs, short common
+   words, split run-ons, one topic per paragraph.
+6. **Accuracy.** Never present unverified claims as fact. After implementing,
+   separate what was verified locally from what still needs confirmation on
+   live servers, and name the servers and flags to check.
+7. **Debugging.** Before proposing a root cause, list the symptoms any valid
+   theory must explain, then pursue only theories consistent with all of them.
+8. **Code intelligence.** Prefer semantic tools (codemap, language server)
+   before text search. Before renaming or changing a signature, find all
+   references and call sites. Use grep for strings, comments, and config. Check
+   diagnostics after edits and fix type errors and imports.
+9. **Secrets.** Never put secrets in instructions, messages, or agent payloads.
+   Read them at runtime from env vars or config files. Never echo tokens in
+   results.
+10. **Git and PRs.** Keep commits and PR descriptions terse and matching
+    repository conventions. Commit to the current or `main` branch unless the
+    user asks for a new branch. Never reword the user's verbatim PR body or
+    commit text without asking.
+11. **Environment and shell.** Confirm the working directory before shell
+    commands. Note the project's shell (Bash, fish, zsh) and its package
+    manager (`npm`, `pnpm`, `bun`, `uv`, `cargo`) in `commands.md`.
+12. **Memory and self-maintenance.** Keep `AGENTS.md` accurate when verified
+    architecture, invariants, file maps, or procedures change. Update existing
+    memory instead of creating duplicates. Do not save facts already
+    represented by code, docs, or Git history. Make small instruction updates
+    inline; mention changes of ten or more lines before making them.
+13. **Agents and actors.** Do not spawn agents or invoke escalation workflows
+    without a one-line user confirmation, unless the user already named that
+    escalation. Keep agent instructions task-shaped and specific. Never put
+    secrets in agent instructions.
+14. **Session completion (landing the plane).** When ending a session: file
+    issues for remaining work, run the project's quality gates if code changed,
+    update issue status and sync any tracking system, and hand off context for
+    the next session.
+
+If the repository already has a strong AGENTS.md, merge missing rules instead
+of replacing user-authored content, and note the merge in the preview.
 
 ### `.pi/project/tech-stack.md`
 
 Languages/runtimes with versions and evidence; frameworks; package/build/test
-systems; storage; external services; deployment; tooling; unknowns.
+systems (including the exact package manager the project uses); storage;
+external services; deployment; tooling; unknowns.
 
 ### `.pi/project/architecture.md`
 
 System context; package/module map; representative execution paths; data flow;
-public interfaces; runtime/integration/failure boundaries; test architecture.
-Every non-obvious claim needs a file:symbol or file:line ref.
+public interfaces; runtime/integration/failure boundaries; test architecture;
+generated-code seams. Every non-obvious claim needs a file:symbol or file:line
+ref.
 
 ### `.pi/project/conventions.md`
 
@@ -148,7 +232,9 @@ rules, repeated observations, and recommendations.
 
 Prerequisites; install; dev; build; unit/integration/e2e tests; lint/format;
 typecheck; database; release/deploy; targeted checks; source and latest probe
-result for each command. Mark unexecuted commands clearly.
+result for each command. Note the shell syntax (`fish` vs Bash vs `zsh`) and
+package manager (`npm`/`pnpm`/`bun`/`uv`/`cargo`). Mark unexecuted commands
+clearly.
 
 ### `.pi/project/research-baseline.md` (deep only)
 
@@ -159,23 +245,33 @@ Never store secrets, tokens, or enormous raw tool output.
 
 ## 7. Verification
 
-1. Re-read every changed artifact; resolve placeholders or mark `Unknown`.
-2. Confirm paths, commands, and versions against repository evidence.
-3. Run the smallest safe configured checks; do not install or deploy unless the
-   accepted checklist explicitly allows it.
-4. Confirm `git diff --name-only` stays inside scope and no runtime state or
+1. Confirm the working directory before running any shell command.
+2. Re-read every changed artifact; resolve placeholders or mark `Unknown`.
+3. Confirm paths, commands, and versions against repository evidence.
+4. Run the smallest safe configured checks (tests, lint, typecheck) after
+   writing; do not install or deploy unless the accepted checklist explicitly
+   allows it.
+5. Confirm `git diff --name-only` stays inside scope and no runtime state or
    credentials were created.
-5. Deep mode: sample at least three architecture/evidence refs and verify them.
-6. Repair failures within scope and rerun the failing check. A build alone is
+6. Separate what you verified locally from what still needs confirmation on
+   live servers; name the servers and flags that must be checked before
+   deployment.
+7. Deep mode: sample at least three architecture/evidence refs and verify them.
+8. If an irreversible command was authorized, record the user's verbatim
+   approval, the command, and the time.
+9. Repair failures within scope and rerun the failing check. A build alone is
    not completion evidence.
 
 ## 8. Completion report
 
 Report mode and root; artifacts created/merged/refreshed/skipped; evidence and
-confidence; commands probed with exact outcomes; unresolved risks; scope diff;
-and the next command (`/research`, `/create`, or `/implement` only after its
-own accepted prewalk checklist).
+confidence; commands probed with exact outcomes (and which were only
+unconfirmed); unresolved risks; scope diff; any authorized destructive commands
+with their recorded approval; and the next command (`/research`, `/create`, or
+`/implement` only after its own accepted prewalk checklist).
 
-Source adaptation: `/home/ryanj/work/inspo/opencode-template/.opencode/command/init.md`.
+Source adaptation: `/home/ryanj/work/inspo/opencode-template/.opencode/command/init.md`,
+plus universal agent-rule patterns from the ACFS global instructions.
 Strengthened for pi prompt syntax, codemap/CGC, provider-aware research, durable
-project artifacts, and Ultra Fabric’s mutation boundary.
+project artifacts, and Ultra Fabric's mutation boundary.
+

@@ -56,6 +56,9 @@ export function main() {
       for (const sec of ["parse mode and establish scope", "idempotency and safety contract", "read-only discovery", "preview before mutation", "executor write phase", "verification", "completion report"]) {
         if (!body.toLowerCase().includes(sec)) errors.push("init.md: missing section " + sec);
       }
+      for (const phrase of ["sources/", "user override", "no file deletion", "landing the plane", "verified locally"]) {
+        if (!body.toLowerCase().includes(phrase)) errors.push("init.md: missing instruction baseline phrase " + phrase);
+      }
     }
     reports.push(f + " -> " + (targets.length ? targets.join(", ") : "none") + (OPERATIONAL.has(f) ? " (operational)" : ""));
   }
