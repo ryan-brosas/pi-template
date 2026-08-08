@@ -27,7 +27,7 @@ const validFixture = {
 
 test("prewalk-contract: fabric config exposes the chosen guard state", () => {
   const fabric = JSON.parse(readFileSync(join(root, ".pi", "fabric.json"), "utf8"));
-  assert.ok(["gated", "off"].includes(fabric.prewalk.verificationMode));
+  assert.ok(["gated", "legacy", "off"].includes(fabric.prewalk.verificationMode));
   assert.ok(["session", "off"].includes(fabric.prewalk.arm));
 });
 

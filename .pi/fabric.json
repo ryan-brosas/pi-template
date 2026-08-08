@@ -1,9 +1,9 @@
 {
   "configVersion": 3,
   "prewalk": {
-    "verificationMode": "off",
+    "verificationMode": "legacy",
     "thinking": "max",
-    "arm": "off",
+    "arm": "session",
     "model": "omniroute/opencode-go/deepseek-v4-flash-max",
     "maxPhaseRevisions": 5
   }

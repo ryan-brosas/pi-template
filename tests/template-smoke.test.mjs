@@ -39,7 +39,7 @@ test("template-smoke: prompt catalog is eight commands with init operational", (
 
 test("template-smoke: fabric config parses and exposes a valid guard state", () => {
   const fabric = JSON.parse(readFileSync(join(root, ".pi", "fabric.json"), "utf8"));
-  assert.ok(["gated", "off"].includes(fabric.prewalk?.verificationMode));
+  assert.ok(["gated", "legacy", "off"].includes(fabric.prewalk?.verificationMode));
   assert.ok(["session", "off"].includes(fabric.prewalk?.arm));
 });
 

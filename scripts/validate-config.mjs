@@ -16,7 +16,7 @@ const git = (args) => {
   }
 };
 
-const ALLOWED_MODES = ["gated", "off"];
+const ALLOWED_MODES = ["gated", "legacy", "off"];
 const ALLOWED_ARMS = ["session", "off"];
 
 export function main() {
@@ -32,7 +32,7 @@ export function main() {
   else {
     if (fabric.configVersion !== 3) errors.push("configVersion must be 3");
     const pre = fabric.prewalk || {};
-    if (!ALLOWED_MODES.includes(pre.verificationMode)) errors.push("prewalk.verificationMode must be gated or off");
+    if (!ALLOWED_MODES.includes(pre.verificationMode)) errors.push("prewalk.verificationMode must be gated, legacy, or off");
     if (!ALLOWED_ARMS.includes(pre.arm)) errors.push("prewalk.arm must be session or off");
     if (typeof pre.model !== "string" || pre.model.length === 0) errors.push("prewalk.model must be a nonempty string");
     if (!Number.isInteger(pre.maxPhaseRevisions) || pre.maxPhaseRevisions < 2 || pre.maxPhaseRevisions > 8) errors.push("prewalk.maxPhaseRevisions must be an integer in 2..8");

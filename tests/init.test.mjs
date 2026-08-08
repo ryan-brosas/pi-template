@@ -80,3 +80,32 @@ test("init: verification checks scope, secrets, refs, and exact outcomes", () =>
   assert.match(flat, /commands probed with exact outcomes/);
 });
 
+
+test("init: AGENTS baseline requires the requested response writing style", () => {
+  for (const phrase of [
+    "asd-ste100",
+    "no antithesis",
+    "no corrective negation",
+    "no paragraph pinning",
+    "no parataxis",
+    "no summary beats",
+    "no rhetorical crutches",
+    "no negative parallelisms",
+    "no negative anaphoras",
+    "no contrasting pairs",
+    "no rule of three",
+    "no em dashes",
+    "no throat-clearing openers",
+    "no landing sentences",
+    "no setup/payoff constructions",
+    "no parallel sentence structures within a paragraph",
+    "vary sentence length unpredictably",
+    "no stacked noun phrases",
+    "no filler intensifiers",
+    "no corporate-register verbs",
+    "no nominalization",
+    "no hedging qualifiers",
+    "write for the spoken voice",
+    "no performed enthusiasm",
+  ]) assert.ok(flat.includes(phrase), phrase);
+});

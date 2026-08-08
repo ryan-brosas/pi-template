@@ -10,7 +10,8 @@ Structural verification for the pi-template skill-pack and research-routing cycl
   preview/handoff/verify flow. The AGENTS.md baseline now covers user override,
   file/destructive-command safety, communication/writing, accuracy/debugging,
   semantic navigation, secrets, Git/shell, memory, agent escalation, sources/
-  discovery, and the landing-the-plane completion checklist.
+  discovery, the landing-the-plane completion checklist, and the full requested
+  ASD-STE100 response-style restrictions.
 - **OmniRoute:** skill expanded to the authoritative search/fetch schemas (9
   search providers, 4 fetch providers, formats, depth/selector, output evidence,
   usage telemetry); validators and tests pin the contract.

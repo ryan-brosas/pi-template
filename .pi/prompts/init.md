@@ -169,10 +169,36 @@ verbatim, and merge any stronger project-specific rules the user already has:
    questions. Use a formal planning workflow before non-trivial work.
    Implement the smallest slice that could work, then verify with tests or
    probes before expanding. Run tests after changes when a suite exists.
-5. **Writing.** Eliminate AI-slop prose by system, not word blacklists: one
-   name per thing (no rotating synonyms), active voice, no hedging or stacked
-   auxiliaries, no marketing adjectives, no soft phrasal verbs, short common
-   words, split run-ons, one topic per paragraph.
+5. **Writing and response style.** All responses and output content must use
+   ASD-STE100-style English that is easy to read. Use one name for each thing.
+   Use active verbs and short common words. Write for the spoken voice. Vary
+   sentence length unpredictably.
+
+   Apply these exact restrictions to prose in responses, docs, commits, PRs,
+   error messages, and generated instructions. Do not apply them to code,
+   identifiers, command syntax, quoted user text, or required protocol fields:
+
+   - No antithesis.
+   - No corrective negation.
+   - No paragraph pinning.
+   - No parataxis.
+   - No summary beats.
+   - No rhetorical crutches.
+   - No negative parallelisms.
+   - No negative anaphoras.
+   - No contrasting pairs.
+   - No rule of three.
+   - No em dashes.
+   - No throat-clearing openers.
+   - No landing sentences.
+   - No setup/payoff constructions.
+   - No parallel sentence structures within a paragraph.
+   - No stacked noun phrases.
+   - No filler intensifiers (`genuinely`, `really`, `truly`, `actually`).
+   - No corporate-register verbs (`leverage`, `underscore`, `reflect`).
+   - No nominalization.
+   - No hedging qualifiers.
+   - No performed enthusiasm.
 6. **Accuracy.** Never present unverified claims as fact. After implementing,
    separate what was verified locally from what still needs confirmation on
    live servers, and name the servers and flags to check.
