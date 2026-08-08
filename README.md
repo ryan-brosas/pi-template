@@ -34,6 +34,9 @@ skill still registers its own command and auto-loads by description.
 - `/skill:<name>` — direct, e.g. `/skill:context7-docs`, `/skill:test-driven-development`.
 - `/skill:pack-router research` — pack map and routing guidance.
 - Natural language — precise descriptions drive auto-loading.
+- `/init` and `/init --deep` — detailed, idempotent project initialization
+  (AGENTS.md + `.pi/project/*` context; `--deep` adds research-routed,
+  evidence-backed architecture analysis).
 - `/research`, `/create`, `/implement`, `/fix`, `/audit`, `/review`, `/gc` —
   thin prompt commands that select the right skill/workflow and defer to prewalk.
 
@@ -86,7 +89,7 @@ the legacy global MCP alias named `exa` is documented as an OmniRoute endpoint.
 1. Clone or copy the template.
 2. `npm install` (typecheck tooling + the extension's `typebox` dep).
 3. Start pi in the project, trust it, and `/reload`.
-4. `/workflow` for status; `/skill:pack-router` for the pack map.
+4. `/workflow` for status; `/skill:pack-router` for the pack map; run `/init` (or `/init --deep`) on a fresh project.
 
 A clean-install smoke test is available: `npm run smoke:install`.
 
@@ -97,7 +100,7 @@ A clean-install smoke test is available: `npm run smoke:install`.
 | `npm run validate:packs` | four packs, every skill assigned exactly once |
 | `npm run validate:research` | four detailed research skills + refs + omniroute primary |
 | `npm run validate:skills` | recursive discovery, frontmatter, provenance |
-| `npm run validate:prompts` | seven thin commands paired to skills |
+| `npm run validate:prompts` | eight commands — seven thin paired to skills, `init` operational with a `[--deep]` contract |
 | `npm run validate:mcp` | lane fixtures + generic fallback + no standalone exa |
 | `npm run validate:sources` | manifest sources + vendor hashes + provenance doc |
 | `npm run validate:config` | Fabric prewalk config + runtime-state exclusions |

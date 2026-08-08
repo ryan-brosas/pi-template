@@ -194,7 +194,7 @@
       "license": "OmniRoute fork; see docs/sources.md",
       "synth": true,
       "sourceSha256": "131785e113605125cb57e380e01f94ffde8051a9539ad59fbdf89f1bb9e50476",
-      "vendorSha256": "da7d858c65934f23e40301743ee195fbc6ba4cf85466aed7ead86ba3342276ce"
+      "vendorSha256": "66055d8c03e1f652393be58cac1cf3d6a28ac4d9c79c1bb2e209856e57626410"
     },
     {
       "name": "context7-docs",

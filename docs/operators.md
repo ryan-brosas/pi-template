@@ -19,6 +19,8 @@
 
 | Command | Loads | Purpose |
 | --- | --- | --- |
+| `/init` | operational initializer (default) | discover repo, preview, write AGENTS.md + `.pi/project/*`, verify |
+| `/init --deep` | operational initializer (deep) | default + research-routed architecture analysis and `research-baseline.md` |
 | `/research` | `research-router` + `workflow-deep-research` | route lanes, gather evidence, schema refs |
 | `/create` | `brainstorming` + `spec-driven-development` | produce a spec for the checklist |
 | `/implement` | `test-driven-development` + `workflow-batch-implement` | executor phase, TDD batches |
@@ -55,6 +57,14 @@ config (outside this template) when convenient; the refs keep the installed
 | skill not discovered | SKILL.md needs frontmatter `name` + `description`; must be under `.pi/skills/` |
 | `validate:sources` fails | run `npm run sync:sources` to re-vendor/refresh hashes |
 | `npm run check` fails | run each validator individually; `scan:secrets` flags accidental values |
+| `/init` not discovered | reload prompts after adding `init.md`; confirm frontmatter `description` + `argument-hint` |
+
+## Guard state
+
+`.pi/fabric.json` may run `verificationMode: gated, arm: session` (mutation
+blocked until an accepted prewalk checklist) or `verificationMode: off, arm: off`
+(guard disarmed for direct work). `validate:config` accepts both and reports
+the effective boundary.
 
 ## Customization paths
 

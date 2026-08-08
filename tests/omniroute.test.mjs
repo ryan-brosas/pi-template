@@ -9,6 +9,7 @@ import { researchIntent, buildResearchGuidance, listMcpCapabilities, RESEARCH_LA
 const root = fileURLToPath(new URL("..", import.meta.url));
 const OMNI = { mcpServers: { omniroute: { baseUrl: "http://127.0.0.1:20128/api/mcp/stream" } } };
 const LEGACY = { mcpServers: { exa: { baseUrl: "http://127.0.0.1:20128/api/mcp/stream" } } };
+const SKILL_PATH = join(root, ".pi", "skills", "packs", "research", "omniroute-research", "SKILL.md");
 
 test("omniroute: general web intent routes to omniroute as primary lane", () => {
   const lane = researchIntent("current news about ai agents");
@@ -27,12 +28,31 @@ test("omniroute: legacy exa alias resolves to the omniroute lane", () => {
 });
 
 test("omniroute: skill documents schemas, failover, and webclaw/browser escalation", () => {
-  const skill = readFileSync(join(root, ".pi", "skills", "packs", "research", "omniroute-research", "SKILL.md"), "utf8").toLowerCase();
+  const skill = readFileSync(SKILL_PATH, "utf8").toLowerCase();
   assert.match(skill, /max_results/);
   assert.match(skill, /omniroute_web_fetch/);
   assert.match(skill, /failover/);
   assert.match(skill, /webclaw/);
   assert.match(skill, /primary general-web/);
+});
+
+test("omniroute: all nine search providers documented", () => {
+  const skill = readFileSync(SKILL_PATH, "utf8").toLowerCase();
+  for (const prov of ["serper-search", "brave-search", "perplexity-search", "exa-search", "tavily-search", "google-pse-search", "linkup-search", "searchapi-search", "searxng-search"]) assert.ok(skill.includes(prov), prov);
+});
+
+test("omniroute: all four fetch providers and formats documented", () => {
+  const skill = readFileSync(SKILL_PATH, "utf8").toLowerCase();
+  for (const prov of ["firecrawl", "jina-reader", "tavily-search", "tinyfish"]) assert.ok(skill.includes(prov), prov);
+  for (const fmt of ["markdown", "html", "links", "screenshot"]) assert.ok(skill.includes(fmt), fmt);
+  assert.match(skill, /wait_for_selector/);
+  assert.match(skill, /include_metadata/);
+});
+
+test("omniroute: output evidence fields documented including usage telemetry", () => {
+  const skill = readFileSync(SKILL_PATH, "utf8").toLowerCase();
+  for (const field of ["cached", "position", "screenshot_url", "queries_used", "search_cost_usd"]) assert.ok(skill.includes(field), field);
+  assert.match(skill, /telemetry/);
 });
 
 test("omniroute: no standalone Exa dependency remains anywhere", () => {
@@ -56,3 +76,4 @@ test("omniroute: RESEARCH_LANES declares omni/context7/deepwiki canonical order"
   assert.deepEqual(RESEARCH_LANES.map((l) => l.name), ["omniroute", "context7", "deepwiki"]);
   assert.deepEqual(RESEARCH_LANES[0].aliases, ["exa"]);
 });
+

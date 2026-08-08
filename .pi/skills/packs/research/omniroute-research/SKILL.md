@@ -1,94 +1,143 @@
 ---
 name: omniroute-research
-description: Primary general-web research lane via OmniRoute. Use for current web facts, news, general search, and URL fetch/extraction (markdown, links, screenshots). OmniRoute's gateway fails over across providers; the legacy global MCP alias named exa is actually this OmniRoute endpoint. Never for local code (codemap/CGC) or library docs (Context7).
+description: Primary general-web lane via OmniRoute. Use for current facts, news, discovery, official URL retrieval, extraction, links, metadata, screenshots, and bounded crawl. Supports explicit provider selection and automatic failover. Never for local code or versioned library docs.
 ---
 
 # OmniRoute Research
 
-OmniRoute is the **primary general-web and fetch lane**. It is a local MCP
-endpoint (`http://127.0.0.1:20128/api/mcp/stream`) whose gateway fans out to
-many search/fetch providers (Serper, Brave, Perplexity, Exa, Tavily, Google
-PSE, Linkup, SearchAPI, SearXNG; Firecrawl, Jina Reader, TinyFish) with
-automatic failover and caching. Read-only, prewalk-compliant.
+OmniRoute is the **primary general-web and URL-fetch lane**. It exposes two MCP
+tools backed by many providers with automatic failover and caching. The many
+web-search providers are capabilities behind these tools—not separate host
+tools.
 
-> **Legacy alias:** the global MCP config currently names this server `exa`
-> (see `~/.config/mcp/mcp.json`). That is an OmniRoute transport label, not the
-> standalone Exa product. The template refers to the lane as `omniroute` and
-> documents renaming the alias outside the template; until then the refs below
-> keep the installed `mcp.exa.*` names.
+> **Legacy alias:** the global MCP server may still be named `exa`. It points to
+> OmniRoute, not standalone Exa. Until renamed, refs remain
+> `mcp.exa.omniroute_web_search` and `mcp.exa.omniroute_web_fetch`.
+
+Read-only and prewalk-compliant: calls gather evidence; they never mutate files
+or advance workflow state.
 
 ## When to use
 
-- Current web facts, news, or general questions.
-- Fetching and extracting a URL (markdown, links, screenshots).
-- Page content for a library before Context7 decides (see `context7-docs`).
-- When `mcp.$search` routes a web intent to a search-capable tool.
+- Current facts, news, releases, comparisons, and vendor information.
+- Broad discovery where the authoritative URL is unknown.
+- Fetching official pages as markdown/HTML; extracting links/metadata.
+- Screenshots, client-rendered extraction, or a bounded crawl.
+- Cross-checking possibly stale Context7/DeepWiki results.
 
 ## When NOT to use
 
-- **Local code** — codemap/CGC, never web search.
-- **Library/API docs** — Context7 is authoritative (`context7-docs`).
-- **Public-repository architecture Q&A** — DeepWiki (`deepwiki-repositories`).
-- Static HTML you can already read locally.
+- Local symbols/call paths: codemap first; CGC for reference repositories.
+- Versioned library/API docs: Context7 first.
+- Public-repository architecture: DeepWiki/CGC first.
+- Interactive/authenticated flows: browser tooling after fetch fails.
+- Mutation, form submission, destructive action, or secret retrieval.
 
 ## Tool contract
 
-Provider refs: `mcp.exa.omniroute_web_search`, `mcp.exa.omniroute_web_fetch`
-(and `mcp.exa.omniroute_tool_search` to discover the tool catalog).
+Discover availability with `mcp.$search`; from Fabric use `tools.search` /
+`tools.call`.
 
-`omniroute_web_search` inputs:
+### `mcp.exa.omniroute_web_search`
 
-- `query` (required, <=500 chars)
-- `max_results` (int 1-20, default 5)
-- `search_type` (`web` | `news`, default `web`)
-- `provider` (optional; one of serper-search, brave-search, perplexity-search,
-  exa-search, tavily-search, google-pse-search, linkup-search, searchapi-search,
-  searxng-search)
+| Field | Contract | Guidance |
+| --- | --- | --- |
+| `query` | required, 1–500 chars | one answerable question; include version/date when material |
+| `max_results` | integer 1–20, default 5 | start 5; increase only for decision-changing diversity |
+| `search_type` | `web` or `news`, default `web` | `news` only for time-sensitive reporting |
+| `provider` | optional backend | omit for failover; pin only for comparison/recovery |
 
-`omniroute_web_fetch` inputs:
+Search providers: `serper-search`, `brave-search`, `perplexity-search`,
+`exa-search`, `tavily-search`, `google-pse-search`, `linkup-search`,
+`searchapi-search`, `searxng-search`.
 
-- `url` (required)
-- `provider` (optional; firecrawl, jina-reader, tavily-search, tinyfish)
-- `format` (`markdown` | `html` | `links` | `screenshot`, default `markdown`)
-- `include_metadata` (bool, default false)
-- `depth` (int 0-2; Firecrawl crawl depth)
+Output: `id`, selected `provider`, normalized `query`, ordered results (`title`,
+`url`, optional `display_url`, `snippet`, positive `position`), `cached`, and
+usage (`queries_used`, `search_cost_usd`). Snippets are discovery evidence, not
+proof of a destination page’s complete claim.
 
-Discovery first: run `mcp.$search` with the intent and let the bridge rank the
-capable tools; fall back to the named refs only when `$search` is unavailable.
+### `mcp.exa.omniroute_web_fetch`
+
+| Field | Contract | Guidance |
+| --- | --- | --- |
+| `url` | required non-empty URL | prefer canonical official URLs |
+| `provider` | `firecrawl`, `jina-reader`, `tavily-search`, `tinyfish` | omit for failover; pin for required capability |
+| `format` | `markdown`, `html`, `links`, `screenshot` | choose the smallest useful form; markdown default |
+| `include_metadata` | boolean, default false | enable for title/description provenance |
+| `depth` | integer 0–2, Firecrawl only | 0 single page; 1–2 bounded subtree only |
+| `wait_for_selector` | CSS selector, Firecrawl only | stable client-rendered target only |
+
+Output: selected `provider`, canonical `url`, extracted `content`, `links`,
+nullable metadata (`title`, `description`), and nullable `screenshot_url`.
+
+## Provider selection
+
+Default to no provider and let OmniRoute fail over. Pin only with a recorded
+reason:
+
+- broad comparison: Serper, Brave, Google PSE, SearchAPI, SearXNG;
+- synthesized discovery: Perplexity—then verify fetched sources;
+- semantic/domain discovery: Exa, Linkup, Tavily;
+- clean static page: Jina Reader;
+- crawl, selector wait, links, screenshot: Firecrawl;
+- difficult dynamic extraction: TinyFish.
+
+Configuration varies: a pin can fail while automatic routing succeeds. Never
+claim all providers ran when output identifies one provider.
 
 ## Workflow
 
-1. Route the intent: general web facts -> this lane.
-2. Search with a precise query; read `results[].title/url/snippet/position` and
-   the `usage` block (queries_used, search_cost_usd).
-3. If snippets are not enough, fetch the best URL as markdown.
-4. For dynamic or protected pages, escalate: web_fetch -> webclaw_scrape ->
-   browser tools (see pi-core webclaw/browser-tools patterns).
-5. Record evidence: URL, title, snippet, position, provider, and fetch source.
+1. State the evidence question and why another lane is not better.
+2. Discover the tool/schema through `mcp.$search`.
+3. Search broad then narrow: start at 5 results; record provider/cache/usage.
+4. Prefer primary sources and fetch the destination—not only its snippet.
+5. Fetch minimally: markdown first; metadata/links/screenshot/crawl only when
+   required by the question.
+6. Triangulate contested current claims with an authoritative source or two
+   independent sources. Preserve disagreement.
+7. Return structured evidence to research-router/prewalk; never imply a call ran
+   without an actual host result.
+
+Example search:
+
+```json
+{"query":"official Node.js 24 release notes","max_results":5,"search_type":"web"}
+```
+
+Example fetch:
+
+```json
+{"url":"https://nodejs.org/en/blog/release/v24.0.0","format":"markdown","include_metadata":true,"depth":0}
+```
 
 ## Evidence contract
 
-- Every claim cites a URL + snippet (or fetched content) with the provider.
-- Distinguish search result text from page content; never invent URLs.
-- Note the `cached` flag and usage cost when they matter.
+For each accepted fact return: question, claim, canonical source URL/title,
+primary/secondary classification, search ref/query/provider/cache/position,
+fetch ref/provider/format/depth, retrieval time, minimal excerpt, confidence,
+caveat, and decision impact. Keep URL and `screenshot_url` together. Usage/cost
+is telemetry—not correctness evidence.
 
 ## Failure recovery
 
-| Symptom | Recovery |
+| Failure | Recovery |
 | --- | --- |
-| Provider quota/rate limit | re-route via `provider` param or let failover pick another backend |
-| 403 / bot protection on fetch | webclaw_scrape, then browser tools |
-| OmniRoute server absent | `mcp.$search` generic fallback; report the gap |
-| Wrong/stale results | add freshness (search_type news, date terms) and re-fetch the source |
+| weak results | rewrite with official domain/version/date, then alternate backend |
+| pinned provider fails | remove pin for failover or justify an alternate |
+| stale/conflicting sources | fetch authoritative release/spec/status pages |
+| empty/blocked fetch | Jina, Firecrawl, TinyFish; then webclaw; browser last |
+| client-rendered page | Firecrawl + stable selector; do not guess repeatedly |
+| excessive crawl | reset depth 0 and fetch decision-relevant links only |
+| screenshot needed | format screenshot; preserve page URL + screenshot URL |
+| tool missing | use generic discovery/call and report unavailable honestly |
 
 ## Stop conditions
 
-- The question is answered with at least one verifiable URL + snippet.
-- The target page is fetched and the needed fact extracted.
-- After two failed searches for the same fact, stop and change approach.
+Stop when the decision has authoritative evidence, disagreements are recorded,
+and every claim has a retrievable URL/tool ref. Stop after two failed query
+strategies and report the gap; do not search merely to increase result count.
 
-<!--
+---
 source: /home/ryanj/work/projects/omniroute-fork/open-sse/mcp-server/schemas/tools.ts
-adapted: synthesized into a pi skill with prewalk authority; schemas from omniroute_web_search/web_fetch
-license: OmniRoute fork; see docs/sources.md
--->
+license: OmniRoute repository; see docs/sources.md
+adapted: authoritative schemas at tools.ts:436-554 and registrations at server.ts:961-980; prewalk lifecycle seams only

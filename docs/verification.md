@@ -4,6 +4,15 @@ Structural verification for the pi-template skill-pack and research-routing cycl
 
 ## Changed-file scope
 
+- **Init:** `.pi/prompts/init.md` added as an operational prompt with exactly
+  `/init` and `/init --deep`; AGENTS.md + `.pi/project/{tech-stack,architecture,
+  conventions,commands,research-baseline}.md` artifact contract; prewalk-safe
+  preview/handoff/verify flow.
+- **OmniRoute:** skill expanded to the authoritative search/fetch schemas (9
+  search providers, 4 fetch providers, formats, depth/selector, output evidence,
+  usage telemetry); validators and tests pin the contract.
+- **Guard:** `.pi/fabric.json` may be `gated/session` or `off/off`;
+  `validate:config` accepts both and reports the effective mutation boundary.
 - **Packs:** skills moved to `.pi/skills/packs/{delivery,quality,agents,research}/`;
   `pack-router` added at `.pi/skills/pack-router/SKILL.md`. 24 skills discovered.
 - **Research:** four detailed skills added to the research pack (research-router,
@@ -69,9 +78,11 @@ and research tests; all in scope.
 ## Repository gate
 
 `npm run check` exits 0: typecheck, structure (9 headings), config, packs (4
-packs, 24 skills), research (4 skills, 7 sections, refs, omniroute primary),
-skills (24), prompts (7), mcp (lanes + fallback + no standalone exa), sources
-(24 entries), secrets (clean), tests, smoke:install (clean temp install with
-9 validators, extension load, tests pass, clean worktree).
+packs, 24 skills), research (4 skills, 7 sections, 9 search providers, 4 fetch
+providers, full schema fields, omniroute primary), skills (24), prompts (8
+commands incl. operational init), mcp (lanes + fallback + no standalone exa),
+sources (24 entries), secrets (clean), tests (incl. init + omniroute detail
+suites), smoke:install (clean temp install with 9 validators, extension load,
+tests pass, clean worktree).
 
 `git grep` for the retired standalone Exa identifiers (env key, package, example path) exits 1.

@@ -17,8 +17,10 @@ three layers:
    general web/fetch, Context7 for library docs, DeepWiki for public-repo Q&A,
    codemap/CGC for code. Standalone Exa is retired; the legacy global MCP alias
    named `exa` is an OmniRoute endpoint and is documented as such.
-3. **Thin prompts** (`.pi/prompts/`) — one command per phase that selects the
-   right skill/workflow and defers progression to prewalk.
+3. **Prompts** (`.pi/prompts/`) — seven thin phase commands that select the
+   right skill/workflow and defer to prewalk, plus one operational command
+   (`init.md`) that drives detailed project initialization with exactly two
+   modes: `/init` and `/init --deep`.
 
 ## Ultra Fabric lifecycle
 
@@ -39,6 +41,15 @@ research -> schema-backed checklist -> acceptance -> handoff -> executor -> veri
 omniroute/context7/deepwiki (including the legacy `exa` alias), and returns the
 exact host refs to call. It never executes research and never fabricates a
 dispatch.
+
+## Project initialization
+
+`init.md` adapts the opencode-template initializer to pi: repository-aware
+discovery (codemap/CGC first), an idempotency/safety contract, a read-only
+preview, a prewalk checklist, then writes `AGENTS.md` and `.pi/project/*`
+(`tech-stack.md`, `architecture.md`, `conventions.md`, `commands.md`, plus
+`research-baseline.md` in `--deep` mode) with verification and a completion
+report. See `docs/operators.md` and `docs/verification.md`.
 
 ## MCP and research providers
 

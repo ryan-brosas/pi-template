@@ -18,9 +18,20 @@ discovery first step, and named refs are fallbacks.
 ## Providers
 
 - **OmniRoute** — primary general web and fetch. Local endpoint
-  `http://127.0.0.1:20128/api/mcp/stream`; gateway failover across Serper,
-  Brave, Perplexity, Exa, Tavily, Google PSE, Linkup, SearchAPI, SearXNG (and
-  Firecrawl, Jina Reader, TinyFish for fetch).
+  `http://127.0.0.1:20128/api/mcp/stream`; two tools:
+  - `mcp.exa.omniroute_web_search` — `query` (1-500), `max_results` (1-20,
+    default 5), `search_type` (`web`/`news`), optional `provider`
+    (`serper-search`, `brave-search`, `perplexity-search`, `exa-search`,
+    `tavily-search`, `google-pse-search`, `linkup-search`, `searchapi-search`,
+    `searxng-search`). Output: provider, results (title/url/display_url/snippet/
+    position), `cached`, `queries_used`, `search_cost_usd`.
+  - `mcp.exa.omniroute_web_fetch` — `url`, optional `provider` (`firecrawl`,
+    `jina-reader`, `tavily-search`, `tinyfish`), `format` (`markdown`/`html`/
+    `links`/`screenshot`), `include_metadata`, `depth` (0-2, Firecrawl),
+    `wait_for_selector` (Firecrawl). Output: provider, canonical url, content,
+    links, metadata, `screenshot_url`.
+  The gateway fails over automatically; pin a provider only with a recorded
+  reason. Snippets are discovery evidence; fetch the destination.
 - **Context7** — `@upstash/context7-mcp@3.2.5`; resolve library ID then query
   topic (+ optional version). No credentials embedded here.
 - **DeepWiki** — `https://mcp.deepwiki.com/mcp`; repository wiki contents and

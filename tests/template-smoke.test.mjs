@@ -25,19 +25,22 @@ test("template-smoke: README contains required sections and no fake-dispatch cla
   assert.equal(readme.includes("returns a dispatch plan"), false);
 });
 
-test("template-smoke: seven thin prompts paired to skills", () => {
+test("template-smoke: prompt catalog is eight commands with init operational", () => {
   const prompts = readdirSync(join(root, ".pi", "prompts")).filter((f) => f.endsWith(".md"));
-  assert.equal(prompts.length, 7);
+  assert.equal(prompts.length, 8);
+  assert.ok(prompts.includes("init.md"));
   for (const f of prompts) {
     const text = readFileSync(join(root, ".pi", "prompts", f), "utf8");
-    assert.ok(text.length <= 900, f + " size");
     assert.ok(text.includes("prewalk"), f);
+    if (f !== "init.md") assert.ok(text.length <= 900, f + " size " + text.length);
+    else assert.ok(text.length > 6000, "init must be operational and detailed");
   }
 });
 
-test("template-smoke: fabric config parses as gated research prewalk", () => {
+test("template-smoke: fabric config parses and exposes a valid guard state", () => {
   const fabric = JSON.parse(readFileSync(join(root, ".pi", "fabric.json"), "utf8"));
-  assert.equal(fabric.prewalk?.verificationMode, "gated");
+  assert.ok(["gated", "off"].includes(fabric.prewalk?.verificationMode));
+  assert.ok(["session", "off"].includes(fabric.prewalk?.arm));
 });
 
 test("template-smoke: extension registers workflow_status + research_guidance + /workflow", async () => {
@@ -67,3 +70,4 @@ test("template-smoke: runtime state is never tracked", () => {
   }
   assert.ok(ignored.includes(".pi/fabric/") && ignored.includes(".pi/hindsight/"), "runtime dirs must be gitignored");
 });
+

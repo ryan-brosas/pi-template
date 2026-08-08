@@ -16,6 +16,9 @@ const git = (args) => {
   }
 };
 
+const ALLOWED_MODES = ["gated", "off"];
+const ALLOWED_ARMS = ["session", "off"];
+
 export function main() {
   const errors = [];
   const fabric = (() => {
@@ -29,8 +32,8 @@ export function main() {
   else {
     if (fabric.configVersion !== 3) errors.push("configVersion must be 3");
     const pre = fabric.prewalk || {};
-    if (pre.verificationMode !== "gated") errors.push("prewalk.verificationMode must be gated");
-    if (pre.arm !== "session") errors.push("prewalk.arm must be session");
+    if (!ALLOWED_MODES.includes(pre.verificationMode)) errors.push("prewalk.verificationMode must be gated or off");
+    if (!ALLOWED_ARMS.includes(pre.arm)) errors.push("prewalk.arm must be session or off");
     if (typeof pre.model !== "string" || pre.model.length === 0) errors.push("prewalk.model must be a nonempty string");
     if (!Number.isInteger(pre.maxPhaseRevisions) || pre.maxPhaseRevisions < 2 || pre.maxPhaseRevisions > 8) errors.push("prewalk.maxPhaseRevisions must be an integer in 2..8");
   }
@@ -42,7 +45,8 @@ export function main() {
   if (bad2.length > 0) errors.push("runtime state present in status: " + bad2.join("; "));
   if (errors.length > 0) return { ok: false, message: "config: FAIL\n  - " + errors.join("\n  - ") };
   const chain = [fabric.prewalk.model].concat(Array.isArray(fabric.prewalk.fallbackModels) ? fabric.prewalk.fallbackModels : []);
-  return { ok: true, message: "config: OK — research chain: " + chain.join(" -> ") + " | mutation boundary: blocked until accepted checklist (" + fabric.prewalk.verificationMode + ", arm " + fabric.prewalk.arm + ")" };
+  const boundary = fabric.prewalk.verificationMode === "gated" && fabric.prewalk.arm === "session" ? "blocked until accepted checklist" : "open (guard disarmed)";
+  return { ok: true, message: "config: OK — research chain: " + chain.join(" -> ") + " | mutation boundary: " + boundary + " (" + fabric.prewalk.verificationMode + ", arm " + fabric.prewalk.arm + ")" };
 }
 
 if (isMain) {
@@ -50,3 +54,4 @@ if (isMain) {
   console.log(r.message);
   if (!r.ok) process.exit(1);
 }
+

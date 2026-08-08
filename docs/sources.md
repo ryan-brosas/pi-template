@@ -29,7 +29,9 @@ agent-supervision, typescript-coding-standards, writing-skills.
 workflow-lifecycle, workflow-deep-research, workflow-audit,
 workflow-batch-implement, workflow-gc (opencode workflows); research-router,
 omniroute-research, context7-docs, deepwiki-repositories (research lanes);
-pack-router (pack semantics).
+pack-router (pack semantics). `.pi/prompts/init.md` is an operational prompt
+adapting opencode-template `.opencode/command/init.md` (exactly `/init` and
+`/init --deep` modes).
 
 ## Research provider policy
 
