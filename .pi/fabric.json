@@ -1,0 +1,10 @@
+{
+  "configVersion": 3,
+  "prewalk": {
+    "verificationMode": "gated",
+    "thinking": "max",
+    "arm": "session",
+    "model": "omniroute/opencode-go/deepseek-v4-flash-max",
+    "maxPhaseRevisions": 5
+  }
+}
