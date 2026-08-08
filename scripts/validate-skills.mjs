@@ -2,44 +2,37 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { parseFrontmatter } from "./template-lib.ts";
 
 const here = fileURLToPath(import.meta.url);
 const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === here;
 const root = process.cwd();
-
-const EXPECTED = ["research", "implementation", "testing", "review"];
-const EVIDENCE = ["goal-backward evidence", "acceptance evidence", "behavioral evidence", "structural evidence"];
-const FORBIDDEN = ["skip the checklist", "ignore the checklist", "bypass the checklist", "may bypass prewalk"];
+const MIN_SKILLS = 12;
+const SOURCE_ROOTS = ["/home/ryanj/work/projects/pi-core", "/home/ryanj/work/inspo/opencode-template"];
 
 export function main() {
   const errors = [];
   const skillsDir = join(root, ".pi", "skills");
   const dirs = existsSync(skillsDir) ? readdirSync(skillsDir).filter((n) => existsSync(join(skillsDir, n, "SKILL.md"))).sort() : [];
-  for (const want of EXPECTED) if (!dirs.includes(want)) errors.push("missing skill dir: " + want);
+  if (dirs.length < MIN_SKILLS) errors.push("expected at least " + MIN_SKILLS + " skills, found " + dirs.length);
   const reports = [];
   for (const dir of dirs) {
     const text = readFileSync(join(skillsDir, dir, "SKILL.md"), "utf8");
-    const fm = /^---\n([\s\S]*?)\n---\n/.exec(text);
+    const fm = parseFrontmatter(text);
     if (!fm) {
       errors.push(dir + ": missing frontmatter");
       continue;
     }
-    const meta = {};
-    for (const line of fm[1].split("\n")) {
-      const m = /^([a-zA-Z]+):\s*(.*)$/.exec(line);
-      if (m) meta[m[1]] = m[2];
+    if (!fm.name || !String(fm.name).trim()) errors.push(dir + ": frontmatter name required");
+    if (!fm.description || !String(fm.description).trim()) errors.push(dir + ": frontmatter description required");
+    if (!text.includes("source: /home/ryanj/work/projects/pi-core") && !text.includes("source: /home/ryanj/work/inspo/opencode-template")) {
+      errors.push(dir + ": missing source annotation (pi-core or opencode-template)");
     }
-    if (!meta.name) errors.push(dir + ": frontmatter name required");
-    if (!meta.description || !String(meta.description).trim()) errors.push(dir + ": frontmatter description required");
-    const bodyLower = text.slice(fm[0].length).toLowerCase();
-    if (!bodyLower.includes("prewalk")) errors.push(dir + ": body must mention prewalk");
-    if (!bodyLower.includes("checklist")) errors.push(dir + ": body must mention checklist");
-    if (!EVIDENCE.some((e) => bodyLower.includes(e))) errors.push(dir + ": body must include a required evidence phrase");
-    for (const f of FORBIDDEN) if (bodyLower.includes(f)) errors.push(dir + ": forbidden bypass phrase: " + f);
-    reports.push(dir + " (name=" + meta.name + ", description=" + String(meta.description).slice(0, 48) + ")");
+    if (!text.toLowerCase().includes("prewalk")) errors.push(dir + ": body must mention prewalk");
+    reports.push(dir + " (name=" + fm.name + ")");
   }
   if (errors.length > 0) return { ok: false, message: "skills: FAIL\n  - " + errors.join("\n  - ") };
-  return { ok: true, message: "skills: OK — " + dirs.length + " lifecycle-aware skills\n  " + reports.join("\n  ") };
+  return { ok: true, message: "skills: OK — " + dirs.length + " discovered (min " + MIN_SKILLS + ")\n  " + reports.join("\n  ") };
 }
 
 if (isMain) {

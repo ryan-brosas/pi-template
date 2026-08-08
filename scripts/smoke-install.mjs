@@ -11,7 +11,7 @@ export async function main() {
   const tmp = mkdtempSync(join(tmpdir(), "pi-template-smoke-"));
   const lines = [];
   try {
-    for (const name of ["package.json", "tsconfig.json", ".gitignore", ".env.example", "README.md", ".pi", "mcp", "scripts", "tests", "docs"]) {
+    for (const name of ["package.json", "tsconfig.json", ".gitignore", ".env.example", "README.md", ".pi", "mcp", "scripts", "tests", "docs", "sources"]) {
       if (!existsSync(join(repo, name))) throw new Error("template missing top-level entry: " + name);
       cpSync(join(repo, name), join(tmp, name), {
         recursive: true,
@@ -24,7 +24,7 @@ export async function main() {
     execFileSync("git", ["init", "-q"], { cwd: tmp });
     execFileSync("git", ["add", "-A"], { cwd: tmp });
     execFileSync("npm", ["install", "--omit=dev", "--no-audit", "--no-fund", "--silent"], { cwd: tmp });
-    for (const v of ["validate-structure", "validate-config", "validate-skills", "validate-prompts", "validate-mcp", "scan-secrets"]) {
+    for (const v of ["validate-structure", "validate-config", "validate-skills", "validate-workflows", "validate-prompts", "validate-mcp", "validate-sources", "scan-secrets"]) {
       const out = execFileSync("node", ["scripts/" + v + ".mjs"], { cwd: tmp, encoding: "utf8" });
       lines.push("validator " + v + ": " + out.trim().split("\n")[0]);
     }

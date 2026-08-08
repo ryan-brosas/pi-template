@@ -7,16 +7,27 @@ const here = fileURLToPath(import.meta.url);
 const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === here;
 const root = process.cwd();
 
-const PAIRS = { "research.md": "research", "implement.md": "implementation", "test.md": "testing", "review.md": "review" };
+const EXPECTED = ["create", "fix", "audit", "research", "implement", "review", "gc"];
+const TARGETS = {
+  "create.md": ["spec-driven-development", "brainstorming"],
+  "fix.md": ["debugging-and-error-recovery"],
+  "audit.md": ["agent-code-quality-gate", "workflow-audit"],
+  "research.md": ["workflow-deep-research"],
+  "implement.md": ["test-driven-development", "workflow-batch-implement"],
+  "review.md": ["verification-before-completion", "agent-code-quality-gate"],
+  "gc.md": ["workflow-gc"]
+};
+const MAX_PROMPT_CHARS = 900;
 
 export function main() {
   const errors = [];
   const promptsDir = join(root, ".pi", "prompts");
   const files = existsSync(promptsDir) ? readdirSync(promptsDir).filter((n) => n.endsWith(".md")).sort() : [];
-  for (const want of Object.keys(PAIRS)) if (!files.includes(want)) errors.push("missing prompt: " + want);
+  for (const want of Object.keys(TARGETS)) if (!files.includes(want)) errors.push("missing prompt: " + want);
   const reports = [];
   for (const f of files) {
     const text = readFileSync(join(promptsDir, f), "utf8");
+    if (text.length > MAX_PROMPT_CHARS) errors.push(f + ": exceeds " + MAX_PROMPT_CHARS + " chars (" + text.length + ")");
     const fm = /^---\n([\s\S]*?)\n---\n/.exec(text);
     if (!fm) {
       errors.push(f + ": missing frontmatter");
@@ -25,16 +36,17 @@ export function main() {
     const meta = {};
     for (const line of fm[1].split("\n")) {
       const m = /^([a-zA-Z]+):\s*(.*)$/.exec(line);
-      if (m) meta[m[1]] = m[2];
+      if (m && m[1] !== undefined) meta[m[1]] = (m[2] ?? "").trim();
     }
-    if (!meta.description || !String(meta.description).trim()) errors.push(f + ": frontmatter description required");
+    if (!meta.description) errors.push(f + ": frontmatter description required");
     const body = text.slice(fm[0].length);
-    if (!body.includes(PAIRS[f])) errors.push(f + ": body must reference the " + PAIRS[f] + " skill");
     if (!body.includes("prewalk")) errors.push(f + ": body must defer to prewalk");
-    reports.push(f + " -> " + PAIRS[f]);
+    const targets = TARGETS[f] ?? [];
+    for (const t of targets) if (!body.includes(t)) errors.push(f + ": body must reference target " + t);
+    reports.push(f + " -> " + targets.join(", "));
   }
   if (errors.length > 0) return { ok: false, message: "prompts: FAIL\n  - " + errors.join("\n  - ") };
-  return { ok: true, message: "prompts: OK — " + files.length + " thin entry points\n  " + reports.join("\n  ") };
+  return { ok: true, message: "prompts: OK — " + files.length + " thin commands\n  " + reports.join("\n  ") };
 }
 
 if (isMain) {

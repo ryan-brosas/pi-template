@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateChecklistContract } from "../scripts/template-lib.ts";
@@ -9,20 +9,20 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 
 const validFixture = {
   items: [
-    { task: "Create package skeleton and docs.", validation: "npm run validate:structure exits 0" },
-    { task: "Preserve and validate fabric config.", validation: "npm run validate:config exits 0" },
-    { task: "Add skills and prompts.", validation: "npm run validate:skills and validate:prompts exit 0" },
-    { task: "Add minimal extension.", validation: "npm run typecheck exits 0 and extension tests pass" },
-    { task: "Add optional MCP examples.", validation: "npm run validate:mcp exits 0" },
-    { task: "Add lifecycle test suites.", validation: "npm test reports named suites passing" },
-    { task: "Verify scope and publish.", validation: "npm run check exits 0 and push lands" }
+    { task: "Curate the skill catalog from pi-core.", validation: "npm run validate:skills exits 0" },
+    { task: "Rebuild workflow contracts from opencode-template.", validation: "npm run validate:workflows exits 0" },
+    { task: "Replace the MCP wrapper with honest guidance.", validation: "npm run typecheck exits 0 and extension tests pass" },
+    { task: "Upgrade the prompt surface to seven commands.", validation: "npm run validate:prompts exits 0" },
+    { task: "Add source manifest and drift tooling.", validation: "npm run validate:sources exits 0" },
+    { task: "Rewrite docs around the Ultra Fabric lifecycle.", validation: "npm run validate:structure exits 0" },
+    { task: "Pin lifecycle seams with behavioral tests.", validation: "npm test reports named suites passing" }
   ],
   schema: {
-    intent: "Implement the template.",
-    references: [{ repository: "pi-coding-agent", question: "Capability boundaries?", evidenceRefs: ["docs/extensions.md"] }],
+    intent: "Ground the template in pi-core skills and opencode workflows.",
+    references: [{ repository: "pi-core", question: "Which skills to curate?", evidenceRefs: [".pi/skills/brainstorming/SKILL.md"] }],
     localScope: { files: ["package.json"] },
     invariants: ["Prewalk remains authority."],
-    postconditions: ["Repository contains usable assets."]
+    postconditions: ["Template contains curated assets."]
   }
 };
 
@@ -50,34 +50,35 @@ test("prewalk-contract: missing schema references rejected", () => {
   assert.ok(r.errors.some((e) => e.includes("references")));
 });
 
-test("prewalk-contract: research skill mandates research before the checklist", () => {
-  const body = readFileSync(join(root, ".pi", "skills", "research", "SKILL.md"), "utf8");
-  assert.match(body, /before the checklist/);
+test("prewalk-contract: research precedes the checklist and never mutates", () => {
+  const research = readFileSync(join(root, ".pi", "skills", "workflow-deep-research", "SKILL.md"), "utf8").toLowerCase();
+  assert.match(research, /before a plan or checklist exists/);
+  assert.match(research, /never mutates/);
+  const fabric = JSON.parse(readFileSync(join(root, ".pi", "fabric.json"), "utf8"));
+  assert.equal(fabric.prewalk.verificationMode, "gated");
 });
 
-test("prewalk-contract: no template asset instructs bypassing prewalk", () => {
-  const forbidden = ["skip the checklist", "ignore the checklist", "bypass the checklist", "may bypass prewalk"];
-  const skillsDir = join(root, ".pi", "skills");
-  for (const d of readdirSync(skillsDir)) {
-    const p = join(skillsDir, d, "SKILL.md");
-    if (!existsSync(p)) continue;
-    const body = readFileSync(p, "utf8").toLowerCase();
-    for (const f of forbidden) assert.equal(body.includes(f), false, d + " contains: " + f);
-  }
-  const promptsDir = join(root, ".pi", "prompts");
-  for (const f of readdirSync(promptsDir)) {
-    const body = readFileSync(join(promptsDir, f), "utf8").toLowerCase();
-    for (const bad of forbidden) assert.equal(body.includes(bad), false, f + " contains: " + bad);
-  }
-});
-
-test("prewalk-contract: executor ownership — extension registers only read-only dispatch tools", async () => {
+test("prewalk-contract: accepted schema precedes mutation — extension registers only read-only tools", async () => {
   const mod = await import("../.pi/extensions/workflow.ts");
   const tools = [];
   const commands = [];
   mod.default({ registerTool: (d) => tools.push(d), registerCommand: (n) => commands.push(n) });
-  const names = tools.map((t) => t.name);
-  assert.deepEqual(names.sort(), ["mcp_capabilities", "mcp_invoke"]);
+  assert.deepEqual(tools.map((t) => t.name).sort(), ["mcp_guidance", "workflow_status"]);
   assert.deepEqual(commands, ["workflow"]);
   assert.equal(tools.some((t) => /write|edit|exec|bash/.test(t.name)), false);
+});
+
+test("prewalk-contract: executor owns implementation after handoff — batch workflow requires handoff", () => {
+  const batch = readFileSync(join(root, ".pi", "skills", "workflow-batch-implement", "SKILL.md"), "utf8").toLowerCase();
+  assert.match(batch, /handoff/);
+  assert.match(batch, /executor/);
+  const lifecycle = readFileSync(join(root, ".pi", "skills", "workflow-lifecycle", "SKILL.md"), "utf8").toLowerCase();
+  assert.match(lifecycle, /only role that mutates/);
+});
+
+test("prewalk-contract: review is read-only and verifies before completion", () => {
+  const audit = readFileSync(join(root, ".pi", "skills", "workflow-audit", "SKILL.md"), "utf8").toLowerCase();
+  assert.match(audit, /read-only/);
+  const verification = existsSync(join(root, ".pi", "skills", "verification-before-completion", "SKILL.md"));
+  assert.equal(verification, true);
 });

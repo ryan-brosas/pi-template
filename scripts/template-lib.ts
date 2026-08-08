@@ -1,11 +1,13 @@
-// Shared pure helpers for the pi.dev template: MCP routing, prewalk-contract
-// mirror, and secret scanning. Single source of truth used by validators,
-// tests, and the project extension (via relative import).
+// Shared pure helpers for the pi.dev Fabric template: MCP guidance, source
+// provenance, prewalk-contract mirror, frontmatter parsing, and secret scanning.
+// Single source of truth used by validators, tests, and the project extension.
 import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, relative, resolve } from "node:path";
 
 export const EXAMPLE_PROVIDERS = ["exa", "deepwiki"] as const;
 export const FALLBACK_MCP_SEARCH = "mcp.$search";
+export const MCP_CALL_REF = "mcp.$call";
 
 export type McpServerEntry = {
   command?: string;
@@ -88,57 +90,45 @@ export function listMcpCapabilities(config: McpConfig): CapabilityReport {
   return { servers: names, ready, degraded, unknown, fallback: FALLBACK_MCP_SEARCH };
 }
 
-export type DispatchOutcome =
-  | { ok: true; plan: { ref: "mcp.$call"; args: { server: string; tool: string; args: unknown } } }
-  | {
-      ok: false;
-      code: "cancelled" | "provider-unavailable" | "missing-secret" | "empty-args";
-      server?: string;
-      tool?: string;
-      guidance: string;
-    };
+export type McpGuidance = {
+  refs: string[];
+  guidance: string;
+  servers: string[];
+  ready: string[];
+  degraded: Array<{ name: string; missing: string[] }>;
+};
 
-export function resolveDispatch(input: {
-  server: string;
-  tool: string;
-  args?: unknown;
-  config: McpConfig;
-  signal?: AbortSignal | undefined;
-}): DispatchOutcome {
-  const { server, tool, config, signal } = input;
-  if (signal?.aborted) {
-    return { ok: false, code: "cancelled", server, tool, guidance: "Dispatch was cancelled before it began." };
+// Honest guidance: MCP calls are executed by the host MCP bridge (mcporter) and
+// surfaced to the model as host tools (mcp.$search / mcp.$call) or via Fabric's
+// tools.search / tools.call. This helper never fabricates a dispatch plan.
+export function buildMcpGuidance(
+  config: McpConfig,
+  opts: { server?: string; tool?: string; query?: string } = {},
+): McpGuidance {
+  const caps = listMcpCapabilities(config);
+  const parts: string[] = [];
+  parts.push("MCP servers are executed by the host MCP bridge (mcporter) and exposed as host tools.");
+  if (opts.server && !caps.servers.includes(opts.server)) {
+    parts.push(
+      'Server "' + opts.server + '" is not configured. Add it to .mcporter/config.json (see mcp/*.example.json) or use generic discovery via ' + FALLBACK_MCP_SEARCH + '.',
+    );
+  } else if (opts.server) {
+    const degraded = caps.degraded.find((d) => d.name === opts.server);
+    parts.push(
+      'Server "' + opts.server + '" is configured' +
+        (degraded ? ' but requires env secrets ' + degraded.missing.join(", ") + " (see .env.example)" : " and ready") +
+        ".",
+    );
   }
-  const servers = config.mcpServers ?? {};
-  const entry = servers[server];
-  if (!entry) {
-    return {
-      ok: false,
-      code: "provider-unavailable",
-      server,
-      tool,
-      guidance:
-        'MCP server "' + server + '" is not configured. Add it to .mcporter/config.json (see mcp/*.example.json) or use generic discovery via ' + FALLBACK_MCP_SEARCH + '.',
-    };
-  }
-  const missing = requiredEnvNames(entry).filter((k) => {
-    const v = process.env[k];
-    return v === undefined || v === "";
-  });
-  if (missing.length > 0) {
-    return {
-      ok: false,
-      code: "missing-secret",
-      server,
-      tool,
-      guidance:
-        'MCP server "' + server + '" is configured but requires environment secrets ' + missing.join(", ") + '. Set them (see .env.example) and reload.',
-    };
-  }
-  if (!tool || !tool.trim()) {
-    return { ok: false, code: "empty-args", server, tool, guidance: "A tool name is required on the MCP server." };
-  }
-  return { ok: true, plan: { ref: "mcp.$call", args: { server, tool, args: input.args ?? {} } } };
+  parts.push("Use the host tool " + FALLBACK_MCP_SEARCH + " for discovery, or " + MCP_CALL_REF + " with { server, tool, args } to call a configured server.");
+  parts.push("From a Fabric run, the same bridge is reachable via tools.search and tools.call.");
+  return {
+    refs: [FALLBACK_MCP_SEARCH, MCP_CALL_REF],
+    guidance: parts.join(" "),
+    servers: caps.servers,
+    ready: caps.ready,
+    degraded: caps.degraded,
+  };
 }
 
 // Mirror of Ultra Fabric's research-prewalk checklist contract so the template
@@ -242,4 +232,59 @@ export function scanForSecrets(root: string, exclude: string[] = []): Array<{ fi
   };
   if (existsSync(root)) walk(root);
   return findings;
+}
+
+export function sha256(text: string): string {
+  return createHash("sha256").update(text, "utf8").digest("hex");
+}
+
+export function sourcesFooter(source: string, license: string): string {
+  return (
+    "\n<!--\n" +
+    "source: " + source + "\n" +
+    "adapted: prewalk lifecycle seams only (Ultra Fabric); content otherwise preserved\n" +
+    "license: " + license + "\n" +
+    "-->\n"
+  );
+}
+
+export type Frontmatter = { name?: string; description?: string; raw: Record<string, string> };
+
+// Lenient Agent Skills frontmatter parser: handles folded (>- / |-) descriptions
+// by joining indented continuation lines.
+export function parseFrontmatter(text: string): Frontmatter | null {
+  const fm = /^---\n([\s\S]*?)\n---\n?/.exec(text);
+  if (!fm) return null;
+  const raw: Record<string, string> = {};
+  let key: string | null = null;
+  for (const line of (fm[1] ?? "").split("\n")) {
+    const m = /^([a-zA-Z0-9_-]+):\s*(.*)$/.exec(line);
+    if (m && m[1] !== undefined) {
+      key = m[1];
+      const v = m[2] ?? "";
+      raw[key] = /^["']?[>|][-+]?["']?$/.test(v.trim()) ? "" : v.trim();
+    } else if (key !== null && /^\s+\S/.test(line)) {
+      raw[key] = ((raw[key] ?? "") + " " + line.trim()).trim();
+    }
+  }
+  return { name: raw.name, description: raw.description, raw };
+}
+
+export type SourceManifest = {
+  roots: Record<string, string>;
+  entries: Array<{
+    name: string;
+    source: string;
+    vendorPath: string;
+    license: string;
+    synth: boolean;
+    sourceSha256?: string;
+    vendorSha256?: string;
+  }>;
+};
+
+export function loadManifest(root: string): SourceManifest {
+  const v = readJsonFile(join(root, "sources", "manifest.json")) as SourceManifest | undefined;
+  if (!v || !Array.isArray(v.entries)) throw new Error("sources/manifest.json missing or invalid");
+  return v;
 }

@@ -1,8 +1,8 @@
 ---
-description: Entry point for structural review before completion. Runs the review skill.
+description: Review work before completion (verification-before-completion + agent-code-quality-gate). Read-only gate.
 ---
 
-Invoke the `review` skill at `.pi/skills/review/SKILL.md` and follow it.
-Rerun codemap refs/cascade on changed public symbols, confirm the changed-file
-scope, run the repository gate, and record evidence in docs/verification.md.
-Lifecycle progression stays with prewalk.
+Invoke `verification-before-completion` then `agent-code-quality-gate`
+(`.pi/skills/`). Re-run the change's verification commands, grade the diff
+against the gate, and confirm the changed scope. Read-only: report findings;
+progression stays with prewalk.

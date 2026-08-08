@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { listMcpCapabilities, providerStatus, parseMcpConfig, scanForSecrets, FALLBACK_MCP_SEARCH, EXAMPLE_PROVIDERS } from "./template-lib.ts";
+import { buildMcpGuidance, listMcpCapabilities, providerStatus, parseMcpConfig, scanForSecrets, FALLBACK_MCP_SEARCH, MCP_CALL_REF, EXAMPLE_PROVIDERS } from "./template-lib.ts";
 
 const here = fileURLToPath(import.meta.url);
 const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === here;
@@ -34,8 +34,11 @@ export function main() {
   if (one.servers.length !== 1) errors.push("one-provider fixture: expected 1 server");
   const none = listMcpCapabilities(NONE);
   if (none.servers.length !== 0 || none.fallback !== FALLBACK_MCP_SEARCH) errors.push("no-provider fixture: expected 0 servers + fallback");
+  const g = buildMcpGuidance(BOTH, { server: "missing-server", tool: "search" });
+  if (!g.guidance.includes(FALLBACK_MCP_SEARCH) || !g.guidance.includes(MCP_CALL_REF)) errors.push("guidance must reference host tools " + FALLBACK_MCP_SEARCH + " and " + MCP_CALL_REF);
+  if (g.guidance.includes("Dispatch ready") || g.guidance.includes("dispatch-ready")) errors.push("guidance must not fabricate a dispatch plan");
   if (errors.length > 0) return { ok: false, message: "mcp: FAIL\n  - " + errors.join("\n  - ") };
-  return { ok: true, message: "mcp: OK — examples: " + examples.join(", ") + " | both/one/none fixtures pass | fallback: " + FALLBACK_MCP_SEARCH };
+  return { ok: true, message: "mcp: OK — examples: " + examples.join(", ") + " | both/one/none fixtures pass | guidance refs " + g.refs.join(", ") };
 }
 
 if (isMain) {

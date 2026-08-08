@@ -1,65 +1,86 @@
 # Verification
 
-Final structural verification for the pi.dev Fabric template implementation.
+Structural verification for the pi-template correction cycle: curated pi-core
+skills, opencode-inspired workflows, honest MCP guidance, and source provenance.
 
-## Changed-file manifest
+## Changed-file scope
 
-Matches the accepted checklist `localScope` plus documented supporting files:
+**Skills (replaced the four shallow phases):**
 
-**In scope (checklist):**
+- 14 curated skills vendored from pi-core with provenance footers:
+  brainstorming, spec-driven-development, test-driven-development,
+  debugging-and-error-recovery, verification-before-completion,
+  agent-code-quality-gate, testing-anti-patterns, api-and-interface-design,
+  using-git-worktrees, capability-delegation, agent-observability,
+  agent-supervision, typescript-coding-standards, writing-skills.
+- 5 workflow contracts adapted from opencode-template: workflow-lifecycle,
+  workflow-deep-research, workflow-audit, workflow-batch-implement, workflow-gc.
+- Old shallow skills (research, implementation, testing, review) deleted.
 
-- `.gitignore`, `package.json`, `README.md`, `.env.example`
-- `.pi/fabric.json` — **preserved unchanged** (configVersion 3, prewalk gated)
-- `.pi/skills/{research,implementation,testing,review}/SKILL.md`
-- `.pi/prompts/{research,implement,test,review}.md`
-- `.pi/extensions/workflow.ts`
-- `mcp/{exa,deepwiki}.example.json`
-- `scripts/*` (template-lib.ts, 6 validators, smoke-install.mjs)
-- `tests/*` (prewalk-contract, mcp-routing, template-smoke, extension)
-- `docs/{architecture,operators,verification}.md`
+**Extension:** `.pi/extensions/workflow.ts` rewritten — fake `mcp_invoke`
+dispatch removed; now `workflow_status` + `mcp_guidance` (honest status and
+host-bridge guidance) plus `/workflow`.
 
-**Documented additions (required by the gate):**
+**Prompts:** replaced with seven thin commands: create, fix, audit, research,
+implement, review, gc.
 
-- `tsconfig.json` — strict TS config for `npm run typecheck` (checklist item 4)
-- `pnpm-lock.yaml`, `pnpm-workspace.yaml` — generated dependency lock + build approvals for the `@earendil-works/pi-coding-agent` transitive deps
+**Tooling:** `sources/manifest.json`, `scripts/sync-sources.mjs`,
+`scripts/validate-workflows.mjs`, `scripts/validate-sources.mjs`; validators for
+skills/prompts/mcp/structure rewritten; smoke runner updated.
 
-**Explicitly not tracked:** `.pi/fabric/`, `.pi/hindsight/` (gitignored runtime state).
+**Tests:** skills-catalog, workflow-routing, prewalk-contract, mcp-guidance,
+source-drift, template-smoke, extension (mcp-routing replaced).
+
+**Docs:** README, architecture, operators, sources rewritten; verification new.
+
+`tsconfig.json`, `.gitignore`, `.env.example`, `mcp/*.example.json` unchanged
+behavior; `.pi/fabric.json` preserved verbatim. `pnpm-lock.yaml` refreshed by
+install.
 
 ## Public symbols: refs + cascade evidence
 
-Codemap refs (AST) plus a full grep sweep (the index does not cover `tests/` imports of the extension) enumerate every call site. No out-of-scope caller exists.
+Codemap refs plus a full grep sweep (the AST index under-covers `tests/` and
+`.pi/` imports) enumerate every call site; none is out of scope.
 
 | Symbol (file) | Verified call sites |
 | --- | --- |
-| `createMcpInvokeTool` (`.pi/extensions/workflow.ts:36`) | `workflow.ts:116` registration; `tests/extension.test.mjs:27,38,45` |
-| `createMcpCapabilitiesTool` (`.pi/extensions/workflow.ts:75`) | `workflow.ts:117`; `tests/extension.test.mjs:53` |
-| `buildWorkflowStatus` (`.pi/extensions/workflow.ts:97`) | `workflow.ts:121` (/workflow command); `tests/extension.test.mjs:60` |
-| `readMcpConfig` (`.pi/extensions/workflow.ts:21`) | `workflow.ts:103,116,117` |
-| `workflowExtension` default (`.pi/extensions/workflow.ts:112`) | pi host loader entry (registered tools/command); no stray callers |
-| `listMcpCapabilities` (`scripts/template-lib.ts:78`) | codemap refs: `validate-mcp.mjs:30,33,35`; grep: `mcp-routing.test.mjs:18,25,32`, `workflow.ts:82,103` |
-| `resolveDispatch` (`scripts/template-lib.ts:101`) | `mcp-routing.test.mjs:41,55,68,80`; `workflow.ts:47` |
-| `providerStatus` (`scripts/template-lib.ts:56`) | `mcp-routing.test.mjs:21,28`; `validate-mcp.mjs:32`; internal `template-lib.ts:81` |
-| `parseMcpConfig` (`scripts/template-lib.ts:20`) | `mcp-routing.test.mjs:88`; `validate-mcp.mjs:24`; `workflow.ts:32` |
-| `readJsonFile` (`scripts/template-lib.ts:31`) | `workflow.ts:28,89` |
-| `requiredEnvNames` (`scripts/template-lib.ts:39`) | internal `template-lib.ts:60,124` |
-| `validateChecklistContract` (`scripts/template-lib.ts:160`) | `prewalk-contract.test.mjs:37,42,48` |
-| `scanForSecrets` (`scripts/template-lib.ts:214`) | `scan-secrets.mjs:5`; `validate-mcp.mjs:28`; `mcp-routing.test.mjs:91` |
-| `EXAMPLE_PROVIDERS`, `FALLBACK_MCP_SEARCH` (`scripts/template-lib.ts:7-8`) | `validate-mcp.mjs`, `mcp-routing.test.mjs`, internal use |
+| `buildMcpGuidance` (`scripts/template-lib.ts:104`) | `validate-mcp.mjs:37`; `mcp-guidance.test.mjs:38,46`; `workflow.ts:59` |
+| `createWorkflowStatusTool` (`workflow.ts:33`) | `workflow.ts:100`; `extension.test.mjs:24` |
+| `createMcpGuidanceTool` (`workflow.ts:50`) | `workflow.ts:101`; `extension.test.mjs:33,42` |
+| `buildWorkflowStatusText` (`workflow.ts:80`) | `workflow.ts:105`; `extension.test.mjs:47` |
+| `readMcpConfig` (`workflow.ts:22`) | `workflow.ts:100,101,105` |
+| `workflowExtension` default (`workflow.ts:99`) | pi host loader entry (2 tools + 1 command) |
+| `parseFrontmatter` (`template-lib.ts:254`) | `validate-skills.mjs:21`, `validate-workflows.mjs:22`, `skills-catalog.test.mjs:29,34` |
+| `sourcesFooter` (`template-lib.ts:246`) | `sync-sources.mjs:34`, `validate-sources.mjs:37`, `source-drift.test.mjs:32` |
+| `loadManifest` (`template-lib.ts:276`) | `sync-sources.mjs:14`, `validate-sources.mjs:15`, `source-drift.test.mjs:11,23` |
+| `sha256` (`template-lib.ts:238`) | `sync-sources.mjs`, `validate-sources.mjs`, `source-drift.test.mjs` |
+| `listMcpCapabilities` (`template-lib.ts:78`) | `validate-mcp.mjs:30,33,35`, `mcp-guidance.test.mjs:18,25,32`, `workflow.ts:12` |
+| `scanForSecrets` (`template-lib.ts:214`) | `scan-secrets.mjs`, `validate-mcp.mjs:28`, `mcp-guidance.test.mjs:58` |
+| `validateChecklistContract` (`template-lib.ts:160`) | `prewalk-contract.test.mjs:37,42,48` |
+| `FALLBACK_MCP_SEARCH` / `MCP_CALL_REF` | guidance in validate-mcp, mcp-guidance tests, lib |
 
-Codemap cascade from `scripts/template-lib.ts` (dependency neighborhood): `scripts/scan-secrets.mjs`, `scripts/validate-mcp.mjs`, `tests/mcp-routing.test.mjs`, `tests/prewalk-contract.test.mjs` — all template files in scope.
+Codemap cascade from `scripts/template-lib.ts`: `scripts/scan-secrets.mjs`,
+`scripts/validate-mcp.mjs`, `tests/mcp-guidance.test.mjs`,
+`tests/prewalk-contract.test.mjs` — all template files in scope.
 
-## Repository gate
+## Repository gate (2026-08-08)
 
-`npm run check` exits 0 (run 2026-08-08):
+`npm run check` exits 0:
 
-- `typecheck` — strict TS, exit 0
-- `validate:structure` — package, 5 README headings, 4 skills, 4 prompts, docs
-- `validate:config` — research chain `omniroute/opencode-go/deepseek-v4-flash-max`, gated mutation boundary
-- `validate:skills` — 4 lifecycle-aware skills
-- `validate:prompts` — 4 thin entry points
-- `validate:mcp` — both/one/none fixtures + `mcp.$search` fallback
-- `scan:secrets` — no committed secrets
-- `test` — 27/27 tests pass (prewalk-contract, mcp-routing, template-smoke, extension)
-- `smoke:install` — clean temp install: all validators pass, extension registers `mcp_invoke` + `mcp_capabilities` + `/workflow`, 27 temp tests pass, clean worktree
+- typecheck: strict TS, exit 0
+- structure: README (6 headings), docs, scripts
+- config: research chain + gated mutation boundary (fabric preserved)
+- skills: 19 discovered (min 12), frontmatter + provenance
+- workflows: 5 contracts with role boundaries
+- prompts: 7 thin commands
+- mcp: both/one/none + guidance refs `mcp.$search`/`mcp.$call`
+- sources: 19 entries verified, docs/sources.md present
+- secrets: no committed secrets
+- test: 34/34 (skills-catalog, workflow-routing, prewalk-contract, mcp-guidance,
+  source-drift, template-smoke, extension)
+- smoke:install: clean temp install — 8 validators pass, extension loads
+  `workflow_status` + `mcp_guidance` + `/workflow`, 34 temp tests pass, clean
+  worktree
 
-No out-of-scope behavior changed; `.pi/fabric.json` was preserved verbatim.
+`git grep -n "Dispatch ready" -- .pi/extensions tests` exits 1 and
+`git grep -n "returns a dispatch plan" -- README.md docs` exits 1.

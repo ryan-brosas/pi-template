@@ -1,25 +1,24 @@
 # Architecture
 
-Decision record for the pi.dev Fabric template.
+## Why curated skills, workflows, and prewalk
 
-## Why skills, not a new orchestrator
+Ultra Fabric's prewalk already owns research, checklist acceptance, handoff,
+and verification gates. This template never forks that orchestration. It adds
+three layers around it:
 
-Ultra Fabric's prewalk already owns research, checklist acceptance, handoff, and
-verification gates. Duplicating that orchestration in a template would fork the
-lifecycle and weaken its guarantees. Instead the template provides:
+1. **Curated skills** (`.pi/skills/`, vendored from pi-core with provenance)
+   — proven execution guidance for planning, TDD, debugging, verification,
+   quality gating, API design, worktrees, delegation, observability,
+   supervision, TypeScript standards, and skill authoring.
+2. **Workflow contracts** (`.pi/skills/workflow-*/`, adapted from the
+   opencode-template lifecycle) — read-only roles (`scout`, `explore`, `plan`,
+   `review`) and the single mutating role (`build`, the executor after prewalk
+   handoff).
+3. **Thin prompts** (`.pi/prompts/`) — one command per phase (`create`, `fix`,
+   `audit`, `research`, `implement`, `review`, `gc`) that selects the right
+   skill/workflow and defers progression to prewalk.
 
-1. **Skills** (procedural guidance, loaded on demand) — how to research,
-   implement, test, and review *within* the prewalk lifecycle.
-2. **Prompts** (thin entry points) — one command per phase that loads the
-   matching skill and explicitly defers progression to prewalk.
-3. **Extension** (host-only behavior) — markdown cannot register tools or
-   commands, so a minimal TypeScript extension adds a status command and MCP
-   capability/dispatch tools. It never mutates the workspace.
-4. **MCP configuration** — optional providers (Exa, DeepWiki) as standard
-   mcporter config fragments; credentials only from the environment; generic
-   `mcp.$search` remains as fallback.
-
-## Lifecycle contract
+## Ultra Fabric lifecycle contract
 
 ```
 research -> schema-backed checklist -> acceptance -> handoff -> executor -> verification
@@ -27,34 +26,49 @@ research -> schema-backed checklist -> acceptance -> handoff -> executor -> veri
 
 - Mutation is blocked before acceptance (`.pi/fabric.json` prewalk
   `verificationMode: gated`, `arm: session`).
-- The executor owns implementation and verification after handoff.
-- Review reruns codemap refs/cascade on changed public symbols and confirms the
+- Read-only roles (scout/explore/plan/review) never mutate; only the executor
+  (build) mutates, strictly after handoff and inside `localScope.files`.
+- Review runs codemap refs/cascade on changed public symbols and confirms the
   changed-file scope before completion.
 
-## Extension design
+## Extension design (honest status only)
 
 `.pi/extensions/workflow.ts` registers:
 
-- `mcp_invoke` — validates server/tool/args against the mcporter config,
-  checks required environment secrets, honors the AbortSignal (cancellation),
-  and returns a dispatch plan for the host MCP bridge (`mcp.$call`). Missing or
-  misconfigured providers produce actionable errors, never silent failure.
-- `mcp_capabilities` — read-only provider status (ready/degraded/unknown).
-- `/workflow` — status of prewalk config, skills, prompts, extensions, and MCP.
+- `workflow_status` — prewalk config, discovered skills/prompts/extensions, and
+  configured MCP servers with ready/degraded status. Read-only.
+- `mcp_guidance` — returns guidance for calling MCP servers through the host
+  MCP bridge: which host tools to use (`mcp.$search`, `mcp.$call`, or
+  `tools.search` / `tools.call` from Fabric), whether a server is configured and
+  ready, and which env secrets are missing. It never fabricates or executes a
+  dispatch.
+- `/workflow` — status notification command.
 
-The extension has zero runtime imports beyond `typebox` and relative template
+The extension has no runtime imports beyond `typebox` and relative template
 helpers, and performs no file writes.
 
-## Shared logic
+## MCP and external research
 
-`scripts/template-lib.ts` is the single source of truth for MCP routing,
-prewalk-contract validation (a mirror of Ultra Fabric's rules so the seam is
-executable-testable), and secret scanning. Validators, tests, and the extension
-all import it.
+- MCP servers are configured in `.mcporter/config.json` (gitignored) and
+  executed by the host bridge; credentials come from the environment only.
+- `mcp/*.example.json` provides optional Exa/DeepWiki fragments; `mcp.$search`
+  remains the generic fallback.
+- External research during the research phase uses scout/explore roles and the
+  host MCP tools; no template component shells out to providers itself.
+
+## Shared logic and source provenance
+
+`scripts/template-lib.ts` is the single source of truth for MCP guidance,
+prewalk-contract validation (mirroring Ultra Fabric's rules), frontmatter
+parsing, secret scanning, and hash/provenance helpers.
+
+`sources/manifest.json` + `scripts/sync-sources.mjs` track every curated asset:
+source path, source/vendor sha256, and synth status. `validate:sources` fails on
+drift; `docs/sources.md` records provenance and the exclusion policy.
 
 ## Secrets
 
-- Example configs reference env vars as `${EXA_API_KEY}` /
-  `${DEEPWIKI_API_KEY}`; the environment is the only source of values.
-- `.env.example` ships with empty values; `scan:secrets` fails the gate if
-  any assignment carries a value.
+- Example configs reference env vars only (`${EXA_API_KEY}`,
+  `${DEEPWIKI_API_KEY}`); the environment is the only value source.
+- `.env.example` ships with empty values; `scan:secrets` fails the gate on any
+  assignment carrying a value.

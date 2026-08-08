@@ -1,8 +1,9 @@
 ---
-description: Entry point for the executor phase. Runs the implementation skill after prewalk acceptance.
+description: Implement from an accepted plan (test-driven-development + workflow-batch-implement). Executor phase.
 ---
 
-Invoke the `implementation` skill at `.pi/skills/implementation/SKILL.md` and
-follow it. Re-read the accepted checklist first, keep edits inside its local
-scope, and run the smallest relevant checks. Lifecycle progression stays with
-prewalk.
+Invoke `test-driven-development` then `workflow-batch-implement`
+(`.pi/skills/`). Re-read the accepted prewalk checklist, implement in small
+batches with a failing test first, run the smallest relevant checks, and
+record acceptance evidence. You are the executor: mutate only after prewalk
+handoff and stay inside the checklist scope.
