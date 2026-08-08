@@ -57,7 +57,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 | --- | --- | --- |
 | Initialization | Idempotent core, context, and user-profile generation | Repeated `/init --all` preserves existing roadmap/state/user files unless overwrite is approved |
 | Prompt consistency | Every mutating command uses prewalk; read-only commands remain read-only | Prompt audit lists each command and mutation policy |
-| Skill catalog | Manifest and directory contents agree | Skill count and manifest comparison pass |
+| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 12 visible skills under the 1,200-token budget |
 | Documentation | README layout and command catalog match the tree | Structural documentation audit has no stale paths |
 | Cleanup | Historical runtime files are either deliberately retained or removed with documented rationale | Final scoped Git diff and repository inventory |
 
@@ -71,6 +71,8 @@ Developers who use Pi for software projects and want a stable, reusable starting
 ## Phase 2: Contract Verification
 
 **Goal:** Provide a small, dependency-light verification layer for the template's public contracts.
+
+The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog membership, visibility, and metadata budget; remaining Phase 2 scope is prompts, templates, and configuration checks.
 
 ### Success Criteria
 

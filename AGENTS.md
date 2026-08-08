@@ -63,7 +63,14 @@ Skip steps 2–5 for well-scoped bugs.
 
 ## Skills
 
-Pi lists available skills in the system prompt with name + description. Before non-trivial work, read the full `SKILL.md` of any whose description matches the current task. `/skill:name` invokes a skill directly. Skill instructions override rules in this file on conflict.
+Skills live under `.pi/skills/` as progressive-disclosure packs. Pi always shows pack names and descriptions; leaf skill bodies load only when a task matches.
+
+- Eight visible pack routers route by task domain: `pack-delivery`, `pack-quality`, `pack-research`, `pack-frontend`, `pack-platform`, `pack-data`, `pack-apple`, `pack-authoring`. Their bodies are compact: classifier, member table, routing rules.
+- Four safety-critical skills stay model-visible directly: `brainstorming`, `debugging-and-error-recovery`, `security-and-hardening`, `verification-before-completion`.
+- All other leaves carry `disable-model-invocation: true` (hidden from automatic model invocation) but remain invocable via `/skill:<name>`. Catalog: `.pi/skills/packs.json` (`maxAutoLoadedLeafSkills: 2`).
+- When a task matches a pack, read at most two leaf `SKILL.md` files from that pack, apply them, then continue. Do not load unrelated packs.
+- Extending: create `.pi/skills/<pack>/<name>/SKILL.md` with `disable-model-invocation: true`, add `<name>` to the pack's `members` in `packs.json`, then run `node scripts/validate-skill-packs.mjs`. The validator fails on unassigned, duplicated, missing, wrongly visible, or budget-exceeding skills.
+- Skill instructions override rules in this file on conflict.
 
 ## On Failure
 

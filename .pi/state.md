@@ -26,6 +26,7 @@ Treat these changes as an active cleanup owned by the user or another agent. Ini
 
 | Date | Work | Evidence |
 | --- | --- | --- |
+| 2026-08-09 | Shipped progressive-disclosure skill packs | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) |
 | 2026-08-09 | Gathered user identity and workflow preferences | Authenticated GitHub CLI profile plus explicit user answers |
 | 2026-08-09 | Completed deep repository detection | Manifest, tool, CI, AI-rule, structure, Git-history, and codemap probes |
 | 2026-08-09 | Approved full initialization | User approved detailed core, context, and profile artifacts |
@@ -43,6 +44,7 @@ Treat these changes as an active cleanup owned by the user or another agent. Ini
 | 2026-08-09 | Use detailed AI responses | Explicit user choice | Explanations should include evidence, constraints, and verification detail |
 | 2026-08-09 | Use auto-commit as the user's general Git preference | Explicit user choice | Agents may commit completed scoped work; they must still avoid unrelated changes and respect explicit task constraints |
 | 2026-08-09 | Preserve the current dirty worktree | Multi-agent safety and observed status | Stage only declared files if a later task creates a commit |
+| 2026-08-09 | Organize skills as progressive-disclosure packs | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate |
 
 ## Current Architecture
 

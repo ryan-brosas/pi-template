@@ -83,7 +83,7 @@ Do not add commands based only on this host inventory. A project command require
 | `.pi/fabric.json` | Ultra Fabric guard configuration |
 | `.pi/settings.json` | Pi-native runtime preferences |
 | `.pi/prompts/` | Nine project slash commands: `/init`, `/create`, `/plan`, `/fix`, `/ship`, `/verify`, `/audit`, `/gc`, `/research` |
-| `.pi/skills/` | Sixty-two portable skills and the skill manifest |
+| `.pi/skills/` | Sixty-two skills in eight progressive-disclosure packs; catalog at `packs.json`, ledger at `manifest.json` |
 | `.pi/templates/` | Eleven reusable artifact templates |
 | `.pi/roadmap.md` | On-demand project direction and milestone context |
 | `.pi/state.md` | Current position, decisions, risks, and next actions |
@@ -99,6 +99,7 @@ No build, test, lint, typecheck, format, or development commands exist in the cu
 For documentation and configuration changes, use these structural checks:
 
 ```bash
+node scripts/validate-skill-packs.mjs   # pack catalog, membership, visibility, metadata budget
 git diff --check
 git status --short
 ```
