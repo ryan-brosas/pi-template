@@ -1,11 +1,6 @@
 ---
 name: playwright
-description: Use when running automated browser tests, taking screenshots, validating forms, or verifying UX flows. Playwright CLI for token efficiency with MCP fallback for complex exploration. Also covers agent-browser CLI alternative. MUST load before any automated browser testing.
-version: 1.0.0
-tags: [automation, mcp, testing]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when running automated browser tests, taking screenshots, validating forms, or verifying UX flows. Playwright CLI for token efficiency with MCP fallback for complex exploration; also covers the agent-browser CLI alternative."
 disable-model-invocation: true
 ---
 

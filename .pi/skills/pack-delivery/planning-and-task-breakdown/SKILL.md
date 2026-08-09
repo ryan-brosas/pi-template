@@ -1,11 +1,6 @@
 ---
 name: planning-and-task-breakdown
 description: Use when a feature/change has a spec or clear goal and needs an executable implementation plan.
-version: 1.0.0
-tags: [workflow, planning, agent-coordination]
-dependencies: [spec-driven-development]
-agent_types: [planner]
-tools: [TaskCreate, TaskUpdate, memory, grep, find, read]
 disable-model-invocation: true
 ---
 
@@ -73,6 +68,10 @@ disable-model-invocation: true
 - Mechanical refactor (rename, reformat) appears in slice 1 — moves the goalposts.
 - Risks only listed at the end, not per slice.
 - Open questions outnumber slices — spec is incomplete, go back to brainstorming.
+
+## Ultra Fabric Boundaries
+
+**Discovery** — codemap refs before text search. **Mutation** — plan writes defer to the prewalk Schema contract in AGENTS.md.
 
 ## Skill Result Contract
 

@@ -1,11 +1,6 @@
 ---
 name: root-cause-tracing
-description: Use when errors occur deep in execution and you need to trace back to find the original trigger - systematically traces bugs backward through call stack, adding instrumentation when needed, to identify source of invalid data or incorrect behavior
-version: 1.0.0
-tags: [debugging, workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when errors occur deep in execution and you need to trace back to the original trigger - trace bugs backward through the call stack, adding instrumentation when needed."
 disable-model-invocation: true
 ---
 

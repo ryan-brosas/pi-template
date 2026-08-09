@@ -1,11 +1,6 @@
 ---
 name: figma
 description: Use when implementing UI from Figma designs, extracting design tokens, or downloading assets via Framelink MCP. MUST load when user shares a Figma URL or references Figma files. Requires API token.
-version: 1.0.0
-tags: [design, mcp, integration]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

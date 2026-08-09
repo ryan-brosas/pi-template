@@ -1,11 +1,6 @@
 ---
 name: deep-module-design
 description: Use when designing modules, refactoring shallow structures, or reviewing AI-generated code for structural quality.
-version: 1.0.0
-tags: [architecture, code-quality, ousterhout]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: [grep, find, read, bash]
 disable-model-invocation: true
 ---
 

@@ -1,11 +1,6 @@
 ---
 name: shipping-and-launch
 description: Use when preparing to merge, deploy, release, or declare a development branch complete.
-version: 1.0.0
-tags: [shipping, workflow, release]
-dependencies: [verification-before-completion, documentation-and-adrs]
-agent_types: [planner, reviewer]
-tools: [bash, ask_user_question, memory]
 disable-model-invocation: true
 ---
 
@@ -95,3 +90,7 @@ Core principle: do not ship work that cannot be verified, explained, or rolled b
 ## Consolidated Branch Completion
 
 `finishing-a-development-branch` was removed as a separate optional skill. Keep merge/PR/cleanup choices, release handoff, rollback planning, and completion evidence in this canonical shipping workflow.
+
+## Ultra Fabric Boundaries
+
+**Verification** — cite direct behavioral probes and recorded outputs. Any fix defers to the prewalk Schema contract in AGENTS.md.

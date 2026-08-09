@@ -1,303 +1,207 @@
 ---
-description: Initialize this pi project with repository-aware AGENTS.md and durable .pi/project context; use --deep for evidence-backed architecture analysis
-argument-hint: "[--deep]"
+description: One-time full project initialization — AGENTS.md, project.md, tech-stack.md, planning context, and user profile
+argument-hint: "[--deep] [--context|--user|--all]"
 ---
 
-# Project initialization: ${ARGUMENTS:-default}
+# Init: $ARGUMENTS
 
-Initialize the current project for reliable pi + Ultra Fabric work. This is an
-operational workflow: inspect the repository, preview proposed context, obtain
-prewalk acceptance, write idempotently, verify every artifact, and report the
-next action.
+Initialize project setup. Run once per project.
 
-Supported invocations are exactly:
+Plain `/init` runs the complete initialization: full deep discovery, then every
+context artifact — AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md,
+user.md. Flags only narrow or repeat parts of that one-time run.
 
-- `/init` — focused repository discovery and core project context.
-- `/init --deep` — exhaustive evidence-backed discovery with research routing.
+> **Next step for fresh projects:** `/plan` to create the first implementation plan.
+> **Next step for existing codebases:** `/research` for deep codebase analysis, or just start describing what you want to build.
 
-Reject every other flag or positional argument and print the two valid forms.
+## Idempotency Rules
 
-> Prewalk remains the progression authority. Discovery and preview are
-> read-only. Do not create or modify files until a schema-backed checklist is
-> accepted and handed to the executor.
+| File | Rule |
+| --- | --- |
+| `AGENTS.md` | Improve in-place — never overwrite blindly |
+| `.pi/project.md` | Create if missing; ask before overwriting an existing file (holds product and architecture context) |
+| `.pi/tech-stack.md` | Overwrite with detected values (auto-regenerated) |
+| `.pi/roadmap.md` / `.pi/state.md` | Skip if exists, ask before overwrite |
+| `.pi/user.md` | Skip if exists, ask before overwrite |
 
-## 1. Parse mode and establish scope
+## Artifact Quality Contract
 
-1. Parse `$ARGUMENTS` exactly. Empty means `default`; the sole flag `--deep`
-   means `deep`. Do not infer undocumented modes.
-2. Confirm the working directory and resolve the root with
-   `pwd` then `git rev-parse --show-toplevel`; without Git, use the current
-   directory and report that initialization is provisional.
-3. Establish the allowed write scope before research:
-   - `AGENTS.md`
-   - `.pi/project/tech-stack.md`
-   - `.pi/project/architecture.md`
-   - `.pi/project/conventions.md`
-   - `.pi/project/commands.md`
-   - `.pi/project/research-baseline.md` (**deep only**)
-4. Never include `.env`, credentials, runtime state, generated dependencies, or
-   files outside this list without asking and revising the checklist.
+Every artifact a full `/init` writes must satisfy all of these:
 
-## 2. Idempotency and safety contract
+1. **Minimum content per artifact.** Each artifact covers its full template section list. If a section has no verified content, write `[NEEDS CLARIFICATION: reason]` and ask the user; never silently drop a section.
+2. **Project overview and Architecture are mandatory in AGENTS.md.** A full init renders the Project overview (one-sentence description plus essential facts) and an Architecture section (components and ownership, dependency direction, execution flows, boundaries, invariants, validation matrix) in `AGENTS.md`, with a pointer to `.pi/project.md` for the detailed record.
+3. **Evidence citations.** Every project-specific claim, command, and restriction traces to a file:line, config entry, command output, or explicit user answer. A claim without a citation is a draft, not an artifact.
+4. **Cross-file consistency.** Commands, counts, paths, and architecture terms agree across the prompt, templates, and all rendered artifacts. Detect and reconcile any disagreement before finishing.
+5. **Preview material changes.** Show the user the final `AGENTS.md` (or the diff against the existing one) and the detection summary before writing; let them adjust.
+6. **No invented facts.** Unknowns are marked `[NEEDS CLARIFICATION: reason]` and asked; do not guess versions, commands, branch policies, integrations, or user preferences.
+7. **Verification.** After writing, run every recorded command and the repository gates, and report per-artifact results.
 
-Inspect every target before proposing changes.
+## Skills
 
-| Artifact | Default rule | Existing-file rule |
+Load the skill at `.pi/skills/brainstorming/SKILL.md`.
+Load `.pi/skills/verification-before-completion/SKILL.md` after the artifacts are written.
+
+## Parse Arguments
+
+| Argument | Default | Description |
 | --- | --- | --- |
-| `AGENTS.md` | create concise operating instructions | merge missing facts; preserve user guidance and stronger constraints |
-| `tech-stack.md` | regenerate detected facts | replace generated facts only; preserve explicit notes |
-| `architecture.md` | create boundaries and execution paths | merge evidence-backed changes; mark uncertain claims |
-| `conventions.md` | create observed conventions | merge; never turn one isolated example into a rule |
-| `commands.md` | create verified commands | replace only commands directly found or successfully probed |
-| `research-baseline.md` | skip in default mode | deep: refresh evidence while preserving `## Maintainer notes` |
+| (none) | — | Full deep initialization — every artifact, run once |
+| `--deep` | true | Comprehensive research for every artifact (already the default) |
+| `--context` | false | Planning context only (roadmap.md, state.md) — partial rerun |
+| `--user` | false | User profile only (user.md) — partial rerun |
+| `--all` | false | Full init — same as the default (kept for compatibility) |
 
-Never overwrite blindly. If a file has no recognizable generated sections,
-show a proposed merge and ask before replacing content. Never invent a command,
-architecture boundary, dependency, provider, or verification result.
+**Mode rules:**
+- No flags (default): the one-time full deep init — AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, user.md.
+- `--deep`: explicit deep research; the default already runs it.
+- `--context`: write roadmap.md and state.md only (partial setup or rerun).
+- `--user`: write user.md only (partial setup or rerun).
+- `--all`: same as no flags — full init.
 
-Safety rules that apply to every phase of this workflow:
+**Brownfield auto-detection:** Existing codebase = a `src/`, `lib/`, or `app/`
+directory, or standard language layouts (`.ts`, `.js`, `.tsx`, `.jsx`, `.py`,
+`.go`, `.rs`, `.java`, `.cs`, `.rb`, `.php`, `.ex`, `.swift`, `.kt`,
+`.dart`, `.sh`, ...). Affects discovery scope.
 
-- Never delete a file or folder without the user's written permission.
-- Never run an irreversible command (`git reset --hard`, `git clean -fd`,
-  `rm -rf`, force-push) unless the user states the exact command and confirms
-  they understand the consequences, in the same message.
-- Prefer non-destructive options (`git status`, `git diff`, `git stash`, copies)
-  before any cleanup or rollback.
-- If an approved destructive command runs, record the user's verbatim
-  authorization, the command, and the time in the completion report.
+## Mode 1: Full Setup (Default)
 
-## 3. Read-only discovery
+### Phase 1: Deep Detect
 
-Read the project's own context before asking the user anything:
+Detect and validate, all in this one-time pass:
+- Package manager and dependencies (with versions) — read the manifest, confirm the tool exists
+- Build, test, lint, dev commands — validate each actually works before writing it anywhere
+- CI/CD configuration — read workflow files, extract the job list
+- Existing AI rules (`.cursor/rules/`, `.cursorrules`, `.github/copilot-instructions.md`)
+- Top-level directory structure
+- Git history (last 50 commits) for patterns (commit style, common areas of change)
+- Source structure and subsystem candidates (codemap skeleton/explore)
+- Entrypoints and composition roots (CLI, server, workers, scheduled jobs, event consumers)
+- Import graph and dependency direction
+- Common patterns (error handling, logging, data flow) from reading 3-5 representative files
+- Data stores, schemas, and migrations
+- External integrations (APIs, queues, object storage, auth providers)
+- Deployment and runtime configuration (environments, health checks, rollback path)
+- Testing patterns and coverage gaps (where tests live, what they cover)
+- Security and trust boundaries
+- Generated files and ignored state (what tools produce and must not be hand-edited)
 
-1. `AGENTS.md` / `CLAUDE.md`, config files, and the project memory dir
-   (`~/.pi/memory-md/<project>/` when present). Real architecture and house
-   rules often live there.
-2. `sources/` directories early — they may contain reference implementations
-   or upstream code that defines the patterns to follow.
-3. For upstream or mod source, clone the repository into `sources/` and read
-   locally instead of fetching individual files.
-4. Confirm the shell environment before running commands; note the shell the
-   project actually uses (Bash, fish, zsh) before writing command guidance.
+### Phase 2: Preview Detection
 
-### Default mode
+Show the detected summary as a table and ask the user to confirm before writing:
+**Proceed?** Write all six context artifacts with the detected configuration?
+Options: Yes (write everything), Adjust (edit specific detected values first), Cancel (don't write anything).
 
-Build a bounded evidence inventory:
+### Phase 3: Create AGENTS.md
 
-1. Repository state: root, branch, clean/dirty status, tracked top-level paths.
-2. Runtime/package manifests and lockfiles; language/framework versions.
-3. Entrypoints, public APIs, configuration, environment-variable names only.
-4. Existing README, contributing docs, ADRs, CI, containers, deployment files,
-   and local agent instructions.
-5. Test layout and smallest setup/build/test/lint/typecheck commands.
-6. Architecture sample: codemap skeleton/search/source/refs from one
-   representative entrypoint to its downstream boundary.
-7. Conventions: cite three consistent examples before calling a pattern a
-   convention; otherwise label it “observed, not established.”
-8. Generated files: identify anything auto-generated from a manifest or
-   generator so the commands/conventions never treat generated output as
-   hand-edited source.
+Load `.pi/skills/verification-before-completion/SKILL.md`.
 
-Use codemap first for symbols and call paths. Use bounded grep only for raw text
-or files outside the index. Do not install dependencies during discovery.
+Render `./AGENTS.md` from the source template at `.pi/templates/agents.md`:
 
-### Deep mode (`--deep`)
+1. **Copy the REQUIRED core verbatim** — universal safety and coding rules.
+2. **Render the PROJECT CONTEXT block for every full init:** Project overview, Commands, Repository map, Architecture and dependency direction, Execution flows, Boundaries, Invariants, and Validation matrix. None of these may be omitted; mark unverified fields `[NEEDS CLARIFICATION: reason]` and ask.
+3. **Keep only CONDITIONAL sections with local evidence.** For each conditional block, verify its trigger in this repository first, then record the evidence (file:line or command output) as a one-line note. Trigger sources: commands (run them), package manager (manifest present), branch policy (git config — ask the user), generated files (generator + output pair), external checkers (in scripts or CI), issue tracking (configured tracker), multi-agent coordination (user statement), deployment (deploy config), tool-specific rules (tool in PATH or config).
+4. **Merge in place, never overwrite blindly.** If AGENTS.md exists, preserve its content; add, tighten, or remove sections only where the evidence or the user supports it. Never copy example restrictions from other projects into this one.
+5. **Keep the architecture concise and operational.** AGENTS.md holds the operational view (style, entrypoints, flows, dependency direction, invariants, validation matrix) and points to `.pi/project.md` for the full architecture. Do not duplicate the full document.
+6. **Preview material changes** — show the user the final AGENTS.md (or the diff against the existing one) before writing, and let them adjust.
 
-Perform every default step, then invoke `research-router` and
-`workflow-deep-research` read-only:
+**Detail is welcome, duplication is not.** Render as much verified detail as the project warrants — there is no line budget. Keep rules dense and non-redundant: prefer one sharp sentence over three vague ones, and do not repeat a rule already stated in the REQUIRED core.
 
-1. Map all packages/apps, entrypoints, runtime boundaries, data stores,
-   external services, CI/deploy paths, test layers, and generated-code seams.
-2. Use codemap `refs` for public symbols and `cascade` for hotspots. Use CGC for
-   available reference repositories.
-3. Route external gaps precisely: Context7 for versioned library/API facts;
-   DeepWiki for unfamiliar public repositories; OmniRoute for current web facts
-   and official URL retrieval. Never external-search local code.
-4. For each external fact capture question, repository/URL, exact tool ref,
-   retrieval date, excerpt, authority, confidence, and decision impact.
-5. Create a risk register: uncertain assumptions, stale docs, missing commands,
-   failing probes, security boundaries, and recommended follow-ups.
-6. Stop when every material architecture claim has a local source ref or an
-   explicit uncertainty marker. More searching without a decision-changing
-   fact is not progress.
+**Principles:** Examples > explanations. Pointers > copies. Evidence before assertions: every project-specific command or restriction in the rendered file must trace to a verified file, command run, or explicit user statement.
 
-## 4. Optional clarification interview
+### Phase 4: Create project.md
 
-Ask only questions that repository evidence cannot answer. Batch them once
-after discovery. Prioritize project purpose, users, deployment target,
-non-negotiable constraints, and successful verification. If unanswered,
-continue with explicit `Unknown` values—never fabricate answers.
+Render `.pi/project.md` from the source template at `.pi/templates/project.md`:
 
-## 5. Preview before mutation
+- Cover: purpose and status, success criteria, target users, core principles, system context (with trust boundaries), architecture overview (with component responsibilities, composition roots, dependency rules), runtime entrypoints, request/data/event flows, configuration, data ownership, external integrations, deployment topology, testing architecture, observability, failure modes, architectural invariants, decisions, known risks, open questions, evidence.
+- Every claim traces to evidence (file:line, config entry, or command output) or an explicit user answer.
+- Skip a section only when there is nothing to say; mark open questions `[NEEDS CLARIFICATION: reason]`.
+- If `.pi/project.md` exists, merge: preserve user-authored content, add or tighten only what the evidence supports.
 
-Present a read-only preview containing:
+### Phase 5: Create tech-stack.md
 
-1. detected project summary and confidence;
-2. artifact actions (`create`, `merge`, `refresh`, `skip`);
-3. exact write scope;
-4. evidence table (`claim | local/external ref | confidence`);
-5. commands to probe after writing;
-6. unresolved questions and risks;
-7. in deep mode, the lane/tool used for each external question.
+Write detected values to `.pi/tech-stack.md` (overwrite with the fresh detection):
 
-Then submit a 5–9 item Ultra Fabric prewalk checklist with `intent`,
-`references`, `localScope.files`, `invariants`, and `postconditions`. Wait for
-accepted handoff. If acceptance is denied or scope changes, do not mutate.
+- Distinguish project dependencies from host tools: a host tool becomes a stack entry only when a manifest, script, workflow, or explicit user decision uses it.
+- Record versions with evidence, per-command status (verified or none), CI, generated files, integrations, environments, constraints, and unknowns (`[NEEDS CLARIFICATION: reason]`).
 
-## 6. Executor write phase
+### Phase 6: Create roadmap.md and state.md
 
-After accepted handoff, create `.pi/project/` and write only declared artifacts.
+Ask the user for project direction (vision, target users, success criteria) — reuse answers already given earlier in this run — then write `.pi/roadmap.md` and `.pi/state.md` from their templates. Include outcomes, dependencies, risks, and non-goals per phase in the roadmap; include verification state and working-tree context in the state file. Skip files that already exist unless the user asks to overwrite; preserve their user-authored facts when enriching.
 
-### `AGENTS.md`
+### Phase 7: Create user.md
 
-Write project operating instructions for AI agents in this repository. Beyond
-the project-specific facts, include a **universal rules baseline** so agents
-behave consistently regardless of model. Adapt these rules; do not copy them
-verbatim, and merge any stronger project-specific rules the user already has:
+Ask the user (identity, communication preference, git workflow, approval boundaries), then write `.pi/user.md` from its template. Skip if it exists unless the user asks to overwrite; preserve its facts when enriching.
 
-1. **User override (rule zero).** When the user gives a direct instruction, it
-   overrides every convention below. The user is in charge.
-2. **No file deletion / file safety.** Never delete a file without express written permission. Run
-   no irreversible command (`git reset --hard`, `git clean -fd`, `rm -rf`,
-   force-push) unless the user provides the exact command and confirms the
-   consequences. Prefer non-destructive alternatives first.
-3. **Communication.** Do not narrate tool calls. Do not echo file contents
-   back. Keep explanations proportional to complexity. Avoid box-drawing
-   characters; keep tables minimal.
-4. **Workflow.** Check `sources/` directories early. Read the project's own
-   context (AGENTS.md/CLAUDE.md, configs, memory dir) before asking intent
-   questions. Use a formal planning workflow before non-trivial work.
-   Implement the smallest slice that could work, then verify with tests or
-   probes before expanding. Run tests after changes when a suite exists.
-5. **Writing and response style.** All responses and output content must use
-   ASD-STE100-style English that is easy to read. Use one name for each thing.
-   Use active verbs and short common words. Write for the spoken voice. Vary
-   sentence length unpredictably.
+### Phase 8: Persist
 
-   Apply these exact restrictions to prose in responses, docs, commits, PRs,
-   error messages, and generated instructions. Do not apply them to code,
-   identifiers, command syntax, quoted user text, or required protocol fields:
+Append to `.pi/artifacts/MEMORY.md` (under Decisions section):
 
-   - No antithesis.
-   - No corrective negation.
-   - No paragraph pinning.
-   - No parataxis.
-   - No summary beats.
-   - No rhetorical crutches.
-   - No negative parallelisms.
-   - No negative anaphoras.
-   - No contrasting pairs.
-   - No rule of three.
-   - No em dashes.
-   - No throat-clearing openers.
-   - No landing sentences.
-   - No setup/payoff constructions.
-   - No parallel sentence structures within a paragraph.
-   - No stacked noun phrases.
-   - No filler intensifiers (`genuinely`, `really`, `truly`, `actually`).
-   - No corporate-register verbs (`leverage`, `underscore`, `reflect`).
-   - No nominalization.
-   - No hedging qualifiers.
-   - No performed enthusiasm.
-6. **Accuracy.** Never present unverified claims as fact. After implementing,
-   separate what was verified locally from what still needs confirmation on
-   live servers, and name the servers and flags to check.
-7. **Debugging.** Before proposing a root cause, list the symptoms any valid
-   theory must explain, then pursue only theories consistent with all of them.
-8. **Code intelligence.** Prefer semantic tools (codemap, language server)
-   before text search. Before renaming or changing a signature, find all
-   references and call sites. Use grep for strings, comments, and config. Check
-   diagnostics after edits and fix type errors and imports.
-9. **Secrets.** Never put secrets in instructions, messages, or agent payloads.
-   Read them at runtime from env vars or config files. Never echo tokens in
-   results.
-10. **Git and PRs.** Keep commits and PR descriptions terse and matching
-    repository conventions. Commit to the current or `main` branch unless the
-    user asks for a new branch. Never reword the user's verbatim PR body or
-    commit text without asking.
-11. **Environment and shell.** Confirm the working directory before shell
-    commands. Note the project's shell (Bash, fish, zsh) and its package
-    manager (`npm`, `pnpm`, `bun`, `uv`, `cargo`) in `commands.md`.
-12. **Memory and self-maintenance.** Keep `AGENTS.md` accurate when verified
-    architecture, invariants, file maps, or procedures change. Update existing
-    memory instead of creating duplicates. Do not save facts already
-    represented by code, docs, or Git history. Make small instruction updates
-    inline; mention changes of ten or more lines before making them.
-13. **Agents and actors.** Do not spawn agents or invoke escalation workflows
-    without a one-line user confirmation, unless the user already named that
-    escalation. Keep agent instructions task-shaped and specific. Never put
-    secrets in agent instructions.
-14. **Session completion (landing the plane).** When ending a session: file
-    issues for remaining work, run the project's quality gates if code changed,
-    update issue status and sync any tracking system, and hand off context for
-    the next session.
+```markdown
+## YYYY-MM-DD Project initialized — [tech stack summary]
 
-If the repository already has a strong AGENTS.md, merge missing rules instead
-of replacing user-authored content, and note the merge in the preview.
+Full deep init completed: AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, user.md created for [language/framework] project.
+```
 
-### `.pi/project/tech-stack.md`
+## Mode 2: Planning Context Only (`--context`)
 
-Languages/runtimes with versions and evidence; frameworks; package/build/test
-systems (including the exact package manager the project uses); storage;
-external services; deployment; tooling; unknowns.
+### Phase 1: Discovery (brownfield)
 
-### `.pi/project/architecture.md`
+If the project has existing code (brownfield — see auto-detection above), run read-only codebase analysis directly:
+- codemap skeleton/explore to map architecture patterns, data flow, domain boundaries, module structure.
+- Read 3-5 representative files per subsystem to ground the map in real code.
 
-System context; package/module map; representative execution paths; data flow;
-public interfaces; runtime/integration/failure boundaries; test architecture;
-generated-code seams. Every non-obvious claim needs a file:symbol or file:line
-ref.
+If greenfield (no existing code), skip to requirements gathering.
 
-### `.pi/project/conventions.md`
+### Phase 2: Requirements Gathering
 
-Naming, imports, types, errors, logging, async behavior, testing, fixtures,
-configuration, migrations, and generated-code rules. Distinguish documented
-rules, repeated observations, and recommendations.
+Ask the user to define project direction:
+1. **Project vision** — What is the project vision? (1-2 sentences)
+2. **Target users** — Who are the primary users? (Developers, End users, Internal team, Both)
+3. **Success criteria** — What defines success? (Stability, Speed, UX, Maintainability)
 
-### `.pi/project/commands.md`
+### Phase 3: Preview
 
-Prerequisites; install; dev; build; unit/integration/e2e tests; lint/format;
-typecheck; database; release/deploy; targeted checks; source and latest probe
-result for each command. Note the shell syntax (`fish` vs Bash vs `zsh`) and
-package manager (`npm`/`pnpm`/`bun`/`uv`/`cargo`). Mark unexecuted commands
-clearly.
+Show the gathered requirements as a structured outline and ask for confirmation before writing files.
 
-### `.pi/project/research-baseline.md` (deep only)
+### Phase 4: Create Files
 
-Scope/date/commit; local architecture evidence; external questions by lane;
-authoritative refs and excerpts; dependency/version findings; risks;
-uncertainties; stop rationale; future research. Preserve `## Maintainer notes`.
-Never store secrets, tokens, or enormous raw tool output.
+Write `.pi/roadmap.md` (vision, target users, feature roadmap with outcomes, dependencies, risks, non-goals) and `.pi/state.md` (current status, verification state, active decisions, next priorities). These files are for reference — they are not injected into prompts; use `read` on demand.
 
-## 7. Verification
+## Mode 3: User Profile Only (`--user`)
 
-1. Confirm the working directory before running any shell command.
-2. Re-read every changed artifact; resolve placeholders or mark `Unknown`.
-3. Confirm paths, commands, and versions against repository evidence.
-4. Run the smallest safe configured checks (tests, lint, typecheck) after
-   writing; do not install or deploy unless the accepted checklist explicitly
-   allows it.
-5. Confirm `git diff --name-only` stays inside scope and no runtime state or
-   credentials were created.
-6. Separate what you verified locally from what still needs confirmation on
-   live servers; name the servers and flags that must be checked before
-   deployment.
-7. Deep mode: sample at least three architecture/evidence refs and verify them.
-8. If an irreversible command was authorized, record the user's verbatim
-   approval, the command, and the time.
-9. Repair failures within scope and rerun the failing check. A build alone is
-   not completion evidence.
+### Phase 1: Gather Preferences
 
-## 8. Completion report
+Ask the user:
+1. **Identity** — What is your name and role?
+2. **Communication** — How detailed should AI responses be? (Concise, Detailed, Mixed)
+3. **Git workflow** — How should git commits be handled? (Ask first, Auto-commit)
+4. **Approval boundaries** — What actions require confirmation before execution?
 
-Report mode and root; artifacts created/merged/refreshed/skipped; evidence and
-confidence; commands probed with exact outcomes (and which were only
-unconfirmed); unresolved risks; scope diff; any authorized destructive commands
-with their recorded approval; and the next command (`/research`, `/create`, or
-`/implement` only after its own accepted prewalk checklist).
+### Phase 2: Preview
 
-Source adaptation: `/home/ryanj/work/inspo/opencode-template/.opencode/command/init.md`,
-plus universal agent-rule patterns from the ACFS global instructions.
-Strengthened for pi prompt syntax, codemap/CGC, provider-aware research, durable
-project artifacts, and Ultra Fabric's mutation boundary.
+Show the captured preferences as a summary and ask for confirmation before writing.
 
+### Phase 3: Create user.md
+
+Write to `.pi/user.md` with the captured preferences. The file is for on-demand reference, not injected into prompts.
+
+## Prewalk boundary
+
+Detection, preview, and all interactive gathering are read-only. Before writing
+any file, call `prewalk.checklist({ items, schema })` inside fabric_exec with 5-9
+ordered items and an explicit schema contract; wait for accepted handoff, then
+write the declared artifacts as the executor.
+
+## Output
+
+Report what was created and how it was verified. For each artifact state
+created, updated, skipped, clarified, and verified:
+
+1. AGENTS.md — created/updated in place; state the Project overview and Architecture sections rendered.
+2. project.md — created/updated; state the sections covered and open questions marked.
+3. tech-stack.md — regenerated; state detected dependencies vs host tools and command status.
+4. roadmap.md + state.md — created/skipped; state the direction captured.
+5. user.md — created/skipped; state the preferences captured.
+6. Evidence — list the commands run and their results; name anything verified only by inspection.
+7. Cross-file consistency — confirm commands, counts, paths, and architecture terms agree across artifacts, or list the disagreements.
+8. Recommended next command: `/plan` to start planning, `/research` to explore the codebase, or just describe what you want to build.

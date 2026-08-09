@@ -1,11 +1,6 @@
 ---
 name: industrial-brutalist-ui
-description: Use INSTEAD OF design-taste-frontend when user requests brutalist, military-terminal, or raw mechanical aesthetics. Swiss typographic print meets utilitarian color. For data-heavy dashboards or editorial sites needing declassified-blueprint energy.
-version: 1.0.0
-tags: [workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when the user requests brutalist, military-terminal, or raw mechanical aesthetics instead of design-taste-frontend, for data-heavy dashboards or editorial sites."
 disable-model-invocation: true
 ---
 

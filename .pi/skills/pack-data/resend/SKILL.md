@@ -1,11 +1,6 @@
 ---
 name: resend
-description: MUST load before sending transactional emails, creating React Email templates, handling email webhooks, or any Resend platform integration. Covers send, receive inbound, templates, and webhook handling.
-version: 1.0.0
-tags: [integration, mcp]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when sending transactional email, creating React Email templates, handling email webhooks, or integrating the Resend platform - send, receive inbound, templates, and webhooks."
 disable-model-invocation: true
 ---
 

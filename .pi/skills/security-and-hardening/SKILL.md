@@ -1,11 +1,6 @@
 ---
 name: security-and-hardening
-description: Use when auditing for security vulnerabilities, implementing auth/authz, handling secrets, or hardening against OWASP Top 10 — covers input validation, authentication, dependency auditing, and secure defaults
-version: 1.0.0
-tags: [security, code-quality]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when auditing for security vulnerabilities, implementing auth or authz, handling secrets, or hardening against OWASP Top 10 - covers input validation, authentication, dependency auditing, and secure defaults."
 ---
 
 # Security & Hardening
@@ -14,10 +9,10 @@ tools: []
 
 <EXTREMELY-IMPORTANT>
 - **Validate at every boundary.** Decode at the edge, trust the types inside.
-- **Secrets never in code, logs, or git.** Env vars, vault for prod.
+- **Secrets never in code, logs, or git.** Env vars; vault for prod.
 - **Authn ≠ Authz.** Who you are ≠ what you can do.
 - **Least privilege by default.** Deny by default, allow explicitly.
-- **Log security events.** Failed logins, denials, secret access. Never the secrets themselves.
+- **Log security events.** Failed logins, denials, secret access — never the secrets themselves.
 </EXTREMELY-IMPORTANT>
 
 ## OWASP Top 10 (Quick Map)
@@ -30,64 +25,34 @@ tools: []
 | XXE | Disable external entities |
 | Access control | Authz on every action, deny default |
 | Misconfig | Secure defaults, no debug in prod, headers |
-| XSS | Output encoding, CSP, no innerHTML w/ user input |
-| Deserialization | Schema-validate, no eval/pickle on untrusted |
+| XSS | Output encoding, CSP, no innerHTML with user input |
+| Deserialization | Schema-validate, no eval on untrusted |
 | Vulns (deps) | `npm audit`, Dependabot, lockfile pinning |
 | Logging | Auth events, anomalies, access denials |
 
 ## Input Validation
 
-- Validate at the boundary. Inside, trust the types.
-- Schema (Zod, Effect Schema) for all external input.
-- Reject unknown fields by default.
-- Length limits, character class, format per field.
+Validate at the boundary; trust types inside. Schema (Zod, Effect Schema) for all external input; reject unknown fields by default; length, character class, and format limits per field.
 
 ## Authentication
 
-- bcrypt or argon2 for password hashing (NOT md5, sha1).
-- Rate limit login (5 per 15min per IP + per account).
-- MFA for sensitive accounts.
-- Session: random, signed, httpOnly cookie, short expiry.
-- Refresh: separate, longer expiry, rotation on use.
+bcrypt or argon2 for password hashing (never md5, sha1). Rate limit login (5 per 15 min per IP and per account); MFA for sensitive accounts. Sessions: random, signed, httpOnly cookie, short expiry; refresh tokens separate with rotation.
 
 ## Authorization
 
-- Check on every request. Don't trust the frontend.
-- Use a policy engine (CASL, Oso) or explicit checks.
-- Test the negative: "user A tries to access user B's resource" must fail.
-- Audit log access denials.
+Check on every request; never trust the frontend. Use a policy engine (CASL, Oso) or explicit checks. Test the negative — "user A accesses user B's resource" must fail. Audit log access denials.
 
 ## Secrets
 
-- Local: env vars, never `.env` in git.
-- CI: secret store (GitHub Actions secrets).
-- Prod: vault (HashiCorp Vault, AWS Secrets Manager).
-- Rotate regularly. Rotate on suspected leak.
-- Never log secrets. Scrub logs for known patterns.
+Env vars locally (never `.env` in git); CI secret store; vault for prod (HashiCorp Vault, AWS Secrets Manager). Rotate regularly and on suspected leak; never log secrets; scrub logs for known patterns.
 
 ## Dependencies
 
-```bash
-npm audit
-npm audit fix
-```
-
-Pin versions in lockfile. Review major bumps. Subscribe to advisories.
+`npm audit` and `npm audit fix`; pin versions in the lockfile; review major bumps; subscribe to advisories.
 
 ## Secure Headers
 
-```ts
-app.use(helmet())
-// or manually:
-app.use((req, res, next) => {
-  res.setHeader("X-Content-Type-Options", "nosniff")
-  res.setHeader("X-Frame-Options", "DENY")
-  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
-  res.setHeader("Content-Security-Policy", "default-src 'self'")
-  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin")
-  next()
-})
-```
+Use `helmet()`, or set explicitly: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security`, `Content-Security-Policy: default-src 'self'`, `Referrer-Policy`.
 
 ## Common Mistakes
 
@@ -95,7 +60,7 @@ Plain-text passwords; md5/sha1; SQL string concat; "trust the frontend" authz; s
 
 ## Red Flags
 
-`.env` in git; bcrypt replaced with sha256; "auth later"; user ID from client trusted; no rate limit; secrets in logs; no CSP; permissive CORS; default creds; SQL concat; eval on input; "private" routes without auth.
+`.env` in git; bcrypt replaced with sha256; "auth later"; client-trusted user IDs; no rate limit; secrets in logs; no CSP; permissive CORS; default creds; SQL concat; eval on input; "private" routes without auth.
 
 ## Anti-Patterns
 

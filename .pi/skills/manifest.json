@@ -1,18 +1,18 @@
 {
   "generated": "2026-08-09",
-  "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: eight visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json; node scripts/validate-skill-packs.mjs is the structural gate.",
+  "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: ten visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json; node scripts/validate-skill-packs.mjs is the structural gate.",
   "removed": [
-    {
-      "name": "memory",
-      "reason": "duplicates Pi native memory/sessions (memory.recall, docs/sessions.md)"
-    },
     {
       "name": "diagnostics",
       "reason": "wraps removed OpenCode diagnostics tool + aislop/fallow custom tools (plugin/ removed)"
     },
     {
+      "name": "memory",
+      "reason": "duplicates Pi native memory/sessions (memory.recall, docs/sessions.md)"
+    },
+    {
       "name": "subagent-driven-development",
-      "reason": "OpenCode task() subagent dispatch; superseded by Ultra Fabric agents/handoff and .pi/workflows"
+      "reason": "OpenCode task() subagent dispatch; superseded by Ultra Fabric agents/handoff"
     }
   ],
   "retained": [
@@ -32,6 +32,24 @@
       "name": "api-and-interface-design",
       "status": "retained",
       "pack": "pack-quality",
+      "modelVisible": false
+    },
+    {
+      "name": "api-implementation",
+      "status": "retained",
+      "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
+      "name": "backend-architecture",
+      "status": "retained",
+      "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
+      "name": "background-jobs",
+      "status": "retained",
+      "pack": "pack-backend",
       "modelVisible": false
     },
     {
@@ -56,6 +74,12 @@
       "name": "browser-tools",
       "status": "retained",
       "pack": "pack-frontend",
+      "modelVisible": false
+    },
+    {
+      "name": "cgc-inspiration-workflow",
+      "status": "retained",
+      "pack": "pack-research",
       "modelVisible": false
     },
     {
@@ -86,6 +110,12 @@
       "name": "code-review-and-quality",
       "status": "retained",
       "pack": "pack-quality",
+      "modelVisible": false
+    },
+    {
+      "name": "container-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
       "modelVisible": false
     },
     {
@@ -137,9 +167,39 @@
       "modelVisible": false
     },
     {
+      "name": "distributed-systems-patterns",
+      "status": "retained",
+      "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
+      "name": "django-development",
+      "status": "retained",
+      "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
       "name": "documentation-and-adrs",
       "status": "retained",
       "pack": "pack-authoring",
+      "modelVisible": false
+    },
+    {
+      "name": "dotnet-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
+      "name": "elixir-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
+      "name": "evidence-router",
+      "status": "retained",
+      "pack": "pack-research",
       "modelVisible": false
     },
     {
@@ -149,9 +209,21 @@
       "modelVisible": false
     },
     {
+      "name": "fastapi-development",
+      "status": "retained",
+      "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
       "name": "figma",
       "status": "retained",
       "pack": "pack-frontend",
+      "modelVisible": false
+    },
+    {
+      "name": "flask-development",
+      "status": "retained",
+      "pack": "pack-backend",
       "modelVisible": false
     },
     {
@@ -170,6 +242,12 @@
       "name": "git-workflow-and-versioning",
       "status": "retained",
       "pack": "pack-platform",
+      "modelVisible": false
+    },
+    {
+      "name": "go-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
       "modelVisible": false
     },
     {
@@ -209,6 +287,12 @@
       "modelVisible": false
     },
     {
+      "name": "java-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
       "name": "minimalist-ui",
       "status": "retained",
       "pack": "pack-frontend",
@@ -239,6 +323,12 @@
       "modelVisible": false
     },
     {
+      "name": "php-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
       "name": "planning-and-task-breakdown",
       "status": "retained",
       "pack": "pack-delivery",
@@ -260,6 +350,12 @@
       "name": "prototype",
       "status": "retained",
       "pack": "pack-delivery",
+      "modelVisible": false
+    },
+    {
+      "name": "python-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
       "modelVisible": false
     },
     {
@@ -287,10 +383,34 @@
       "modelVisible": false
     },
     {
+      "name": "ruby-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
+      "name": "rust-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
       "name": "security-and-hardening",
       "status": "retained",
       "pack": "core",
       "modelVisible": true
+    },
+    {
+      "name": "service-observability",
+      "status": "retained",
+      "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
+      "name": "shell-development",
+      "status": "retained",
+      "pack": "pack-toolchains",
+      "modelVisible": false
     },
     {
       "name": "shipping-and-launch",

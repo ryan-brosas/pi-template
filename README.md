@@ -2,7 +2,7 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Ultra Fabric: nine prompt commands, 62 portable skills,
+tailored to Pi + Ultra Fabric: nine prompt commands, 80 portable skills,
 11 format templates, Pi-native settings, and the prewalk guard. No build, no
 dependencies, no runtime harness — clone and start.
 
@@ -11,7 +11,7 @@ dependencies, no runtime harness — clone and start.
 1. Clone or copy this repository.
 2. Start pi in the project and trust it (`/trust`).
 3. `/reload` to pick up prompts, skills, and config.
-4. Run `/init` (or `/init --deep`) to generate AGENTS.md from the source template.
+4. Run `/init` once: it performs full deep discovery and writes AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, and user.md from the source templates.
 
 No package install is needed. There is no package.json.
 
@@ -25,7 +25,7 @@ README.md
 ├── fabric.json            # Ultra Fabric prewalk config (legacy verification, session arm)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 62 skills in 8 progressive-disclosure packs (packs.json)
+├── skills/                # 80 skills in 10 progressive-disclosure packs (packs.json)
 ├── scripts/               # validate-skill-packs.mjs (structural gate)
 └── templates/             # 11 format templates (PRD, design, ADR, agents, ...)
 ```
@@ -40,7 +40,7 @@ gitignored and never ships.
 
 | Command | Purpose |
 | --- | --- |
-| `/init` | initialize project context (core, or `--deep`) |
+| `/init` | one-time full init: deep discovery + all context artifacts |
 | `/create` | spec: PRD, workspace, tasks → ready for `/ship` |
 | `/plan` | detailed TDD implementation plan |
 | `/fix` | debug and fix a bug or failing test |
@@ -57,15 +57,17 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Skills and Templates
 
-- Skills: 62 skills in 8 progressive-disclosure packs under `.pi/skills/`.
-  Eight visible pack routers (pack-delivery, pack-quality, pack-research,
-  pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring) route by
+- Skills: 80 skills in 10 progressive-disclosure packs under `.pi/skills/`.
+  Ten visible pack routers (pack-delivery, pack-quality, pack-research,
+  pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
+  pack-backend, pack-toolchains) route by
   task; four core safety skills stay visible; all other leaves are hidden from
   automatic model invocation (`disable-model-invocation: true`) but stay
   invocable via `/skill:<name>`. Membership is owned by `.pi/skills/packs.json`;
   run `node scripts/validate-skill-packs.mjs` after adding or moving a skill.
 - Templates: `.pi/templates/*.md` — PRD, design, ADR, proposal, roadmap, state,
-  tasks, agents, tech-stack, project, user. `/create`, `/plan`, and `/init` render these.
+  tasks, agents, tech-stack, project, user. `/init` renders agents, project,
+  tech-stack, roadmap, state, and user; `/create` and `/plan` render the rest.
 
 ## Ultra Fabric
 

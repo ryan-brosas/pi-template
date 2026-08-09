@@ -1,11 +1,6 @@
 ---
 name: code-review-and-quality
-description: Use before merge, after subagent work, or when asked for a code review. Bloat Review mode hunts over-engineering only (delete-list with tagged findings).
-version: 1.0.0
-tags: [review, code-quality, verification]
-dependencies: [verification-before-completion]
-agent_types: [reviewer]
-tools: [grep, find, read, bash]
+description: "Use when reviewing code or PRs before merge, after subagent work, or when a review is requested. Bloat Review mode hunts over-engineering only, with a delete-list and tagged findings."
 disable-model-invocation: true
 ---
 

@@ -1,11 +1,6 @@
 ---
 name: brave-search
 description: Use when searching documentation, facts, current information, or web content without a browser.
-version: 1.0.0
-tags: [web-search, research]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

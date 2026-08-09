@@ -1,11 +1,6 @@
 ---
 name: ci-cd-and-automation
 description: Use when setting up CI/CD pipelines, GitHub Actions workflows, automated testing in CI, or deployment automation — covers pipeline design, caching, secrets management, and release workflows
-version: 1.0.0
-tags: [devops, workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

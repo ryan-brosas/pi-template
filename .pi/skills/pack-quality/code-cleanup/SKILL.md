@@ -1,11 +1,6 @@
 ---
 name: code-cleanup
-description: Use after behavior is working but the diff is noisy, repetitive, over-complicated, or obviously AI-shaped - lock behavior first, then simplify the changed code and re-verify without expanding scope
-version: 1.0.0
-tags: [refactor, code-quality, workflow]
-dependencies: [verification-before-completion]
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when behavior works but the diff is noisy, repetitive, over-complicated, or AI-shaped - lock behavior first, simplify the changed code, and re-verify without expanding scope."
 disable-model-invocation: true
 ---
 

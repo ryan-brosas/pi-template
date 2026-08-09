@@ -1,11 +1,6 @@
 ---
 name: api-and-interface-design
 description: Use when designing REST/GraphQL APIs, SDK interfaces, or public module boundaries — covers contract-first design, versioning, error shapes, and backward compatibility
-version: 1.0.0
-tags: [architecture, code-quality]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

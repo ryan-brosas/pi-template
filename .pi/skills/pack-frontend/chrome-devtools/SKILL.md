@@ -1,10 +1,6 @@
 ---
 name: chrome-devtools
-description: Gives agents the ability to inspect, screenshot, and verify UI behavior using Chrome DevTools Protocol. Use for agent-legible UI verification — bug reproduction, visual validation, DOM inspection.
-version: 1.0.0
-tags: [ui, testing, browser, verification]
-agent_types: [build, review, general]
-tools: [bash, playwright, webclaw_scrape]
+description: "Use when inspecting, screenshotting, or verifying UI behavior via Chrome DevTools Protocol for agent-legible UI verification - bug reproduction, visual validation, DOM inspection."
 disable-model-invocation: true
 ---
 

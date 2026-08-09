@@ -1,11 +1,6 @@
 ---
 name: git-workflow-and-versioning
-description: Use when making code changes that need safe git hygiene, atomic commits, branch strategy, versioning, changelog entries, or release preparation. Covers trunk-based development, commit-as-save-point discipline, and avoiding accidental unrelated changes.
-version: 1.0.0
-tags: [git, workflow, shipping]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: [bash]
+description: "Use when making code changes that need safe git hygiene, atomic commits, branch strategy, versioning, changelog entries, or release preparation - trunk-based development, commit-as-save-point discipline."
 disable-model-invocation: true
 ---
 

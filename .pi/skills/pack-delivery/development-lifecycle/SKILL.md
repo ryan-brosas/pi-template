@@ -1,10 +1,6 @@
 ---
 name: development-lifecycle
 description: Use when starting, planning, shipping, or verifying a work session — describes how `/create`, `/plan`, `/ship`, `/verify`, and `/research` interact with the 4 canonical artifact files at `.pi/artifacts/`.
-version: 2.0.0
-tags: [workflow, artifacts, planning, work-sessions]
-agent_types: [planner, worker, reviewer, scout]
-tools: [read, write, edit, grep, bash]
 disable-model-invocation: true
 ---
 
@@ -67,6 +63,10 @@ At `.pi/artifacts/`, maintained in the working copy:
 - PROGRESS.md empty on a multi-hour task — context loss on resume.
 - DECISIONS.md used as a dumping ground for any choice — noise, not signal.
 - "Done" claim without `/verify` evidence — common regression.
+
+## Ultra Fabric Boundaries
+
+**Discovery** — codemap before text search. **Mutation** — file writes defer to the prewalk Schema contract in AGENTS.md. **Verification** — direct behavioral probes with recorded output.
 
 ## Skill Result Contract
 

@@ -1,11 +1,6 @@
 ---
 name: supabase
 description: Use when working with any Supabase service — database operations, edge functions, auth, storage, or project management. MUST load before writing Supabase queries, RLS policies, or edge functions.
-version: 1.0.0
-tags: [integration, mcp]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

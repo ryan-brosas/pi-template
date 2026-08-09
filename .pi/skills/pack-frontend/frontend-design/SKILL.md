@@ -1,11 +1,6 @@
 ---
 name: frontend-design
-description: MUST load when building any web UI with React-based frameworks — components, pages, or full applications. Covers Tailwind CSS v4, shadcn/ui, Motion animations. Base UI implementation skill; combine with aesthetic overlays (minimalist-ui, high-end-visual-design) for specific styles.
-version: 1.1.0
-tags: [ui, design]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when building any web UI with React-based frameworks - components, pages, or full applications. Covers Tailwind CSS v4, shadcn/ui, and Motion animations; combine with an aesthetic overlay for a specific style."
 disable-model-invocation: true
 ---
 

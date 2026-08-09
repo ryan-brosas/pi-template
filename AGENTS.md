@@ -1,5 +1,16 @@
 # Agent Rules
 
+## Project overview
+
+This repository is a clonable Pi + Ultra Fabric coding-agent template: nine slash commands, 80 skills in 10 progressive-disclosure packs, 11 format templates, and a prewalk mutation guard, with no package install, build, or runtime harness.
+
+- Primary runtime: Pi (pi-coding-agent) with Ultra Fabric; config in .pi/settings.json and .pi/fabric.json
+- Product surface: .pi/prompts/, .pi/skills/, .pi/templates/, AGENTS.md, and the context artifacts
+- No application source tree, no dependencies, no CI; three dependency-free Node validation scripts under scripts/
+- Full architecture record: .pi/project.md (rendered by /init)
+
+Evidence: README.md:1-12 (template purpose, no build/deps/harness), README.md:39-48 (command table).
+
 ## Behavioral Kernel
 
 Always-on execution loop. Stays active even when the rest of the prompt is noisy.
@@ -65,7 +76,7 @@ Skip steps 2–5 for well-scoped bugs.
 
 Skills live under `.pi/skills/` as progressive-disclosure packs. Pi always shows pack names and descriptions; leaf skill bodies load only when a task matches.
 
-- Eight visible pack routers route by task domain: `pack-delivery`, `pack-quality`, `pack-research`, `pack-frontend`, `pack-platform`, `pack-data`, `pack-apple`, `pack-authoring`. Their bodies are compact: classifier, member table, routing rules.
+- Ten visible pack routers route by task domain: `pack-delivery`, `pack-quality`, `pack-research`, `pack-frontend`, `pack-platform`, `pack-data`, `pack-apple`, `pack-authoring`, `pack-backend`, `pack-toolchains`. Their bodies are compact: classifier, member table, routing rules.
 - Four safety-critical skills stay model-visible directly: `brainstorming`, `debugging-and-error-recovery`, `security-and-hardening`, `verification-before-completion`.
 - All other leaves carry `disable-model-invocation: true` (hidden from automatic model invocation) but remain invocable via `/skill:<name>`. Catalog: `.pi/skills/packs.json` (`maxAutoLoadedLeafSkills: 2`).
 - When a task matches a pack, read at most two leaf `SKILL.md` files from that pack, apply them, then continue. Do not load unrelated packs.
@@ -271,6 +282,79 @@ Order of authority, highest first:
 - When ending a session: file issues for remaining work, run the project's quality gates if code changed, update issue status, and hand off context for the next session.
 - The handoff must state: what changed, what was verified (with artifacts), what is still unverified or blocked, and what the next session should do first.
 
+## Research tool routing
+
+One primary evidence route per question. Escalate to the next tool only on a named evidence gap; never fan out across every tool at once.
+
+- Local AST (codemap) for the active project's own code and architecture.
+- Per-repository CGC for inspiration clones: `mode: "cgc"` with the exact context `/home/ryanj/work/inspo/<repo>`, one repository per query.
+- DeepWiki (`mcp.deepwiki.ask_question`) for bounded questions about a GitHub repository the CGC context cannot answer, owner/repo plus one focused question.
+- Context7 (`mcp.context7.resolve-library-id` then `mcp.context7.query-docs`) for current versioned library and framework documentation; max three single-topic queries per question.
+- OmniRoute search (`mcp.exa.omniroute_web_search`) for discovery and current facts, bounded to 3-5 results.
+- OmniRoute fetch (`mcp.exa.omniroute_web_fetch`) only for a selected URL from that shortlist, never every result.
+
+Stop conditions: one primary tool answered the question, or two independent sources agree. Summarize results before expanding any source; record findings compactly; never retrieve the same evidence twice through different tools. Unknowns stay `[NEEDS CLARIFICATION: reason]` instead of spawning more searches.
+
+Evidence: .pi/prompts/research.md (research workflow), .pi/skills/pack-research/evidence-router/SKILL.md (tool routes and budgets), .pi/skills/pack-research/cgc-inspiration-workflow/SKILL.md (per-repository CGC workflow).
+
+## Commands
+
+Verified executable commands in this repository. There is no package.json, so these run with plain `node`:
+
+- Validate skill packs: `node scripts/validate-skill-packs.mjs` (catalog, membership, visibility, metadata budget)
+- Sync manifest: `node scripts/sync-skill-manifest.mjs --check` (manifest parity)
+- Routing probes: `node scripts/probe-skill-routing.mjs` (router dispatch)
+- Whitespace check: `git diff --check`
+
+There is no install, dev, watch, test, lint, typecheck, build, or format command in this repository. Do not invent one.
+
+Evidence: all three node commands exit 0 and git diff --check is clean on changed files (verified 2026-08-09).
+
+## Architecture
+
+### Components and ownership
+
+- .pi/prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research); each prompt is a self-contained workflow
+- .pi/skills/ - 80 skills in 10 progressive-disclosure packs; catalog in packs.json, ledger in manifest.json
+- .pi/templates/ - 11 format templates; /init renders agents, project, tech-stack, roadmap, state, user
+- .pi/settings.json + .pi/fabric.json - Pi runtime and Ultra Fabric prewalk configuration
+- scripts/ - 3 dependency-free Node gates: validate-skill-packs.mjs, sync-skill-manifest.mjs, probe-skill-routing.mjs
+- Context artifacts - AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md
+
+### Dependency direction
+
+Pi host reads .pi/settings.json and .pi/prompts/. Ultra Fabric reads .pi/fabric.json. The scripts read .pi/skills/packs.json and manifest.json. /init renders .pi/templates/*.md into the context artifacts. No layer imports another; there is no application code.
+
+### Initialization flow
+
+/init runs deep discovery (prompts, skills, templates, settings, scripts, git state, tool inventory), previews the detection table, then writes AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, and user.md under the idempotency rules (.pi/prompts/init.md).
+
+### Prewalk mutation flow
+
+Mutating commands submit prewalk.checklist({ items, schema }) inside fabric_exec. Only after accepted handoff does the executor write declared files, then verify. Research, audit, and verify commands stay read-only (AGENTS.md Prewalk and Mutation, .pi/prompts/*.md Prewalk boundary sections).
+
+### State boundaries
+
+Generated local state is gitignored: .pi/artifacts/, .pi/fabric/, .pi/hindsight/ never commit. .pi/artifacts/MEMORY.md holds local durable decisions only. Tracked context artifacts are the durable product surface.
+
+### Invariants
+
+- Clonable with no install step; no package manifest, build, or runtime harness (README.md:9-12)
+- Pi-native surface; OpenCode runtime wrappers stay removed (README.md:33-35)
+- Prewalk with an accepted checklist is the sole authority for non-trivial mutations (AGENTS.md Prewalk and Mutation)
+- Skills membership is owned by .pi/skills/packs.json; every change passes node scripts/validate-skill-packs.mjs
+
+### Validation matrix
+
+| Check | Command | Pass criterion |
+| --- | --- | --- |
+| Skill packs | node scripts/validate-skill-packs.mjs | exit 0 |
+| Manifest parity | node scripts/sync-skill-manifest.mjs --check | exit 0 |
+| Routing probes | node scripts/probe-skill-routing.mjs | all pass |
+| Whitespace | git diff --check | exit 0 on changed files |
+
+Full architecture record: .pi/project.md (rendered by /init); keep this section as the concise operational view.
+
 ## Repository map
 
 Verified layout of this template repository:
@@ -282,8 +366,9 @@ Verified layout of this template repository:
   - fabric.json - Ultra Fabric prewalk guard config (prewalk.verificationMode/arm)
   - settings.json - Pi settings (thinking level, theme, compaction)
   - prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research)
-  - skills/ - 62 portable skills; ledger at skills/manifest.json
+  - skills/ - 80 portable skills; ledger at skills/manifest.json
   - templates/ - 11 format templates (prd, design, adr, agents, tech-stack, ...)
 - No src/, lib/, or app/ - configuration template, not an application; no build, no dependencies, no runtime harness
+- .pi/project.md - full architecture, purpose, and success criteria (rendered by /init); this map stays the concise operational view
 
-Evidence: README.md:21-34 (layout), README.md:9-12 (no build/deps/harness)
+Evidence: README.md:21-34 (layout), README.md:9-12 (no build/deps/harness), AGENTS.md Commands section (verified 2026-08-09)

@@ -1,11 +1,6 @@
 ---
 name: source-driven-development
 description: Use when using unfamiliar libraries, external APIs, framework behavior, or current ecosystem guidance and need to ground decisions in official docs, source code, and cited references.
-version: 1.0.0
-tags: [research, implementation, verification]
-dependencies: []
-agent_types: [scout, planner, worker]
-tools: [context7, websearch, web_fetch, webclaw_scrape, grepsearch]
 disable-model-invocation: true
 ---
 
@@ -91,7 +86,7 @@ Higher-ranked sources win on conflicts.
 
 ## Consolidated Research Workflow
 
-This is the canonical active source-grounding skill. It absorbs deep-research and source-code-research for normal work. Use opensrc, webclaw, context7, grepsearch, or gemini-large-context as tool-specific companions only when the source demands them.
+This is the canonical active source-grounding skill. It absorbs deep-research and source-code-research for normal work. Use opensrc or webclaw as tool-specific companions only when the source demands them.
 
 Evidence hierarchy:
 1. local code and tests;
@@ -103,3 +98,7 @@ Evidence hierarchy:
 ## Removed Optional Companion
 
 `v1-run` was removed as an optional package-health skill. Use source-grounded package evaluation, official advisories, lockfile inspection, and package-manager audit commands instead.
+
+## Ultra Fabric Boundaries
+
+**Discovery** — codemap for local code, then authoritative sources. **Verification** — direct behavioral probes for external claims.

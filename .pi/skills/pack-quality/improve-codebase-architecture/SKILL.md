@@ -1,7 +1,6 @@
 ---
 name: improve-codebase-architecture
 description: Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.
-version: 1.0.0
 disable-model-invocation: true
 ---
 

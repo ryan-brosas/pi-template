@@ -1,11 +1,6 @@
 ---
 name: react-best-practices
-description: MUST load when writing, reviewing, or refactoring React/Next.js code for performance. Covers Vercel Engineering patterns — components, data fetching, bundle optimization, server components. Critical for any Next.js performance work.
-version: 1.0.0
-tags: [ui, code-quality]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when writing, reviewing, or refactoring React or Next.js code for performance - covers Vercel engineering patterns: components, data fetching, bundle optimization, server components."
 disable-model-invocation: true
 ---
 

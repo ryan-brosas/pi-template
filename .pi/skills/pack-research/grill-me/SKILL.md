@@ -1,11 +1,6 @@
 ---
 name: grill-me
 description: Use when you have a rough idea, ADR, PRD, or spec that needs to survive scrutiny before code is written.
-version: 1.0.0
-tags: [planning, review, decision]
-dependencies: [brainstorming, spec-driven-development]
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

@@ -1,7 +1,6 @@
 ---
 name: zoom-out
 description: Use when unfamiliar with a section of code or needing to understand how it fits into the bigger picture.
-version: 1.0.0
 disable-model-invocation: true
 ---
 

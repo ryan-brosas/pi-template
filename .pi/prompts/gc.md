@@ -1,7 +1,62 @@
 ---
-description: Run garbage collection (workflow-gc). Analyze, grade, and propose cleanup work.
+description: Run garbage collection — structural scan and non-destructive cleanup plan
+argument-hint: "[area]"
 ---
 
-Invoke `workflow-gc` (`.pi/skills/workflow-gc/SKILL.md`). Grade the codebase
-for cruft and quality debt, then propose scoped cleanup items. Analysis is
-read-only; cleanup edits happen only through a prewalk-accepted checklist.
+# Garbage Collection
+
+Run a structural scan of the project, report dead weight, and propose scoped cleanup.
+
+## Load Skills
+
+Load the skill at `.pi/skills/verification-before-completion/SKILL.md`.
+
+## Phase 1: Structural Scan (read-only)
+
+Scan the project for dead weight:
+- **Dead references**: skills/templates/prompts mentioned nowhere (grep each `.pi/skills/*/SKILL.md` name against prompts, README, AGENTS.md).
+- **Stale instructions**: AGENTS.md or docs claiming behaviors that no longer exist (removed commands, removed tools).
+- **Unused assets**: template files never referenced by any prompt.
+- **Generated state**: `.pi/artifacts/`, `.pi/fabric/`, `.pi/hindsight/` contents that can be regenerated.
+- **Redundant rules**: duplicated instructions across AGENTS.md, skills, and prompts that say the same thing differently.
+
+Use bounded `rg -n` and `find` for each scan. Report counts, not raw dumps.
+
+## Phase 2: Grade Each Domain
+
+Grade the retained domains as findings (this template has no committed quality ledger):
+
+| Domain | Source | Grade |
+| --- | --- | --- |
+| Prompts | `.pi/prompts/*.md` | A-D |
+| Skills | `.pi/skills/` | A-D |
+| Templates | `.pi/templates/` | A-D |
+| Root docs | `AGENTS.md`, `README.md` | A-D |
+
+Report grades in the completion output.
+
+## Phase 3: Cleanup Plan (non-destructive)
+
+For each P0/P1 finding, propose a concrete cleanup item: the file, the change, and the verification. Do not edit anything in this command. Cleanup happens only through a later accepted prewalk checklist.
+
+## Phase 4: Report (output contract)
+
+Output:
+
+1. **Grades:** per-domain status with the evidence behind each grade
+2. **Dead weight:** count by category, with the offending paths
+3. **Cleanup plan:** scoped items, ready for prewalk
+4. **Recommendations:** improvements for the next cycle
+
+## Prewalk boundary
+
+This command is read-only analysis. Before any deletion or refactor, call
+`prewalk.checklist({ items, schema })` inside fabric_exec and wait for accepted
+handoff. If acceptance is denied, do not mutate.
+
+## Related Commands
+
+| Need | Command |
+| --- | --- |
+| Full verification | `/verify all --full` |
+| Architecture audit | `/audit` |

@@ -1,11 +1,6 @@
 ---
 name: browser-tools
 description: Use when needing to interact with web pages, test frontends, or use a visible browser.
-version: 1.0.0
-tags: [browser, automation, testing]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 
@@ -18,7 +13,7 @@ You need to visibly interact with a web page (not headless); click, type, scroll
 
 ## When NOT to Use
 
-Headless is sufficient (use Playwright); the task is API-level (use curl or fetch); no visual interaction needed (use `webclaw_scrape` or `web_fetch`); static page that doesn't need JS execution.
+Headless is sufficient (use Playwright); the task is API-level (use curl or fetch); no visual interaction needed (use `webclaw_scrape` or a plain fetch); static page that doesn't need JS execution.
 
 ## Capabilities
 
@@ -61,7 +56,7 @@ const content = await page.content()
 | Page needs login | Use `page.goto` with pre-set cookies |
 | Page blocks non-proxied browsers | Use `webclaw_scrape` for static content |
 | Page is a heavy SPA (React, Vue) | Browser tool is the right choice |
-| Just need text | `web_fetch` is cheaper |
+| Just need text | plain fetch is cheaper |
 | Need to debug CSS | Browser tool — screenshot is best |
 
 ## Common Mistakes
@@ -70,7 +65,7 @@ const content = await page.content()
 
 ## Red Flags
 
-`page.goto` without `waitForSelector`; screenshot for text; browser for API tasks; not closing pages; ignoring console errors; "I'll just screenshot it" (use text extraction); using browser for static HTML (use web_fetch); too many tabs open at once.
+`page.goto` without `waitForSelector`; screenshot for text; browser for API tasks; not closing pages; ignoring console errors; "I'll just screenshot it" (use text extraction); using browser for static HTML (use plain fetch); too many tabs open at once.
 
 ## Anti-Patterns
 

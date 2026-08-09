@@ -1,11 +1,6 @@
 ---
 name: spec-driven-development
 description: Use when starting a new feature, significant change, product idea, or when requirements are ambiguous and need a concrete specification before implementation.
-version: 1.0.0
-tags: [workflow, planning, product]
-dependencies: []
-agent_types: [planner, scout]
-tools: [ask_user_question, TaskCreate, memory]
 disable-model-invocation: true
 ---
 
@@ -85,3 +80,7 @@ Is the goal 1-2 sentences, observable, measurable? Are non-goals explicit? Are c
 ## Anti-Patterns
 
 **Spec after code**; **vague goal**; **no non-goals**; **no criteria**; **wishlist**; **no questions**; **verbal changes**; **drift**; **"I'll know it"**; **spec = the code**.
+
+## Ultra Fabric Boundaries
+
+**Mutation** — implementation and spec changes defer to the prewalk Schema contract in AGENTS.md.

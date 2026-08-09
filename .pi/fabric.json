@@ -6,5 +6,8 @@
     "arm": "session",
     "model": "omniroute/opencode-go/deepseek-v4-flash-max",
     "maxPhaseRevisions": 5
+  },
+  "compaction": {
+    "engine": "pi"
   }
 }

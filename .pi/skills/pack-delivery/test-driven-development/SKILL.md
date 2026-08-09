@@ -1,11 +1,6 @@
 ---
 name: test-driven-development
 description: Use when implementing any feature or bugfix, before writing implementation code - write the test first, watch it fail, write minimal code to pass; ensures tests actually verify behavior by requiring failure first
-version: 1.0.0
-tags: [testing, workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 
@@ -74,3 +69,7 @@ Did I see RED for the right reason? Minimum code (no extras)? Refactor preserved
 ## Red Flags
 
 Test passes on first run; test asserts implementation details; test breaks on refactor without behavior change; "I'll add tests later"; "obvious code" without test; "manual testing"; mocking the behavior claimed.
+
+## Ultra Fabric Boundaries
+
+Tests are direct behavioral probes (black-box first); mutation defers to the prewalk Schema contract in AGENTS.md.

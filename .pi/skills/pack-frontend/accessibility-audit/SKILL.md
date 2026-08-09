@@ -1,11 +1,6 @@
 ---
 name: accessibility-audit
 description: Use when auditing UI components or pages for accessibility compliance, checking WCAG conformance, identifying keyboard navigation issues, color contrast problems, and pre-launch accessibility verification
-version: 1.0.0
-tags: [ui, code-quality]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
 disable-model-invocation: true
 ---
 

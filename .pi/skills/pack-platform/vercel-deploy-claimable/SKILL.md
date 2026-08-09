@@ -1,11 +1,6 @@
 ---
 name: vercel-deploy-claimable
-description: Use this skill when the user requests Vercel deployment actions such as "Deploy my app", "Deploy this to production", "Create a preview deployment", "Deploy and give me the link", or "Push this live". No authentication required - returns preview URL and claimable deployment link.
-version: "1.0.0"
-tags: [devops, integration]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when the user requests a Vercel deployment action like deploy my app, deploy to production, create a preview deployment, or push this live. Returns a preview URL and a claimable deployment link."
 disable-model-invocation: true
 ---
 

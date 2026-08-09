@@ -1,28 +1,20 @@
 ---
 name: writing-skills
-description: "Use when creating new skills, editing existing skills, or verifying skills work before deployment - applies TDD to process documentation by testing with subagents before writing, iterating until bulletproof against rationalization. Includes complete pressure testing methodology."
-version: 1.0.0
-tags: [documentation, workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when creating, editing, or verifying skills - TDD on behavior, pressure tests, progressive disclosure, token budgets."
 disable-model-invocation: true
 ---
 
-
 # Writing Skills
 
-## The Iron Law (Same as TDD)
+## Iron Law (Same as TDD)
 
 <EXTREMELY-IMPORTANT>
-**NO SKILL WITHOUT A FAILING TEST FIRST.** A skill is a *behavior change* in the agent that loads it. Test the behavior, not the prose.
+**NO SKILL WITHOUT A FAILING TEST FIRST.** A skill is a behavior change in the agent that loads it. Test the behavior, not the prose.
 </EXTREMELY-IMPORTANT>
 
 **REQUIRED BACKGROUND:** test-driven-development.
 
-## Why This Is Hard
-
-The "test" (run a subagent) is expensive; the rationalization is "obviously correct".
+The test is a pressure scenario plus a rubric.
 
 ## The Loop
 
@@ -32,46 +24,43 @@ GREEN:    smallest skill that flips the failure
 REFACTOR: close loopholes the test exposed
 ```
 
-A "test" is a pressure scenario (prompt to make the agent skip the iron law) plus a rubric.
-
 ## Match the Form to the Failure
 
 <EXTREMELY-IMPORTANT>
-**Prohibitions backfire on shaping problems.** A "don't do X" rule suppresses a desired output without teaching the correct one. Use a recipe.
+**Prohibitions backfire on shaping problems.** A "don't do X" rule suppresses output without teaching the right one. Use a recipe.
 </EXTREMELY-IMPORTANT>
 
-| Baseline failure | Right form | Wrong form |
-| --- | --- | --- |
-| Skips test | Recipe (RED→GREEN→REFACTOR) | "Always write tests" |
-| Oversizes diff | Delete-list | "Keep it small" |
-| Unverified claim | Verification template + `<evidence>` | "Verify your work" |
-| Guesses under uncertainty | Variants + interview | "Ask if unsure" |
-
-Form must match the failure. A misformed rule is noise.
+Match form to failure: recipe for skipped tests, delete-list for oversize diffs, template + `<evidence>` for unverified claims, variants + interview for uncertainty.
 
 ## Workflow
 
-1. **Gap.** What skill *would have* prevented the observed bad behavior?
-2. **RED** — scenario, subagent *without* skill. Score. Record.
+1. **Gap.** Skill that would have prevented the failure?
+2. **RED** — scenario, subagent without skill. Score. Record.
 3. **GREEN** — minimum skill that flips the failure. Re-run. Iterate.
 4. **REFACTOR** — adversarial prompts. Skill must hold.
 5. **Compress.** Pass → tighten. Compressed skills that pass are load-bearing.
-6. **Commit + index.** Reference in `superpi` if in "skills you reach for first".
+6. **Commit + index.** Reference it in the pack router when load-bearing.
+
+## Context Engineering
+
+- **progressive disclosure**: the description is the retrieval surface; leaves load only when a task matches. A vague description is a retrieval miss.
+- **Trigger precision**: "Use when <condition>" plus the capability. No filler.
+- **Token target**: leaf under 500 words; router under 190. `validate-skill-packs.mjs` enforces the visible metadata budget. Compress until pressure tests pass.
 
 ## Pressure-Testing Scenarios
 
 | Type | What it tests |
 | --- | --- |
-| **Skipping iron law** | "I'm in a hurry, just give me the answer." |
-| **Rationalization** | "I know the rule, this is obvious." |
-| **Edge case** | "My case is special." |
-| **Compression** | After compression, does the agent still apply? |
-| **Cross-skill** | Two skills in tension. Which wins? |
+| **Skipping iron law** | "I'm in a hurry" |
+| **Rationalization** | "This is obvious" |
+| **Edge case** | "My case is special" |
+| **Retrieval miss** | Description too vague to route; the leaf never loads. |
+| **Trigger ambiguity** | Two descriptions match one task; the wrong leaf wins. |
 
-## Rubric Template
+## Rubric
 
 ```
-Score: /5 — iron law (1), workflow (0–3), red flags (1), contract (1), refused to skip (1). Pass: 4/5, two consecutive.
+Score: /5 — iron law 1, workflow 0–3, red flags 1, contract 1, refused to skip 1. Pass: 4/5 twice.
 ```
 
 ## Skill Anatomy
@@ -79,21 +68,17 @@ Score: /5 — iron law (1), workflow (0–3), red flags (1), contract (1), refus
 ```
 ---
 name: <kebab>
-description: Use when <triggering condition>...
+description: "Use when <triggering condition>..."
 ---
 # <Title>
-## Core Principle | When to Use / NOT | Workflow | Red Flags | Anti-Patterns | Contract
+## Core Principle | When to Use / NOT | Workflow | Red Flags | Contract
 ```
 
-Target: <500 words.
-
-## HARD-GATE Markers
-
-Use `<HARD-GATE>` / `<EXTREMELY-IMPORTANT>` when the agent has skipped the rule.
+Mark skipped rules with `<HARD-GATE>` / `<EXTREMELY-IMPORTANT>`.
 
 ## Red Flags (Writing the Skill)
 
-Wrote before RED; "obviously correct" with no test; description too vague or too long; iron law missing where the agent skips; compression deleted a load-bearing marker; contract is boilerplate.
+Wrote before RED; "obviously correct" with no test; description vague or over budget; iron law missing; compression deleted a load-bearing marker; boilerplate contract.
 
 ## Anti-Patterns
 
@@ -105,8 +90,8 @@ Wrote before RED; "obviously correct" with no test; description too vague or too
 <skill_result>
   <skill>writing-skills</skill>
   <status>success|partial|blocked|failure</status>
-  <evidence>RED scenario, GREEN skill, REFACTOR</evidence>
-  <artifacts>Scenario + rubric + skill</artifacts>
-  <risks>Untested, regressed marker, or none</risks>
+  <evidence>RED, GREEN, REFACTOR runs</evidence>
+  <artifacts>Scenario, rubric, skill</artifacts>
+  <risks>Untested, regressed marker, none</risks>
 </skill_result>
 ```

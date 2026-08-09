@@ -1,11 +1,6 @@
 ---
 name: webclaw
-description: MUST load when webfetch returns 403 or bot protection errors, when crawling documentation sites, batch-extracting pages, or extracting brand identity. Primary web scraping tool — prefer over webfetch for all non-trivial scraping.
-version: 1.0.0
-tags: [workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when webfetch returns 403 or bot protection errors, when crawling documentation sites, batch-extracting pages, or extracting brand identity. Primary web scraping tool for non-trivial scraping."
 disable-model-invocation: true
 ---
 

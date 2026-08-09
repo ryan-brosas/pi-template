@@ -1,11 +1,6 @@
 ---
 name: design-taste-frontend
-description: Use when building any web UI as the BASE aesthetic layer to override default LLM design biases. Enforces strict typography, color, spacing, and component architecture rules. Load BEFORE frontend-design when premium visual quality is required.
-version: 1.0.0
-tags: [workflow]
-dependencies: []
-agent_types: [planner, worker, reviewer]
-tools: []
+description: "Use when evaluating frontend visual quality and taste and no specific aesthetic overlay applies - assess proportion, contrast, spacing, and hierarchy."
 disable-model-invocation: true
 ---
 

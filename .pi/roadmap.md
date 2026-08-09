@@ -18,7 +18,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 
 ### Primary Success Criterion
 
-**Stability.** The template succeeds when its documented setup path is reliable, its prompts and skills agree on workflow rules, unsafe or undeclared mutations are blocked, generated context remains accurate, and cloning does not require hidden dependencies.
+**Stability.** The template succeeds when its documented setup path is reliable, its prompts and skills agree on workflow rules, unsafe or undeclared mutations are blocked, generated context remains accurate, and cloning does not require hidden dependencies. Evidence: explicit user choice, recorded in MEMORY.md and state.md Active Decisions.
 
 ### Supporting Product Principles
 
@@ -31,18 +31,24 @@ Developers who use Pi for software projects and want a stable, reusable starting
 
 ## Roadmap Overview
 
-| Phase | Goal | Status | Stability outcome |
-| --- | --- | --- | --- |
-| 1. Stable Core | Establish a coherent, clone-ready Pi template and finish the current simplification | In Progress | One documented setup path with no stale runtime assumptions |
-| 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and prewalk contracts | Not Started | Repository drift and malformed artifacts fail early |
-| 3. Reference Parity | Compare high-value ideas from `inspo/opencode-template` and port only Pi-aligned behavior | Not Started | Useful upstream ideas without OpenCode coupling |
-| 4. Release Readiness | Document versioning, compatibility, and repeatable clone validation | Not Started | New clones work predictably across supported Pi environments |
+| Phase | Goal | Outcome | Status | Depends on |
+| --- | --- | --- | --- | --- |
+| 1. Stable Core | Establish a coherent, clone-ready Pi template and finish the current simplification | One documented setup path with no stale runtime assumptions | In Progress | Current tree |
+| 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and prewalk contracts | Repository drift and malformed artifacts fail early | Not Started | Phase 1 |
+| 3. Reference Parity | Compare high-value ideas from `inspo/opencode-template` and port only Pi-aligned behavior | Useful upstream ideas without OpenCode coupling | Not Started | Phase 1 |
+| 4. Release Readiness | Document versioning, compatibility, and repeatable clone validation | New clones work predictably across supported Pi environments | Not Started | Phases 1-3 |
 
 ## Phase 1: Stable Core
 
 **Goal:** Finish the Pi-native simplification and make the repository internally consistent as a no-install, clonable template.
 
-### Success Criteria
+**Outcomes:** observable when this phase is done.
+
+- [ ] A clean clone follows the README setup sequence without installing dependencies.
+- [ ] Repeated `/init` runs produce detailed artifacts and preserve existing user content.
+- [ ] The mutation boundary is documented consistently in AGENTS.md and every mutating prompt.
+
+**Success Criteria:**
 
 - [ ] README, prompts, skills, templates, and settings describe the same project layout.
 - [ ] `/init` creates detailed AGENTS.md, tech-stack, roadmap, state, user-profile, and local memory artifacts without overwriting prior user content.
@@ -51,17 +57,27 @@ Developers who use Pi for software projects and want a stable, reusable starting
 - [ ] A clean clone can follow the README setup sequence without installing dependencies.
 - [ ] Existing user-authored and concurrent work is preserved during initialization.
 
-### Work Areas
+**Work Areas:**
 
 | Work area | Outcome | Evidence when complete |
 | --- | --- | --- |
 | Initialization | Idempotent core, context, and user-profile generation | Repeated `/init --all` preserves existing roadmap/state/user files unless overwrite is approved |
 | Prompt consistency | Every mutating command uses prewalk; read-only commands remain read-only | Prompt audit lists each command and mutation policy |
-| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 12 visible skills under the 1,200-token budget |
+| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 80 leaves, 14 visible, metadata 2,262 chars (~566 tokens) under the 1,200-token budget |
 | Documentation | README layout and command catalog match the tree | Structural documentation audit has no stale paths |
 | Cleanup | Historical runtime files are either deliberately retained or removed with documented rationale | Final scoped Git diff and repository inventory |
 
-### Out of Scope
+**Dependencies:**
+
+- Current repository structure and deletion decisions must be explicit before Phase 2 begins.
+- Documented minimum Pi and Ultra Fabric versions are deferred to Phase 4.
+
+**Risks:**
+
+- Large uncommitted cleanup can be overwritten or accidentally staged; handled by scoped edits and staging, never blanket staging.
+- Historical counts in generated artifacts can drift; regenerated tech-stack.md reconciles them.
+
+**Non-Goals (Out of Scope):**
 
 - Adding an application framework, package manager, database, UI, or deployment target
 - Recreating OpenCode plugins that Pi or Ultra Fabric already supplies
@@ -74,7 +90,12 @@ Developers who use Pi for software projects and want a stable, reusable starting
 
 The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog membership, visibility, and metadata budget; remaining Phase 2 scope is prompts, templates, and configuration checks.
 
-### Success Criteria
+**Outcomes:**
+
+- [ ] Drift in prompts, templates, or config values fails a local gate with a nonzero exit.
+- [ ] The gate runs on a runtime already present in the expected Pi environment.
+
+**Success Criteria:**
 
 - [ ] Validate prompt frontmatter, command naming, and required prewalk language.
 - [ ] Validate skill frontmatter, unique skill names, and manifest parity.
@@ -84,24 +105,39 @@ The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog 
 - [ ] Provide one repository gate that returns a nonzero exit code on contract drift.
 - [ ] Keep verification optional for consumers who only clone and use the template.
 
-### Design Questions
+**Design Questions:**
 
 - Can the gate use only a runtime that ships with the expected Pi environment?
 - Should validation scripts live in the repository when the product promise says no package install is needed?
 - Which checks protect stable public contracts, and which would only lock in incidental formatting?
 
-### Dependencies
+**Dependencies:**
 
 - Phase 1 repository structure and deletion decisions must be complete.
 - The supported Pi environment and minimum runtime assumptions must be documented.
+
+**Risks:**
+
+- A gate that requires a package install would violate the install-free promise; kept Node-only and dependency-free.
+- Over-validation could lock in incidental formatting; scope checks to stable contracts.
+
+**Non-Goals:**
+
+- A mandatory consumer-side verification step
+- A package-manager-based test harness
 
 ## Phase 3: Reference Parity
 
 **Goal:** Evaluate `inspo/opencode-template` as a design reference and port only capabilities that improve the Pi-native template.
 
-The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registered and queryable. The shorthand context `inspo/opencode-template` is not registered; use the absolute context path for future comparisons.
+The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registered and queryable. The shorthand context `inspo/opencode-template` is not registered; use the absolute context path for future comparisons. Evidence: MEMORY.md reference note, state.md session handoff.
 
-### Success Criteria
+**Outcomes:**
+
+- [ ] A maintained feature matrix records upstream capability, Pi equivalent, decision, rationale, and verification.
+- [ ] Deliberate omissions are recorded so future work does not rediscover them.
+
+**Success Criteria:**
 
 - [ ] Maintain a feature matrix: upstream capability, Pi equivalent, decision, rationale, and verification.
 - [ ] Prefer Pi core or Ultra Fabric behavior over compatibility wrappers.
@@ -109,7 +145,7 @@ The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registere
 - [ ] Record deliberate omissions so future work does not repeatedly rediscover them.
 - [ ] Keep upstream provenance clear without copying unrelated runtime code.
 
-### Candidate Reference Areas
+**Candidate Reference Areas:**
 
 - Session summaries and durable handoff context
 - Skill discovery, manifests, and invocation ergonomics
@@ -117,7 +153,16 @@ The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registere
 - Specification and test-driven workflow guidance
 - Browser and external-service skill organization
 
-### Explicit Non-Goals
+**Dependencies:**
+
+- Queryable CGC context at `/home/ryanj/work/inspo/opencode-template`.
+- Phase 1 stable baseline so ports land on settled structure.
+
+**Risks:**
+
+- Indiscriminate feature copying; handled by the feature matrix and Pi-native rationale requirement.
+
+**Non-Goals:**
 
 - Byte-for-byte parity with OpenCode
 - OpenCode plugin runtime compatibility
@@ -128,7 +173,12 @@ The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registere
 
 **Goal:** Make releases and fresh-clone verification predictable for maintainers and consumers.
 
-### Success Criteria
+**Outcomes:**
+
+- [ ] A documented compatibility policy for Pi and Ultra Fabric versions.
+- [ ] A release checklist that a maintainer can execute on a clean clone.
+
+**Success Criteria:**
 
 - [ ] Document supported Pi and Ultra Fabric versions or a clear latest-compatible policy.
 - [ ] Define a release checklist covering clean clone, `/trust`, `/reload`, `/init`, and one representative workflow.
@@ -136,6 +186,19 @@ The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registere
 - [ ] Document upgrade guidance for existing clones with customized AGENTS.md and `.pi/` content.
 - [ ] Establish a concise changelog or release-note convention.
 - [ ] Confirm GitHub repository description and README accurately state the current release promise.
+
+**Dependencies:**
+
+- Minimum supported versions decided (Open Questions).
+- Phase 1 and Phase 2 completion.
+
+**Risks:**
+
+- Compatibility claims without verified versions; every claim must trace to a tested environment.
+
+**Non-Goals:**
+
+- Packaged releases beyond a Git clone (deferred; see Deferred Ideas).
 
 ## Prioritization Rules
 
@@ -157,6 +220,11 @@ These ideas need a separate design decision before implementation:
 - Packaged releases beyond a Git clone
 - Telemetry, analytics, hosted services, or credentialed integrations
 
+## Evidence
+
+Every outcome, criterion, and dependency above traces to a user answer, decision record, or repository fact. Unverified items are marked `[NEEDS CLARIFICATION: reason]`.
+
 ---
 
-_Update this roadmap when a phase changes status or the product direction changes. Use `/plan` to create an implementation plan for the active phase._
+_Update this file when phases complete or roadmap changes._
+_Use `/plan` command to create detailed plans for active phases._
