@@ -41,6 +41,12 @@
       "modelVisible": false
     },
     {
+      "name": "app-experience-mapping",
+      "status": "retained",
+      "pack": "pack-delivery",
+      "modelVisible": false
+    },
+    {
       "name": "backend-architecture",
       "status": "retained",
       "pack": "pack-backend",
@@ -50,6 +56,12 @@
       "name": "background-jobs",
       "status": "retained",
       "pack": "pack-backend",
+      "modelVisible": false
+    },
+    {
+      "name": "black-box-experience-review",
+      "status": "retained",
+      "pack": "pack-quality",
       "modelVisible": false
     },
     {
@@ -488,6 +500,12 @@
       "name": "using-git-worktrees",
       "status": "retained",
       "pack": "pack-platform",
+      "modelVisible": false
+    },
+    {
+      "name": "ux-review",
+      "status": "retained",
+      "pack": "pack-frontend",
       "modelVisible": false
     },
     {

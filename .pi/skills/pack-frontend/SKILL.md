@@ -1,6 +1,6 @@
 ---
 name: pack-frontend
-description: "Frontend and UI router: React web UI, components, styling, design systems, accessibility, browser testing, mockup conversion, redesign."
+description: "Frontend and UI router: React web UI, components, styling, design systems, accessibility, browser testing, mockup conversion, redesign, UX review."
 ---
 
 # Pack: Frontend
@@ -24,3 +24,4 @@ Pick at most 2 members below matching the task, most specific first; read each f
 - playwright: run automated browser tests
 - react-best-practices: build or review React components
 - redesign-existing-projects: redesign existing projects
+- ux-review: review user-goal, flow, state, mobile, assistive, and copy evidence

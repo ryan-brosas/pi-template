@@ -9,6 +9,7 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 ## Members
 
+- black-box-experience-review: black-box app experience review
 - agent-code-quality-gate: gate implementation completion
 - api-and-interface-design: design APIs and contracts
 - code-cleanup: simplify and deduplicate code

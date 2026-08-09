@@ -9,6 +9,7 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 ## Members
 
+- app-experience-mapping: map journeys, touchpoints, and service seams
 - development-lifecycle: plan project lifecycle and phases
 - incremental-implementation: implement multi-file changes in slices
 - planning-and-task-breakdown: break goals into ordered tasks
