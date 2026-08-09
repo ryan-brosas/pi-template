@@ -20,9 +20,9 @@ disable-model-invocation: true
 
 The top-level Second Brain is the single central hub and the only central dashboard. Maximize it; never create a parallel hub or dashboard when Second Brain exists. Add any missing sections directly to Second Brain instead of nesting a new hub under it. Keep sections for Projects, Tasks, Notes, Content, Learning, Ideas, Principles and Preferences, GitHub Work, Workspace Audits, Source of Truth, and Review Cadence. The hub links existing databases; it does not replace them. Capture freely, organize later. Promote captured ideas to Projects when they become real.
 
-## Personal Brand
+## Content System
 
-Personal Brand is the content system. Its Content Pieces, Inspiration, and Content Sources databases drive publishing. Capture raw material there, draft in Content, and promote finished work to Projects.
+Reuse Creator’s Companion as the content system. Content Ideas, Research & Swipes, Content Projects, Channels & Courses, and Wiki drive publishing. Capture raw material in Quick Capture and promote it into Creator’s Companion. Never create or retain a second content system when Creator’s Companion already exists.
 
 ## Editing
 
