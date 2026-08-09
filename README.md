@@ -2,7 +2,7 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Ultra Fabric: nine prompt commands, 80 portable skills,
+tailored to Pi + Ultra Fabric: nine prompt commands, 81 portable skills,
 11 format templates, Pi-native settings, and the prewalk guard. No build, no
 dependencies, no runtime harness — clone and start.
 
@@ -25,7 +25,7 @@ README.md
 ├── fabric.json            # Ultra Fabric prewalk config (legacy verification, session arm)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 80 skills in 10 progressive-disclosure packs (packs.json)
+├── skills/                # 81 skills in 10 progressive-disclosure packs (packs.json)
 ├── scripts/               # validate-skill-packs.mjs (structural gate)
 └── templates/             # 11 format templates (PRD, design, ADR, agents, ...)
 ```
@@ -57,7 +57,7 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Skills and Templates
 
-- Skills: 80 skills in 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 81 skills in 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by

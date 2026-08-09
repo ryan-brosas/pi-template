@@ -305,6 +305,12 @@
       "modelVisible": false
     },
     {
+      "name": "notion-workspace",
+      "status": "retained",
+      "pack": "pack-authoring",
+      "modelVisible": false
+    },
+    {
       "name": "opensrc",
       "status": "retained",
       "pack": "pack-research",

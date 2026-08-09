@@ -11,3 +11,4 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 - documentation-and-adrs: write docs, ADRs, API docs
 - writing-skills: create or edit skills
+- notion-workspace: manage Notion pages, databases, and the central hub
