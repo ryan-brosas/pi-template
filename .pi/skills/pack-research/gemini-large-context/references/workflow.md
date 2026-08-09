@@ -104,11 +104,11 @@ When researching within task boundaries:
 
 ```bash
 # 1. Include plan spec in context
-gemini -p "@src/ @.pi/artifacts/$(cat .pi/artifacts/.active)/spec.md
+gemini -p "@src/ @.pi/work/$(cat .pi/work/.active)/spec.md
 Research implementations matching spec constraints"
 
 # 2. Save findings to plan files
-# Write to .pi/artifacts/$(cat .pi/artifacts/.active)/research.md
+# Write to .pi/work/$(cat .pi/work/.active)/research.md
 ```
 
 ### Delegating Large Research

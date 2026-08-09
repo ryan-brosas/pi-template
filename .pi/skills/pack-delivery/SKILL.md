@@ -18,3 +18,4 @@ Pick at most 2 members below matching the task, most specific first; read each f
 - spec-driven-development: implement from an approved spec
 - test-driven-development: write failing tests first
 - testing-anti-patterns: avoid mock tautologies and bad seams
+- task-scoped-execution: execute ordered tasks with acceptance review

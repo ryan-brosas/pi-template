@@ -30,6 +30,7 @@ const cases = [
   { task: "compare inspiration repository opencode-template for session summaries via CGC", expect: ["cgc-inspiration-workflow"], keywords: ["inspiration"], max: 1 },
   { task: "route library docs, GitHub overview, and web discovery for research", expect: ["evidence-router"], keywords: ["choosing"], max: 1 },
   { task: "open-source library internals beyond docs", expect: ["opensrc"], keywords: ["internally"], max: 1 },
+  { task: "execute ordered multi-task plan with acceptance review", expect: ["task-scoped-execution"], keywords: ["ordered"], max: 1 },
 ];
 let failures = 0;
 for (const c of cases) {
@@ -52,5 +53,10 @@ for (const id of ["pack-backend", "pack-toolchains"]) {
   if (/no more than two leaves/i.test(text)) console.log("PASS " + id + " documents the two-leaf rule");
   else { failures++; console.log("FAIL " + id + " lacks the two-leaf rule"); }
 }
+// direct-execution invariant: task-scoped-execution must state the no-dispatch rule
+const tse = readFileSync(join(skillsRoot, "pack-delivery", "task-scoped-execution", "SKILL.md"), "utf8");
+if (/dispatch|delegate|subagent|agent/i.test(tse) && !/unsupported|never dispatch|no subagent/i.test(tse)) {
+  failures++; console.log("FAIL task-scoped-execution lacks a no-dispatch rule");
+} else console.log("PASS task-scoped-execution is direct-execution only");
 console.log(failures ? "routing probes: FAIL" : "routing probes: all pass");
 process.exit(failures ? 1 : 0);

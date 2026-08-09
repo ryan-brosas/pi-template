@@ -77,10 +77,19 @@ Write the report:
 
 Every claim in the summary must trace to a finding with a source. No source, no claim.
 
+## Persist Findings (optional)
+
+If an active work item exists (`.pi/work/.active`) and the user wants the
+report kept with the work, write it to
+`.pi/work/$(cat .pi/work/.active)/research.md`. That write is a mutation:
+submit a `prewalk.checklist({ ... })` inside fabric_exec with the matching
+disposition (`easy: true` plus 2-4 items and Schema is the usual fit) and wait
+for accepted handoff before writing.
+
 ## Prewalk boundary
 
-Research output feeds the schema for a later `prewalk.checklist({ items, schema })`;
-this command itself performs no mutation.
+Research discovery is read-only. Writing `research.md` under `.pi/work` is the
+only mutation and requires an accepted prewalk handoff.
 
 ## Related Commands
 

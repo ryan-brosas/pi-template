@@ -6,13 +6,13 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 - **Goal:** Give a developer a clonable, dependency-free Pi coding-agent workspace with ready-to-use prompts, skills, templates, settings, and a mutation guard, so a new Pi project starts without setup work.
 - **Status:** Polish. The baseline is functional; work is incremental refinement of skills, prompts, and rules.
-- **Milestone:** Baseline with 9 slash commands, 80 skills in 10 packs, 11 format templates, and the prewalk guard. Evidence: validator output 2026-08-09 (packs=10, leaves=80, routers=10, visible=14).
+- **Milestone:** Baseline with 9 slash commands, 83 skills in 10 packs, 12 format templates, and the prewalk guard. Evidence: validator output 2026-08-09 (packs=10, leaves=83, routers=10, visible=14).
 - **Next Milestone:** None planned. Direction comes from .pi/roadmap.md, which the user owns.
 
 ## Success Criteria
 
 1. A developer clones the repository, trusts it in Pi, reloads, and runs /init to get a complete context artifact set. (Verifiable by following README.md:8-13.)
-2. All three structural gates exit 0 on a clean tree: node scripts/validate-skill-packs.mjs, node scripts/sync-skill-manifest.mjs --check, node scripts/probe-skill-routing.mjs. (Verifiable by running them.)
+2. All five structural gates exit 0 on a clean tree: node scripts/validate-skill-packs.mjs, node scripts/sync-skill-manifest.mjs --check, node scripts/probe-skill-routing.mjs, node scripts/validate-ultra-fabric.mjs, node scripts/validate-work-management.mjs. (Verifiable by running them.)
 3. Mutating commands defer to the prewalk guard and never touch unrelated working-tree changes. (Verifiable by command behavior and scope checks.)
 4. The repository stays clonable with no package install, build, or runtime harness. (Verifiable by README.md:9-12 and the absence of manifests.)
 
@@ -27,7 +27,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 1. **Clone and start.** No install step, no hidden dependencies, no build. (README.md:9-12.)
 2. **Pi-native surface.** Prompts, skills, templates, and settings are the product. OpenCode runtime wrappers are removed and must not return. (README.md:33-35.)
 3. **Prewalk is the mutation authority.** Non-trivial writes require an accepted checklist with a Schema contract. (AGENTS.md Prewalk and Mutation, .pi/fabric.json.)
-4. **Generated state stays local.** .pi/artifacts/, .pi/fabric/, and .pi/hindsight/ are gitignored. (README.md:36-37, .gitignore.)
+4. **Generated state stays local.** .pi/MEMORY.md, .pi/implementation-notes.md, .pi/fabric/, and .pi/hindsight/ are gitignored; inside .pi/work/, .active and per-work dotfiles stay ignored. (README.md, .gitignore.)
 
 ## System Context
 
@@ -41,10 +41,10 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 - **Architectural style:** Configuration and documentation template. No source tree, no build, no runtime harness. (README.md:9-12.)
 - **Component Responsibilities:**
   - Prompts (.pi/prompts/) - 9 slash commands; each is a self-contained workflow with a Prewalk boundary section.
-  - Skills (.pi/skills/) - 80 leaves in 10 packs; catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
-  - Templates (.pi/templates/) - 11 format templates rendered by /init, /create, and /plan.
+  - Skills (.pi/skills/) - 83 leaves in 10 packs; catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
+  - Templates (.pi/templates/) - 12 format templates rendered by /init, /create, /plan, and /verify.
   - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Ultra Fabric prewalk configuration.
-  - Gates (scripts/) - 3 dependency-free Node validation scripts owned by the template itself.
+  - Gates (scripts/) - 5 dependency-free Node validation scripts owned by the template itself.
   - Context artifacts (AGENTS.md, .pi/*.md) - durable product and architecture records.
 - **Composition Roots:** No application composition. The Pi host and the /init command are the wiring points: Pi loads .pi/settings.json and .pi/prompts/; /init renders templates into artifacts.
 - **Dependency Rules:** Pi host reads .pi/settings.json and .pi/prompts/; Ultra Fabric reads .pi/fabric.json; scripts read .pi/skills/packs.json and manifest.json; /init renders .pi/templates/*.md. No layer imports another; nothing depends on application code because none exists.
@@ -55,7 +55,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 
 | Entrypoint | Kind | Path | Purpose | Config source |
 | --- | --- | --- | --- | --- |
-| /init | CLI (Pi slash command) | .pi/prompts/init.md | One-time full initialization of context artifacts | .pi/templates/, .pi/fabric.json |
+| /init | CLI (Pi slash command) | .pi/prompts/init.md | One-time full initialization of context artifacts, plus optional GitHub repository setup | .pi/templates/, .pi/fabric.json |
 | /create | CLI (Pi slash command) | .pi/prompts/create.md | Spec: PRD, workspace, tasks | .pi/templates/ |
 | /plan | CLI (Pi slash command) | .pi/prompts/plan.md | Detailed TDD implementation plan | - |
 | /fix | CLI (Pi slash command) | .pi/prompts/fix.md | Debug and fix a bug or failing test | - |
@@ -86,7 +86,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 - **Cache ownership:** None.
 - **Transaction boundaries:** Not applicable.
 - **Migration mechanism:** Not applicable.
-- **Generated state:** .pi/artifacts/MEMORY.md holds local durable decisions; .pi/fabric/ and .pi/hindsight/ hold runtime state. All three are gitignored and owned by the local runtime. (README.md:36-37.)
+- **Generated state:** .pi/MEMORY.md holds local durable decisions; .pi/fabric/ and .pi/hindsight/ hold runtime state; .pi/work/.active and per-work .progress.md/.verify.log hold work-local state. All are gitignored and owned by the local runtime.
 
 ## External Integrations
 
@@ -110,8 +110,8 @@ No external application API, database, deployment provider, or credential-bearin
 
 - **Unit, integration, contract, e2e seams:** None. The repository has no application test suite.
 - **Test locations:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** scripts/validate-skill-packs.mjs checks catalog, membership, visibility, and metadata budget. scripts/sync-skill-manifest.mjs --check verifies manifest parity. scripts/probe-skill-routing.mjs checks router dispatch.
-- **Coverage gaps:** No automated coverage for prompts, templates, or config values; [NEEDS CLARIFICATION: whether Phase 2 adds prompt/template/config validators is a roadmap question].
+- **Structural gates:** scripts/validate-skill-packs.mjs checks catalog, membership, visibility, and metadata budget. scripts/sync-skill-manifest.mjs --check verifies manifest parity. scripts/probe-skill-routing.mjs checks router dispatch. scripts/validate-ultra-fabric.mjs pins prewalk dispositions, gated configuration, and referenced skill paths. scripts/validate-work-management.mjs pins local slug work IDs, .pi/work ownership, GitHub templates, and /init GitHub setup safety.
+- **Coverage gaps:** No automated coverage for templates; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: whether Phase 2 adds a template validator is a roadmap question].
 
 ## Observability
 
@@ -133,7 +133,7 @@ No external application API, database, deployment provider, or credential-bearin
 
 - The repository stays clonable with no package install, manifest, build, or runtime harness. (README.md:9-12.)
 - Prewalk with an accepted checklist is the sole authority for non-trivial mutations. (AGENTS.md Prewalk and Mutation.)
-- Generated local state (.pi/artifacts/, .pi/fabric/, .pi/hindsight/) is gitignored and never committed. (README.md:36-37.)
+- Generated local state (.pi/MEMORY.md, .pi/implementation-notes.md, .pi/fabric/, .pi/hindsight/, and .pi/work dotfiles) is gitignored and never committed.
 - The product surface stays Pi-native. OpenCode runtime wrappers must not return. (README.md:33-35.)
 - Skills membership is owned by .pi/skills/packs.json. Adding or moving a skill requires passing node scripts/validate-skill-packs.mjs. (AGENTS.md Skills section.)
 
@@ -148,7 +148,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Known Risks and Hotspots
 
 - Large uncommitted working-tree cleanup. Many tracked files are deleted or modified; a careless commit could sweep unrelated work.
-- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 80 skills in 10 packs. Regenerate tech-stack.md when the catalog changes.
+- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 83 skills in 10 packs. Regenerate tech-stack.md when the catalog changes.
 - No CI. Nothing enforces the structural gates on a clone; the validators must run manually.
 - No automated tests. Regressions in prompts or skills surface through manual review and the routing probes.
 
@@ -158,7 +158,7 @@ No external application API, database, deployment provider, or credential-bearin
 | --- | --- | --- | --- |
 | Branch protection policy | Git config has no push or merge protection | No | Medium |
 | Next milestone beyond incremental refinement | Roadmap is user-authored | No | Low |
-| Phase 2 validator scope | Prompt/template/config gates are a roadmap candidate | No | Medium |
+| Phase 2 validator scope | Prompt and config contracts are pinned; template validation remains a roadmap candidate | No | Medium |
 | Minimum supported Pi/Ultra Fabric versions | Needed for release claims | No | Low |
 
 ## Evidence

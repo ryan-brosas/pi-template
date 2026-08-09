@@ -461,6 +461,12 @@
       "modelVisible": false
     },
     {
+      "name": "task-scoped-execution",
+      "status": "retained",
+      "pack": "pack-delivery",
+      "modelVisible": false
+    },
+    {
       "name": "test-driven-development",
       "status": "retained",
       "pack": "pack-delivery",

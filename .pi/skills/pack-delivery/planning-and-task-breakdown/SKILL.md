@@ -10,8 +10,8 @@ disable-model-invocation: true
 ## When to Use
 
 - Have a spec, PRD, ADR, or clear feature goal.
-- Implementation spans >1 file, >1 session, or >1 worker.
-- Need an executable plan a human or subagent can follow.
+- Implementation spans >1 file or >1 session.
+- Need an executable plan the current session can follow.
 
 ## When NOT to Use
 

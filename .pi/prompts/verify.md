@@ -24,7 +24,7 @@ If a recent verification is still valid (same commit + diff fingerprint), report
 
 ```bash
 CURRENT_STAMP=$(printf '%s\n%s' "$(git rev-parse HEAD)" "$(git diff HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.py' '*.go' '*.rs')" | shasum -a 256 | cut -d' ' -f1)
-LAST_STAMP=$(tail -1 .pi/artifacts/verify.log 2>/dev/null | awk '{print $1}')
+LAST_STAMP=$(tail -1 .pi/work/$(cat .pi/work/.active)/.verify.log 2>/dev/null | awk '{print $1}')
 ```
 
 | Condition | Action |
@@ -35,7 +35,7 @@ LAST_STAMP=$(tail -1 .pi/artifacts/verify.log 2>/dev/null | awk '{print $1}')
 
 ## Phase 1: Gather Context
 
-Read `.pi/artifacts/$(cat .pi/artifacts/.active)/spec.md` to understand the requirements.
+Read `.pi/work/$(cat .pi/work/.active)/spec.md` to understand the requirements.
 
 **Verify guards:**
 - [ ] Plan/spec exists and is up to date
@@ -76,8 +76,13 @@ Report results with a mode column:
 
 **After all gates pass**, record to the verification cache:
 ```bash
-echo "$CURRENT_STAMP $(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> .pi/artifacts/verify.log
+echo "$CURRENT_STAMP $(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> .pi/work/$(cat .pi/work/.active)/.verify.log
 ```
+
+Then write the durable result to `.pi/work/$(cat .pi/work/.active)/verification.md`
+(the gate table with mode column plus the READY TO SHIP / NEEDS WORK / BLOCKED
+result). Writing `verification.md` is a mutation: it requires an accepted
+`prewalk.checklist({ ... })` handoff before the write.
 
 ## Phase 4: Coherence (skip with --quick)
 
@@ -96,7 +101,7 @@ Separate what was verified locally from what still needs confirmation on live se
 
 ## Phase 6: Report (output contract)
 
-Append to `.pi/artifacts/$(cat .pi/artifacts/.active)/progress.md`: `Verification: [PASS|PARTIAL|FAIL] - [summary]`.
+Append to `.pi/work/$(cat .pi/work/.active)/.progress.md`: `Verification: [PASS|PARTIAL|FAIL] - [summary]`.
 
 Output:
 1. **Result**: READY TO SHIP / NEEDS WORK / BLOCKED
@@ -109,16 +114,18 @@ Output:
 
 Record significant findings in context files:
 ```bash
-# Append to .pi/artifacts/MEMORY.md:
+# Append to .pi/MEMORY.md:
 #   - YYYY-MM-DD: [scope] [key finding] — [what, impact, resolution]
 # Put under the Decisions or Gotchas section as appropriate
 ```
 
 ## Prewalk boundary
 
-Verification is read-only: running gates and appending to progress files is
-allowed only after the active checklist handoff permits it. Any remediation
-requires its own accepted `prewalk.checklist({ items, schema })` before edits.
+Running gates is read-only. Appending to `.pi/work/$(cat .pi/work/.active)/.verify.log` and
+`.pi/work/<id>/.progress.md` is local state and allowed under the active
+checklist. Writing `.pi/work/<id>/verification.md` is a durable mutation and
+requires its own accepted `prewalk.checklist({ ... })` handoff before the
+write. Any remediation also requires an accepted handoff before edits.
 
 ## Related Commands
 

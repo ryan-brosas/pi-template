@@ -108,14 +108,14 @@ STAMP=$(printf '%s\n%s\n%s' \
   "$(git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' | xargs cat 2>/dev/null)" \
   | shasum -a 256 | cut -d' ' -f1)
 
-echo "$STAMP $(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> .pi/artifacts/verify.log
+echo "$STAMP $(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> .pi/work/$(cat .pi/work/.active)/.verify.log
 ```
 
 ### Skip Check (before running gates)
 
 ```bash
 # Read last verification stamp
-LAST_STAMP=$(tail -1 .pi/artifacts/verify.log 2>/dev/null | awk '{print $1}')
+LAST_STAMP=$(tail -1 .pi/work/$(cat .pi/work/.active)/.verify.log 2>/dev/null | awk '{print $1}')
 
 # Recompute current fingerprint (same formula as recording)
 CURRENT_STAMP=$(printf '%s\n%s\n%s' \
@@ -145,7 +145,7 @@ When another command needs verification (e.g., closing a plan, `/ship`):
 
 1. **Check cache first** — if clean, report `"Verification: cached PASS (no changes since <timestamp>)"`
 2. **If cache miss** — run incremental gates normally
-3. **Always record** — append to `verify.log` after successful run
+3. **Always record** — append to `.verify.log` after successful run
 4. **Never skip on ship/release** — always run full mode regardless of cache
 
 ## Gate Results Format

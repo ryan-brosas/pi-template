@@ -69,7 +69,7 @@ This is a configuration product rather than an application:
 5. `.pi/skills/` provides task-specific guidance loaded on demand.
 6. `.pi/templates/` defines reusable output artifacts.
 7. `.pi/roadmap.md`, `.pi/state.md`, and `.pi/user.md` provide optional on-demand context.
-8. `.pi/artifacts/` stores ignored local decisions and working memory.
+8. `.pi/MEMORY.md` and per-work dotfiles store ignored local decisions and working memory.
 
 There is no source-code execution graph, data layer, UI, deployment target, or CI pipeline in the current tree. The full architecture record lives in `.pi/project.md`.
 
@@ -82,7 +82,7 @@ There is no source-code execution graph, data layer, UI, deployment target, or C
 | Historical validation suite is deleted | Medium | Use structural inspections now; decide the future verification approach in Phase 2 |
 | No documented Pi/Ultra Fabric compatibility policy | Medium | Defer to Phase 4 after the stable core is settled |
 | Upstream inspiration can cause indiscriminate feature copying | Medium | Require a feature matrix and Pi-native rationale in Phase 3 |
-| `.pi/artifacts/` is ignored and local-only | Low | Keep durable shared decisions in tracked docs; use MEMORY.md only for local agent context |
+| `.pi/MEMORY.md` and per-work dotfiles are ignored and local-only | Low | Keep durable shared decisions in tracked docs; use MEMORY.md only for local agent context |
 
 ## Open Questions
 

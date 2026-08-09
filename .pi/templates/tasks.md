@@ -1,6 +1,7 @@
 # Implementation Tasks
 
-**Bead:** [bead-id]
+**Issue:** none | #[issue] (optional)
+**Work ID:** [slug]
 **Spec:** [link to spec]
 **Date:** [YYYY-MM-DD]
 
@@ -14,9 +15,10 @@ Each task can have these optional fields in YAML frontmatter:
 ---
 id: "1.1" # Task identifier
 depends_on: [] # Task IDs that must complete first
-parallel: true # Can run concurrently with other parallel tasks
+parallel: true # Independent read-only checks may batch; file mutations stay serialized
 conflicts_with: [] # Task IDs that modify same files (cannot parallelize)
 files: [] # Files this task will modify
+acceptance: [] # Commands or observable checks that prove this task done
 estimated_minutes: 30 # Time estimate for planning
 ---
 ```
@@ -189,7 +191,7 @@ Visualize task flow (auto-generated from above):
 **Legend:**
 
 - `──>` = depends_on (sequential)
-- Tasks at same level with `parallel: true` = can run concurrently
+- Tasks at same level with `parallel: true` = independent read-only checks may run concurrently; file mutations remain serialized
 
 ---
 

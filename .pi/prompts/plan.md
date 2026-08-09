@@ -23,9 +23,9 @@ Before touching the PRD, load what the codebase already knows.
 
 ### Step 1: Search project context
 
-Search `.pi/artifacts/MEMORY.md` for bugfixes, existing plans, and prior decisions:
+Search `.pi/MEMORY.md` for bugfixes, existing plans, and prior decisions:
 ```bash
-rg -n "topic" .pi/artifacts/MEMORY.md
+rg -n "topic" .pi/MEMORY.md
 ```
 
 If relevant context is found, incorporate it directly into the plan. Don't re-solve solved problems.
@@ -67,8 +67,8 @@ Then read 2-4 representative files (including tests) so the plan matches existin
 ## Phase 1: Guards
 
 Verify:
-- `.pi/artifacts/$(cat .pi/artifacts/.active)/spec.md` exists (if not, tell the user to run `/create` first)
-- If `.pi/artifacts/$(cat .pi/artifacts/.active)/plan.md` already exists, ask the user: overwrite or skip?
+- `.pi/work/$(cat .pi/work/.active)/spec.md` exists (if not, tell the user to run `/create` first)
+- If `.pi/work/$(cat .pi/work/.active)/plan.md` already exists, ask the user: overwrite or skip?
 
 ## Phase 2: Discovery Assessment
 
@@ -185,7 +185,7 @@ Wave 3: C (depends on B)
 
 ## Phase 6: Write the Plan (output contract)
 
-Render the plan from `.pi/templates/project.md` into `.pi/artifacts/$(cat .pi/artifacts/.active)/plan.md` with:
+Render the plan from `.pi/templates/project.md` into `.pi/work/$(cat .pi/work/.active)/plan.md` with:
 - goal (one sentence)
 - constraints (hard vs soft)
 - phases with task lists, each task `[action] → verify with [check]`
@@ -200,9 +200,12 @@ Plans are advisory, not directive: the build executor uses the plan as a startin
 ## Prewalk boundary
 
 Research and planning are read-only. Before writing the plan file, call
-`prewalk.checklist({ items, schema })` inside fabric_exec with 5-9 ordered items
-and an explicit schema contract; wait for accepted handoff, then write as the
-executor. If acceptance is denied or scope changes, do not mutate.
+`prewalk.checklist({ ... })` inside fabric_exec with the matching disposition:
+`trivial: true` for one or two small edits, `easy: true` plus 2-4 items and
+Schema for bounded work, or 5-9 items plus Schema for full work; every
+items-bearing checklist requires the Schema contract. Wait for accepted handoff,
+then write as the executor. Mark completed items `[DONE:n]`. If acceptance is
+denied or scope changes, do not mutate.
 
 ## Related Commands
 

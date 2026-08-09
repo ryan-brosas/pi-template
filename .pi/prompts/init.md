@@ -57,6 +57,7 @@ Load `.pi/skills/verification-before-completion/SKILL.md` after the artifacts ar
 - `--context`: write roadmap.md and state.md only (partial setup or rerun).
 - `--user`: write user.md only (partial setup or rerun).
 - `--all`: same as no flags — full init.
+- GitHub setup (Phase 9) runs only in the default full init and is optional; every step can be declined, and /init works without gh.
 
 **Brownfield auto-detection:** Existing codebase = a `src/`, `lib/`, or `app/`
 directory, or standard language layouts (`.ts`, `.js`, `.tsx`, `.jsx`, `.py`,
@@ -134,13 +135,53 @@ Ask the user (identity, communication preference, git workflow, approval boundar
 
 ### Phase 8: Persist
 
-Append to `.pi/artifacts/MEMORY.md` (under Decisions section):
+Append to `.pi/MEMORY.md` (under Decisions section):
 
 ```markdown
 ## YYYY-MM-DD Project initialized — [tech stack summary]
 
 Full deep init completed: AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, user.md created for [language/framework] project.
 ```
+
+### Phase 9: GitHub Setup (Optional)
+
+Local initialization is complete at Phase 8. This phase optionally links the
+project to GitHub. Everything here is read-only until you approve a specific
+mutation, and every mutation is a separate approval. `/init` works fully
+without gh or GitHub access: when `gh auth status` fails or gh is missing,
+state that GitHub setup is skipped and finish.
+
+**Step 1 — Detect (read-only).**
+- `git remote get-url origin` — read the remote. If there is no origin, report
+  "no origin remote" and proceed to Step 2.
+- If an origin exists, verify the repository read-only before proposing
+  anything:
+  `gh repo view <owner>/<name> --json nameWithOwner,visibility,url`
+  (owner and name parsed from the remote URL). Report visibility and URL.
+- Never propose a mutation before this detection completes.
+
+**Step 2 — Create the repository (only when missing, only with approval).**
+- Determine the owner from `gh api user --jq .login` (read-only) or ask the
+  user. Propose the exact command:
+  `gh repo create <owner>/<repo> --source=. --remote=origin --<visibility>`
+  with the repo name and visibility (private by default; public only on
+  explicit user choice). Show owner, name, and visibility.
+- Run `gh repo create` only after explicit approval. Never auto-create, never
+  guess the owner, and never default a public repository.
+- Verify after creation:
+  `gh repo view <owner>/<repo> --json nameWithOwner,url` and report the result.
+
+**Step 3 — First push (separate approval).**
+- Propose `git push -u origin <branch>` for the current branch.
+- Ask for separate approval. Creation and push are never the same approval.
+
+**Step 4 — Central GitHub Project (optional, separate approval).**
+- Offer to add the repository to the central development GitHub Project:
+  `gh project list --owner <owner>` (read-only) to find the project, then
+  `gh project item-add <number> --owner <owner> --url <repo-url>`.
+- If the token lacks the `project` scope, report that enrollment requires
+  `gh auth refresh -s read:project,project` and defer enrollment.
+- Ask separately; declining leaves the repository and push untouched.
 
 ## Mode 2: Planning Context Only (`--context`)
 
@@ -188,9 +229,12 @@ Write to `.pi/user.md` with the captured preferences. The file is for on-demand 
 ## Prewalk boundary
 
 Detection, preview, and all interactive gathering are read-only. Before writing
-any file, call `prewalk.checklist({ items, schema })` inside fabric_exec with 5-9
-ordered items and an explicit schema contract; wait for accepted handoff, then
-write the declared artifacts as the executor.
+any file, call `prewalk.checklist({ ... })` inside fabric_exec with the matching
+disposition: `trivial: true` for one or two small edits, `easy: true` plus 2-4
+items and Schema for bounded work, or 5-9 items plus Schema for full work; every
+items-bearing checklist requires the Schema contract. Wait for accepted handoff,
+then write the declared artifacts as the executor. Mark completed items
+`[DONE:n]`. If acceptance is denied or scope changes, do not mutate.
 
 ## Output
 
@@ -204,4 +248,5 @@ created, updated, skipped, clarified, and verified:
 5. user.md — created/skipped; state the preferences captured.
 6. Evidence — list the commands run and their results; name anything verified only by inspection.
 7. Cross-file consistency — confirm commands, counts, paths, and architecture terms agree across artifacts, or list the disagreements.
-8. Recommended next command: `/plan` to start planning, `/research` to explore the codebase, or just describe what you want to build.
+8. GitHub setup — created/linked/skipped; state owner, visibility, push status, and central GitHub Project enrollment (approved, deferred, or declined).
+9. Recommended next command: `/plan` to start planning, `/research` to explore the codebase, or just describe what you want to build.

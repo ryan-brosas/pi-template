@@ -34,9 +34,9 @@ Create a specification (PRD), set up the workspace, and define executable tasks 
 
 ### Context Search
 
-Search `.pi/artifacts/MEMORY.md` for prior decisions and similar work:
+Search `.pi/MEMORY.md` for prior decisions and similar work:
 ```bash
-rg -n "topic" .pi/artifacts/MEMORY.md
+rg -n "topic" .pi/MEMORY.md
 ```
 
 Also search code history: `git log --oneline -20` for related work, and codemap
@@ -44,7 +44,7 @@ search for existing features that might already cover the request.
 
 ### Existing Work Check
 
-Check `.pi/artifacts/.active` for existing work in progress. If an active slug exists with a `spec.md`, ask the user if they want to continue with `/ship` instead.
+Check `.pi/work/.active` for existing work in progress. If an active ID exists and `.pi/work/<id>/spec.md` exists, ask the user if they want to continue with `/ship` instead.
 
 ## Phase 2: Choose Research Depth
 
@@ -64,18 +64,22 @@ Based on the research depth choice, run direct read-only discovery:
 
 While discovery runs, ask clarifying questions if the description lacks scope or expected outcome. For bugs, ask for reproduction steps and expected vs actual behavior.
 
-## Phase 4: Initialize Workspace
+## Phase 4: Initialize Workspace (local-first)
 
-Extract title and description from `$ARGUMENTS`:
-- Single line → use it for both title and description.
-- Multiple lines → first line as title, full text as description.
+Create a local work record from the description; no GitHub access is needed.
 
-Derive a kebab-case slug from the title. This slug becomes the feature's namespace:
+- Derive a kebab-case slug from the description; it is the local work ID.
+- If `$ARGUMENTS` includes `--issue <number>`, the record links an already-existing issue: verify it with `gh issue view <number>` scoped to the repository remote and record the verified number, URL, title, and repository. Use only the verified number; never guess or fabricate a URL. Linking is optional and read-only; /create never creates a GitHub issue.
+
+Derive a kebab-case slug; the work ID is `<slug>`, or `<issue>-<slug>` when an existing issue is linked:
 ```bash
 SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-' | sed 's/--*/-/g; s/^-//; s/-$//')
-mkdir -p ".pi/artifacts/$SLUG"
-echo "$SLUG" > ".pi/artifacts/.active"
+ID="${SLUG}"
+mkdir -p ".pi/work/$ID"
+echo "$ID" > ".pi/work/.active"
 ```
+
+Render `.pi/templates/issue.md` into `.pi/work/$ID/issue.md` with the work ID and, when an issue is linked, the verified issue number, URL, title, and repository. issue.md is the local identity record; the GitHub issue body owns the discussion when one exists.
 
 ## Phase 5: Determine PRD Rigor
 
@@ -91,7 +95,7 @@ Lite PRD when the change is small and well understood; full PRD otherwise.
 
 ## Phase 6: Write the PRD
 
-Render the PRD from `.pi/templates/prd.md` into `.pi/artifacts/$SLUG/spec.md`, filling every section with the gathered requirements, goals, non-goals, and acceptance criteria.
+Render the PRD from `.pi/templates/prd.md` into `.pi/work/$ID/spec.md`, filling every section with the gathered requirements, goals, non-goals, and acceptance criteria.
 
 Every acceptance criterion must be checkable:
 - Observable behavior (what the user or system can verify)
@@ -102,7 +106,7 @@ Flag unknowns with `[NEEDS CLARIFICATION]`.
 
 ## Phase 7: Define Tasks
 
-Render the task breakdown from `.pi/templates/tasks.md` into `.pi/artifacts/$SLUG/tasks.md`.
+Render the task breakdown from `.pi/templates/tasks.md` into `.pi/work/$ID/tasks.md`.
 
 Each task must be:
 - Independently shippable (its own end state)
@@ -112,17 +116,20 @@ Each task must be:
 ## Prewalk boundary
 
 Research, question-asking, and PRD drafting are read-only. Before writing the
-workspace files (spec.md, tasks.md, .active), call
-`prewalk.checklist({ items, schema })` inside fabric_exec with 5-9 ordered items
-and an explicit schema contract; wait for accepted handoff, then write as the
-executor. If acceptance is denied or scope changes, do not mutate.
+workspace files (spec.md, tasks.md, .pi/work/.active), call `prewalk.checklist({ ... })`
+inside fabric_exec with the matching disposition: `trivial: true` for one or two
+small edits, `easy: true` plus 2-4 items and Schema for bounded work, or 5-9
+items plus Schema for full work; every items-bearing checklist requires the
+Schema contract. Wait for accepted handoff, then write as the executor. Mark
+completed items `[DONE:n]`. If acceptance is denied or scope changes, do not mutate.
 
 ## Output
 
-1. **PRD:** `.pi/artifacts/$SLUG/spec.md`
-2. **Tasks:** `.pi/artifacts/$SLUG/tasks.md`
-3. **Workspace:** slug recorded in `.pi/artifacts/.active`
-4. **Next step:** `/ship $SLUG` to implement
+1. **Work ID:** `<slug>` (or `<issue>-<slug>` when an existing issue is linked)
+2. **PRD:** `.pi/work/$ID/spec.md`
+3. **Tasks:** `.pi/work/$ID/tasks.md`
+4. **Workspace:** ID recorded in `.pi/work/.active`
+5. **Next step:** `/ship $ID` to implement
 
 ## Related Commands
 

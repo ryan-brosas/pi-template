@@ -1,11 +1,11 @@
 {
   "configVersion": 3,
   "prewalk": {
-    "verificationMode": "legacy",
+    "verificationMode": "gated",
     "thinking": "max",
-    "arm": "session",
+    "arm": "task",
     "model": "omniroute/opencode-go/deepseek-v4-flash-max",
-    "maxPhaseRevisions": 5
+    "maxPhaseRevisions": 2
   },
   "compaction": {
     "engine": "pi"

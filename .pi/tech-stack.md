@@ -82,25 +82,27 @@ Do not add commands based only on this host inventory. A project command require
 | `node scripts/validate-skill-packs.mjs` | works | Pack catalog, membership, visibility, metadata budget | 2026-08-09, exit 0 |
 | `node scripts/sync-skill-manifest.mjs --check` | works | Manifest parity | 2026-08-09, exit 0 |
 | `node scripts/probe-skill-routing.mjs` | works | Router dispatch probes | 2026-08-09, exit 0 |
+| `node scripts/validate-ultra-fabric.mjs` | works | Prewalk dispositions, gated config, skill paths | 2026-08-09, exit 0 |
+| `node scripts/validate-work-management.mjs` | works | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety | 2026-08-09, exit 0 |
 | `git diff --check` | works | Whitespace check on changed files | 2026-08-09, exit 0 |
 | install / dev / test / lint / typecheck / build / format | none | No command exists in the current tree | probed 2026-08-09 |
 
 ## CI
 
 - **Workflows:** None detected under `.github/workflows/`.
-- **Local reproduction:** The three Node gates above are the local equivalent; they must run manually because no CI enforces them.
+- **Local reproduction:** The five Node gates above are the local equivalent; they must run manually because no CI enforces them.
 
 ## Generated Files
 
 - `.pi/skills/manifest.json` is generated from the skill tree and `packs.json` by `node scripts/sync-skill-manifest.mjs` (no `--check` writes it). Regenerate after adding or moving skills; verify with `--check`.
 - `.pi/tech-stack.md`, `.pi/project.md`, `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/user.md` are rendered by `/init` from `.pi/templates/`; regenerate with `/init` and review the diff.
-- Ignored generated state: `.pi/artifacts/`, `.pi/fabric/`, `.pi/hindsight/` never commit.
+- Ignored generated state: `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/hindsight/`, and `.pi/work` dotfiles never commit.
 
 ## Testing
 
 - **Unit / integration / contract / e2e tests:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** the three Node scripts above, run before completion claims.
-- **Coverage gaps:** prompts, templates, and config values have no automated checks; [NEEDS CLARIFICATION: roadmap Phase 2 decides whether to add prompt/template/config validators].
+- **Structural gates:** the five Node scripts above, run before completion claims.
+- **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: roadmap Phase 2 decides whether template validators are added].
 
 ## Active Integrations
 
@@ -124,7 +126,7 @@ No external application API, database, deployment provider, or credential-bearin
 3. Keep prewalk as the sole authority for non-trivial repository mutation.
 4. Treat prompts, skills, templates, and settings as the product surface.
 5. Preserve unrelated work in the large current working-tree cleanup.
-6. Keep generated local state under `.pi/artifacts/`, `.pi/fabric/`, and `.pi/hindsight/` ignored.
+6. Keep generated local state in `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/hindsight/`, and ignored `.pi/work` dotfiles.
 7. Prefer stability and explicit verification over adding features or abstractions.
 8. Record only detected values here; regenerate this file when repository facts change.
 
@@ -147,6 +149,8 @@ Always run before claiming complete:
 node scripts/validate-skill-packs.mjs
 node scripts/sync-skill-manifest.mjs --check
 node scripts/probe-skill-routing.mjs
+node scripts/validate-ultra-fabric.mjs
+node scripts/validate-work-management.mjs
 git diff --check
 ```
 
@@ -155,4 +159,4 @@ There is no typecheck, lint, test, or build command in this repository.
 ---
 
 _Update this file when tech stack or constraints change._
-_AI captures architecture, conventions, and gotchas in `.pi/artifacts/MEMORY.md` as it works._
+_AI captures architecture, conventions, and gotchas in `.pi/MEMORY.md` as it works._

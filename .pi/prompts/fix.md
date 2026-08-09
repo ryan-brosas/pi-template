@@ -57,9 +57,12 @@ escalate with what was learned — do not iterate blindly.
 ## Prewalk boundary
 
 Discovery and reproduction are read-only. Before editing any file, call
-`prewalk.checklist({ items, schema })` inside fabric_exec with 5-9 ordered items
-and an explicit schema contract; wait for accepted handoff, then apply the fix
-as the executor. If acceptance is denied or scope changes, do not mutate.
+`prewalk.checklist({ ... })` inside fabric_exec with the matching disposition:
+`trivial: true` for one or two small edits, `easy: true` plus 2-4 items and
+Schema for bounded work, or 5-9 items plus Schema for full work; every
+items-bearing checklist requires the Schema contract. Wait for accepted handoff,
+then apply the fix as the executor. Mark completed items `[DONE:n]`. If
+acceptance is denied or scope changes, do not mutate.
 
 ## Output
 

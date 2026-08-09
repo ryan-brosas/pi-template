@@ -2,11 +2,11 @@
 
 ## Project overview
 
-This repository is a clonable Pi + Ultra Fabric coding-agent template: nine slash commands, 80 skills in 10 progressive-disclosure packs, 11 format templates, and a prewalk mutation guard, with no package install, build, or runtime harness.
+This repository is a clonable Pi + Ultra Fabric coding-agent template: nine slash commands, 83 skills in 10 progressive-disclosure packs, 11 format templates, and a prewalk mutation guard, with no package install, build, or runtime harness.
 
 - Primary runtime: Pi (pi-coding-agent) with Ultra Fabric; config in .pi/settings.json and .pi/fabric.json
 - Product surface: .pi/prompts/, .pi/skills/, .pi/templates/, AGENTS.md, and the context artifacts
-- No application source tree, no dependencies, no CI; three dependency-free Node validation scripts under scripts/
+- No application source tree, no dependencies, no CI; four dependency-free Node validation scripts under scripts/
 - Full architecture record: .pi/project.md (rendered by /init)
 
 Evidence: README.md:1-12 (template purpose, no build/deps/harness), README.md:39-48 (command table).
@@ -25,9 +25,18 @@ Always-on execution loop. Stays active even when the rest of the prompt is noisy
 ## Prewalk and Mutation
 
 Ultra Fabric prewalk is the progression authority. Research, discovery, and
-preview are read-only. Before writing or editing any file, submit a 5-9 item
-`prewalk.checklist({ items, schema })` inside fabric_exec and wait for accepted
-handoff; only the executor writes after acceptance.
+preview are read-only. Before writing or editing any file, submit a
+`prewalk.checklist({ ... })` inside fabric_exec with the native disposition and
+wait for accepted handoff; only the executor writes after acceptance.
+
+- **Trivial** - one or two small edits: `prewalk.checklist({ trivial: true })`, no items, no schema.
+- **Easy** - bounded mid-tier work: `prewalk.checklist({ easy: true, items, schema })` with 2-4 items, each a concrete task plus a specific validation.
+- **Full** - complex or research work: `prewalk.checklist({ items, schema })` with 5-9 items.
+
+Every items-bearing checklist requires the Schema contract (intent, references,
+localScope, invariants, postconditions). Mark each completed item `[DONE:n]` in
+the same turn. A denied handoff blocks all writes; re-scope or retry, never
+mutate without acceptance.
 
 ## Implementation Workflow
 
@@ -304,21 +313,24 @@ Verified executable commands in this repository. There is no package.json, so th
 - Validate skill packs: `node scripts/validate-skill-packs.mjs` (catalog, membership, visibility, metadata budget)
 - Sync manifest: `node scripts/sync-skill-manifest.mjs --check` (manifest parity)
 - Routing probes: `node scripts/probe-skill-routing.mjs` (router dispatch)
+- Ultra Fabric contract: `node scripts/validate-ultra-fabric.mjs` (prewalk dispositions, gated config, skill paths)
+- Work management: `node scripts/validate-work-management.mjs` (local slug IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety)
 - Whitespace check: `git diff --check`
 
 There is no install, dev, watch, test, lint, typecheck, build, or format command in this repository. Do not invent one.
 
-Evidence: all three node commands exit 0 and git diff --check is clean on changed files (verified 2026-08-09).
+Evidence: all five node commands exit 0 and git diff --check is clean on changed files (verified 2026-08-09).
 
 ## Architecture
 
 ### Components and ownership
 
 - .pi/prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research); each prompt is a self-contained workflow
-- .pi/skills/ - 80 skills in 10 progressive-disclosure packs; catalog in packs.json, ledger in manifest.json
-- .pi/templates/ - 11 format templates; /init renders agents, project, tech-stack, roadmap, state, user
+- .pi/skills/ - 83 skills in 10 progressive-disclosure packs; catalog in packs.json, ledger in manifest.json
+- .pi/templates/ - 12 format templates; /init renders agents, project, tech-stack, roadmap, state, user
+- .pi/work/ - tracked durable work records, one directory per local work record (optional GitHub issue link); active pointer and per-work dotfiles stay ignored beside them
 - .pi/settings.json + .pi/fabric.json - Pi runtime and Ultra Fabric prewalk configuration
-- scripts/ - 3 dependency-free Node gates: validate-skill-packs.mjs, sync-skill-manifest.mjs, probe-skill-routing.mjs
+- scripts/ - 5 dependency-free Node gates: validate-skill-packs.mjs, sync-skill-manifest.mjs, probe-skill-routing.mjs, validate-ultra-fabric.mjs, validate-work-management.mjs
 - Context artifacts - AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md
 
 ### Dependency direction
@@ -327,15 +339,15 @@ Pi host reads .pi/settings.json and .pi/prompts/. Ultra Fabric reads .pi/fabric.
 
 ### Initialization flow
 
-/init runs deep discovery (prompts, skills, templates, settings, scripts, git state, tool inventory), previews the detection table, then writes AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, and user.md under the idempotency rules (.pi/prompts/init.md).
+/init runs deep discovery (prompts, skills, templates, settings, scripts, git state, tool inventory), previews the detection table, then writes AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, and user.md under the idempotency rules (.pi/prompts/init.md). After persistence, an optional Phase 9 links the project to GitHub: detect the remote, create the repository only on explicit approval, push only on separate approval, and offer central GitHub Project enrollment as a third optional approval (.pi/prompts/init.md).
 
 ### Prewalk mutation flow
 
-Mutating commands submit prewalk.checklist({ items, schema }) inside fabric_exec. Only after accepted handoff does the executor write declared files, then verify. Research, audit, and verify commands stay read-only (AGENTS.md Prewalk and Mutation, .pi/prompts/*.md Prewalk boundary sections).
+Mutating commands submit prewalk.checklist({ ... }) inside fabric_exec with the matching disposition (trivial / easy / full); only after accepted handoff does the executor write declared files, then verify. Research, audit, and verify commands stay read-only (AGENTS.md Prewalk and Mutation, .pi/prompts/*.md Prewalk boundary sections).
 
 ### State boundaries
 
-Generated local state is gitignored: .pi/artifacts/, .pi/fabric/, .pi/hindsight/ never commit. .pi/artifacts/MEMORY.md holds local durable decisions only. Tracked context artifacts are the durable product surface.
+Generated local state is gitignored: .pi/MEMORY.md, .pi/implementation-notes.md, .pi/fabric/, .pi/hindsight/ never commit. Inside .pi/work/, the active pointer (.active) and per-work .progress.md and .verify.log stay ignored beside tracked records. Tracked durable work records live in .pi/work/ (one directory per local work record); tracked context artifacts are the durable product surface.
 
 ### Invariants
 
@@ -351,6 +363,8 @@ Generated local state is gitignored: .pi/artifacts/, .pi/fabric/, .pi/hindsight/
 | Skill packs | node scripts/validate-skill-packs.mjs | exit 0 |
 | Manifest parity | node scripts/sync-skill-manifest.mjs --check | exit 0 |
 | Routing probes | node scripts/probe-skill-routing.mjs | all pass |
+| Ultra Fabric contract | node scripts/validate-ultra-fabric.mjs | exit 0 |
+| Work management | node scripts/validate-work-management.mjs | exit 0 |
 | Whitespace | git diff --check | exit 0 on changed files |
 
 Full architecture record: .pi/project.md (rendered by /init); keep this section as the concise operational view.
@@ -363,11 +377,12 @@ Verified layout of this template repository:
 - README.md - template overview, command table, layout
 - .gitignore
 - .pi/ - Pi-native configuration and content
-  - fabric.json - Ultra Fabric prewalk guard config (prewalk.verificationMode/arm)
+  - fabric.json - Ultra Fabric prewalk guard config (gated verification, task arm)
   - settings.json - Pi settings (thinking level, theme, compaction)
   - prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research)
-  - skills/ - 80 portable skills; ledger at skills/manifest.json
-  - templates/ - 11 format templates (prd, design, adr, agents, tech-stack, ...)
+  - skills/ - 83 portable skills; ledger at skills/manifest.json
+  - templates/ - 12 format templates (prd, design, adr, issue, agents, tech-stack, ...)
+  - work/ - tracked durable records per local work record; active pointer and per-work dotfiles stay ignored beside them
 - No src/, lib/, or app/ - configuration template, not an application; no build, no dependencies, no runtime harness
 - .pi/project.md - full architecture, purpose, and success criteria (rendered by /init); this map stays the concise operational view
 

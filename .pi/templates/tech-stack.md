@@ -140,4 +140,4 @@ Facts not yet verified; ask the user rather than guessing.
 ---
 
 _Update this file when tech stack or constraints change._
-_AI will capture architecture, conventions, and gotchas in `.pi/artifacts/MEMORY.md` as it works._
+_AI will capture architecture, conventions, and gotchas in `.pi/MEMORY.md` as it works._

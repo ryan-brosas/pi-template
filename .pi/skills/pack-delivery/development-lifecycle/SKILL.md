@@ -1,6 +1,6 @@
 ---
 name: development-lifecycle
-description: Use when starting, planning, shipping, or verifying a work session — describes how `/create`, `/plan`, `/ship`, `/verify`, and `/research` interact with the 4 canonical artifact files at `.pi/artifacts/`.
+description: Use when starting, planning, shipping, or verifying a work session — describes how `/create`, `/plan`, `/ship`, `/verify`, and `/research` interact with the canonical work artifacts under `.pi/work/`.
 disable-model-invocation: true
 ---
 
@@ -9,16 +9,16 @@ disable-model-invocation: true
 
 ## The 4 Canonical Artifact Files
 
-At `.pi/artifacts/`, maintained in the working copy:
+At the active work record `.pi/work/$(cat .pi/work/.active)/`, maintained in the working copy:
 
 | File | Purpose | Use when |
 |---|---|---|
 | `TODO.md` | Live task list per session / day | >=2 tool calls OR >=2 files OR multi-step work |
 | `PLAN.md` | Long-form spec, slice ordering, open questions | New feature, breaking change, ambiguous spec |
-| `PROGRESS.md` | Per-iteration log: tried, failed, learned | Long-running investigation or build |
+| `.progress.md` | Per-iteration log: tried, failed, learned | Long-running investigation or build |
 | `DECISIONS.md` | ADRs (Architecture Decision Records) | Real trade-off between two or more viable options |
 
-**Entry format (TODO.md, PROGRESS.md):** `### YYYY-MM-DD - <title>` followed by `status: active | done | abandoned | updated: <date>`.
+**Entry format (TODO.md, .progress.md):** `### YYYY-MM-DD - <title>` followed by `status: active | done | abandoned | updated: <date>`.
 
 ## Slash Commands (Lifecycle Hooks)
 
@@ -26,15 +26,15 @@ At `.pi/artifacts/`, maintained in the working copy:
 - `/plan` — open / resume the current plan. Loaded from `planning-and-task-breakdown`.
 - `/ship` — pre-merge hardening: tests, lint, types, format. Loaded from `shipping-and-launch`.
 - `/verify` — claim-completion evidence gate. Loaded from `verification-before-completion`.
-- `/research` — exploratory investigation; lives in `PROGRESS.md`. Loaded from `spec-driven-development`.
+- `/research` — exploratory investigation; lives in `.progress.md`. Loaded from `spec-driven-development`.
 
 ## Workflow
 
 ```
    /create  ──>  /plan  ──>  implement  ──>  /ship  ──>  /verify
       │            │           │              │           │
-   PLAN.md      TODO.md      artifacts    tests/lint    evidence
-   TODO.md      updates      PROGRESS.md  green        claim holds
+   PLAN.md      TODO.md      .progress.md tests/lint    evidence
+   TODO.md      updates      updates      green        claim holds
 ```
 
 **`/research` is sideways** — it feeds `/plan` or `/create`, not the linear path.
@@ -53,14 +53,14 @@ At `.pi/artifacts/`, maintained in the working copy:
 
 1. **No silent skipping** — if you skip a phase, name it in the response ("skipped /plan: single-file fix with clear spec"). This becomes the audit trail.
 2. **Update TODO.md first, then code** — append the entry before the first edit. Re-reading it on resume gives you the state.
-3. **PROGRESS.md = investigation log** — failed attempts and "what I tried" go here, not in chat.
+3. **.progress.md = investigation log** — failed attempts and "what I tried" go here, not in chat.
 4. **DECISIONS.md is for trade-offs, not choices** — if there's only one viable option, it goes in PLAN.md as a fact, not an ADR.
 5. **/verify is non-negotiable** — every "done" claim cites evidence.
 
 ## Red Flags
 
 - TODO.md has no `### YYYY-MM-DD - <title>` entries — likely stale or skipped.
-- PROGRESS.md empty on a multi-hour task — context loss on resume.
+- .progress.md empty on a multi-hour task — context loss on resume.
 - DECISIONS.md used as a dumping ground for any choice — noise, not signal.
 - "Done" claim without `/verify` evidence — common regression.
 
@@ -75,7 +75,7 @@ At `.pi/artifacts/`, maintained in the working copy:
   <skill>development-lifecycle</skill>
   <status>success|partial|blocked|failure</status>
   <evidence>Phase(s) used named, artifact files updated, /verify evidence cited</evidence>
-  <artifacts>TODO.md / PLAN.md / PROGRESS.md / DECISIONS.md paths touched</artifacts>
+  <artifacts>paths touched under .pi/work/&lt;id&gt;/</artifacts>
   <risks>Skipped phases, stale entries, or none</risks>
 </skill_result>
 ```

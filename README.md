@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Ultra Fabric: nine prompt commands, 83 portable skills,
-11 format templates, Pi-native settings, and the prewalk guard. No build, no
+tailored to Pi + Ultra Fabric: nine prompt commands, 84 portable skills,
+12 format templates, Pi-native settings, and the prewalk guard. No build, no
 dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -22,25 +22,27 @@ AGENTS.md                    # project agent rules (this repo's own)
 README.md
 .gitignore
 .pi/
-├── fabric.json            # Ultra Fabric prewalk config (legacy verification, session arm)
+├── fabric.json            # Ultra Fabric prewalk config (gated verification, task arm)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 83 skills in 10 progressive-disclosure packs (packs.json)
-├── scripts/               # validate-skill-packs.mjs (structural gate)
-└── templates/             # 11 format templates (PRD, design, ADR, agents, ...)
+├── skills/                # 84 skills in 10 progressive-disclosure packs (packs.json)
+├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
+├── work/                  # tracked durable records per local work record
+└── scripts/               # 5 dependency-free Node gates (skills, manifest, routing, Ultra Fabric, work)
 ```
 
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
 tui.json) and the OpenCode agent/workflow wrappers (`.pi/agents/`,
 `.pi/workflows/`) are removed — Pi and Ultra Fabric provide those natively.
-Generated state (`.pi/artifacts/`, `.pi/fabric/`, `.pi/hindsight/`) is
-gitignored and never ships.
+Generated state (`.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/hindsight/`) is
+gitignored and never ships. Inside `.pi/work/`, the active pointer and per-work dotfiles stay ignored. Tracked work records live in `.pi/work/`, one
+directory per work record.
 
 ## Commands
 
 | Command | Purpose |
 | --- | --- |
-| `/init` | one-time full init: deep discovery + all context artifacts |
+| `/init` | one-time full init: deep discovery + all context artifacts; optional GitHub repo setup |
 | `/create` | spec: PRD, workspace, tasks → ready for `/ship` |
 | `/plan` | detailed TDD implementation plan |
 | `/fix` | debug and fix a bug or failing test |
@@ -57,7 +59,7 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Skills and Templates
 
-- Skills: 83 skills in 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 84 skills in 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
@@ -66,13 +68,30 @@ before writing. Research, audit, and verify are explicitly read-only.
   invocable via `/skill:<name>`. Membership is owned by `.pi/skills/packs.json`;
   run `node scripts/validate-skill-packs.mjs` after adding or moving a skill.
 - Templates: `.pi/templates/*.md` — PRD, design, ADR, proposal, roadmap, state,
-  tasks, agents, tech-stack, project, user. `/init` renders agents, project,
-  tech-stack, roadmap, state, and user; `/create` and `/plan` render the rest.
+  tasks, agents, tech-stack, project, user, issue. `/init` renders agents,
+  project, tech-stack, roadmap, state, and user; `/create`, `/plan`, and
+  `/verify` render the rest.
 
 ## Ultra Fabric
 
 Prewalk is the sole mutation authority: research → checklist → acceptance →
-handoff → verification. `.pi/fabric.json` holds the guard configuration.
+handoff → verification. `.pi/fabric.json` holds the guard configuration (gated
+verification, task arm). `node scripts/validate-ultra-fabric.mjs` pins the
+contract: native dispositions, Schema requirement, and referenced skill paths.
+
+## Work Management
+
+`/create` is local-first: it writes a tracked record directory
+`.pi/work/<slug>/` (issue.md, spec.md, research.md, design.md, plan.md,
+tasks.md, verification.md) without GitHub access. An optional `--issue <number>`
+links an existing verified issue and keeps the legacy `<issue>-<slug>` form.
+`/create` never creates a GitHub issue. Local session state stays ignored
+in `.pi/work/.active`, per-work `.progress.md`/`.verify.log` dotfiles, and
+`.pi/MEMORY.md`.
+`node scripts/validate-work-management.mjs` pins the ownership split, local
+slug IDs, GitHub templates, and /init GitHub setup safety. `/init` optionally
+creates or links the GitHub repository, pushes, and enrolls in the central
+GitHub Project — each mutation needs its own approval.
 
 ## Secrets
 

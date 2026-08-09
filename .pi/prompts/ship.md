@@ -12,18 +12,18 @@ Implement the active specification end to end: read the spec, build in small ver
 
 | Argument | Default | Description |
 | --- | --- | --- |
-| `<id>` | active slug | Feature id from `.pi/artifacts/.active` |
+| `<id>` | active slug | Feature id from `.pi/work/.active` |
 
 ## Phase 0: Load Skills
 
-Load the skill at `.pi/skills/test-driven-development/SKILL.md`, then
+Load the skill at `.pi/skills/pack-delivery/test-driven-development/SKILL.md`, then
 `.pi/skills/verification-before-completion/SKILL.md`.
 
 ## Phase 1: Gather Context
 
-Read `.pi/artifacts/$(cat .pi/artifacts/.active)/spec.md` to understand the requirements.
+Read `.pi/work/$(cat .pi/work/.active)/spec.md` to understand the requirements.
 
-Read `.pi/artifacts/$(cat .pi/artifacts/.active)/` to check what plan artifacts exist (plan.md, research.md, design.md).
+Read `.pi/work/$(cat .pi/work/.active)/` to check what plan artifacts exist (plan.md, research.md, design.md).
 
 **Guards:**
 - [ ] Spec exists and is up to date
@@ -31,25 +31,27 @@ Read `.pi/artifacts/$(cat .pi/artifacts/.active)/` to check what plan artifacts 
 
 ## Phase 2: Task Independence Check
 
-Parse the plan (`.pi/artifacts/$(cat .pi/artifacts/.active)/plan.md`) if present, otherwise derive tasks from the spec. For each task record its `files` (from tasks.md metadata or the plan).
+Parse the plan (`.pi/work/$(cat .pi/work/.active)/plan.md`) if present, otherwise derive tasks from the spec. For each task record its `files` (from tasks.md metadata or the plan).
 
 Group tasks:
-- **Independent tasks** (no overlapping files) — implement in parallel tool batches when the checks allow, but still one direct execution pass per task; never pretend to delegate to a subagent.
+- **Independent tasks** (no overlapping files) — run independent read-only discovery and checks in parallel batches; serialize all file mutations; one direct execution pass per task. Agents and subagents are unsupported: never dispatch one and never simulate delegation.
 - **Dependent tasks** (shared or chained files) — run strictly in order.
 
 If two tasks touch the same file, they are dependent regardless of what the plan says. Flag and serialize them.
 
-## Phase 3: Implementation Batches (TDD)
+## Phase 3: Task-Scoped Execution (TDD)
 
-Build in small verifiable batches:
+Run each task in dependency order through the task loop:
 
-1. Write a failing test for the next behavior (matching project test conventions).
-2. Write the minimal code to pass.
-3. Run the smallest relevant check (typecheck, lint, the test module) and inspect output + exit code.
-4. Record acceptance evidence per task (command + output tail).
-5. Repeat until all tasks pass.
+1. **Package** — state the task text, acceptance checks, permitted files, key symbols/invariants, and the smallest verification command before any edit.
+2. **Implement** — write a failing test for the next behavior (project test conventions), then the minimal code to pass. Direct sequential edits in this session; serialize all file mutations.
+3. **Acceptance review** — run every acceptance check, inspect output + exit code, and record command + output tail per task.
+4. **Quality review** — read the diff as if a new teammate wrote it: intent, edge cases, naming, consistency, dead code.
+5. **Correct (max two rounds)** — address findings with scoped edits; re-review only the original findings and the correction diff. New observations are notes, not round reopeners.
+6. **Ledger** — append the outcome (checks, findings, rulings) to .progress.md and update the task list.
+7. Stop on BLOCKED (same-approach failure twice, or a load-bearing finding past two rounds), plan conflict, destructive action, or ambiguity.
 
-For independent tasks, run the per-task checks in parallel batches where the project tooling allows, then run the combined check once at the end.
+For independent tasks, run their read-only discovery and checks in parallel batches where tooling allows; keep all file mutations sequential and run the combined check once at the end.
 
 **Rules:**
 - Smallest working change, scoped to known territory
@@ -57,13 +59,13 @@ For independent tasks, run the per-task checks in parallel batches where the pro
 - Surgical diffs only — every changed line traces to the current request
 - Unrelated issues get `NOTICED BUT NOT TOUCHING: ...` and move on
 - For novel/unclear work: prototype, show variants, or ask before editing
-- If a batch fails twice on the same approach, stop and re-plan that task instead of iterating blindly
+- Never dispatch or simulate an agent/subagent for implementation or review
 
-## Phase 4: Review and Merge
+## Phase 4: Final Whole-Change Review
 
-After each batch passes its checks:
-- Review the diff as if a new teammate wrote it (intent, edge cases, naming, consistency).
-- Re-check the current tree before merging — other work may have landed.
+After the last task:
+- Review the complete diff across tasks for integration breaks, duplicated seams, and spec drift.
+- Re-check the current tree — other work may have landed.
 - Run the project's full gate if one exists (tests, lint, typecheck, build).
 
 ## Phase 5: Verify
@@ -76,7 +78,7 @@ Follow the verification protocol: `.pi/skills/verification-before-completion/ref
 
 ## Phase 6: Report (output contract)
 
-Append progress to `.pi/artifacts/$(cat .pi/artifacts/.active)/progress.md`.
+Append progress to `.pi/work/$(cat .pi/work/.active)/.progress.md`.
 
 Output:
 1. **Completed tasks** with per-task acceptance evidence
@@ -88,10 +90,13 @@ Output:
 ## Prewalk boundary
 
 Reading and planning are read-only. Before the first edit, call
-`prewalk.checklist({ items, schema })` inside fabric_exec with 5-9 ordered items
-and an explicit schema contract; wait for accepted handoff, then implement as the
-executor. Keep the checklist active until every item and validation is complete.
-If acceptance is denied or scope changes, do not mutate.
+`prewalk.checklist({ ... })` inside fabric_exec with the matching disposition:
+`trivial: true` for one or two small edits, `easy: true` plus 2-4 items and
+Schema for bounded work, or 5-9 items plus Schema for full work; every
+items-bearing checklist requires the Schema contract. Wait for accepted handoff,
+then implement as the executor. Keep the checklist active until every item and
+validation is complete; mark each with `[DONE:n]`. If acceptance is denied or
+scope changes, do not mutate.
 
 ## Related Commands
 

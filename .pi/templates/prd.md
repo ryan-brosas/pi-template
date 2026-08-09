@@ -1,4 +1,4 @@
-# Beads PRD Template
+# PRD Template
 
 > **Template Instructions:**
 >
@@ -7,17 +7,21 @@
 > - Any `[NEEDS CLARIFICATION]` markers MUST be resolved before planning can proceed
 > - Delete this instruction block after filling the template
 
-**Bead:** br-[id]
+**GitHub issue:** none | #[issue] (optional)
+**Work ID:** [slug]
+**Repository:** [owner/repo | none]
 **Created:** [date]
 **Status:** Draft | In Review | Approved
 
-## Bead Metadata
+## Work Metadata
 
 ```yaml
-depends_on: [] # Bead IDs that must complete before this one
-parallel: true # Can run concurrently with other parallel tasks
-conflicts_with: [] # Bead IDs that modify same files (cannot parallelize)
-blocks: [] # Bead IDs waiting on this one
+issue: none | <number> # Optional; only a verified GitHub issue number, never guessed
+depends_on: [] # Work IDs that must complete before this one
+parallel: true # Independent read-only checks may batch; file mutations stay serialized
+conflicts_with: [] # Work IDs that modify same files (cannot parallelize)
+files: [] # Files this work will modify
+acceptance: [] # Commands or observable checks that prove this work done
 estimated_hours: 2 # Time estimate for planning
 ```
 
@@ -112,7 +116,7 @@ Brief description of what must be true.
 
 ### Affected Files
 
-Files this bead will modify (for conflict detection):
+Files this work item will modify (for conflict detection):
 
 ```yaml
 files:
