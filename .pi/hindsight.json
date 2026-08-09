@@ -1,12 +1,17 @@
 {
   "setupComplete": true,
   "scope": {
-    "mode": "domain-tagged"
+    "mode": "isolated-bank",
+    "projectId": "pi-template",
+    "projectIdStrategy": "basename",
+    "includeSharedObservations": false
   },
   "agentUse": "coding",
   "banks": {
     "project": {
-      "enabled": true
+      "enabled": true,
+      "derive": "manual",
+      "bankId": "pi-template"
     },
     "user": {
       "enabled": false

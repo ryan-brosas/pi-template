@@ -13,6 +13,7 @@ Pick at most 2 members below matching the task, most specific first; read each f
 - cgc-inspiration-workflow: clone/refresh inspo repos, CGC index, query, adopt/adapt/omit
 - evidence-router: pick research tool: CGC, DeepWiki, Context7, OmniRoute
 - gemini-large-context: very large documents or contexts
+- github-contribution-opportunities: find and qualify legitimate GitHub PR contribution opportunities
 - grill-me: challenge reasoning before finalizing
 - grill-with-docs: pressure-test claims against docs
 - opensrc: inspect package source internals

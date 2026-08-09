@@ -257,6 +257,12 @@
       "modelVisible": false
     },
     {
+      "name": "github-contribution-opportunities",
+      "status": "retained",
+      "pack": "pack-research",
+      "modelVisible": false
+    },
+    {
       "name": "go-development",
       "status": "retained",
       "pack": "pack-toolchains",
@@ -494,6 +500,12 @@
       "name": "typescript-coding-standards",
       "status": "retained",
       "pack": "pack-quality",
+      "modelVisible": false
+    },
+    {
+      "name": "upwork-proposals",
+      "status": "retained",
+      "pack": "pack-authoring",
       "modelVisible": false
     },
     {
