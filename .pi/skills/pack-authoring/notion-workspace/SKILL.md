@@ -16,9 +16,13 @@ disable-model-invocation: true
 2. **Search before fetch, fetch before edit.** `notion-cli search <query>` finds pages and databases. `notion-cli fetch <page-url-or-id>` reads a page fully. Never write to a page you have not fetched in this task.
 3. Reuse existing structure. If a Projects, Tasks, Notes, or Second Brain system already exists, link to it. Never create a duplicate system when the existing one fits.
 
-## Central Hub
+## Single Central Hub
 
-A flexible second brain lives under the existing Second Brain. Keep sections for Projects, Tasks, Notes, Content, Learning, Ideas, Principles and Preferences, GitHub Work, and Workspace Audits. The hub links existing databases; it does not replace them. Capture freely, organize later. Promote captured ideas to Projects when they become real.
+The top-level Second Brain is the single central hub and the only central dashboard. Maximize it; never create a parallel hub or dashboard when Second Brain exists. Add any missing sections directly to Second Brain instead of nesting a new hub under it. Keep sections for Projects, Tasks, Notes, Content, Learning, Ideas, Principles and Preferences, GitHub Work, Workspace Audits, Source of Truth, and Review Cadence. The hub links existing databases; it does not replace them. Capture freely, organize later. Promote captured ideas to Projects when they become real.
+
+## Personal Brand
+
+Personal Brand is the content system. Its Content Pieces, Inspiration, and Content Sources databases drive publishing. Capture raw material there, draft in Content, and promote finished work to Projects.
 
 ## Editing
 

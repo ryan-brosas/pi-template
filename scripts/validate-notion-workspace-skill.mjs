@@ -30,6 +30,9 @@ check(/GitHub/.test(skill) && /ryan-workspace/.test(skill) && /source of truth/i
 check(/page edit/.test(skill) && /page update/.test(skill), "skill prefers surgical edits over full-page replacement");
 check(/duplicate/i.test(skill) && /destructive/i.test(skill) && /credential/i.test(skill), "skill prevents duplicate systems and protects destructive actions and credentials");
 check(/Projects/.test(skill) && /Tasks/.test(skill) && /Notes/.test(skill) && /Content/.test(skill) && /Learning/.test(skill), "skill supports a flexible second-brain hub");
+check(/Second Brain/.test(skill) && /single central hub|only central dashboard/i.test(skill), "skill makes the existing top-level Second Brain the single central hub");
+check(/Personal Brand/.test(skill), "skill links Personal Brand as the content system");
+check(/never create a parallel|do not create.{0,40}(parallel|another hub)/i.test(skill), "skill prohibits creating a parallel central hub");
 check(router.includes("notion-workspace:"), "authoring router lists notion-workspace");
 check(authoring?.members.includes("notion-workspace"), "catalog assigns notion-workspace once");
 
