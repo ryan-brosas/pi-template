@@ -19,6 +19,8 @@ updated: 2026-08-09
 4. Merge into an existing AGENTS.md in place, never overwrite blindly. Preserve user-authored content; add, tighten, or remove sections only where evidence or the user supports it.
 5. Keep architecture in AGENTS.md concise and operational; the detailed system record lives in `.pi/project.md` and the two files cross-link without verbatim duplication.
 6. Preview material changes (the full rendered file, or a diff against the existing AGENTS.md) before writing, and let the user adjust.
+7. Render the GitHub identity and attribution protocol (REQUIRED section 18) in every AGENTS.md for a repository with GitHub remotes, PRs, or commit workflows.
+8. Render the three Mermaid architecture diagrams (components, dependency direction, principal execution flow) for every full init, each with accessible prose and verified local facts only.
 
 ---
 
@@ -196,6 +198,28 @@ Order of authority, highest first:
 - When ending a session: file issues for remaining work, run the project's quality gates if code changed, update issue status, and hand off context for the next session.
 - The handoff must state: what changed, what was verified (with artifacts), what is still unverified or blocked, and what the next session should do first.
 
+### 18. GitHub identity and attribution
+
+Treat these as separate facts. Never merge them into one identity claim:
+
+1. authenticated CLI account - the account `gh` is logged in as; source `gh auth status`
+2. account profile - login, id, public email; source `gh api user --jq '{login,id,email}'`
+3. repository owner - who owns a repository or fork; source `gh repo view OWNER/REPO --json nameWithOwner,parent,isFork`
+4. pull-request author - who opened a PR; source `gh pr view NUMBER --repo OWNER/REPO --json author,state,mergedAt,commits`
+5. commit author and committer metadata - name and email recorded in the commit object; source commit API or `git log`
+6. GitHub commit association - the account GitHub maps a commit to; source commit API `.author` / `.committer`
+7. local Git configuration - `git config --show-origin --get-regexp '^user\.(name|email)$'`, plus GIT_AUTHOR_* and GIT_COMMITTER_* environment overrides
+8. account status and accessibility - active, deleted, renamed, or unavailable; source the account's own API or settings, never commit metadata
+
+Rules:
+
+- Commit metadata proves only what is recorded on that commit. It never proves current account ownership, PR ownership, authentication state, account availability, or configured email.
+- A commit email or GitHub commit association can reference an account that is deleted, renamed, or no longer used. Report it as metadata, not as an account fact.
+- Probe each fact class with its direct source before claiming it: `gh auth status`, `gh api user`, `gh repo view`, `gh pr view`, or the commit API. Cite the command output.
+- When a probe fails, report the exact error and any missing OAuth scope (for example `gh api user/emails` requires the `user` scope). Never guess the missing value.
+- When sources disagree, state both values with their sources. Never collapse a PR author and a commit association into one identity claim.
+- Unknown account state stays `[NEEDS CLARIFICATION: reason]`. Never propose account deletion, history rewrites, force-pushes, or configuration changes without direct evidence of a real mismatch, and never propose such actions for an account other than the one the user is authenticated as.
+
 ## PROJECT CONTEXT: render for every full init
 
 Render every block below with verified local values. Do not omit a block; if the evidence is missing, write `[NEEDS CLARIFICATION: reason]` and ask.
@@ -233,6 +257,40 @@ Evidence: `[tree / README layout]`
 - Data ownership: `[stores and their owning module; cache ownership; transaction boundaries]`
 - Runtime units: `[deployment artifact(s), background workers, health checks]`
 
+Render a component boundary diagram (REQUIRED for every full init):
+
+```mermaid
+flowchart TD
+  subgraph boundary["[trust or deployment boundary]"]
+    A["[component]"] --> B["[component]"]
+    B --> C["[component]"]
+  end
+  D["[external actor or system]"] -->|"[protocol]"| A
+  C -->|"[protocol]"| E["[external dependency]"]
+```
+
+Render a dependency direction diagram (REQUIRED for every full init):
+
+```mermaid
+flowchart LR
+  subgraph core["[core layer]"]
+    A["[module]"]
+  end
+  subgraph adapters["[adapters]"]
+    B["[module]"]
+    C["[module]"]
+  end
+  B -->|imports| A
+  C -->|imports| A
+  A -.->|"must not import down"| X["[forbidden edge, dashed]"]
+```
+
+Diagram rules:
+
+- Each diagram states the same facts in accessible prose above or below it, so agents and renderers that do not process Mermaid still get the architecture.
+- Every node and edge traces to local evidence (file:line, import graph, or codemap result). Invented edges are forbidden.
+- If Mermaid syntax cannot be verified, render the prose only and mark the diagram `[NEEDS CLARIFICATION: reason]`.
+
 Evidence: `[docs/architecture.md, observed import graph, or codemap result]`
 
 ### Execution flows
@@ -241,6 +299,28 @@ Evidence: `[docs/architecture.md, observed import graph, or codemap result]`
 - Primary request or mutation flow: `[path a request or change takes through the system]`
 - Background processing: `[jobs, queues, schedules, or none]`
 - Verification flow: `[which gates run, in what order, before a change is done]`
+
+Render one principal execution flow as a sequence diagram (REQUIRED for every full init):
+
+```mermaid
+sequenceDiagram
+  actor U as [user or client]
+  participant A as [entry component]
+  participant B as [service]
+  participant C as [store or dependency]
+  U->>A: [request or command]
+  A->>B: [call]
+  B->>C: [read or write]
+  C-->>B: [result]
+  B-->>A: [result]
+  A-->>U: [response]
+```
+
+Flow rules:
+
+- The sequence covers one real end-to-end path with verified steps; each participant maps to a real component from the architecture block.
+- Accessible prose states the flow in order without the diagram.
+- Unverified steps are marked `[NEEDS CLARIFICATION: reason]`, never invented.
 
 Evidence: `[prompt templates, entrypoints, or command output]`
 
@@ -394,3 +474,5 @@ Never render a rule for a tool that is not installed or configured in this repos
   tools.
 - When merging into an existing AGENTS.md, preserve user-authored rules even if
   they duplicate the core; tighten only with the user's agreement.
+- The identity protocol (REQUIRED section 18) and the Mermaid diagram contracts
+  are mandatory in every rendered AGENTS.md; render them with verified facts only.

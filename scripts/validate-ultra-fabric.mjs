@@ -59,5 +59,23 @@ if (existsSync(shipPath)) {
   }
 }
 
+// 5. AGENTS template and init prompt: identity protocol + Mermaid architecture contract
+const agentsTemplatePath = join(root, ".pi", "templates", "agents.md");
+if (!existsSync(agentsTemplatePath)) fail("missing .pi/templates/agents.md");
+else {
+  const template = readFileSync(agentsTemplatePath, "utf8");
+  for (const needle of ["### 18. GitHub identity and attribution", "authenticated CLI account", "pull-request author", "commit association", "local Git configuration", "gh auth status", "gh api user", "gh repo view", "gh pr view", "user/emails", "NEEDS CLARIFICATION", "```mermaid", "flowchart", "sequenceDiagram", "accessible prose", "dependency direction"]) {
+    if (template.includes(needle)) ok("agents template: " + needle); else fail("agents template missing " + needle);
+  }
+}
+const initPath = join(root, ".pi", "prompts", "init.md");
+if (!existsSync(initPath)) fail("missing .pi/prompts/init.md");
+else {
+  const initText = readFileSync(initPath, "utf8");
+  for (const needle of ["GitHub identity", "identity protocol", "Mermaid"]) {
+    if (initText.includes(needle)) ok("init prompt: " + needle); else fail("init prompt missing " + needle);
+  }
+}
+
 console.log(failures ? "ultra-fabric contract: FAIL" : "ultra-fabric contract: ok");
 process.exit(failures ? 1 : 0);
