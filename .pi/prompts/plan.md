@@ -1,68 +1,40 @@
 ---
-description: Create a detailed implementation plan with TDD steps
+description: Create an advisory assembly-line implementation plan with stations
 argument-hint: ""
 ---
 
 # Plan
 
-Create a detailed implementation plan with TDD steps. Optional deep-planning between `/create` and `/ship`.
+Create an advisory assembly-line plan: an ordered list of stations, each with an acceptance check and a handoff payload for the next station. The plan is quick to produce; the assembly (station packages, compaction, acceptance ledger) carries the quality.
 > **Workflow:** `/create` → **`/plan`** (optional) → `/ship`
 > **When to use:** complex tasks where spec verification steps aren't enough guidance. Skip for simple tasks.
 
-## Before You Plan
+## Erasure: When NOT to Plan
 
-- **Be certain**: only create tasks you're confident about
-- **Don't over-plan**: if the spec is clear, trust it
-- **Budget context**: target ~50% context per execution
-- **Vertical slices**: each task should cover one feature end-to-end
+Planning machinery erases itself for smaller scoped work; otherwise the scope discipline of the assembly over-applies.
 
-## Phase 0: Institutional Research (Mandatory)
+- **Trivial (1-2 small edits)** — skip planning entirely; the mutation guard's `trivial: true` disposition is the erasure.
+- **Two or fewer stations** — skip `/plan`; ship directly from the spec. The assembly would cost more than the work.
+- **Single-slice change** — use `incremental-implementation` instead.
+- Only plan when the work genuinely splits into 3+ ordered stations with distinct acceptance checks.
 
-Before touching the PRD, load what the codebase already knows.
-**This step is not optional. Skipping it means planning in the dark.**
+## The Assembly Pattern
 
-### Step 1: Search project context
+The plan is an assembly line, not a design document. Each station is a unit of work that an executor frame runs with a compact context. The executor carries three things from station to station:
 
-Search `.pi/MEMORY.md` for bugfixes, existing plans, and prior decisions:
-```bash
-rg -n "topic" .pi/MEMORY.md
-```
+1. **Handoff payload** — the compact summary of what came before (files, key symbols, invariants, decisions) that the next station must know.
+2. **Acceptance ledger** — the running record of checks run and outcomes per station, in `.pi/work/$(cat .pi/work/.active)/.progress.md`, keyed by station id.
+3. **Compaction** — after each station's ledger entry, request programmatic compaction (`compact.request`) where the host supports it, so the next station starts from the compacted context plus its payload.
 
-If relevant context is found, incorporate it directly into the plan. Don't re-solve solved problems.
+Plans are advisory, not directive: the executor uses the plan as a starting point, then does independent investigation before each station.
 
-### Step 2: Mine git history
+## Phase 0: Institutional Research (Trimmed)
 
-```bash
-# What has changed recently in affected areas?
-git log --oneline -20
+Load only enough codebase knowledge to name stations correctly. Do not research exhaustively; the assembly carries discovery forward per station.
 
-# Who wrote the relevant code and when?
-git log --oneline --follow -- <relevant-file-path>
-
-# What patterns appear in recent commits?
-git log --oneline --all | head -30
-```
-
-Look for:
-- Commit conventions (how this team names things)
-- Recent changes to files you'll touch (merge conflict risk)
-- How similar features were implemented before
-- Any "fix:", "revert:", "hotfix:" commits near your scope (footgun zones)
-
-### Step 3: Code Reconnaissance
-
-Use codemap directly to map the affected area:
-- codemap search for relevant symbols, patterns, and config keys
-- codemap refs on the key functions to see callers and call sites
-- codemap skeleton/explore for the subsystem structure
-
-Then read 2-4 representative files (including tests) so the plan matches existing structure and conventions. Look for:
-- existing patterns to follow
-- files to be aware of (ownership, size, coupling)
-- test patterns for this domain
-- TODO/FIXME markers in relevant files
-
-**Only after completing Phase 0** do you proceed to planning.
+1. **Project context** — `rg -n "topic" .pi/MEMORY.md`; `git log --oneline -20` for conventions and footgun zones.
+2. **Code reconnaissance** — codemap search for relevant symbols/config keys; codemap refs on key functions; read 2-4 representative files (including tests) so station boundaries match existing structure.
+3. **Stop when you can name the stations.** Research beyond that is scope discipline without a station to attach it to.
 
 ## Phase 1: Guards
 
@@ -70,132 +42,74 @@ Verify:
 - `.pi/work/$(cat .pi/work/.active)/spec.md` exists (if not, tell the user to run `/create` first)
 - If `.pi/work/$(cat .pi/work/.active)/plan.md` already exists, ask the user: overwrite or skip?
 
-## Phase 2: Discovery Assessment
+## Phase 2: Station Decomposition
 
-Determine discovery level from the PRD:
+Break the goal into an ordered assembly line. Order by what is most likely to change (data model, type interfaces, UX) first; mechanical refactor last.
 
-| Level | Scope | When to Use | Action |
-| --- | --- | --- | --- |
-| **0** | Skip | Pure internal work, existing patterns only (grep confirms) | Skip research, proceed to decomposition |
-| **1** | Quick | Familiar domain, some unknowns | Focused search on the unknown parts |
-| **2** | Standard | New domain or cross-cutting change | Full pattern + test + dep discovery |
-| **3** | Deep | Unfamiliar stack or high-risk change | Extended discovery incl. external best practices |
+### Station Attributes
 
-## Phase 3: Goal-Backward Analysis
+Each station (S1..Sn) has exactly:
 
-**Forward planning:** "What should we build?" → produces tasks.
-**Goal-backward:** "What must be TRUE for the goal to be achieved?" → produces requirements.
+- **task** — one sentence of intent
+- **acceptance check** — command or observable behavior that proves the station done
+- **handoff payload** — files, key symbols, invariants, and decisions the next station must know
+- **risk** — what is most likely to break here
 
-### Step 1: Extract Goal from PRD
+### Derivation Guide
 
-Take success criteria from the PRD. Must be outcome-shaped, not task-shaped.
-- Good: "Working chat interface" (outcome)
-- Bad: "Build chat components" (task)
+- **Goal-backward:** from the PRD success criteria, derive "what must be TRUE for the goal" (outcome-shaped), then "what must EXIST" per truth (artifact = file/component/API).
+- **Key links:** "where is this most likely to break?" — record as the station's risk.
+- **Dependency order:** `needs` / `creates` per station; later stations depend on earlier outcomes.
 
-### Step 2: Derive Observable Truths
+### Station Quality
 
-"What must be TRUE for this goal to be achieved?" List 3-7 truths from the USER's perspective.
-
-Example for "working chat interface":
-- User can see existing messages
-- User can type a new message
-- User can send the message
-- Sent message appears in the list
-- Messages persist across page refresh
-
-**Test:** each truth verifiable by a human using the application.
-
-For UI PRDs include state and recovery truths, not just happy paths:
-- User can understand where they are and what scope the screen/action affects
-- User can identify the single primary action and the result of triggering it
-- Empty, loading, error, and success states are visible where data/async work exists
-- User can recover from failure with retry, undo, fallback, or support path
-- Dangerous actions communicate consequences before execution
-- Forms expose labels, helper text, validation, and accessible errors
-
-### Step 3: Derive Required Artifacts
-
-For each truth: "What must EXIST for this to be true?"
-
-| Truth | Required Artifacts |
+| Good station | Bad station |
 | --- | --- |
-| User can see existing messages | Message list component, Messages state, API route, Message type |
-| User can send a message | Input component, Send handler, POST API |
+| One complete path through the layers; independently verifiable | One layer in isolation; untestable until all stations done |
+| Adds user-visible behavior or fixes a bug | Pure prep with no signal |
+| Has a concrete acceptance check | Acceptance is "looks right" |
+| Ships a handoff payload the next station can run on | Leaves the next station to re-derive context |
 
-**Test:** each artifact = a specific file or database object.
+## Phase 3: Write the Plan (output contract)
 
-### Step 4: Identify Key Links
+Write `.pi/work/$(cat .pi/work/.active)/plan.md` in this assembly-line format:
 
-"Where is this most likely to break?" Critical connections where breakage causes cascading failures.
-
-| From | To | Via | Risk |
-| --- | --- | --- | --- |
-| Input | API | `fetch` in onSubmit | Handler not wired |
-| API | Database | query call | Query returns static, not DB result |
-| Component | Real data | effect fetch | Shows placeholder, not messages |
-
-For UI PRDs add UX failure links:
-- Destructive action → confirmation/undo (dialog, toast, action log)
-- Form field → validation message (aria-describedby / focus)
-- Async action → loading/recovery (button state, toast, banner)
-- Filtered data → empty/no-results (query state + empty copy)
-
-## Phase 4: Decompose with Context Budget
-
-**Quality Degradation Rule:** target ~50% context per execution. More plans, smaller scope = consistent quality.
-
-| Task Complexity | Max Tasks | Context/Task | Total |
-| --- | --- | --- | --- |
-| Simple (CRUD) | 3 | ~10-15% | ~30-45% |
-| Complex (auth) | 2 | ~20-30% | ~40-50% |
-| Very complex | 1-2 | ~30-40% | ~30-50% |
-
-**Split signals (create child plans):**
-- More than 3 tasks
-- Multiple subsystems (DB + API + UI)
-- Any task with >5 file modifications
-- Checkpoint + implementation in same plan
-- Discovery + implementation in same plan
-
-Assess size to determine plan structure:
-
-| Size | Files | Approach |
-| --- | --- | --- |
-| S (1-3 files) | 2-4 tasks | Single plan, no phases |
-| M (3-8 files) | 5-8 tasks | 2-3 phases |
-| L (8+ files) | 9+ tasks | Split into separate plans per subsystem |
-
-## Phase 5: Dependency Graph & Wave Assignment
-
-**For each task, record:**
-- `needs`: what must exist before this runs
-- `creates`: what this produces
-- `has_checkpoint`: requires user interaction?
-
-**Example:**
 ```
-Task A (User model): needs nothing, creates src/models/user.ts
-Task B (User API): needs Task A, creates src/api/users.ts
-Task C (User UI): needs Task B, creates src/components/UserList.tsx
+## Goal
+[1 sentence]
 
-Wave 1: A (independent)
-Wave 2: B (depends on A)
-Wave 3: C (depends on B)
+## Non-goals
+[explicit exclusions]
+
+## Stations (ordered)
+### S1 - <title>
+- task: [1 sentence]
+- acceptance: [command or observable check]
+- payload: [files, key symbols, invariants, decisions for S2]
+- risk: [what breaks here]
+### S2 - <title>
+- ...
+
+## Open questions
+[must-resolve before station N]
+
+## Stop conditions
+[who blocks whom, on what]
 ```
 
-## Phase 6: Write the Plan (output contract)
+## Acceptance Ledger
 
-Render the plan from `.pi/templates/project.md` into `.pi/work/$(cat .pi/work/.active)/plan.md` with:
-- goal (one sentence)
-- constraints (hard vs soft)
-- phases with task lists, each task `[action] → verify with [check]`
-- dependencies (needs/creates)
-- verification for the whole plan
-- risks and failure behavior
-- privacy/security notes
-- open questions marked `[UNCERTAIN: ...]`
+Every station's outcome is recorded, keyed by station id, in `.pi/work/$(cat .pi/work/.active)/.progress.md` as the assembly executes:
 
-Plans are advisory, not directive: the build executor uses the plan as a starting point, then does independent investigation before acting.
+```text
+### <date> station S1 - <title>
+status: done | blocked | note
+checks: <command> exit <code>
+findings: <blocker|minor|note> <what>
+payload passed to: S2
+```
+
+The ledger IS the plan's acceptance record. A station without a ledger entry has not happened.
 
 ## Prewalk boundary
 

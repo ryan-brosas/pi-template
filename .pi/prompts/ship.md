@@ -5,7 +5,7 @@ argument-hint: "<id>"
 
 # Ship: $ARGUMENTS
 
-Implement the active specification end to end: read the spec, build in small verifiable batches, verify each batch, and report.
+Implement the active specification end to end: read the spec, run the plan as an assembly line of stations, verify each station, and report.
 > **Workflow:** `/create` → `/plan` (optional) → **`/ship`** → `/verify`
 
 ## Parse Arguments
@@ -29,29 +29,33 @@ Read `.pi/work/$(cat .pi/work/.active)/` to check what plan artifacts exist (pla
 - [ ] Spec exists and is up to date
 - [ ] You have read the full spec
 
-## Phase 2: Task Independence Check
+## Phase 2: Station Independence Check
 
-Parse the plan (`.pi/work/$(cat .pi/work/.active)/plan.md`) if present, otherwise derive tasks from the spec. For each task record its `files` (from tasks.md metadata or the plan).
+Parse the plan (`.pi/work/$(cat .pi/work/.active)/plan.md`) if present; each station S1..Sn carries its task, acceptance check, and handoff payload. Otherwise derive stations from the spec and tasks.md, giving each station an id, an acceptance check, and a payload for the next station.
 
-Group tasks:
-- **Independent tasks** (no overlapping files) — run independent read-only discovery and checks in parallel batches; serialize all file mutations; one direct execution pass per task. Agents and subagents are unsupported: never dispatch one and never simulate delegation.
-- **Dependent tasks** (shared or chained files) — run strictly in order.
+For each station record its `files` (from tasks.md metadata or the plan).
 
-If two tasks touch the same file, they are dependent regardless of what the plan says. Flag and serialize them.
+Group stations:
+- **Independent stations** (no overlapping files) — run independent read-only discovery and checks in parallel batches; serialize all file mutations; one direct execution pass per station. Agents and subagents are unsupported: never dispatch one and never simulate delegation.
+- **Dependent stations** (shared or chained files) — run strictly in order.
 
-## Phase 3: Task-Scoped Execution (TDD)
+If two stations touch the same file, they are dependent regardless of what the plan says. Flag and serialize them.
 
-Run each task in dependency order through the task loop:
+## Phase 3: Assembly-Line Execution (TDD)
 
-1. **Package** — state the task text, acceptance checks, permitted files, key symbols/invariants, and the smallest verification command before any edit.
+Run each station in dependency order through the station loop:
+
+1. **Package** — state the station id, task text, acceptance checks, handoff payload, permitted files, key symbols/invariants, and the smallest verification command before any edit.
 2. **Implement** — write a failing test for the next behavior (project test conventions), then the minimal code to pass. Direct sequential edits in this session; serialize all file mutations.
-3. **Acceptance review** — run every acceptance check, inspect output + exit code, and record command + output tail per task.
+3. **Acceptance review** — run every acceptance check, inspect output + exit code, and record command + output tail per station.
 4. **Quality review** — read the diff as if a new teammate wrote it: intent, edge cases, naming, consistency, dead code.
 5. **Correct (max two rounds)** — address findings with scoped edits; re-review only the original findings and the correction diff. New observations are notes, not round reopeners.
-6. **Ledger** — append the outcome (checks, findings, rulings) to .progress.md and update the task list.
-7. Stop on BLOCKED (same-approach failure twice, or a load-bearing finding past two rounds), plan conflict, destructive action, or ambiguity.
+6. **Ledger** — append the outcome to `.progress.md` keyed by station id (status, checks, findings, rulings, payload passed on) and update the station list.
+7. **Compact** — request programmatic compaction (`compact.request`) where the host supports it, so the next station starts from the compacted context plus its handoff payload.
+8. **Next station** — proceed in dependency order. Re-run the combined check when two stations share a seam.
+9. Stop on BLOCKED (same-approach failure twice, or a load-bearing finding past two rounds), plan conflict, destructive action, or ambiguity.
 
-For independent tasks, run their read-only discovery and checks in parallel batches where tooling allows; keep all file mutations sequential and run the combined check once at the end.
+For independent stations, run their read-only discovery and checks in parallel batches where tooling allows; keep all file mutations sequential and run the combined check once at the end.
 
 **Rules:**
 - Smallest working change, scoped to known territory
@@ -63,8 +67,8 @@ For independent tasks, run their read-only discovery and checks in parallel batc
 
 ## Phase 4: Final Whole-Change Review
 
-After the last task:
-- Review the complete diff across tasks for integration breaks, duplicated seams, and spec drift.
+After the last station:
+- Review the complete diff across stations for integration breaks, duplicated seams, and spec drift.
 - Re-check the current tree — other work may have landed.
 - Run the project's full gate if one exists (tests, lint, typecheck, build).
 
@@ -78,10 +82,10 @@ Follow the verification protocol: `.pi/skills/verification-before-completion/ref
 
 ## Phase 6: Report (output contract)
 
-Append progress to `.pi/work/$(cat .pi/work/.active)/.progress.md`.
+Append progress to `.pi/work/$(cat .pi/work/.active)/.progress.md`, updating the station ledger.
 
 Output:
-1. **Completed tasks** with per-task acceptance evidence
+1. **Completed stations** with per-station acceptance evidence, keyed by station id
 2. **Verification results** (typecheck/lint/test/build)
 3. **Deviations** from the plan, with reasons
 4. **Deferred work** with `TODO(handle): what, on-or-after <date>` markers
