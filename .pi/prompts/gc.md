@@ -52,7 +52,12 @@ Output:
 
 This command is read-only analysis. Before any deletion or refactor, call
 `prewalk.checklist({ items, schema })` inside fabric_exec and wait for accepted
-handoff. If acceptance is denied, do not mutate.
+handoff. If acceptance is denied, do not mutate. **Dual mode:** read-only
+analysis is identical in both modes; cleanup branches by mode — prewalk mode
+uses an accepted `prewalk.checklist({ items, schema })` handoff, main-session
+mode proposes each exact deletion or refactor for explicit user approval.
+Detect at the mutation boundary: accepted checklist → prewalk mode; not-armed
+rejection or absent `prewalk` → main-session mode.
 
 ## Related Commands
 

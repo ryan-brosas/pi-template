@@ -127,6 +127,13 @@ checklist. Writing `.pi/work/<id>/verification.md` is a durable mutation and
 requires its own accepted `prewalk.checklist({ ... })` handoff before the
 write. Any remediation also requires an accepted handoff before edits.
 
+**Dual mode.** Read-only discovery is identical in both modes; only a durable
+write branches by mode. Prewalk mode (armed): `prewalk.checklist({ ... })` with
+accepted handoff before the write. Main-session mode (no prewalk): propose the
+write to the user and apply only after explicit approval of the exact file and
+content. Detect at the write boundary: accepted checklist → prewalk mode;
+not-armed rejection or absent `prewalk` → main-session mode.
+
 ## Related Commands
 
 | Need | Command |

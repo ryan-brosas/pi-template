@@ -91,6 +91,13 @@ for accepted handoff before writing.
 Research discovery is read-only. Writing `research.md` under `.pi/work` is the
 only mutation and requires an accepted prewalk handoff.
 
+**Dual mode.** Read-only discovery is identical in both modes; only a durable
+write branches by mode. Prewalk mode (armed): `prewalk.checklist({ ... })` with
+accepted handoff before the write. Main-session mode (no prewalk): propose the
+write to the user and apply only after explicit approval of the exact file and
+content. Detect at the write boundary: accepted checklist → prewalk mode;
+not-armed rejection or absent `prewalk` → main-session mode.
+
 ## Related Commands
 
 | Need | Command |

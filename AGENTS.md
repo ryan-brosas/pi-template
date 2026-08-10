@@ -38,6 +38,23 @@ localScope, invariants, postconditions). Mark each completed item `[DONE:n]` in
 the same turn. A denied handoff blocks all writes; re-scope or retry, never
 mutate without acceptance.
 
+**Dual mode (flexible execution).** Prompts run the same read-only discovery in
+both modes; only mutation authorization differs.
+
+- **Prewalk mode (armed):** Ultra Fabric prewalk is active. Submit
+  `prewalk.checklist({ ... })` inside fabric_exec with the native disposition
+  and wait for accepted handoff; only the executor writes after acceptance.
+- **Main-session mode (no prewalk):** Ultra Fabric prewalk is unavailable or
+  not armed for this session. Each mutation is proposed to the user and applied
+  only after explicit approval of the exact action, files, and consequences in
+  the current session. Never treat a previous approval or a blanket instruction
+  as permission for a different mutation.
+
+Detect the mode at the mutation boundary: attempt `prewalk.checklist(...)`;
+accepted → prewalk mode; rejected with a not-armed error (or `prewalk` absent)
+→ main-session mode with explicit per-mutation approval. Read-only phases run
+identically either way.
+
 ## Implementation Workflow
 
 1. Classify unknowns (see Kernel #1).

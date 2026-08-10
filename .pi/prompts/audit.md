@@ -64,7 +64,7 @@ Report:
 5. **Correct uses:** brief list (proves the pattern is not inherently bad)
 6. **Coverage note:** which directories were searched, which were skipped (e.g. vendored, generated)
 
-If the user asks for a written report file, write it only after an accepted prewalk handoff authorizes the write.
+If the user asks for a written report file, write it only after an accepted prewalk handoff authorizes the write. **Dual mode:** read-only discovery is identical in both modes; a report-file write branches by mode — prewalk mode uses an accepted `prewalk.checklist({ ... })` handoff, main-session mode proposes the exact file and content for explicit user approval. Detect at the write boundary: accepted checklist → prewalk mode; not-armed rejection or absent `prewalk` → main-session mode.
 
 ## Related Commands
 

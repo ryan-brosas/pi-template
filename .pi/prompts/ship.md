@@ -98,6 +98,13 @@ then implement as the executor. Keep the checklist active until every item and
 validation is complete; mark each with `[DONE:n]`. If acceptance is denied or
 scope changes, do not mutate.
 
+**Dual mode.** Read-only discovery is identical in both modes; only mutation
+authorization differs. Prewalk mode (armed): the flow above applies. Main-session
+mode (no prewalk): prewalk is unavailable or not armed; propose each mutation to
+the user and apply only after explicit approval of the exact action and files.
+Detect at the mutation boundary: accepted checklist → prewalk mode; not-armed
+rejection or absent `prewalk` → main-session mode.
+
 ## Related Commands
 
 | Need | Command |

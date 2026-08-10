@@ -74,10 +74,14 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Ultra Fabric
 
-Prewalk is the sole mutation authority: research → checklist → acceptance →
-handoff → verification. `.pi/fabric.json` holds the guard configuration (gated
-verification, task arm). `node scripts/validate-ultra-fabric.mjs` pins the
-contract: native dispositions, Schema requirement, and referenced skill paths.
+Prewalk is the mutation authority when armed: research → checklist → acceptance →
+handoff → verification. Prompts run in dual mode for flexibility: when Ultra
+Fabric prewalk is armed, mutations are prewalk-gated; when it is unavailable, the
+same read-only discovery runs and each mutation requires explicit per-mutation
+user approval (AGENTS.md Prewalk and Mutation). `.pi/fabric.json` holds the guard
+configuration (gated verification, task arm).
+`node scripts/validate-ultra-fabric.mjs` pins the contract: native dispositions,
+Schema requirement, and referenced skill paths.
 
 ## Work Management
 
