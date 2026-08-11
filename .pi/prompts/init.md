@@ -121,18 +121,18 @@ Render `.pi/project.md` from the source template at `.pi/templates/project.md`:
 
 ### Phase 5: Create tech-stack.md
 
-Write detected values to `.pi/tech-stack.md` (overwrite with the fresh detection):
+Render `.pi/tech-stack.md` from the source template at `.pi/templates/tech-stack.md` (overwrite with the fresh detection):
 
 - Distinguish project dependencies from host tools: a host tool becomes a stack entry only when a manifest, script, workflow, or explicit user decision uses it.
 - Record versions with evidence, per-command status (verified or none), CI, generated files, integrations, environments, constraints, and unknowns (`[NEEDS CLARIFICATION: reason]`).
 
 ### Phase 6: Create roadmap.md and state.md
 
-Ask the user for project direction (vision, target users, success criteria) — reuse answers already given earlier in this run — then write `.pi/roadmap.md` and `.pi/state.md` from their templates. Include outcomes, dependencies, risks, and non-goals per phase in the roadmap; include verification state and working-tree context in the state file. Skip files that already exist unless the user asks to overwrite; preserve their user-authored facts when enriching.
+Ask the user for project direction (vision, target users, success criteria) — reuse answers already given earlier in this run — then write `.pi/roadmap.md` and `.pi/state.md` from their source templates at `.pi/templates/roadmap.md` and `.pi/templates/state.md`. Include outcomes, dependencies, risks, and non-goals per phase in the roadmap; include verification state and working-tree context in the state file. Skip files that already exist unless the user asks to overwrite; preserve their user-authored facts when enriching.
 
 ### Phase 7: Create user.md
 
-Ask the user (identity, communication preference, git workflow, approval boundaries), then write `.pi/user.md` from its template. Skip if it exists unless the user asks to overwrite; preserve its facts when enriching.
+Ask the user (identity, communication preference, git workflow, approval boundaries), then write `.pi/user.md` from its source template at `.pi/templates/user.md`. Skip if it exists unless the user asks to overwrite; preserve its facts when enriching.
 
 ### Phase 8: Persist
 

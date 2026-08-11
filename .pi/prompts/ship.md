@@ -31,7 +31,7 @@ Read `.pi/work/$(cat .pi/work/.active)/` to check what plan artifacts exist (pla
 
 ## Phase 2: Station Independence Check
 
-Parse the plan (`.pi/work/$(cat .pi/work/.active)/plan.md`) if present; each station S1..Sn carries its task, acceptance check, and handoff payload. Otherwise derive stations from the spec and tasks.md, giving each station an id, an acceptance check, and a payload for the next station.
+Parse the plan (`.pi/work/$(cat .pi/work/.active)/plan.md`) if present; each station S1..Sn carries its task, acceptance check, and handoff payload. Otherwise derive stations from the spec and tasks.md, giving each station an id, an acceptance check, and a payload for the next station. Fold `design.md` architecture decisions and `adr.md` records into station handoff payloads and risks; `proposal.md` frames the goal and non-goals.
 
 For each station record its `files` (from tasks.md metadata or the plan).
 

@@ -39,7 +39,7 @@ There is no `src/`, `lib/`, or `app/` source tree and no indexed application cod
 
 ## Project Dependencies vs Host Tools
 
-- **Project dependencies:** None. The repository requires only the Pi host and Ultra Fabric; the three scripts run on plain Node with no imports beyond Node built-ins.
+- **Project dependencies:** None. The repository requires only the Pi host and Ultra Fabric; the six validation scripts run on plain Node with no imports beyond Node built-ins.
 - **Host tools (installed, not project dependencies):** these programs are available in the local environment. They become stack entries only when a project file uses them; none does.
 
 | Tool | Version | Evidence | Used by the project? |
@@ -74,6 +74,7 @@ Do not add commands based only on this host inventory. A project command require
 2. Non-trivial mutations require an accepted checklist with a Schema contract.
 3. The executor owns declared writes and verification after handoff.
 4. Unrelated working-tree changes must remain untouched.
+5. `.pi/fabric.json` pins verificationMode gated, arm task, and the four prewalk context levers: handoffRetirement, reuseChecklists, failureMemory, researchSubagents.
 
 ## Commands
 
@@ -84,13 +85,14 @@ Do not add commands based only on this host inventory. A project command require
 | `node scripts/probe-skill-routing.mjs` | works | Router dispatch probes | 2026-08-09, exit 0 |
 | `node scripts/validate-ultra-fabric.mjs` | works | Prewalk dispositions, gated config, skill paths | 2026-08-09, exit 0 |
 | `node scripts/validate-work-management.mjs` | works | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety | 2026-08-09, exit 0 |
+| `node scripts/validate-notion-workspace-skill.mjs` | works | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
 | `git diff --check` | works | Whitespace check on changed files | 2026-08-09, exit 0 |
 | install / dev / test / lint / typecheck / build / format | none | No command exists in the current tree | probed 2026-08-09 |
 
 ## CI
 
 - **Workflows:** None detected under `.github/workflows/`.
-- **Local reproduction:** The five Node gates above are the local equivalent; they must run manually because no CI enforces them.
+- **Local reproduction:** The six Node gates above are the local equivalent; they must run manually because no CI enforces them.
 
 ## Generated Files
 
@@ -101,7 +103,7 @@ Do not add commands based only on this host inventory. A project command require
 ## Testing
 
 - **Unit / integration / contract / e2e tests:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** the five Node scripts above, run before completion claims.
+- **Structural gates:** the six Node scripts above, run before completion claims.
 - **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: roadmap Phase 2 decides whether template validators are added].
 
 ## Active Integrations

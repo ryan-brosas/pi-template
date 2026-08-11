@@ -125,7 +125,7 @@ Running gates is read-only. Appending to `.pi/work/$(cat .pi/work/.active)/.veri
 `.pi/work/<id>/.progress.md` is local state and allowed under the active
 checklist. Writing `.pi/work/<id>/verification.md` is a durable mutation and
 requires its own accepted `prewalk.checklist({ ... })` handoff before the
-write. Any remediation also requires an accepted handoff before edits.
+write. Any remediation also requires an accepted handoff before edits. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
 
 **Dual mode.** Read-only discovery is identical in both modes; only a durable
 write branches by mode. Prewalk mode (armed): `prewalk.checklist({ ... })` with

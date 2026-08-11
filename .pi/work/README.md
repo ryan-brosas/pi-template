@@ -12,7 +12,9 @@ The active pointer `.pi/work/.active` and per-work dotfiles (`.progress.md`, `.v
 ├── issue.md          # local identity record; GitHub links when an issue is linked
 ├── spec.md           # PRD rendered by /create
 ├── research.md       # evidence rendered by /research (optional)
+├── proposal.md       # why/what/capabilities rendered by /plan (optional)
 ├── design.md         # architecture decisions (optional)
+├── adr.md            # architecture decision records rendered by /plan (optional)
 ├── plan.md           # implementation plan rendered by /plan
 ├── tasks.md          # task breakdown rendered by /create
 ├── verification.md   # final gate results rendered by /verify
@@ -24,5 +26,6 @@ The active pointer `.pi/work/.active` and per-work dotfiles (`.progress.md`, `.v
 
 - Local work identity is the slug: `<slug>`. An optional verified GitHub issue extends a record to `<issue>-<slug>`.
 - Durable records are tracked and never ignored.
+- `proposal.md` (why/what), `design.md` (architecture), and `adr.md` (decisions) are optional plan companions rendered by /plan when the work warrants them.
 - Raw progress, the active pointer, and verification logs live in ignored dotfiles beside each record: `.pi/work/.active`, `.pi/work/<id>/.progress.md`, `.pi/work/<id>/.verify.log`.
 - Never write a durable record as a dotfile; dotfiles are local state only.
