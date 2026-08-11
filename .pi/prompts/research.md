@@ -26,7 +26,7 @@ Apply the evidence-validity principle first: a GitHub repository is never assume
 Classify the question to pick ONE primary route before any tool call:
 
 - Active-project code or architecture → codemap `mode: "ast"`.
-- Inspiration repository under /home/ryanj/work/inspo/<repo> → codemap `mode: "cgc"` with the exact absolute context, one repository per query. Ensure the repo is CGC-indexed before querying (`cgc index /home/ryanj/work/inspo/<repo> --summarize` when the context is missing); never rg/grep the inspo tree — the graph is the only query surface.
+- Inspiration work → discover first: one codemap `mode: "cgc"` explore over the meta-context `/home/ryanj/work/inspo` with the domain query; read the covering repo from the path prefix of returned symbols. Then query that repo alone: codemap `mode: "cgc"`, context `/home/ryanj/work/inspo/<repo>`, one repository per query. Ensure the repo is CGC-indexed before querying (`cgc index /home/ryanj/work/inspo/<repo> --summarize` when the context is missing); never rg/grep the inspo tree — the graph is the only query surface.
 - GitHub repository behavior or overview → `mcp.deepwiki.ask_question` (owner/repo + one focused question), or a CGC clone when one exists.
 - Current versioned library or framework docs → `mcp.context7.resolve-library-id` then `mcp.context7.query-docs`, max three single-topic queries per question.
 - Discovery and current facts → `mcp.exa.omniroute_web_search`, bounded to 3-5 results.

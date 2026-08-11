@@ -6,10 +6,11 @@ disable-model-invocation: true
 
 # CGC Inspiration Workflow
 
-Per-repository inspiration loop: clone once to `/home/ryanj/work/inspo/<repo>`, index with CGC, query that repository alone, then adopt, adapt, or omit each capability with evidence.
+Per-domain inspiration loop: discover the covering repo through the inspo meta-context, reuse the clone, index with CGC, query that repository alone, then adopt, adapt, or omit each capability with evidence.
 
 ## Workflow
 
+0. **Discover the covering repo.** Query the inspo meta-context by domain before touching any repo: `codemap({ operation: "explore", mode: "cgc", context: "/home/ryanj/work/inspo", query: "<domain>" })`. Read the repo name from the path prefix of returned symbols; fall back to `cgc list` or the inspiration registry (`ryan-workspace/registry/inspiration.json`) when the meta-context returns nothing. Never guess a repo name from the task alone.
 1. **Resolve the repository.** Confirm owner/repo and license before any clone. Never guess a URL.
 2. **Reuse or clone.** If `/home/ryanj/work/inspo/<repo>/.git` exists, reuse it; do not duplicate. Otherwise clone the verified URL there. Inspiration clones stay under inspo, never in an active project's `sources/`.
 3. **Capture provenance.** Record URL, absolute path, commit SHA, branch, license, and retrieval date.
@@ -23,6 +24,9 @@ Per-repository inspiration loop: clone once to `/home/ryanj/work/inspo/<repo>`, 
 ## Context Budget
 
 - One primary question per query; one repository per CGC query.
+- Discovery is one meta-context query, never per-repo probes or greps.
+- Extract patterns through explore and source (AST ranges); never `pi.read` whole files from inspo.
+- Index or update only after a git pull; never re-index gratuitously.
 - Topical relevance is not evidentiary validity: a clone is a navigation snapshot, not a truth store. Verify adopted claims against the repo's code, tests, and docs, and cross-check with an independent source.
 - Capture the matrix and decisions, not full reference dumps.
 - Never re-fetch what the current context already answers.

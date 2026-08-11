@@ -13,6 +13,7 @@ Pick one primary route per question, escalate only on a named evidence gap, and 
 | Need | Tool | Budget |
 | --- | --- | --- |
 | Active project code | codemap mode "ast" | bounded by query |
+| Inspiration discovery (cross-repo) | codemap mode "cgc", context /home/ryanj/work/inspo, domain query | one query, then drill per-repo |
 | Inspiration repository | codemap mode "cgc", context /home/ryanj/work/inspo/<repo> | one repo per query |
 | GitHub repository QA | mcp.deepwiki.ask_question | one question per repo |
 | Library or API docs | mcp.context7.resolve-library-id then mcp.context7.query-docs | max three single-topic queries |
@@ -22,7 +23,7 @@ Pick one primary route per question, escalate only on a named evidence gap, and 
 ## Escalation Order
 
 1. Local AST for active-project code.
-2. Per-repository CGC for inspiration clones.
+2. Inspiration discovery, then per-repository CGC: one meta-context query over `/home/ryanj/work/inspo` to find the covering repo, then query that repository alone.
 3. DeepWiki for a bounded GitHub overview or when CGC is unavailable.
 4. Context7 for current versioned library documentation; resolve the library ID first unless the user gave /org/project[/version].
 5. OmniRoute search for discovery and current facts.

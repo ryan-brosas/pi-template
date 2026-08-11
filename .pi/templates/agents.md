@@ -245,7 +245,7 @@ Evidence: `[package.json script / Makefile target / CI step / probe output, with
 One primary evidence route per question. Escalate to the next tool only on a named evidence gap; never fan out across every tool at once. Inspiration clones are queried only through the indexed CGC context: ensure the repo is indexed before querying (`cgc index /home/ryanj/work/inspo/<repo> --summarize` when the context is missing) and never grep the inspo tree — raw text search returns file bytes into context and defeats the graph. A GitHub repository is never assumed authoritative because it relates to the task; topical relevance is a lead, not a warrant, and adopted claims need provenance plus an independent cross-check.
 
 - Local AST (codemap) for the active project's own code and architecture.
-- Per-repository CGC for inspiration clones: `mode: "cgc"` with the exact context `/home/ryanj/work/inspo/<repo>`, one repository per query.
+- Inspiration discovery: one codemap `mode: "cgc"` explore over the meta-context `/home/ryanj/work/inspo` with the domain query finds the covering repo (read the repo from the path prefix); then per-repository CGC: `mode: "cgc"` with the exact context `/home/ryanj/work/inspo/<repo>`, one repository per query.
 - DeepWiki (`mcp.deepwiki.ask_question`) for bounded questions about a GitHub repository the CGC context cannot answer, owner/repo plus one focused question.
 - Context7 (`mcp.context7.resolve-library-id` then `mcp.context7.query-docs`) for current versioned library and framework documentation; max three single-topic queries per question.
 - OmniRoute search (`mcp.exa.omniroute_web_search`) for discovery and current facts, bounded to 3-5 results.
