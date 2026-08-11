@@ -6,13 +6,13 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 - **Goal:** Give a developer a clonable, dependency-free Pi coding-agent workspace with ready-to-use prompts, skills, templates, settings, and a mutation guard, so a new Pi project starts without setup work.
 - **Status:** Polish. The baseline is functional; work is incremental refinement of skills, prompts, and rules.
-- **Milestone:** Baseline with 9 slash commands, 83 skills in 10 packs, 12 format templates, and the prewalk guard. Evidence: validator output 2026-08-09 (packs=10, leaves=83, routers=10, visible=14).
+- **Milestone:** Baseline with 9 slash commands, 86 skills in 10 packs, 12 format templates, and the prewalk guard. Evidence: validator output 2026-08-09 (packs=10, leaves=90, routers=10, visible=14).
 - **Next Milestone:** None planned. Direction comes from .pi/roadmap.md, which the user owns.
 
 ## Success Criteria
 
 1. A developer clones the repository, trusts it in Pi, reloads, and runs /init to get a complete context artifact set. (Verifiable by following README.md:8-13.)
-2. All five structural gates exit 0 on a clean tree: node scripts/validate-skill-packs.mjs, node scripts/sync-skill-manifest.mjs --check, node scripts/probe-skill-routing.mjs, node scripts/validate-ultra-fabric.mjs, node scripts/validate-work-management.mjs. (Verifiable by running them.)
+2. All six structural gates exit 0 on a clean tree: node scripts/validate-skill-packs.mjs, node scripts/sync-skill-manifest.mjs --check, node scripts/probe-skill-routing.mjs, node scripts/validate-ultra-fabric.mjs, node scripts/validate-work-management.mjs, node scripts/validate-notion-workspace-skill.mjs. (Verifiable by running them.)
 3. Mutating commands defer to the prewalk guard and never touch unrelated working-tree changes. (Verifiable by command behavior and scope checks.)
 4. The repository stays clonable with no package install, build, or runtime harness. (Verifiable by README.md:9-12 and the absence of manifests.)
 
@@ -41,10 +41,10 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 - **Architectural style:** Configuration and documentation template. No source tree, no build, no runtime harness. (README.md:9-12.)
 - **Component Responsibilities:**
   - Prompts (.pi/prompts/) - 9 slash commands; each is a self-contained workflow with a Prewalk boundary section.
-  - Skills (.pi/skills/) - 83 leaves in 10 packs; catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
+  - Skills (.pi/skills/) - 86 leaves in 10 packs; catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
   - Templates (.pi/templates/) - 12 format templates rendered by /init, /create, /plan, and /verify.
   - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Ultra Fabric prewalk configuration.
-  - Gates (scripts/) - 5 dependency-free Node validation scripts owned by the template itself.
+  - Gates (scripts/) - 6 dependency-free Node validation scripts owned by the template itself.
   - Context artifacts (AGENTS.md, .pi/*.md) - durable product and architecture records.
 - **Composition Roots:** No application composition. The Pi host and the /init command are the wiring points: Pi loads .pi/settings.json and .pi/prompts/; /init renders templates into artifacts.
 - **Dependency Rules:** Pi host reads .pi/settings.json and .pi/prompts/; Ultra Fabric reads .pi/fabric.json; scripts read .pi/skills/packs.json and manifest.json; /init renders .pi/templates/*.md. No layer imports another; nothing depends on application code because none exists.
@@ -110,7 +110,7 @@ No external application API, database, deployment provider, or credential-bearin
 
 - **Unit, integration, contract, e2e seams:** None. The repository has no application test suite.
 - **Test locations:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** scripts/validate-skill-packs.mjs checks catalog, membership, visibility, and metadata budget. scripts/sync-skill-manifest.mjs --check verifies manifest parity. scripts/probe-skill-routing.mjs checks router dispatch. scripts/validate-ultra-fabric.mjs pins prewalk dispositions, gated configuration, and referenced skill paths. scripts/validate-work-management.mjs pins local slug work IDs, .pi/work ownership, GitHub templates, and /init GitHub setup safety.
+- **Structural gates:** scripts/validate-skill-packs.mjs checks catalog, membership, visibility, and metadata budget. scripts/sync-skill-manifest.mjs --check verifies manifest parity. scripts/probe-skill-routing.mjs checks router dispatch. scripts/validate-ultra-fabric.mjs pins prewalk dispositions, gated configuration, and referenced skill paths. scripts/validate-work-management.mjs pins local slug work IDs, .pi/work ownership, GitHub templates, and /init GitHub setup safety. scripts/validate-notion-workspace-skill.mjs pins notion-workspace skill safety (auth check, search-before-fetch, hub boundary, catalog membership).
 - **Coverage gaps:** No automated coverage for templates; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: whether Phase 2 adds a template validator is a roadmap question].
 
 ## Observability
@@ -148,7 +148,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Known Risks and Hotspots
 
 - Large uncommitted working-tree cleanup. Many tracked files are deleted or modified; a careless commit could sweep unrelated work.
-- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 83 skills in 10 packs. Regenerate tech-stack.md when the catalog changes.
+- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 86 skills in 10 packs. Regenerate tech-stack.md when the catalog changes.
 - No CI. Nothing enforces the structural gates on a clone; the validators must run manually.
 - No automated tests. Regressions in prompts or skills surface through manual review and the routing probes.
 
@@ -166,7 +166,7 @@ No external application API, database, deployment provider, or credential-bearin
 - README.md:8-13 install flow; README.md:21-37 layout and generated-state boundaries; README.md:39-48 command table; README.md:33-35 removed OpenCode wrappers.
 - AGENTS.md Prewalk and Mutation, Skills, Constraints, Architecture sections.
 - .pi/settings.json and .pi/fabric.json configuration values.
-- scripts/validate-skill-packs.mjs, scripts/sync-skill-manifest.mjs, scripts/probe-skill-routing.mjs, all exit 0 on 2026-08-09.
+- scripts/validate-skill-packs.mjs, scripts/sync-skill-manifest.mjs, scripts/probe-skill-routing.mjs, scripts/validate-notion-workspace-skill.mjs, all exit 0 on 2026-08-09.
 - git remote -v shows origin at github.com/ryan-brosas/pi-template.git.
 
 ---

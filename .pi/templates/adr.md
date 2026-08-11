@@ -2,7 +2,7 @@
 
 **Status:** [proposed | accepted | deprecated | superseded]
 **Date:** [YYYY-MM-DD]
-**Context:** [bead-id, issue/Linear ticket, or session reference]
+**Context:** [work slug, issue number, or session reference]
 
 ## Context
 

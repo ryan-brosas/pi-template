@@ -2,7 +2,7 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Ultra Fabric: nine prompt commands, 84 portable skills,
+tailored to Pi + Ultra Fabric: nine prompt commands, 86 portable skills,
 12 format templates, Pi-native settings, and the prewalk guard. No build, no
 dependencies, no runtime harness — clone and start.
 
@@ -25,10 +25,10 @@ README.md
 ├── fabric.json            # Ultra Fabric prewalk config (gated verification, task arm)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 84 skills in 10 progressive-disclosure packs (packs.json)
+├── skills/                # 86 skills in 10 progressive-disclosure packs (packs.json)
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
 ├── work/                  # tracked durable records per local work record
-└── scripts/               # 5 dependency-free Node gates (skills, manifest, routing, Ultra Fabric, work)
+└── scripts/               # 6 dependency-free Node gates (skills, manifest, routing, Ultra Fabric, work, Notion workspace)
 ```
 
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
@@ -59,7 +59,7 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Skills and Templates
 
-- Skills: 84 skills in 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 86 skills in 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
@@ -86,8 +86,8 @@ Schema requirement, and referenced skill paths.
 ## Work Management
 
 `/create` is local-first: it writes a tracked record directory
-`.pi/work/<slug>/` (issue.md, spec.md, research.md, design.md, plan.md,
-tasks.md, verification.md) without GitHub access. An optional `--issue <number>`
+`.pi/work/<slug>/` (issue.md, spec.md, research.md, proposal.md, design.md,
+adr.md, plan.md, tasks.md, verification.md) without GitHub access. An optional `--issue <number>`
 links an existing verified issue and keeps the legacy `<issue>-<slug>` form.
 `/create` never creates a GitHub issue. Local session state stays ignored
 in `.pi/work/.active`, per-work `.progress.md`/`.verify.log` dotfiles, and

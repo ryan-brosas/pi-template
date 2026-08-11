@@ -1,6 +1,6 @@
 # Proposal
 
-**Bead:** [bead-id]
+**Work ID:** [slug from .pi/work/.active]
 **Author:** [author]
 **Date:** [YYYY-MM-DD]
 

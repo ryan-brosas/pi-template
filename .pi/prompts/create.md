@@ -121,7 +121,7 @@ inside fabric_exec with the matching disposition: `trivial: true` for one or two
 small edits, `easy: true` plus 2-4 items and Schema for bounded work, or 5-9
 items plus Schema for full work; every items-bearing checklist requires the
 Schema contract. Wait for accepted handoff, then write as the executor. Mark
-completed items `[DONE:n]`. If acceptance is denied or scope changes, do not mutate.
+completed items `[DONE:n]`. If acceptance is denied or scope changes, do not mutate. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
 
 **Dual mode.** Read-only discovery is identical in both modes; only mutation
 authorization differs. Prewalk mode (armed): the flow above applies. Main-session

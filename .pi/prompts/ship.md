@@ -23,7 +23,7 @@ Load the skill at `.pi/skills/pack-delivery/test-driven-development/SKILL.md`, t
 
 Read `.pi/work/$(cat .pi/work/.active)/spec.md` to understand the requirements.
 
-Read `.pi/work/$(cat .pi/work/.active)/` to check what plan artifacts exist (plan.md, research.md, design.md).
+Read `.pi/work/$(cat .pi/work/.active)/` to check what plan artifacts exist (plan.md, research.md, proposal.md, design.md, adr.md).
 
 **Guards:**
 - [ ] Spec exists and is up to date
@@ -100,7 +100,7 @@ Schema for bounded work, or 5-9 items plus Schema for full work; every
 items-bearing checklist requires the Schema contract. Wait for accepted handoff,
 then implement as the executor. Keep the checklist active until every item and
 validation is complete; mark each with `[DONE:n]`. If acceptance is denied or
-scope changes, do not mutate.
+scope changes, do not mutate. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
 
 **Dual mode.** Read-only discovery is identical in both modes; only mutation
 authorization differs. Prewalk mode (armed): the flow above applies. Main-session

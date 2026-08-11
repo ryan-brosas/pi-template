@@ -5,7 +5,11 @@
     "thinking": "max",
     "arm": "task",
     "model": "omniroute/opencode-go/deepseek-v4-flash-max",
-    "maxPhaseRevisions": 2
+    "maxPhaseRevisions": 2,
+    "handoffRetirement": true,
+    "reuseChecklists": true,
+    "failureMemory": true,
+    "researchSubagents": true
   },
   "compaction": {
     "engine": "pi"

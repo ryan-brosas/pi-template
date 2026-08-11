@@ -22,6 +22,9 @@ else {
     if (p.arm === "task") ok("prewalk.arm = task"); else fail("prewalk.arm must be task, got " + p.arm);
     if (p.maxPhaseRevisions === 2) ok("prewalk.maxPhaseRevisions = 2"); else fail("prewalk.maxPhaseRevisions must be 2, got " + p.maxPhaseRevisions);
     if (typeof p.model === "string" && p.model.length > 0) ok("prewalk.model configured"); else fail("prewalk.model must be a nonempty string");
+    for (const key of ["handoffRetirement", "reuseChecklists", "failureMemory", "researchSubagents"]) {
+      if (p[key] === true) ok("prewalk." + key + " = true"); else fail("prewalk." + key + " must be true, got " + p[key]);
+    }
   }
 }
 

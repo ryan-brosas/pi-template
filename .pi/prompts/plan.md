@@ -22,7 +22,7 @@ Planning machinery erases itself for smaller scoped work; otherwise the scope di
 
 The plan is an assembly line, not a design document. Each station is a unit of work that an executor frame runs with a compact context. The executor carries three things from station to station:
 
-1. **Handoff payload** — the compact summary of what came before (files, key symbols, invariants, decisions) that the next station must know.
+1. **Handoff payload** — the compact summary of what came before (files, key symbols, invariants, decisions) that the next station must know. Hold it in `carry` (session-persistent guest state) for the next station; the plan file and `.progress.md` ledger remain the durable record.
 2. **Acceptance ledger** — the running record of checks run and outcomes per station, in `.pi/work/$(cat .pi/work/.active)/.progress.md`, keyed by station id.
 3. **Compaction** — after each station's ledger entry, request programmatic compaction (`compact.request`) where the host supports it, so the next station starts from the compacted context plus its payload.
 
@@ -72,6 +72,14 @@ Each station (S1..Sn) has exactly:
 
 ## Phase 3: Write the Plan (output contract)
 
+When the work warrants it, render companion artifacts from their templates into `.pi/work/$(cat .pi/work/.active)/` before writing plan.md:
+
+- `proposal.md` from `.pi/templates/proposal.md` — why this work, what changes, capabilities, impact
+- `design.md` from `.pi/templates/design.md` — architecture, data flow, error handling (ship reads this artifact)
+- `adr.md` from `.pi/templates/adr.md` — one record per architecture decision made during planning
+
+Skip any companion the work does not need; plan.md remains the station contract.
+
 Write `.pi/work/$(cat .pi/work/.active)/plan.md` in this assembly-line format:
 
 ```
@@ -119,7 +127,7 @@ Research and planning are read-only. Before writing the plan file, call
 Schema for bounded work, or 5-9 items plus Schema for full work; every
 items-bearing checklist requires the Schema contract. Wait for accepted handoff,
 then write as the executor. Mark completed items `[DONE:n]`. If acceptance is
-denied or scope changes, do not mutate.
+denied or scope changes, do not mutate. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
 
 **Dual mode.** Read-only discovery is identical in both modes; only mutation
 authorization differs. Prewalk mode (armed): the flow above applies. Main-session

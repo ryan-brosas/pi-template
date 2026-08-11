@@ -41,7 +41,7 @@ updated: 2026-08-09
 
 <!-- Last 3-5 completed tasks, with evidence -->
 
-| Bead / Work | Title | Completed | Evidence |
+| Work | Title | Completed | Evidence |
 | --- | --- | --- | --- |
 | [id or none] | [Title] | [Date] | [artifact or command output] |
 
@@ -55,7 +55,7 @@ updated: 2026-08-09
 
 ## Blockers
 
-| Bead / Work | Blocker | Since | Owner | Unblock path |
+| Work | Blocker | Since | Owner | Unblock path |
 | --- | --- | --- | --- | --- |
 | [id] | [Description] | [Date] | [Who] | [what would unblock] |
 

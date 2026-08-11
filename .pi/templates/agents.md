@@ -89,12 +89,12 @@ Order of authority, highest first:
 
 ### 3. Context and recon first
 
-- Read the project's own context before acting: AGENTS.md, configs, `docs/`, the memory directory, and any `sources/` or vendored reference directories.
+- Read the project's own context before acting: AGENTS.md, configs, `docs/`, the memory directory, and vendored reference directories.
 - Restate the task in one or two sentences with concrete acceptance criteria. Ask only when intent is genuinely ambiguous, not to stall.
 - Recon where the change lands: use semantic navigation (language server, AST/codemap tools) before text search; use grep for strings, comments, and config.
 - Before renaming or changing a signature, find every reference and call site.
 - Read similar existing features so new code matches the structure and style of the codebase before writing anything.
-- Check `sources/` directories early; they may contain reference implementations or upstream code. Clone upstream into `sources/` and read locally instead of fetching individual files.
+- For reference implementations, query the CGC clone under `/home/ryanj/work/inspo/<repo>` with codemap `mode: "cgc"` and the exact absolute context, one repository per query. Never clone reference code into the project tree; inspiration clones stay under inspo.
 
 ### 4. Planning and workflow
 
@@ -394,12 +394,12 @@ Evidence: `[.github/workflows/*.yml or the project check script, with file:line]
 
 ### Issue tracking [if a tracker is configured]
 
-- Track work in `[beads | GitHub issues | Linear | TASKS.md | ...]`.
+- Track work in `[GitHub issues | Linear | TASKS.md | ...]`.
 - Workflow: `[ready/claim/start/close commands]`
 - Conventions: `[status vocabulary, priority scale, dependency marking, commit references]`
 - Sync before ending a session: `[command]` (never run destructive git operations on the tracker data).
 
-Evidence: `[.beads/ / .github/ / tracker config]`
+Evidence: `[.github/ / tracker config]`
 
 ### Multi-agent coordination [if agents run concurrently or a coordination server is configured]
 

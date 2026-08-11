@@ -2,11 +2,11 @@
 
 ## Project overview
 
-This repository is a clonable Pi + Ultra Fabric coding-agent template: nine slash commands, 83 skills in 10 progressive-disclosure packs, 11 format templates, and a prewalk mutation guard, with no package install, build, or runtime harness.
+This repository is a clonable Pi + Ultra Fabric coding-agent template: nine slash commands, 86 skills in 10 progressive-disclosure packs, 12 format templates, and a prewalk mutation guard, with no package install, build, or runtime harness.
 
 - Primary runtime: Pi (pi-coding-agent) with Ultra Fabric; config in .pi/settings.json and .pi/fabric.json
 - Product surface: .pi/prompts/, .pi/skills/, .pi/templates/, AGENTS.md, and the context artifacts
-- No application source tree, no dependencies, no CI; four dependency-free Node validation scripts under scripts/
+- No application source tree, no dependencies, no CI; six dependency-free Node validation scripts under scripts/
 - Full architecture record: .pi/project.md (rendered by /init)
 
 Evidence: README.md:1-12 (template purpose, no build/deps/harness), README.md:39-48 (command table).
@@ -44,6 +44,10 @@ both modes; only mutation authorization differs.
 - **Prewalk mode (armed):** Ultra Fabric prewalk is active. Submit
   `prewalk.checklist({ ... })` inside fabric_exec with the native disposition
   and wait for accepted handoff; only the executor writes after acceptance.
+  After verification the executor records the decision with
+  `workflow.gate({ gate, passed, disposition, evidence })` and reports it. When
+  `researchSubagents` is armed, planning may use bounded read-only subagents
+  for schema reference research.
 - **Main-session mode (no prewalk):** Ultra Fabric prewalk is unavailable or
   not armed for this session. Each mutation is proposed to the user and applied
   only after explicit approval of the exact action, files, and consequences in
@@ -91,6 +95,7 @@ Skip steps 2–5 for well-scoped bugs.
 
 - Use `pi.read` (offset/limit) for files, `pi.find`/`pi.grep` for discovery, `pi.bash` for commands. Omit offset/limit when reading in full. For PR diffs, use `gh pr diff`.
 - `pi.edit` — anchored, atomic content replacement. Prefer it over `pi.write` for any multi-line or important edit.
+- Ultra Fabric surfaces (always available in fabric_exec): `prewalk.checklist` (mutation authority: dispositions + Schema), `workflow.gate`/`workflow.context` (acceptance-evidence ledger and run envelope), `subagents.run`/`subagents.all` (bounded read-only child runs), `carry` (session-persistent state), `compact.request` (programmatic compaction intent), codemap (AST + CGC). Prewalk context levers pinned in .pi/fabric.json: handoffRetirement, reuseChecklists, failureMemory, researchSubagents.
 
 ## Search
 
@@ -199,12 +204,12 @@ Order of authority, highest first:
 
 ### 3. Context and recon first
 
-- Read the project's own context before acting: AGENTS.md, configs, `docs/`, the memory directory, and any `sources/` or vendored reference directories.
+- Read the project's own context before acting: AGENTS.md, configs, `docs/`, the memory directory, and vendored reference directories.
 - Restate the task in one or two sentences with concrete acceptance criteria. Ask only when intent is genuinely ambiguous, not to stall.
 - Recon where the change lands: use semantic navigation (language server, AST/codemap tools) before text search; use grep for strings, comments, and config.
 - Before renaming or changing a signature, find every reference and call site.
 - Read similar existing features so new code matches the structure and style of the codebase before writing anything.
-- Check `sources/` directories early; they may contain reference implementations or upstream code. Clone upstream into `sources/` and read locally instead of fetching individual files.
+- For reference implementations, query the CGC clone under `/home/ryanj/work/inspo/<repo>` with codemap `mode: "cgc"` and the exact absolute context, one repository per query. Never clone reference code into the project tree; inspiration clones stay under inspo.
 
 ### 4. Planning and workflow
 
@@ -332,22 +337,23 @@ Verified executable commands in this repository. There is no package.json, so th
 - Routing probes: `node scripts/probe-skill-routing.mjs` (router dispatch)
 - Ultra Fabric contract: `node scripts/validate-ultra-fabric.mjs` (prewalk dispositions, gated config, skill paths)
 - Work management: `node scripts/validate-work-management.mjs` (local slug IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety)
+- Notion workspace: `node scripts/validate-notion-workspace-skill.mjs` (notion-workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership)
 - Whitespace check: `git diff --check`
 
 There is no install, dev, watch, test, lint, typecheck, build, or format command in this repository. Do not invent one.
 
-Evidence: all five node commands exit 0 and git diff --check is clean on changed files (verified 2026-08-09).
+Evidence: all six node commands exit 0 and git diff --check is clean on changed files (verified 2026-08-09).
 
 ## Architecture
 
 ### Components and ownership
 
 - .pi/prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research); each prompt is a self-contained workflow
-- .pi/skills/ - 83 skills in 10 progressive-disclosure packs; catalog in packs.json, ledger in manifest.json
+- .pi/skills/ - 86 skills in 10 progressive-disclosure packs; catalog in packs.json, ledger in manifest.json
 - .pi/templates/ - 12 format templates; /init renders agents, project, tech-stack, roadmap, state, user
 - .pi/work/ - tracked durable work records, one directory per local work record (optional GitHub issue link); active pointer and per-work dotfiles stay ignored beside them
 - .pi/settings.json + .pi/fabric.json - Pi runtime and Ultra Fabric prewalk configuration
-- scripts/ - 5 dependency-free Node gates: validate-skill-packs.mjs, sync-skill-manifest.mjs, probe-skill-routing.mjs, validate-ultra-fabric.mjs, validate-work-management.mjs
+- scripts/ - 6 dependency-free Node gates: validate-skill-packs.mjs, sync-skill-manifest.mjs, probe-skill-routing.mjs, validate-ultra-fabric.mjs, validate-work-management.mjs, validate-notion-workspace-skill.mjs
 - Context artifacts - AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md
 
 ### Dependency direction
@@ -382,6 +388,7 @@ Generated local state is gitignored: .pi/MEMORY.md, .pi/implementation-notes.md,
 | Routing probes | node scripts/probe-skill-routing.mjs | all pass |
 | Ultra Fabric contract | node scripts/validate-ultra-fabric.mjs | exit 0 |
 | Work management | node scripts/validate-work-management.mjs | exit 0 |
+| Notion workspace | node scripts/validate-notion-workspace-skill.mjs | exit 0 |
 | Whitespace | git diff --check | exit 0 on changed files |
 
 Full architecture record: .pi/project.md (rendered by /init); keep this section as the concise operational view.
@@ -397,7 +404,7 @@ Verified layout of this template repository:
   - fabric.json - Ultra Fabric prewalk guard config (gated verification, task arm)
   - settings.json - Pi settings (thinking level, theme, compaction)
   - prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research)
-  - skills/ - 83 portable skills; ledger at skills/manifest.json
+  - skills/ - 86 portable skills; ledger at skills/manifest.json
   - templates/ - 12 format templates (prd, design, adr, issue, agents, tech-stack, ...)
   - work/ - tracked durable records per local work record; active pointer and per-work dotfiles stay ignored beside them
 - No src/, lib/, or app/ - configuration template, not an application; no build, no dependencies, no runtime harness

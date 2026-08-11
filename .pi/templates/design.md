@@ -1,6 +1,6 @@
 # Design Document
 
-**Bead ID:** [bead-id]
+**Work ID:** [slug from .pi/work/.active]
 **Created:** [date]
 **Status:** Draft | Validated
 

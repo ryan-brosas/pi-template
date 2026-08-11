@@ -68,7 +68,7 @@ directory, or standard language layouts (`.ts`, `.js`, `.tsx`, `.jsx`, `.py`,
 
 ### Phase 1: Deep Detect
 
-Detect and validate, all in this one-time pass:
+Detect and validate, all in this one-time pass. Run independent probes through bounded read-only `subagents.all({ tasks, concurrency })`; Main synthesizes the detection table. Persist gathered answers across phases with `carry` (session-persistent guest state) so later phases reuse instead of re-deriving:
 - Package manager and dependencies (with versions) — read the manifest, confirm the tool exists
 - Build, test, lint, dev commands — validate each actually works before writing it anywhere
 - CI/CD configuration — read workflow files, extract the job list
@@ -235,7 +235,7 @@ disposition: `trivial: true` for one or two small edits, `easy: true` plus 2-4
 items and Schema for bounded work, or 5-9 items plus Schema for full work; every
 items-bearing checklist requires the Schema contract. Wait for accepted handoff,
 then write the declared artifacts as the executor. Mark completed items
-`[DONE:n]`. If acceptance is denied or scope changes, do not mutate.
+`[DONE:n]`. If acceptance is denied or scope changes, do not mutate. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
 
 **Dual mode.** Read-only discovery is identical in both modes; only mutation
 authorization differs. Prewalk mode (armed): the flow above applies. Main-session

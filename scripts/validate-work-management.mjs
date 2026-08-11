@@ -2,7 +2,7 @@
 // local slug work IDs, GitHub issue/PR templates, prompt path consistency,
 // and /init GitHub setup safety (detection, approval, verification, optionality).
 // Usage: node scripts/validate-work-management.mjs [root]
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -45,11 +45,17 @@ else {
 if (existsSync(join(root, ".pi", "work", "README.md"))) ok(".pi/work/README.md exists"); else fail("missing .pi/work/README.md");
 if (existsSync(join(root, ".pi", "templates", "issue.md"))) ok(".pi/templates/issue.md exists"); else fail("missing .pi/templates/issue.md");
 
-// 2. No Bead metadata in templates or workflow prompts
-for (const rel of [".pi/templates/prd.md", ".pi/templates/tasks.md", ".pi/prompts/create.md", ".pi/prompts/plan.md", ".pi/prompts/ship.md", ".pi/prompts/verify.md"]) {
+// 2. No Bead metadata in templates or workflow prompts. Scans every .md file
+// under .pi/templates and .pi/prompts, case-insensitively, so bead-era drift
+// cannot sneak in through unlisted files or "Bead ID:" variants.
+const beadFiles = [
+  ...readdirSync(join(root, ".pi", "templates")).filter((f) => f.endsWith(".md")).map((f) => ".pi/templates/" + f),
+  ...readdirSync(join(root, ".pi", "prompts")).filter((f) => f.endsWith(".md")).map((f) => ".pi/prompts/" + f),
+];
+for (const rel of beadFiles) {
   const path = join(root, rel);
   if (!existsSync(path)) { fail("missing " + rel); continue; }
-  if (readFileSync(path, "utf8").includes("Bead:")) fail(rel + " still carries Bead metadata");
+  if (/bead/i.test(readFileSync(path, "utf8"))) fail(rel + " still carries Bead metadata");
   else ok(rel + " has no Bead metadata");
 }
 

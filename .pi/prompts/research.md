@@ -40,7 +40,7 @@ Break the question into 3-6 distinct angles. Each angle is a separate search tar
 - recent developments (what changed in the last 6 months)
 - concrete examples (working code, real usage)
 
-Ask the user to narrow the scope if the question is too broad to answer usefully. Parallel retrieval is allowed only for independent angles; never fire the same question at several tools at once.
+Ask the user to narrow the scope if the question is too broad to answer usefully. Parallel retrieval is allowed only for independent angles; never fire the same question at several tools at once. For independent angles, fan out with bounded read-only subagents: `subagents.all({ tasks: [{ key, agent: "explorer" | "reviewer", task, maxTurns, maxToolCalls, maxTokens }], concurrency: 2-4 })`. Children stay read-only and bounded; Main keeps synthesis and authority. Treat terminal outcomes as distinct (succeeded, failed, timed_out, budget_exhausted, invalid_result) and never fabricate evidence from a failed or exhausted child.
 
 ## Phase 2: Research Each Angle
 
