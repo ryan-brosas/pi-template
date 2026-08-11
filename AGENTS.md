@@ -209,7 +209,8 @@ Order of authority, highest first:
 - Recon where the change lands: use semantic navigation (language server, AST/codemap tools) before text search; use grep for strings, comments, and config.
 - Before renaming or changing a signature, find every reference and call site.
 - Read similar existing features so new code matches the structure and style of the codebase before writing anything.
-- For reference implementations, query the CGC clone under `/home/ryanj/work/inspo/<repo>` with codemap `mode: "cgc"` and the exact absolute context, one repository per query. Never clone reference code into the project tree; inspiration clones stay under inspo.
+- For reference implementations, query the CGC clone under `/home/ryanj/work/inspo/<repo>` with codemap `mode: "cgc"` and the exact absolute context, one repository per query. Never clone reference code into the project tree; inspiration clones stay under inspo. Query only through the indexed CGC context — index first when missing, never grep the inspo tree.
+- Evidence validity: never assume a GitHub repository is valid or authoritative evidence just because it relates to the task or project. Topical relevance is a lead, not a warrant. Treat any repository like an arXiv preprint: potentially valuable, always provisional. Extract claims only with provenance (owner/repo, commit SHA or branch, retrieval date, license), verify by reading the code, docs, and tests rather than the README, and cross-check any adopted claim against an independent source. Prefer primary, dated, versioned sources: official docs, release notes, tagged commits, and the repo's own test suite. A CGC clone is an indexed snapshot for navigation, not a truth store; it can lag HEAD.
 
 ### 4. Planning and workflow
 
@@ -403,6 +404,7 @@ Verified layout of this template repository:
 - .pi/ - Pi-native configuration and content
   - fabric.json - Ultra Fabric prewalk guard config (gated verification, task arm)
   - settings.json - Pi settings (thinking level, theme, compaction)
+  - APPEND_SYSTEM.md - always-on system-prompt contract (environment, context economy, boot map), appended above AGENTS.md
   - prompts/ - 9 slash commands (/init, /create, /plan, /fix, /ship, /verify, /audit, /gc, /research)
   - skills/ - 86 portable skills; ledger at skills/manifest.json
   - templates/ - 12 format templates (prd, design, adr, issue, agents, tech-stack, ...)

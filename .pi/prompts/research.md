@@ -21,10 +21,12 @@ approves work; it feeds a later prewalk checklist schema.
 
 ## Phase 0: Classify and Budget
 
+Apply the evidence-validity principle first: a GitHub repository is never assumed to be valid or authoritative evidence just because it relates to the task or project. Topical relevance is a lead, not a warrant. Treat any repository like an arXiv preprint: potentially valuable, always provisional; extract claims only with provenance (owner/repo, commit SHA or branch, retrieval date, license), verify by reading the code, docs, and tests rather than the README, and cross-check any adopted claim against an independent source. A CGC clone is an indexed snapshot for navigation, not a truth store; it can lag HEAD.
+
 Classify the question to pick ONE primary route before any tool call:
 
 - Active-project code or architecture → codemap `mode: "ast"`.
-- Inspiration repository under /home/ryanj/work/inspo/<repo> → codemap `mode: "cgc"` with the exact absolute context, one repository per query.
+- Inspiration repository under /home/ryanj/work/inspo/<repo> → codemap `mode: "cgc"` with the exact absolute context, one repository per query. Ensure the repo is CGC-indexed before querying (`cgc index /home/ryanj/work/inspo/<repo> --summarize` when the context is missing); never rg/grep the inspo tree — the graph is the only query surface.
 - GitHub repository behavior or overview → `mcp.deepwiki.ask_question` (owner/repo + one focused question), or a CGC clone when one exists.
 - Current versioned library or framework docs → `mcp.context7.resolve-library-id` then `mcp.context7.query-docs`, max three single-topic queries per question.
 - Discovery and current facts → `mcp.exa.omniroute_web_search`, bounded to 3-5 results.
