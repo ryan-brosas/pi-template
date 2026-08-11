@@ -99,7 +99,7 @@ Skip steps 2–5 for well-scoped bugs.
 
 ## Search
 
-`rg -n` for text search inside `pi.bash`. Always `-n`. Always scope by path/glob.
+`rg -n` for text search inside `pi.bash`. Always `-n`. Always scope by path/glob. Never text-search the inspo tree (`/home/ryanj/work/inspo/`) — query its indexed CGC context instead.
 
 `rg` skips `.gitignore` by default. Missing match ≠ missing file — confirm with `rg --no-ignore` before concluding absence.
 
@@ -316,7 +316,7 @@ Order of authority, highest first:
 
 ## Research tool routing
 
-One primary evidence route per question. Escalate to the next tool only on a named evidence gap; never fan out across every tool at once.
+One primary evidence route per question. Escalate to the next tool only on a named evidence gap; never fan out across every tool at once. Inspiration clones are queried only through the indexed CGC context: ensure the repo is indexed before querying (`cgc index /home/ryanj/work/inspo/<repo> --summarize` when the context is missing) and never grep the inspo tree — raw text search returns file bytes into context and defeats the graph. A GitHub repository is never assumed authoritative because it relates to the task; topical relevance is a lead, not a warrant, and adopted claims need provenance plus an independent cross-check.
 
 - Local AST (codemap) for the active project's own code and architecture.
 - Per-repository CGC for inspiration clones: `mode: "cgc"` with the exact context `/home/ryanj/work/inspo/<repo>`, one repository per query.

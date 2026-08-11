@@ -30,7 +30,7 @@ If remediation is wanted, a later accepted prewalk checklist authorizes mutation
 Choose the right search for the pattern type:
 - **Symbol or API** (function name, class, method): use codemap search (symbols) to get definitions and call sites with file:line.
 - **Structural pattern** (try/catch, error-return checks): use codemap search with a regex query.
-- **Literal text** (strings, comments, TODO markers): use `rg -n` over the relevant directories.
+- **Literal text** (strings, comments, TODO markers): use `rg -n` over the relevant directories. Never text-search the inspo tree (`/home/ryanj/work/inspo/`); query its indexed CGC context instead.
 
 Group results by subdirectory. For each match record: `file:line` and one line of context. For independent subdirectories or pattern variants, fan out discovery with bounded read-only subagents: `subagents.all({ tasks: [...], concurrency: 2-4 })` with explicit per-child bounds; Main grades and prioritizes. If the pattern has common variations (e.g. `fetch(`, `await fetch(`, `fetch().then(`), include them.
 
