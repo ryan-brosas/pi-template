@@ -91,24 +91,18 @@ Output:
 4. **Deferred work** with `TODO(handle): what, on-or-after <date>` markers
 5. **Next step**: `/verify` to run the full gate, or fix listed issues
 
-## Prewalk boundary
+## Schema boundary
 
-Reading and planning are read-only. Before the first edit, call
-`prewalk.checklist({ ... })` inside fabric_exec with the matching disposition:
-`trivial: true` for one or two small edits, `easy: true` plus 2-4 items and
-Schema for bounded work, or 5-9 items plus Schema for full work; every
-items-bearing checklist requires the Schema contract. Wait for accepted handoff,
-then implement as the executor. Keep the checklist active until every item and
-validation is complete; mark each with `[DONE:n]`. If acceptance is denied or
-scope changes, do not mutate. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
+Reading and planning are read-only. Before the first edit, run the Schema loop
+inside one `fabric_exec`: `schema.hypothesize` (evidence:
+`file_contains`/`file_sha256` literals or the `canonical-check` trusted
+command) → `schema.verify` → `schema.commit` with declared operations and
+nonempty postconditions. Only `committed` authorizes the edits; then implement
+in the same `fabric_exec`. Keep the declared operations aligned with the plan
+until every item is complete; mark each with `[DONE:n]`. If verification fails
+or scope changes, do not mutate. After verification, record the gate decision (passed/disposition; evidence kinds: command, artifact, trace, custom) with the session's workflow recorder when available, or carry it in the completion report.
 
-**Dual mode.** Read-only discovery is identical in both modes; only mutation
-authorization differs. Prewalk mode (armed): the flow above applies. Main-session
-mode (no prewalk): prewalk is unavailable or not armed; propose each mutation to
-the user and apply only after explicit approval of the exact action and files.
-Detect at the mutation boundary: accepted checklist → prewalk mode; not-armed
-rejection or absent `prewalk` → main-session mode.
-
+**Dual mode.** Read-only discovery is identical in both modes; only mutation authorization differs. Schema mode (`schema.status().mode === "enforce"`): the loop above applies. Main-session mode (guard off or project untrusted): propose each mutation to the user and apply only after explicit approval of the exact action and files. Detect at the mutation boundary: `schema.status()` reports `enforce` → Schema mode; otherwise → main-session mode.
 ## Related Commands
 
 | Need | Command |

@@ -1,7 +1,8 @@
 // Usage: node scripts/sync-skill-manifest.mjs [--check]
 // Regenerates .pi/skills/manifest.json from .pi/skills/packs.json and the
-// discovered SKILL.md tree. Deterministic: entries sorted by name. The removed
-// ledger is preserved verbatim. With --check, exits 1 on drift without writing.
+// discovered SKILL.md tree. Entries are deterministic and sorted by name; the
+// generated date is informational. The removed ledger is preserved verbatim.
+// With --check, exits 1 on semantic drift without writing.
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -65,7 +66,22 @@ const generated = {
 };
 const text = JSON.stringify(generated, null, 2) + "\n";
 const current = existsSync(manifestPath) ? readFileSync(manifestPath, "utf8") : "";
-if (current === text) {
+// The generated date is informational and changes daily, so a committed
+// manifest legitimately carries an earlier date on a fresh clone. Compare
+// everything except the date: --check stays deterministic and still catches
+// real drift in the note, removed ledger, or retained entries.
+const sameContent = (a, b) => {
+  try {
+    const pa = JSON.parse(a);
+    const pb = JSON.parse(b);
+    delete pa.generated;
+    delete pb.generated;
+    return JSON.stringify(pa) === JSON.stringify(pb);
+  } catch {
+    return false;
+  }
+};
+if (current && sameContent(current, text)) {
   console.log("[ok] manifest is current");
   process.exit(0);
 }

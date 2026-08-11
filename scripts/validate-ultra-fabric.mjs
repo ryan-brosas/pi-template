@@ -1,5 +1,5 @@
-// Ultra Fabric contract gate: pins prewalk dispositions, Schema requirement,
-// runtime configuration, DONE marker contract, and referenced skill paths.
+// Ultra Fabric contract gate: pins Schema enforce dispositions, runtime
+// configuration, DONE marker contract, and referenced skill paths.
 // Usage: node scripts/validate-ultra-fabric.mjs [root]
 import { readFileSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -17,35 +17,33 @@ else {
   let cfg;
   try { cfg = JSON.parse(readFileSync(fabricPath, "utf8")); } catch (e) { fail("fabric.json is not valid JSON: " + e.message); }
   if (cfg) {
-    const p = cfg.prewalk || {};
-    if (p.verificationMode === "gated") ok("prewalk.verificationMode = gated"); else fail("prewalk.verificationMode must be gated, got " + p.verificationMode);
-    if (p.arm === "task") ok("prewalk.arm = task"); else fail("prewalk.arm must be task, got " + p.arm);
-    if (p.maxPhaseRevisions === 2) ok("prewalk.maxPhaseRevisions = 2"); else fail("prewalk.maxPhaseRevisions must be 2, got " + p.maxPhaseRevisions);
-    if (typeof p.model === "string" && p.model.length > 0) ok("prewalk.model configured"); else fail("prewalk.model must be a nonempty string");
-    for (const key of ["handoffRetirement", "reuseChecklists", "failureMemory", "researchSubagents"]) {
-      if (p[key] === true) ok("prewalk." + key + " = true"); else fail("prewalk." + key + " must be true, got " + p[key]);
-    }
+    const s = cfg.schema || {};
+    if (s.mode === "enforce") ok("schema.mode = enforce"); else fail("schema.mode must be enforce, got " + s.mode);
+    const cc = (s.trustedCommands && s.trustedCommands["canonical-check"]) || {};
+    if (cc.command === "node" && Array.isArray(cc.args) && cc.args.join(" ") === "scripts/check.mjs" && cc.shell !== true)
+      ok("schema.trustedCommands.canonical-check = node scripts/check.mjs");
+    else fail("schema.trustedCommands.canonical-check must run node scripts/check.mjs without a shell");
   }
 }
 
-// 2. Native disposition contract in AGENTS.md
+// 2. Schema loop contract in AGENTS.md
 const agentsPath = join(root, "AGENTS.md");
 if (!existsSync(agentsPath)) fail("missing AGENTS.md");
 else {
   const agents = readFileSync(agentsPath, "utf8");
-  for (const [label, needle] of [["trivial disposition", "trivial: true"], ["easy disposition", "easy: true"], ["full 5-9 items", "5-9"], ["easy 2-4 items", "2-4"], ["DONE marker", "[DONE:n]"], ["Schema requirement", "schema"]]) {
+  for (const [label, needle] of [["Schema hypothesize", "schema.hypothesize"], ["Schema verify", "schema.verify"], ["Schema commit", "schema.commit"], ["canonical-check", "canonical-check"], ["DONE marker", "[DONE:n]"]]) {
     if (agents.includes(needle)) ok("AGENTS.md: " + label); else fail("AGENTS.md missing " + label);
   }
 }
 
-// 3. Mutating prompts: no stale blanket cardinality; dispositions present
+// 3. Mutating prompts: no stale prewalk wording; Schema loop present
 for (const name of ["create", "fix", "init", "plan", "ship"]) {
   const file = join(root, ".pi", "prompts", name + ".md");
   if (!existsSync(file)) { fail("missing .pi/prompts/" + name + ".md"); continue; }
   const text = readFileSync(file, "utf8");
-  if (text.includes("5-9 ordered items")) fail(name + ": stale blanket 5-9 wording remains");
-  else ok(name + ": no stale 5-9-only wording");
-  for (const [label, needle] of [["prewalk call", "prewalk.checklist("], ["trivial disposition", "trivial: true"], ["easy disposition", "easy: true"], ["do not mutate", "do not mutate"]]) {
+  if (text.includes("prewalk")) fail(name + ": stale prewalk wording remains");
+  else ok(name + ": no stale prewalk wording");
+  for (const [label, needle] of [["Schema hypothesize", "schema.hypothesize"], ["Schema verify", "schema.verify"], ["Schema commit", "schema.commit"], ["do not mutate", "do not mutate"]]) {
     if (text.includes(needle)) ok(name + ": " + label); else fail(name + " missing " + label);
   }
 }
@@ -62,12 +60,12 @@ if (existsSync(shipPath)) {
   }
 }
 
-// 5. AGENTS template and init prompt: identity protocol + Mermaid architecture contract
+// 5. AGENTS template and init prompt: outcome-driven guidance contract
 const agentsTemplatePath = join(root, ".pi", "templates", "agents.md");
 if (!existsSync(agentsTemplatePath)) fail("missing .pi/templates/agents.md");
 else {
   const template = readFileSync(agentsTemplatePath, "utf8");
-  for (const needle of ["### 18. GitHub identity and attribution", "authenticated CLI account", "pull-request author", "commit association", "local Git configuration", "gh auth status", "gh api user", "gh repo view", "gh pr view", "user/emails", "NEEDS CLARIFICATION", "```mermaid", "flowchart", "sequenceDiagram", "accessible prose", "dependency direction"]) {
+  for (const needle of ["## Golden rule: check when done", "[verified check command]", "## Safety boundaries", "## Repository invariants", "## Operational traps", "Keep the rendered file short"]) {
     if (template.includes(needle)) ok("agents template: " + needle); else fail("agents template missing " + needle);
   }
 }
@@ -75,9 +73,21 @@ const initPath = join(root, ".pi", "prompts", "init.md");
 if (!existsSync(initPath)) fail("missing .pi/prompts/init.md");
 else {
   const initText = readFileSync(initPath, "utf8");
-  for (const needle of ["GitHub identity", "identity protocol", "Mermaid"]) {
+  for (const needle of ["one canonical completion command", "repository-specific invariants", "operational traps", "generic coding doctrine"]) {
     if (initText.includes(needle)) ok("init prompt: " + needle); else fail("init prompt missing " + needle);
   }
+}
+
+// 6. This repository exposes one local and CI completion command.
+const checkPath = join(root, "scripts", "check.mjs");
+if (existsSync(checkPath)) ok("canonical check script exists");
+else fail("missing scripts/check.mjs");
+const workflowPath = join(root, ".github", "workflows", "check.yml");
+if (!existsSync(workflowPath)) fail("missing .github/workflows/check.yml");
+else {
+  const workflow = readFileSync(workflowPath, "utf8");
+  if (workflow.includes("node scripts/check.mjs")) ok("CI runs canonical check");
+  else fail("CI does not run node scripts/check.mjs");
 }
 
 console.log(failures ? "ultra-fabric contract: FAIL" : "ultra-fabric contract: ok");

@@ -83,4 +83,4 @@ Is the goal 1-2 sentences, observable, measurable? Are non-goals explicit? Are c
 
 ## Ultra Fabric Boundaries
 
-**Mutation** — implementation and spec changes defer to the prewalk Schema contract in AGENTS.md.
+**Mutation** — implementation and spec changes defer to the Schema mutation guard in AGENTS.md.

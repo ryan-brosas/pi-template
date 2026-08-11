@@ -84,7 +84,7 @@ Record each station's outcome in `.pi/work/$(cat .pi/work/.active)/.progress.md`
 
 ## Ultra Fabric Boundaries
 
-**Discovery** — codemap refs before text search. **Mutation** — plan writes defer to the prewalk Schema contract in AGENTS.md. **Execution** — stations run under `task-scoped-execution` with compaction between stations.
+**Discovery** — codemap refs before text search. **Mutation** — plan writes defer to the Schema mutation guard in AGENTS.md. **Execution** — stations run under `task-scoped-execution` with compaction between stations.
 
 ## Skill Result Contract
 

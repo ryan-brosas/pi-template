@@ -72,4 +72,4 @@ Test passes on first run; test asserts implementation details; test breaks on re
 
 ## Ultra Fabric Boundaries
 
-Tests are direct behavioral probes (black-box first); mutation defers to the prewalk Schema contract in AGENTS.md.
+Tests are direct behavioral probes (black-box first); mutation defers to the Schema mutation guard in AGENTS.md.

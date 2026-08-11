@@ -16,9 +16,16 @@ disable-model-invocation: true
 - When deployment is not requested or targets a non-Vercel platform.
 
 
+## Prerequisite
+
+This skill needs a local deploy helper script. Resolve its path from `$VERCEL_DEPLOY_SCRIPT` or ask the user — never assume a machine-specific path (for example `/mnt/skills/...`). The helper must:
+- Exclude secret files (`.env*`, credentials, key files) from the upload in addition to `node_modules` and `.git`.
+- Never mutate the input tree in place (stage a temporary copy if it needs to rename or transform files).
+- Show the exact command it runs before executing.
+
 ## How It Works
 
-1. Packages your project into a tarball (excludes `node_modules` and `.git`)
+1. Packages your project into a tarball (excludes `node_modules`, `.git`, and secret files)
 2. Auto-detects framework from `package.json`
 3. Uploads to deployment service
 4. Returns **Preview URL** (live site) and **Claim URL** (transfer to your Vercel account)
@@ -26,7 +33,7 @@ disable-model-invocation: true
 ## Usage
 
 ```bash
-bash /mnt/skills/user/vercel-deploy/scripts/deploy.sh [path]
+bash "$VERCEL_DEPLOY_SCRIPT" [path]
 ```
 
 **Arguments:**
@@ -37,13 +44,13 @@ bash /mnt/skills/user/vercel-deploy/scripts/deploy.sh [path]
 
 ```bash
 # Deploy current directory
-bash /mnt/skills/user/vercel-deploy/scripts/deploy.sh
+bash "$VERCEL_DEPLOY_SCRIPT"
 
 # Deploy specific project
-bash /mnt/skills/user/vercel-deploy/scripts/deploy.sh /path/to/project
+bash "$VERCEL_DEPLOY_SCRIPT" /path/to/project
 
 # Deploy existing tarball
-bash /mnt/skills/user/vercel-deploy/scripts/deploy.sh /path/to/project.tgz
+bash "$VERCEL_DEPLOY_SCRIPT" /path/to/project.tgz
 ```
 
 ## Output
@@ -109,12 +116,11 @@ To transfer this deployment to your Vercel account, visit the Claim URL.
 
 ### Network Egress Error
 
-If deployment fails due to network restrictions (common on claude.ai), tell the user:
+If deployment fails due to network restrictions, surface the provider error and ask the user to allow the required domains in their runtime/network settings, then retry:
 
 ```
 Deployment failed due to network restrictions. To fix this:
 
-1. Go to https://claude.ai/settings/capabilities
-2. Add *.vercel.com to the allowed domains
-3. Try deploying again
+1. Allow the required provider domains in the runtime/network settings
+2. Try deploying again
 ```

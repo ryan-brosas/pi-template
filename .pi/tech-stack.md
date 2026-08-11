@@ -20,7 +20,7 @@ Evidence: `README.md:1-12`; `git remote -v` (origin github.com/ryan-brosas/pi-te
 | Prompt commands | Markdown | Pi slash-command prompt templates under `.pi/prompts/` |
 | Skills | Markdown with YAML frontmatter | Reusable task-specific agent guidance under `.pi/skills/` |
 | Pi settings | JSON | Thinking level, theme, and compaction configuration |
-| Ultra Fabric settings | JSON | Prewalk and mutation-guard configuration |
+| Ultra Fabric settings | JSON | Schema and mutation-guard configuration |
 | Validation gates | Node.js (ESM) | Dependency-free structural checks under `scripts/` |
 
 There is no `src/`, `lib/`, or `app/` source tree and no indexed application code.
@@ -68,13 +68,13 @@ Do not add commands based only on this host inventory. A project command require
 
 ### Ultra Fabric
 
-`.pi/fabric.json` configures the prewalk guard. Repository rules make prewalk the progression authority for mutations:
+`.pi/fabric.json` configures the Schema guard. Repository rules make the Schema commit loop the authority for mutations:
 
 1. Research, discovery, and preview are read-only.
 2. Non-trivial mutations require an accepted checklist with a Schema contract.
 3. The executor owns declared writes and verification after handoff.
 4. Unrelated working-tree changes must remain untouched.
-5. `.pi/fabric.json` pins verificationMode gated, arm task, and the four prewalk context levers: handoffRetirement, reuseChecklists, failureMemory, researchSubagents.
+5. `.pi/fabric.json` pins `schema.mode: enforce` and the `canonical-check` trusted command (`node scripts/check.mjs`).
 
 ## Commands
 
@@ -83,33 +83,35 @@ Do not add commands based only on this host inventory. A project command require
 | `node scripts/validate-skill-packs.mjs` | works | Pack catalog, membership, visibility, metadata budget | 2026-08-09, exit 0 |
 | `node scripts/sync-skill-manifest.mjs --check` | works | Manifest parity | 2026-08-09, exit 0 |
 | `node scripts/probe-skill-routing.mjs` | works | Router dispatch probes | 2026-08-09, exit 0 |
-| `node scripts/validate-ultra-fabric.mjs` | works | Prewalk dispositions, gated config, skill paths | 2026-08-09, exit 0 |
+| `node scripts/validate-ultra-fabric.mjs` | works | Schema dispositions, enforce config, skill paths | 2026-08-09, exit 0 |
 | `node scripts/validate-work-management.mjs` | works | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety | 2026-08-09, exit 0 |
 | `node scripts/validate-notion-workspace-skill.mjs` | works | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
+| `node scripts/check.mjs` | works | Canonical gate: all validators + `git diff --check` | 2026-08-11, exit 0 |
+| `node scripts/validate-release-hygiene.mjs` | works | Release hygiene: machine paths, secrets, runtime state, documented counts | 2026-08-11, exit 0 |
 | `git diff --check` | works | Whitespace check on changed files | 2026-08-09, exit 0 |
 | install / dev / test / lint / typecheck / build / format | none | No command exists in the current tree | probed 2026-08-09 |
 
 ## CI
 
-- **Workflows:** None detected under `.github/workflows/`.
-- **Local reproduction:** The six Node gates above are the local equivalent; they must run manually because no CI enforces them.
+- **Workflows:** `.github/workflows/check.yml` runs `node scripts/check.mjs` on pushes to `main` and pull requests.
+- **Local reproduction:** `node scripts/check.mjs` runs the same gates locally; CI enforces them on push and PR.
 
 ## Generated Files
 
 - `.pi/skills/manifest.json` is generated from the skill tree and `packs.json` by `node scripts/sync-skill-manifest.mjs` (no `--check` writes it). Regenerate after adding or moving skills; verify with `--check`.
 - `.pi/tech-stack.md`, `.pi/project.md`, `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/user.md` are rendered by `/init` from `.pi/templates/`; regenerate with `/init` and review the diff.
-- Ignored generated state: `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/hindsight/`, and `.pi/work` dotfiles never commit.
+- Ignored generated state: `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, and `.pi/work` dotfiles never commit.
 
 ## Testing
 
 - **Unit / integration / contract / e2e tests:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** the six Node scripts above, run before completion claims.
+- **Structural gates:** the seven Node scripts above, run before completion claims.
 - **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: roadmap Phase 2 decides whether template validators are added].
 
 ## Active Integrations
 
 - **Pi:** Agent runtime and project-local prompts, skills, settings, and templates
-- **Ultra Fabric:** Prewalk, Schema contract, model handoff, and mutation guard
+- **Ultra Fabric:** Schema contract, mutation guard, and model handoff
 - **codemap:** Semantic navigation when application source exists; the current configuration-only tree has no indexed source symbols
 - **Git remote:** origin at github.com/ryan-brosas/pi-template.git
 
@@ -125,10 +127,10 @@ No external application API, database, deployment provider, or credential-bearin
 
 1. Keep the repository clonable without a package-install step.
 2. Preserve Pi-native operation; do not reintroduce OpenCode runtime wrappers as hidden dependencies.
-3. Keep prewalk as the sole authority for non-trivial repository mutation.
+3. Keep the Schema commit loop as the sole authority for non-trivial repository mutation.
 4. Treat prompts, skills, templates, and settings as the product surface.
 5. Preserve unrelated work in the large current working-tree cleanup.
-6. Keep generated local state in `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/hindsight/`, and ignored `.pi/work` dotfiles.
+6. Keep generated local state in `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, and ignored `.pi/work` dotfiles.
 7. Prefer stability and explicit verification over adding features or abstractions.
 8. Record only detected values here; regenerate this file when repository facts change.
 
@@ -147,12 +149,14 @@ Target approximately half of the available context for one implementation plan. 
 Always run before claiming complete:
 
 ```bash
-# Structural gates (exit 0 required)
+# Canonical gate (exit 0 required): node scripts/check.mjs runs every validator
+node scripts/check.mjs
 node scripts/validate-skill-packs.mjs
 node scripts/sync-skill-manifest.mjs --check
 node scripts/probe-skill-routing.mjs
 node scripts/validate-ultra-fabric.mjs
 node scripts/validate-work-management.mjs
+node scripts/validate-release-hygiene.mjs
 git diff --check
 ```
 

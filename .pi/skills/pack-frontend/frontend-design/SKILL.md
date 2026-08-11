@@ -116,7 +116,7 @@ React Hook Form + Zod = typed forms with validation. Use shadcn's `<Form>` for b
 
 ## Data Fetching
 
-- **Server**: `async function`, `await fetch`, return JSX. Cached by default.
+- **Server**: `async function`, `await fetch`, return JSX. Caching defaults are version-dependent (Next.js App Router changed defaults); verify the app's cache/revalidation settings.
 - **Client**: `useSWR`, `useQuery`, or React Suspense. Loading, error, revalidation.
 - **Mutations**: Server Actions (Next.js) or API routes. Optimistic with `useOptimistic`.
 

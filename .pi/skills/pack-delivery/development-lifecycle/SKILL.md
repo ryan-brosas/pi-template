@@ -7,34 +7,37 @@ disable-model-invocation: true
 
 # Development Lifecycle
 
-## The 4 Canonical Artifact Files
+## Canonical Artifact Files
 
 At the active work record `.pi/work/$(cat .pi/work/.active)/`, maintained in the working copy:
 
 | File | Purpose | Use when |
 |---|---|---|
-| `TODO.md` | Live task list per session / day | >=2 tool calls OR >=2 files OR multi-step work |
-| `PLAN.md` | Long-form spec, slice ordering, open questions | New feature, breaking change, ambiguous spec |
+| `spec.md` | PRD/spec for the work record | `/create` |
+| `tasks.md` | Task list derived from the spec | `/create` |
+| `plan.md` | Implementation plan and slice ordering | `/plan` |
+| `research.md` | Exploration notes and evidence | `/research` |
+| `verification.md` | Verification evidence per gate run | `/verify` |
+| `adr.md` | ADRs (Architecture Decision Records) | Real trade-off between two or more viable options |
 | `.progress.md` | Per-iteration log: tried, failed, learned | Long-running investigation or build |
-| `DECISIONS.md` | ADRs (Architecture Decision Records) | Real trade-off between two or more viable options |
 
-**Entry format (TODO.md, .progress.md):** `### YYYY-MM-DD - <title>` followed by `status: active | done | abandoned | updated: <date>`.
+**Entry format (tasks.md, .progress.md):** `### YYYY-MM-DD - <title>` followed by `status: active | done | abandoned | updated: <date>`.
 
 ## Slash Commands (Lifecycle Hooks)
 
-- `/create <idea>` — turn a rough idea into a `PLAN.md` and `TODO.md`. Loaded from `brainstorming` + `spec-driven-development`.
-- `/plan` — open / resume the current plan. Loaded from `planning-and-task-breakdown`.
-- `/ship` — pre-merge hardening: tests, lint, types, format. Loaded from `shipping-and-launch`.
-- `/verify` — claim-completion evidence gate. Loaded from `verification-before-completion`.
-- `/research` — exploratory investigation; lives in `.progress.md`. Loaded from `spec-driven-development`.
+- `/create <idea>` — turn a rough idea into `spec.md` and `tasks.md` (plus optional `proposal.md`, `design.md`, `adr.md`). Loaded from `brainstorming` + `spec-driven-development`.
+- `/plan` — open / resume the current plan (`plan.md`). Loaded from `planning-and-task-breakdown`.
+- `/ship` — implement the active spec end to end; run the canonical gate. Loaded from `shipping-and-launch`.
+- `/verify` — claim-completion evidence gate (`verification.md`, `.verify.log`). Loaded from `verification-before-completion`.
+- `/research` — exploratory investigation; lives in `research.md`. Loaded from `spec-driven-development`.
 
 ## Workflow
 
 ```
    /create  ──>  /plan  ──>  implement  ──>  /ship  ──>  /verify
       │            │           │              │           │
-   PLAN.md      TODO.md      .progress.md tests/lint    evidence
-   TODO.md      updates      updates      green        claim holds
+   spec.md     plan.md      .progress.md   spec.md     verification.md
+   tasks.md    updates      updates      implemented  evidence
 ```
 
 **`/research` is sideways** — it feeds `/plan` or `/create`, not the linear path.
@@ -52,21 +55,21 @@ At the active work record `.pi/work/$(cat .pi/work/.active)/`, maintained in the
 ## Lifecycle Rules
 
 1. **No silent skipping** — if you skip a phase, name it in the response ("skipped /plan: single-file fix with clear spec"). This becomes the audit trail.
-2. **Update TODO.md first, then code** — append the entry before the first edit. Re-reading it on resume gives you the state.
+2. **Update tasks.md first, then code** — append the entry before the first edit. Re-reading it on resume gives you the state.
 3. **.progress.md = investigation log** — failed attempts and "what I tried" go here, not in chat.
-4. **DECISIONS.md is for trade-offs, not choices** — if there's only one viable option, it goes in PLAN.md as a fact, not an ADR.
+4. **adr.md is for trade-offs, not choices** — if there's only one viable option, it goes in plan.md as a fact, not an ADR.
 5. **/verify is non-negotiable** — every "done" claim cites evidence.
 
 ## Red Flags
 
-- TODO.md has no `### YYYY-MM-DD - <title>` entries — likely stale or skipped.
+- tasks.md has no `### YYYY-MM-DD - <title>` entries — likely stale or skipped.
 - .progress.md empty on a multi-hour task — context loss on resume.
-- DECISIONS.md used as a dumping ground for any choice — noise, not signal.
+- adr.md used as a dumping ground for any choice — noise, not signal.
 - "Done" claim without `/verify` evidence — common regression.
 
 ## Ultra Fabric Boundaries
 
-**Discovery** — codemap before text search. **Mutation** — file writes defer to the prewalk Schema contract in AGENTS.md. **Verification** — direct behavioral probes with recorded output.
+**Discovery** — codemap before text search. **Mutation** — file writes defer to the Schema mutation guard in AGENTS.md. **Verification** — direct behavioral probes with recorded output.
 
 ## Skill Result Contract
 

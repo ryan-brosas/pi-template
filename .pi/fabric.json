@@ -1,15 +1,16 @@
 {
   "configVersion": 3,
-  "prewalk": {
-    "verificationMode": "gated",
-    "thinking": "max",
-    "arm": "task",
-    "model": "omniroute/opencode-go/deepseek-v4-flash-max",
-    "maxPhaseRevisions": 2,
-    "handoffRetirement": true,
-    "reuseChecklists": true,
-    "failureMemory": true,
-    "researchSubagents": true
+  "fullCodeMode": true,
+  "schema": {
+    "mode": "enforce",
+    "trustedCommands": {
+      "canonical-check": {
+        "command": "node",
+        "args": ["scripts/check.mjs"],
+        "shell": false,
+        "timeoutMs": 120000
+      }
+    }
   },
   "compaction": {
     "engine": "pi"

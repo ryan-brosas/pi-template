@@ -10,17 +10,19 @@
 
 ### Changed Files Detection
 
+Configuration and documentation repositories must extend the extension list to their product surface — for the Pi template that is `*.md`, `*.json`, and `*.mjs` (included below). The template's canonical gate is `node scripts/check.mjs`; the npm-style gates in this protocol apply to application repositories only.
+
 ```bash
 # Get changed files (uncommitted + staged + untracked)
 CHANGED=$({
-  git diff --name-only --diff-filter=d HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx'
-  git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx'
+  git diff --name-only --diff-filter=d HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml'
+  git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml'
 } | sort -u)
 
 # If in a plan worktree, diff against the branch point:
 # CHANGED=$({
-#   git diff --name-only --diff-filter=d main...HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx'
-#   git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx'
+#   git diff --name-only --diff-filter=d main...HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml'
+#   git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml'
 # } | sort -u)
 
 # Count for mode decision
@@ -104,8 +106,8 @@ After all gates pass, record a verification stamp:
 # This ensures the stamp changes on ANY code change (commit, edit, or new file)
 STAMP=$(printf '%s\n%s\n%s' \
   "$(git rev-parse HEAD)" \
-  "$(git diff HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx')" \
-  "$(git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' | xargs cat 2>/dev/null)" \
+  "$(git diff HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml')" \
+  "$(git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml' | xargs cat 2>/dev/null)" \
   | shasum -a 256 | cut -d' ' -f1)
 
 echo "$STAMP $(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> .pi/work/$(cat .pi/work/.active)/.verify.log
@@ -120,8 +122,8 @@ LAST_STAMP=$(tail -1 .pi/work/$(cat .pi/work/.active)/.verify.log 2>/dev/null | 
 # Recompute current fingerprint (same formula as recording)
 CURRENT_STAMP=$(printf '%s\n%s\n%s' \
   "$(git rev-parse HEAD)" \
-  "$(git diff HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx')" \
-  "$(git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' | xargs cat 2>/dev/null)" \
+  "$(git diff HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml')" \
+  "$(git ls-files --others --exclude-standard -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.md' '*.json' '*.mjs' '*.yaml' '*.yml' | xargs cat 2>/dev/null)" \
   | shasum -a 256 | cut -d' ' -f1)
 
 if [ "$LAST_STAMP" = "$CURRENT_STAMP" ]; then

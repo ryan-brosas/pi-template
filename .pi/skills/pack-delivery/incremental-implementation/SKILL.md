@@ -48,7 +48,7 @@ Big-bang patch (write everything, test at the end); premature abstraction (DRYin
 
 ## Ultra Fabric Boundaries
 
-**Mutation** — each slice defers to the prewalk Schema contract in AGENTS.md. **Verification** — direct behavioral probes; name the check before editing.
+**Mutation** — each slice defers to the Schema mutation guard in AGENTS.md. **Verification** — direct behavioral probes; name the check before editing.
 
 ## Skill Result Contract
 

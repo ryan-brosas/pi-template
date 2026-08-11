@@ -11,7 +11,7 @@ Run bounded, evidence-driven research on a question and produce a cited report w
 ## Read-only
 
 This command is read-only. Research never mutates the repository and never
-approves work; it feeds a later prewalk checklist schema.
+approves work; it feeds a later Schema hypothesis evidence set.
 
 ## Parse Arguments
 
@@ -26,7 +26,7 @@ Apply the evidence-validity principle first: a GitHub repository is never assume
 Classify the question to pick ONE primary route before any tool call:
 
 - Active-project code or architecture → codemap `mode: "ast"`.
-- Inspiration work → discover first: one codemap `mode: "cgc"` explore over the meta-context `/home/ryanj/work/inspo` with the domain query; read the covering repo from the path prefix of returned symbols. Then query that repo alone: codemap `mode: "cgc"`, context `/home/ryanj/work/inspo/<repo>`, one repository per query. Ensure the repo is CGC-indexed before querying (`cgc index /home/ryanj/work/inspo/<repo> --summarize` when the context is missing); never rg/grep the inspo tree — the graph is the only query surface.
+- Inspiration work → discover first: one codemap `mode: "cgc"` explore over the meta-context `<inspo-root>` (resolve from `$INSPO_ROOT` or ask the user; never assume a machine-specific path) with the domain query; read the covering repo from the path prefix of returned symbols. Then query that repo alone: codemap `mode: "cgc"`, context `<inspo-root>/<repo>`, one repository per query. Ensure the repo is CGC-indexed before querying (`cgc index <inspo-root>/<repo> --summarize` when the context is missing); never rg/grep the inspo tree — the graph is the only query surface.
 - GitHub repository behavior or overview → `mcp.deepwiki.ask_question` (owner/repo + one focused question), or a CGC clone when one exists.
 - Current versioned library or framework docs → `mcp.context7.resolve-library-id` then `mcp.context7.query-docs`, max three single-topic queries per question.
 - Discovery and current facts → `mcp.exa.omniroute_web_search`, bounded to 3-5 results.
@@ -42,7 +42,7 @@ Break the question into 3-6 distinct angles. Each angle is a separate search tar
 - recent developments (what changed in the last 6 months)
 - concrete examples (working code, real usage)
 
-Ask the user to narrow the scope if the question is too broad to answer usefully. Parallel retrieval is allowed only for independent angles; never fire the same question at several tools at once. For independent angles, fan out with bounded read-only subagents: `subagents.all({ tasks: [{ key, agent: "explorer" | "reviewer", task, maxTurns, maxToolCalls, maxTokens }], concurrency: 2-4 })`. Children stay read-only and bounded; Main keeps synthesis and authority. Treat terminal outcomes as distinct (succeeded, failed, timed_out, budget_exhausted, invalid_result) and never fabricate evidence from a failed or exhausted child.
+Ask the user to narrow the scope if the question is too broad to answer usefully. Parallel retrieval is allowed only for independent angles; never fire the same question at several tools at once. For independent angles, fan out with bounded read-only sub-agents when the session supports spawning them (each child: key, role, task, turn/tool/token caps; concurrency 2-4); otherwise run the same bounded probes sequentially in the main session. Children stay read-only and bounded; Main keeps synthesis and authority. Treat terminal outcomes as distinct (succeeded, failed, timed_out, budget_exhausted, invalid_result) and never fabricate evidence from a failed or exhausted child.
 
 ## Phase 2: Research Each Angle
 
@@ -74,7 +74,7 @@ Write the report:
 3. **Findings by angle:** each with URL/file:line, date, confidence
 4. **Contradictions:** resolved or flagged
 5. **Open gaps:** what remains unknown and how to close it
-6. **Evidence ledger:** a compact table of claim, source tool, exact call, source, date, confidence — ready to copy into a prewalk Schema references block
+6. **Evidence ledger:** a compact table of claim, source tool, exact call, source, date, confidence — ready to copy into a Schema hypothesis evidence block
 7. **Recommendation for this project:** what the research implies for the current codebase (if anything)
 
 Every claim in the summary must trace to a finding with a source. No source, no claim.
@@ -83,22 +83,23 @@ Every claim in the summary must trace to a finding with a source. No source, no 
 
 If an active work item exists (`.pi/work/.active`) and the user wants the
 report kept with the work, write it to
-`.pi/work/$(cat .pi/work/.active)/research.md`. That write is a mutation:
-submit a `prewalk.checklist({ ... })` inside fabric_exec with the matching
-disposition (`easy: true` plus 2-4 items and Schema is the usual fit) and wait
-for accepted handoff before writing.
+`.pi/work/$(cat .pi/work/.active)/research.md`. That write is a mutation: run the Schema loop inside one `fabric_exec` —
+`schema.hypothesize` (evidence: `file_contains`/`file_sha256` literals or the
+`canonical-check` trusted command) → `schema.verify` → `schema.commit` with
+declared operations and nonempty postconditions — before writing.
 
-## Prewalk boundary
+## Schema boundary
 
 Research discovery is read-only. Writing `research.md` under `.pi/work` is the
-only mutation and requires an accepted prewalk handoff.
+only mutation and requires a Schema commit.
 
 **Dual mode.** Read-only discovery is identical in both modes; only a durable
-write branches by mode. Prewalk mode (armed): `prewalk.checklist({ ... })` with
-accepted handoff before the write. Main-session mode (no prewalk): propose the
+write branches by mode. Schema mode (`schema.status().mode === "enforce"`):
+run `schema.hypothesize → verify → commit` in the same `fabric_exec` as the
+write. Main-session mode (guard off or project untrusted): propose the
 write to the user and apply only after explicit approval of the exact file and
-content. Detect at the write boundary: accepted checklist → prewalk mode;
-not-armed rejection or absent `prewalk` → main-session mode.
+content. Detect at the write boundary: `schema.status()` reports `enforce` →
+Schema mode; otherwise → main-session mode.
 
 ## Related Commands
 

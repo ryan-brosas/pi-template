@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 # Root-Cause Tracing
 
-Companion to `diagnose`. Use when the symptom is **deep** — a failure surfaces 10+ layers away from its cause. Pure diagnose skills are linear; this is the loop-back version.
+Companion to `debugging-and-error-recovery`. Use when the symptom is **deep** — a failure surfaces 10+ layers away from its cause. Linear debugging handles shallow failures; this is the loop-back version.
 
 ## Iron Laws
 
@@ -20,11 +20,11 @@ Companion to `diagnose`. Use when the symptom is **deep** — a failure surfaces
 
 ## When to Use
 
-Failure surfaces 10+ layers from the cause; `diagnose` linear approach didn't find it; the error message is misleading or generic; the same fix keeps coming back; the failure appears only in production-like environments.
+Failure surfaces 10+ layers from the cause; the linear `debugging-and-error-recovery` workflow didn't find it; the error message is misleading or generic; the same fix keeps coming back; the failure appears only in production-like environments.
 
 ## When NOT to Use
 
-The cause is already known (use `diagnose` or `incremental-implementation`); the failure is at the entry point (no tracing needed); you have a stack trace pointing to the line (just read the code).
+The cause is already known (use `debugging-and-error-recovery` or `incremental-implementation`); the failure is at the entry point (no tracing needed); you have a stack trace pointing to the line (just read the code).
 
 ## The Backward Trace
 

@@ -28,6 +28,10 @@ select * from resource_locks where resource_name = 'report_generator' for update
 ```sql
 -- Session-level advisory lock (released on disconnect or unlock)
 select pg_advisory_lock(hashtext('report_generator'));
+
+-- Note: hashtext keys are lossy; collisions serialize unrelated resources.
+-- Prefer the two-bigint form pg_advisory_lock(key1, key2) or a
+-- collision-resistant key strategy.
 -- ... do exclusive work ...
 select pg_advisory_unlock(hashtext('report_generator'));
 

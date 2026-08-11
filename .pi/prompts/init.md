@@ -1,5 +1,5 @@
 ---
-description: One-time full project initialization — AGENTS.md, project.md, tech-stack.md, planning context, and user profile
+description: One-time full project initialization — AGENTS.md, .pi/project.md, .pi/tech-stack.md, planning context, and .pi/user.md
 argument-hint: "[--deep] [--context|--user|--all]"
 ---
 
@@ -8,7 +8,7 @@ argument-hint: "[--deep] [--context|--user|--all]"
 Initialize project setup. Run once per project.
 
 Plain `/init` runs the complete initialization: full deep discovery, then every
-context artifact — AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md,
+context artifact — AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md,
 user.md. Flags only narrow or repeat parts of that one-time run.
 
 > **Next step for fresh projects:** `/plan` to create the first implementation plan.
@@ -29,7 +29,7 @@ user.md. Flags only narrow or repeat parts of that one-time run.
 Every artifact a full `/init` writes must satisfy all of these:
 
 1. **Minimum content per artifact.** Each artifact covers its full template section list. If a section has no verified content, write `[NEEDS CLARIFICATION: reason]` and ask the user; never silently drop a section.
-2. **Project overview and Architecture are mandatory in AGENTS.md.** A full init renders the Project overview (one-sentence description plus essential facts) and an Architecture section (components and ownership, dependency direction, execution flows, boundaries, invariants, validation matrix) in `AGENTS.md`, with a pointer to `.pi/project.md` for the detailed record.
+2. **AGENTS.md leads with the canonical completion command and stays concise.** A full init renders repository facts, safety boundaries, repository invariants, operational traps, a compact product map, and verification evidence per the source template, with a pointer to `.pi/project.md` for the detailed architecture.
 3. **Evidence citations.** Every project-specific claim, command, and restriction traces to a file:line, config entry, command output, or explicit user answer. A claim without a citation is a draft, not an artifact.
 4. **Cross-file consistency.** Commands, counts, paths, and architecture terms agree across the prompt, templates, and all rendered artifacts. Detect and reconcile any disagreement before finishing.
 5. **Preview material changes.** Show the user the final `AGENTS.md` (or the diff against the existing one) and the detection summary before writing; let them adjust.
@@ -52,7 +52,7 @@ Load `.pi/skills/verification-before-completion/SKILL.md` after the artifacts ar
 | `--all` | false | Full init — same as the default (kept for compatibility) |
 
 **Mode rules:**
-- No flags (default): the one-time full deep init — AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, user.md.
+- No flags (default): the one-time full deep init — AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md.
 - `--deep`: explicit deep research; the default already runs it.
 - `--context`: write roadmap.md and state.md only (partial setup or rerun).
 - `--user`: write user.md only (partial setup or rerun).
@@ -68,7 +68,7 @@ directory, or standard language layouts (`.ts`, `.js`, `.tsx`, `.jsx`, `.py`,
 
 ### Phase 1: Deep Detect
 
-Detect and validate, all in this one-time pass. Run independent probes through bounded read-only `subagents.all({ tasks, concurrency })`; Main synthesizes the detection table. Persist gathered answers across phases with `carry` (session-persistent guest state) so later phases reuse instead of re-deriving:
+Detect and validate, all in this one-time pass. Run independent probes through bounded read-only sub-agents when the session supports spawning them; Main synthesizes the detection table. Persist gathered answers across phases with session-persistent state (the runtime's carry mechanism when available) so later phases reuse instead of re-deriving:
 - Package manager and dependencies (with versions) — read the manifest, confirm the tool exists
 - Build, test, lint, dev commands — validate each actually works before writing it anywhere
 - CI/CD configuration — read workflow files, extract the job list
@@ -98,17 +98,15 @@ Load `.pi/skills/verification-before-completion/SKILL.md`.
 
 Render `./AGENTS.md` from the source template at `.pi/templates/agents.md`:
 
-1. **Copy the REQUIRED core verbatim** — universal safety and coding rules.
-2. **Render the PROJECT CONTEXT block for every full init:** Project overview, Commands, Repository map, Architecture and dependency direction, Execution flows, Boundaries, Invariants, and Validation matrix. None of these may be omitted; mark unverified fields `[NEEDS CLARIFICATION: reason]` and ask.
-3. **Keep only CONDITIONAL sections with local evidence.** For each conditional block, verify its trigger in this repository first, then record the evidence (file:line or command output) as a one-line note. Trigger sources: commands (run them), package manager (manifest present), branch policy (git config — ask the user), generated files (generator + output pair), external checkers (in scripts or CI), issue tracking (configured tracker), multi-agent coordination (user statement), deployment (deploy config), tool-specific rules (tool in PATH or config).
-4. **Merge in place, never overwrite blindly.** If AGENTS.md exists, preserve its content; add, tighten, or remove sections only where the evidence or the user supports it. Never copy example restrictions from other projects into this one.
-5. **Keep the architecture concise and operational.** AGENTS.md holds the operational view (style, entrypoints, flows, dependency direction, invariants, validation matrix) and points to `.pi/project.md` for the full architecture. Do not duplicate the full document.
-6. **Preview material changes** — show the user the final AGENTS.md (or the diff against the existing one) before writing, and let them adjust.
-7. **Preserve the GitHub identity protocol and the Mermaid architecture contract.** Render REQUIRED section 18 (identity and attribution, with its separate fact classes and direct `gh` probes) in every AGENTS.md for a repository with GitHub remotes, PRs, or commit workflows. Render the three Mermaid diagrams (components, dependency direction, principal execution flow) for every full init, each with accessible prose stating the same facts and with every node/edge traced to local evidence; if a diagram cannot be verified, render the prose and mark the diagram `[NEEDS CLARIFICATION: reason]`.
+1. Run the repository's real gates and select one canonical completion command. If no aggregate command exists, list the verified commands and mark the gap.
+2. Record only repository facts, repository-specific invariants, safety boundaries for irreversible actions and secrets, and operational traps that automation cannot express.
+3. Tie each command and invariant to local evidence such as a validator, workflow, manifest, config file, or command output.
+4. Keep detailed architecture in `.pi/project.md`. AGENTS.md gets a compact product map and a pointer.
+5. Merge verified user-authored constraints. Remove stale generated guidance only with user approval.
+6. Preview material changes before writing.
+7. Do not copy generic coding doctrine, research philosophy, prose rules, planning rituals, identity procedures, or architecture diagrams into AGENTS.md unless this repository has a mechanical check or explicit protocol that requires them.
 
-**Detail is welcome, duplication is not.** Render as much verified detail as the project warrants — there is no line budget. Keep rules dense and non-redundant: prefer one sharp sentence over three vague ones, and do not repeat a rule already stated in the REQUIRED core.
-
-**Principles:** Examples > explanations. Pointers > copies. Evidence before assertions: every project-specific command or restriction in the rendered file must trace to a verified file, command run, or explicit user statement.
+The rendered file must lead with the canonical completion command. A green check defines the completion outcome; the agent retains freedom over implementation details inside the verified boundaries.
 
 ### Phase 4: Create project.md
 
@@ -141,7 +139,7 @@ Append to `.pi/MEMORY.md` (under Decisions section):
 ```markdown
 ## YYYY-MM-DD Project initialized — [tech stack summary]
 
-Full deep init completed: AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, user.md created for [language/framework] project.
+Full deep init completed: AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md created for [language/framework] project.
 ```
 
 ### Phase 9: GitHub Setup (Optional)
@@ -227,22 +225,22 @@ Show the captured preferences as a summary and ask for confirmation before writi
 
 Write to `.pi/user.md` with the captured preferences. The file is for on-demand reference, not injected into prompts.
 
-## Prewalk boundary
+## Schema boundary
 
 Detection, preview, and all interactive gathering are read-only. Before writing
-any file, call `prewalk.checklist({ ... })` inside fabric_exec with the matching
-disposition: `trivial: true` for one or two small edits, `easy: true` plus 2-4
-items and Schema for bounded work, or 5-9 items plus Schema for full work; every
-items-bearing checklist requires the Schema contract. Wait for accepted handoff,
-then write the declared artifacts as the executor. Mark completed items
-`[DONE:n]`. If acceptance is denied or scope changes, do not mutate. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
+any file, run the Schema loop inside one `fabric_exec`: `schema.hypothesize`
+(evidence: `file_contains`/`file_sha256` literals or the `canonical-check`
+trusted command) → `schema.verify` → `schema.commit` with declared operations
+and nonempty postconditions. Only `committed` authorizes the write; then write
+the declared artifacts in the same `fabric_exec`. Mark completed steps
+`[DONE:n]`. If verification fails or scope changes, do not mutate. After verification, record the gate decision (passed/disposition; evidence kinds: command, artifact, trace, custom) with the session's workflow recorder when available, or carry it in the completion report.
 
 **Dual mode.** Read-only discovery is identical in both modes; only mutation
-authorization differs. Prewalk mode (armed): the flow above applies. Main-session
-mode (no prewalk): prewalk is unavailable or not armed; propose each mutation to
-the user and apply only after explicit approval of the exact action and files.
-Detect at the mutation boundary: accepted checklist → prewalk mode; not-armed
-rejection or absent `prewalk` → main-session mode.
+authorization differs. Schema mode (`schema.status().mode === "enforce"`):
+the loop above applies. Main-session mode (guard off or project untrusted):
+propose each mutation to the user and apply only after explicit approval of the
+exact action and files. Detect at the mutation boundary: `schema.status()`
+reports `enforce` → Schema mode; otherwise → main-session mode.
 
 ## Output
 

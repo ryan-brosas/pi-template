@@ -336,9 +336,13 @@ show max_connections;  -- 500 (way too high for 4GB RAM)
 -- Recommended settings for 4GB RAM
 alter system set max_connections = 100;
 
--- Also set work_mem appropriately
--- work_mem * max_connections should not exceed 25% of RAM
+-- Also set work_mem appropriately (see caveat below)
+-- work_mem * max_connections is a rough ceiling, NOT a target
 alter system set work_mem = '8MB';  -- 8MB * 100 = 800MB max
+
+-- Caveat: work_mem allocates per operation, so the product can multiply across
+-- concurrent queries. Size from Supabase plan limits, workload, concurrency,
+-- and measured memory; 100-200 connections is the practical range.
 select count(*), state from pg_stat_activity group by state;
 ```
 
@@ -504,24 +508,17 @@ select * from orders;  -- Returns ALL orders
 -- Enable RLS on the table
 alter table orders enable row level security;
 
--- Create policy for users to see only their orders
-create policy orders_user_policy on orders
-  for all
-  using (user_id = current_setting('app.current_user_id')::bigint);
-
--- Force RLS even for table owners
-alter table orders force row level security;
-
--- Set user context and query
-set app.current_user_id = '123';
-select * from orders;  -- Only returns orders for user 123
+-- Policy using the authenticated user's id (Supabase): auth.uid() is not client-settable
 create policy orders_user_policy on orders
   for all
   to authenticated
   using (user_id = auth.uid());
+
+-- Force RLS even for table owners
+alter table orders force row level security;
 ```
 
-Policy for authenticated role:
+> Never gate policies on client-settable session variables (`current_setting('app.current_user_id')` is spoofable). Use `auth.uid()` or a trusted, transaction-local context with restricted `set_config` and role separation.
 
 Reference: https://supabase.com/docs/guides/database/postgres/row-level-security
 
@@ -967,6 +964,10 @@ select * from resource_locks where resource_name = 'report_generator' for update
 ```sql
 -- Session-level advisory lock (released on disconnect or unlock)
 select pg_advisory_lock(hashtext('report_generator'));
+
+-- Note: hashtext keys are lossy; collisions serialize unrelated resources.
+-- Prefer the two-bigint form pg_advisory_lock(key1, key2) or a
+-- collision-resistant key strategy.
 -- ... do exclusive work ...
 select pg_advisory_unlock(hashtext('report_generator'));
 
@@ -1147,9 +1148,9 @@ Reference: https://supabase.com/docs/guides/database/query-optimization
 
 ### 6.3 Use Cursor-Based Pagination Instead of OFFSET
 
-**Impact: MEDIUM-HIGH (Consistent O(1) performance regardless of page depth)**
+**Impact: MEDIUM-HIGH (Consistent performance regardless of page depth, with a matching composite index)**
 
-OFFSET-based pagination scans all skipped rows, getting slower on deeper pages. Cursor pagination is O(1).
+OFFSET-based pagination scans all skipped rows, getting slower on deeper pages. Cursor (keyset) pagination stays fast — O(log n + page size) — with a matching composite index and stable sort order; without the index it can degrade into scans.
 
 **Incorrect (OFFSET pagination):**
 
@@ -1345,7 +1346,7 @@ Reference: https://supabase.com/docs/guides/database/database-size#vacuum-operat
 
 **Impact: LOW-MEDIUM (Identify exact bottlenecks in query execution)**
 
-EXPLAIN ANALYZE executes the query and shows actual timings, revealing the true performance bottlenecks.
+EXPLAIN ANALYZE executes the query and shows actual timings, revealing the true performance bottlenecks. **It runs the query**, so for `UPDATE`/`DELETE`/side-effecting functions use plain `EXPLAIN` first, or wrap the analyze in a transaction you roll back.
 
 **Incorrect (guessing at performance issues):**
 

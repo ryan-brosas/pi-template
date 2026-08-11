@@ -43,7 +43,7 @@ Mark anything not covered `[NEEDS CLARIFICATION: reason]` instead of guessing.
 
 ## Workflow Preferences
 
-- **Starting non-trivial work:** [e.g. evidence-backed discovery plus an accepted prewalk checklist]
+- **Starting non-trivial work:** [e.g. evidence-backed discovery plus the Schema loop (`schema.hypothesize → verify → commit`)]
 - **Change size:** [e.g. smallest stable slice over broad speculative refactors]
 - **Dirty repositories:** [e.g. preserve existing and concurrent work]
 - **Navigation:** [semantic navigation before raw text search when source exists]

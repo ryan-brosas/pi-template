@@ -9,6 +9,7 @@ disable-model-invocation: true
 
 ## Iron Laws
 
+- **Public content only.** Never circumvent CAPTCHAs, bot protection, or auth; respect robots.txt and terms of service; rate-limit batch jobs; never send credentials or private/authenticated content to scraping tools.
 - **Webclaw > webfetch for dynamic/protected pages.** webfetch fails on 403, CAPTCHA, JS.
 - **`llm` format as default.** Token-efficient extraction for LLM consumption.
 - **`onlyMainContent: true`** by default. Excludes nav, footer, sidebar.
@@ -16,7 +17,7 @@ disable-model-invocation: true
 
 ## When to Use
 
-webfetch returns 403 / 503 / bot protection; page is dynamic; scraping docs sites; extracting brand identity; batch-scraping multiple pages; JS-rendered content.
+webfetch returns 403 / 503 on a *public* page (dynamic or bot-protected); the page is behind auth or a CAPTCHA — stop and ask the user, never circumvent; scraping docs sites; extracting brand identity; batch-scraping multiple pages; JS-rendered content.
 
 ## Output Formats
 

@@ -14,7 +14,7 @@ disable-model-invocation: true
 - **`resend.emails.send()` with a typed payload.** Not `JSON.stringify` to a raw API.
 - **Inbound email webhook for reply handling.** Not polling, not IMAP.
 - **Templates in `emails/`, not in the API route.** `export WelcomeEmail = () => ...` is the pattern.
-- **Audience for bulk sends.** Single `to:` for transactional. `audienceId:` for marketing.
+- **Broadcasts for bulk sends.** `emails.send` is per-recipient transactional; campaigns use the Broadcasts API (create audiences/contacts, then broadcast) — not `audienceId` on `send`.
 </EXTREMELY-IMPORTANT>
 
 ## When to Use
@@ -83,16 +83,20 @@ Configure in Resend dashboard: `inbound@yourdomain.com` → webhook URL. Subject
 ## Bulk / Audiences
 
 ```ts
+// Contacts and audiences manage the list...
 await resend.contacts.create({ email: "user@example.com", audienceId: "..." })
-await resend.emails.send({
+
+// ...but campaigns go through the Broadcasts API, not emails.send:
+const broadcast = await resend.broadcasts.create({
   from: "newsletter@example.com",
   subject: "Monthly update",
   react: NewsletterEmail(),
-  to: ["user1@example.com", "user2@example.com"],
+  audienceId: "...",
 })
+await resend.broadcasts.send(broadcast.id)
 ```
 
-Use `Audience` API for lists. Send via `to:` array or `audienceId:`.
+Transactional mail stays per-recipient on `emails.send`. Verify the exact Broadcasts API shape against the installed SDK version before relying on it.
 
 ## Common Mistakes
 

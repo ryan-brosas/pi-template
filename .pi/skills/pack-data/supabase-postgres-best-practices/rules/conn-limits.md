@@ -30,9 +30,13 @@ show max_connections;  -- 500 (way too high for 4GB RAM)
 -- Recommended settings for 4GB RAM
 alter system set max_connections = 100;
 
--- Also set work_mem appropriately
--- work_mem * max_connections should not exceed 25% of RAM
+-- Also set work_mem appropriately (see caveat below)
+-- work_mem * max_connections is a rough ceiling, NOT a target
 alter system set work_mem = '8MB';  -- 8MB * 100 = 800MB max
+
+-- Caveat: work_mem allocates per operation, so the product can multiply across
+-- concurrent queries. Size from Supabase plan limits, workload, concurrency,
+-- and measured memory; 100-200 connections is the practical range.
 ```
 
 Monitor connection usage:

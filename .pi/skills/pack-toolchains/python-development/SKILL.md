@@ -10,9 +10,9 @@ disable-model-invocation: true
 
 Writing or reviewing Python code, adding packages, or structuring a Python project.
 
-## Do not use when
+## Do not use alone when
 
-Flask, FastAPI, or Django work; pair this leaf with the matching framework leaf.
+Flask, FastAPI, or Django work — pair this leaf with the matching framework leaf (`flask-development`, `fastapi-development`, or `django-development`).
 
 ## Key rules
 

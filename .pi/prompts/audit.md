@@ -11,7 +11,7 @@ Find every occurrence of a code pattern, review each match for correctness, secu
 ## Read-only
 
 This command is read-only: it discovers, grades, and reports. It never edits code.
-If remediation is wanted, a later accepted prewalk checklist authorizes mutation.
+If remediation is wanted, a later Schema commit authorizes mutation.
 
 ## Parse Arguments
 
@@ -30,9 +30,9 @@ If remediation is wanted, a later accepted prewalk checklist authorizes mutation
 Choose the right search for the pattern type:
 - **Symbol or API** (function name, class, method): use codemap search (symbols) to get definitions and call sites with file:line.
 - **Structural pattern** (try/catch, error-return checks): use codemap search with a regex query.
-- **Literal text** (strings, comments, TODO markers): use `rg -n` over the relevant directories. Never text-search the inspo tree (`/home/ryanj/work/inspo/`); query its indexed CGC context instead.
+- **Literal text** (strings, comments, TODO markers): use `rg -n` over the relevant directories. Never text-search the inspo tree (resolve the root from `$INSPO_ROOT` or ask the user — never assume a machine-specific path); query its indexed CGC context instead.
 
-Group results by subdirectory. For each match record: `file:line` and one line of context. For independent subdirectories or pattern variants, fan out discovery with bounded read-only subagents: `subagents.all({ tasks: [...], concurrency: 2-4 })` with explicit per-child bounds; Main grades and prioritizes. If the pattern has common variations (e.g. `fetch(`, `await fetch(`, `fetch().then(`), include them.
+Group results by subdirectory. For each match record: `file:line` and one line of context. For independent subdirectories or pattern variants, fan out discovery with bounded read-only sub-agents when the session supports spawning them (explicit per-child bounds, concurrency 2-4); otherwise run the same discovery sequentially in the main session; Main grades and prioritizes. If the pattern has common variations (e.g. `fetch(`, `await fetch(`, `fetch().then(`), include them.
 
 ## Phase 2: Audit Each Match
 
@@ -64,7 +64,7 @@ Report:
 5. **Correct uses:** brief list (proves the pattern is not inherently bad)
 6. **Coverage note:** which directories were searched, which were skipped (e.g. vendored, generated)
 
-If the user asks for a written report file, write it only after an accepted prewalk handoff authorizes the write. **Dual mode:** read-only discovery is identical in both modes; a report-file write branches by mode — prewalk mode uses an accepted `prewalk.checklist({ ... })` handoff, main-session mode proposes the exact file and content for explicit user approval. Detect at the write boundary: accepted checklist → prewalk mode; not-armed rejection or absent `prewalk` → main-session mode.
+If the user asks for a written report file, write it only after a Schema commit authorizes the write. **Dual mode:** read-only discovery is identical in both modes; a report-file write branches by mode — Schema mode (`schema.status().mode === "enforce"`) runs `schema.hypothesize → verify → commit`, main-session mode (guard off or project untrusted) proposes the exact file and content for explicit user approval. Detect at the write boundary: `schema.status()` reports `enforce` → Schema mode; otherwise → main-session mode.
 
 ## Related Commands
 

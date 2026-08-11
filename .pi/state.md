@@ -26,22 +26,24 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 
 | Gate | Command | Last result | Date |
 | --- | --- | --- | --- |
-| Skill packs | `node scripts/validate-skill-packs.mjs` | pass, packs=10 leaves=80 visible=14 | 2026-08-09 |
+| Canonical check | `node scripts/check.mjs` | pass, six validators + git diff --check | 2026-08-09 |
+| Skill packs | `node scripts/validate-skill-packs.mjs` | pass, packs=10 leaves=89 visible=14 | 2026-08-09 |
 | Manifest parity | `node scripts/sync-skill-manifest.mjs --check` | pass | 2026-08-09 |
 | Routing probes | `node scripts/probe-skill-routing.mjs` | pass, all probes | 2026-08-09 |
 | Whitespace (changed files) | `git diff --check` | pass | 2026-08-09 |
+| Release hygiene | `node scripts/validate-release-hygiene.mjs` | pass | 2026-08-11 |
 
-**Pending checks:** fresh-clone smoke procedure and README command audit are next; no CI enforces the gates on a clone.
+**Pending checks:** fresh-clone smoke procedure and README command audit are next; GitHub CI runs the canonical gate on pushes to `main` and pull requests.
 
 ## Recent Completed Work
 
 | Date | Work | Evidence |
 | --- | --- | --- |
-| 2026-08-09 | Shipped progressive-disclosure skill packs | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) at that time; since extended to 10 packs and 80 leaves |
+| 2026-08-09 | Shipped progressive-disclosure skill packs | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) at that time; since extended to 10 packs and 89 leaves |
 | 2026-08-09 | Gathered user identity and workflow preferences | Authenticated GitHub CLI profile plus explicit user answers |
 | 2026-08-09 | Completed deep repository detection | Manifest, tool, CI, AI-rule, structure, Git-history, and codemap probes |
 | 2026-08-09 | Approved full initialization | User approved detailed core, context, and profile artifacts |
-| 2026-08-09 | Mapped inspiration repository availability | CGC absolute context `/home/ryanj/work/inspo/opencode-template` queried successfully; shorthand context unavailable |
+| 2026-08-09 | Mapped inspiration repository availability | CGC inspiration context queried successfully via the configured inspo root; shorthand context unavailable |
 | 2026-08-09 | Deep init completed with detailed artifacts | AGENTS.md architecture, project.md, tech-stack.md, roadmap, state, and user files enriched; gates green |
 
 ## Active Decisions
@@ -56,7 +58,7 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 | 2026-08-09 | Use detailed AI responses | Explicit user choice | Explanations should include evidence, constraints, and verification detail | User answers |
 | 2026-08-09 | Use auto-commit as the user's general Git preference | Explicit user choice | Agents may commit completed scoped work; they must still avoid unrelated changes and respect explicit task constraints | User answers |
 | 2026-08-09 | Preserve the current dirty worktree | Multi-agent safety and observed status | Stage only declared files if a later task creates a commit | git status, AGENTS.md Multi-Agent Safety |
-| 2026-08-09 | Organize skills as progressive-disclosure packs | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate; now 10 packs and 80 leaves | packs.json, manifest.json, validator |
+| 2026-08-09 | Organize skills as progressive-disclosure packs | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate; now 10 packs and 89 leaves | packs.json, manifest.json, validator |
 
 ## Current Architecture
 
@@ -64,14 +66,14 @@ This is a configuration product rather than an application:
 
 1. `AGENTS.md` defines repository-wide agent behavior.
 2. `.pi/settings.json` configures Pi runtime preferences.
-3. `.pi/fabric.json` configures prewalk safeguards.
+3. `.pi/fabric.json` configures the Schema guard.
 4. `.pi/prompts/` exposes user-facing workflows as slash commands.
 5. `.pi/skills/` provides task-specific guidance loaded on demand.
 6. `.pi/templates/` defines reusable output artifacts.
 7. `.pi/roadmap.md`, `.pi/state.md`, and `.pi/user.md` provide optional on-demand context.
 8. `.pi/MEMORY.md` and per-work dotfiles store ignored local decisions and working memory.
 
-There is no source-code execution graph, data layer, UI, deployment target, or CI pipeline in the current tree. The full architecture record lives in `.pi/project.md`.
+There is no source-code execution graph, data layer, UI, or deployment target in the current tree; CI is the GitHub Actions workflow at `.github/workflows/check.yml`. The full architecture record lives in `.pi/project.md`.
 
 ## Risks and Blockers
 
@@ -79,7 +81,7 @@ There is no source-code execution graph, data layer, UI, deployment target, or C
 | --- | --- | --- |
 | Large uncommitted cleanup can be overwritten or accidentally staged | High | Treat all pre-existing changes as protected; use scoped edits and staging |
 | README and active tree can drift during simplification | High | Re-run structural inventory before release claims |
-| Historical validation suite is deleted | Medium | Use structural inspections now; decide the future verification approach in Phase 2 |
+| Historical validation suite is deleted | Medium | Structural validators and the canonical check cover template contracts; interactive command coverage stays a Phase 2 question |
 | No documented Pi/Ultra Fabric compatibility policy | Medium | Defer to Phase 4 after the stable core is settled |
 | Upstream inspiration can cause indiscriminate feature copying | Medium | Require a feature matrix and Pi-native rationale in Phase 3 |
 | `.pi/MEMORY.md` and per-work dotfiles are ignored and local-only | Low | Keep durable shared decisions in tracked docs; use MEMORY.md only for local agent context |
@@ -99,7 +101,7 @@ There is no source-code execution graph, data layer, UI, deployment target, or C
 ### Technical
 
 - Progressive-disclosure packs keep visible skill metadata under the 1,200-token budget; current use is 2,262 chars (~566 tokens).
-- The three Node gates are dependency-free and run on plain Node.
+- The canonical check and seven structural validators are dependency-free and run on plain Node.
 
 ### Product
 
@@ -108,7 +110,7 @@ There is no source-code execution graph, data layer, UI, deployment target, or C
 
 ### Process
 
-- Prewalk with an accepted Schema contract is the sole mutation authority.
+- Schema enforce with the `hypothesize → verify → commit` loop is the sole mutation authority.
 - Dirty-repository work requires scoped staging and diff review before any commit.
 
 ## Next Actions
@@ -125,7 +127,7 @@ There is no source-code execution graph, data layer, UI, deployment target, or C
 - **Next-session priority:** Determine the intended final cleanup boundary, then plan the smallest stability-focused validation slice.
 - **Known issue:** The working tree was already heavily modified before initialization; status output alone does not identify ownership.
 - **Read first:** `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/tech-stack.md`, relevant prompt or skill files, then scoped Git diff.
-- **Reference context:** `/home/ryanj/work/inspo/opencode-template` is available through CGC; the shorthand `inspo/opencode-template` is not registered.
+- **Reference context:** the configured CGC inspo root (`$INSPO_ROOT`, or ask the user) holds inspiration clones; the shorthand `inspo/opencode-template` is not registered.
 
 ---
 

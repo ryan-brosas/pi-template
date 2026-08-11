@@ -11,7 +11,7 @@ Enables agents to verify UI behavior programmatically — the same way OpenAI's 
 
 ## Prerequisites
 
-- Playwright must be available: `npx playwright install chromium`
+- Playwright must be available in the **target app** (never in the template root — it has no package.json): install it inside the app (`npm i -D playwright`), then `npx playwright install chromium`.
 - The app must be bootable locally (dev server, vite, next dev, etc.)
 
 ## Usage
@@ -34,8 +34,19 @@ APP_PID=$!
 ### 2. Take DOM Snapshot
 
 ```bash
-npx playwright eval --browser chromium "document.documentElement.outerHTML"
+node -e '
+const { chromium } = require("playwright");
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto(process.env.APP_URL || "http://localhost:5173");
+  console.log(await page.evaluate(() => document.documentElement.outerHTML));
+  await browser.close();
+})();
+'
 ```
+
+Run this from the target app directory (where Playwright is installed).
 
 ### 3. Capture Screenshot
 
@@ -71,7 +82,7 @@ node verify-state.mjs
 Given a bug description, navigate to the page, interact, and capture the erroneous state:
 
 ```bash
-npx playwright eval --browser chromium "..." 2>&1 | head -100
+node repro.mjs 2>&1 | head -100   # a small Playwright script like step 4, scoped to the bug
 ```
 
 ## When to Use

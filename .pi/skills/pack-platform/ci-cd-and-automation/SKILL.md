@@ -46,7 +46,7 @@ Over budget → separate job (parallel).
 ## Caching
 
 ```yaml
-- uses: actions/cache@v3
+- uses: actions/cache@v4  # cache the package-manager store; pair with `npm ci` or equivalent
   with:
     path: |
       ~/.npm

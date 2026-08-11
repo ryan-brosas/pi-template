@@ -10,7 +10,7 @@ disable-model-invocation: true
 ## Iron Laws
 
 <EXTREMELY-IMPORTANT>
-- **State drives the view.** `@State` local; `@Observable` shared. Never mutate from views.
+- **State drives the view.** `@State` local; `@Observable` shared. Views mutate their own `@State`/`@Binding`; never mutate shared model state from a view.
 - **View = function of state.** Same input, same view. No hidden state.
 - **Compose small views, not modifiers.** `VStack` of named views > 20-line modifier chain.
 - **Pass values, not view models.** Child takes `User`, not a fetching wrapper.
@@ -72,15 +72,15 @@ Small, named views. The parent passes values, the child renders. Easy to test, e
 
 - Use `.glassEffect()` for surface treatments
 - `GlassEffectContainer` for grouped glass
-- `glassButtonStyle` for primary actions
+- `.buttonStyle(.glassProminent)` for primary actions (see references/liquid-glass.md)
 - Combine with `.symbolEffect` for icon animation
 
 ## Performance
 
-- No expensive work in `body`. Compute outside, store in `@State`.
+- No expensive work in `body`. Compute outside; store derived values only where invalidation is correct (`@State` for view-local derived data, the model otherwise).
 - `LazyVStack` / `LazyHStack` for long lists.
 - `equatable()` on views to skip re-renders.
-- For large collections, use `Identified` arrays.
+- For large collections with stable-identity needs, use `IdentifiedArray` (swift-collections) — not a built-in SwiftUI type.
 - Profile with Instruments → SwiftUI template.
 
 ## Navigation

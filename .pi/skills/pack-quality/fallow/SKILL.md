@@ -27,7 +27,7 @@ Non-TS/JS (Fallow is JS/TS only); one-line edits (overhead); runtime data withou
 
 ```bash
 # Dead code: unused exports, files, deps
-fallow dead --format json
+fallow dead-code --format json
 
 # Duplication: similar code blocks
 fallow dupes --format json
@@ -38,8 +38,8 @@ fallow health --format json
 # Audit: change impact
 fallow audit --changed-since main --format json
 
-# Combined report
-fallow report --format json
+# Combined run (dead code + duplication + complexity)
+fallow --format json
 ```
 
 ## Interpreting Output

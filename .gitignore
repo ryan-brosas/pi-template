@@ -7,7 +7,6 @@ coverage/
 .env.*.local
 .mcporter/
 .pi/fabric/
-.pi/hindsight/
 .pi/artifacts/
 # .pi/work/ stays tracked: durable engineering records
 .pi/work/.active

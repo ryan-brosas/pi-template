@@ -54,48 +54,21 @@ disable-model-invocation: true
 
 ## Workflow
 
-### Quick Start
+### Invocation
 
-```
-# List projects
-skill_mcp(skill_name="supabase", tool_name="list_projects")
+Invoke tools through the configured MCP bridge as `mcp.<server>.<tool>`. Discover the real server/tool names and schemas first (`tools.search({ query: "supabase" })` then `tools.describe` on the matched ref) — never assume names. Tool names below are the Supabase MCP server's canonical names.
 
-# List tables in database
-skill_mcp(skill_name="supabase", tool_name="list_tables")
+Read-only examples: `list_projects`, `list_tables`, `generate_typescript_types`, `search_docs`, `get_project_url`, `get_publishable_keys`, `get_logs`, `get_advisors`, `list_edge_functions`, `get_edge_function`.
 
-# Execute SQL query
-skill_mcp(skill_name="supabase", tool_name="execute_sql", arguments='{"query": "SELECT * FROM users LIMIT 10"}')
-
-# Generate TypeScript types
-skill_mcp(skill_name="supabase", tool_name="generate_typescript_types")
-
-# Search docs
-skill_mcp(skill_name="supabase", tool_name="search_docs", arguments='{"query": "auth custom claims"}')
-```
-
-### Get Project Credentials
-
-```
-# Get API URL and keys for project
-skill_mcp(skill_name="supabase", tool_name="get_project_url")
-skill_mcp(skill_name="supabase", tool_name="get_publishable_keys")
-
-# List Edge Functions
-skill_mcp(skill_name="supabase", tool_name="list_edge_functions")
-
-# Deploy Edge Function
-skill_mcp(skill_name="supabase", tool_name="deploy_edge_function", arguments='{"name": "my-function", "import_map": {...}, "entrypoint": "index.ts"}')
-```
+**`execute_sql` and `deploy_edge_function` are write-capable**: require the Schema loop (or explicit user approval) before invoking them; default to read-only queries.
 
 ### Debug Issues
 
-```
-# Get logs by service
-skill_mcp(skill_name="supabase", tool_name="get_logs", arguments='{"service": "postgres", "limit": 100}')
+Read-only examples: `get_logs`, `get_advisors`.
 
-# Check advisories
-skill_mcp(skill_name="supabase", tool_name="get_advisors")
-```
+Deploying an Edge Function (`deploy_edge_function`) is a production mutation — Schema commit (or explicit user approval) required.
+
+
 
 ## Security Notes
 
@@ -111,7 +84,7 @@ For advanced usage, modify `mcp.json`:
 {
   "supabase": {
     "command": "npx",
-    "args": ["-y", "@supabase/mcp@latest"],
+    "args": ["-y", "@supabase/mcp@<pinned-version>"],  # pin the version; verify the tool surface matches this skill
     "env": {
       "SUPABASE_ACCESS_TOKEN": "your-token-here"
     },

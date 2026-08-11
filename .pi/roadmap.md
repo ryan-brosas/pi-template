@@ -25,7 +25,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 1. **Clone and start:** no package installation or runtime harness is required.
 2. **Pi-native behavior:** use Pi and Ultra Fabric directly instead of retaining OpenCode runtime layers.
 3. **Evidence-backed guidance:** commands and project constraints must come from repository facts.
-4. **Safe mutation:** prewalk and Schema contracts remain the progression authority.
+4. **Safe mutation:** the Schema commit loop remains the progression authority.
 5. **Portable customization:** developers can add prompts, skills, templates, and settings without understanding an application framework.
 6. **Low drift:** documentation, manifests, and templates should describe the current repository rather than historical structure.
 
@@ -34,7 +34,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 | Phase | Goal | Outcome | Status | Depends on |
 | --- | --- | --- | --- | --- |
 | 1. Stable Core | Establish a coherent, clone-ready Pi template and finish the current simplification | One documented setup path with no stale runtime assumptions | In Progress | Current tree |
-| 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and prewalk contracts | Repository drift and malformed artifacts fail early | Not Started | Phase 1 |
+| 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and Schema contracts | Repository drift and malformed artifacts fail early | Not Started | Phase 1 |
 | 3. Reference Parity | Compare high-value ideas from `inspo/opencode-template` and port only Pi-aligned behavior | Useful upstream ideas without OpenCode coupling | Not Started | Phase 1 |
 | 4. Release Readiness | Document versioning, compatibility, and repeatable clone validation | New clones work predictably across supported Pi environments | Not Started | Phases 1-3 |
 
@@ -62,8 +62,8 @@ Developers who use Pi for software projects and want a stable, reusable starting
 | Work area | Outcome | Evidence when complete |
 | --- | --- | --- |
 | Initialization | Idempotent core, context, and user-profile generation | Repeated `/init --all` preserves existing roadmap/state/user files unless overwrite is approved |
-| Prompt consistency | Every mutating command uses prewalk; read-only commands remain read-only | Prompt audit lists each command and mutation policy |
-| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 80 leaves, 14 visible, metadata 2,262 chars (~566 tokens) under the 1,200-token budget |
+| Prompt consistency | Every mutating command uses the Schema loop; read-only commands remain read-only | Prompt audit lists each command and mutation policy |
+| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 89 leaves, 14 visible, metadata 2,262 chars (~566 tokens) under the 1,200-token budget |
 | Documentation | README layout and command catalog match the tree | Structural documentation audit has no stale paths |
 | Cleanup | Historical runtime files are either deliberately retained or removed with documented rationale | Final scoped Git diff and repository inventory |
 
@@ -97,7 +97,7 @@ The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog 
 
 **Success Criteria:**
 
-- [ ] Validate prompt frontmatter, command naming, and required prewalk language.
+- [ ] Validate prompt frontmatter, command naming, and required Schema language.
 - [ ] Validate skill frontmatter, unique skill names, and manifest parity.
 - [ ] Validate all template files for unresolved placeholders where placeholders are not expected.
 - [ ] Validate `.pi/fabric.json` and `.pi/settings.json` against documented supported values.
@@ -130,7 +130,7 @@ The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog 
 
 **Goal:** Evaluate `inspo/opencode-template` as a design reference and port only capabilities that improve the Pi-native template.
 
-The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registered and queryable. The shorthand context `inspo/opencode-template` is not registered; use the absolute context path for future comparisons. Evidence: MEMORY.md reference note, state.md session handoff.
+The local CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the user) is queryable. The shorthand context `inspo/opencode-template` is not registered; use the resolved absolute path for future comparisons. Evidence: MEMORY.md reference note, state.md session handoff.
 
 **Outcomes:**
 
@@ -155,7 +155,7 @@ The local CGC context at `/home/ryanj/work/inspo/opencode-template` is registere
 
 **Dependencies:**
 
-- Queryable CGC context at `/home/ryanj/work/inspo/opencode-template`.
+- Queryable CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the user).
 - Phase 1 stable baseline so ports land on settled structure.
 
 **Risks:**

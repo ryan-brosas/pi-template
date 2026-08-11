@@ -1,6 +1,6 @@
 ---
 description: Verify the current work against the spec and gates before claiming completion
-argument-hint: "[--full]"
+argument-hint: "[--full|--no-cache|--quick]"
 ---
 
 # Verify: $ARGUMENTS
@@ -16,14 +16,16 @@ This command is read-only: it runs gates, checks completeness, and reports. It n
 
 | Argument | Default | Description |
 | --- | --- | --- |
-| `--full` | false | Run all gates in full mode (not incremental) |
+| `--full` | false | Bypass the cache and run fresh (no incremental mode exists) |
+| `--no-cache` | false | Bypass the verification cache |
+| `--quick` | false | Skip the Phase 4 coherence cross-check |
 
 ## Phase 0: Check Verification Cache
 
 If a recent verification is still valid (same commit + diff fingerprint), report a cached PASS and skip to Phase 2.
 
 ```bash
-CURRENT_STAMP=$(printf '%s\n%s' "$(git rev-parse HEAD)" "$(git diff HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.py' '*.go' '*.rs')" | shasum -a 256 | cut -d' ' -f1)
+CURRENT_STAMP=$(printf '%s\n%s\n%s' "$(git rev-parse HEAD)" "$(git diff HEAD)" "$(git ls-files --others --exclude-standard | xargs cat 2>/dev/null)" | shasum -a 256 | cut -d' ' -f1)
 LAST_STAMP=$(tail -1 .pi/work/$(cat .pi/work/.active)/.verify.log 2>/dev/null | awk '{print $1}')
 ```
 
@@ -54,21 +56,23 @@ Do not flag a requirement as missing without searching for its implementation fi
 
 Follow the verification protocol: `.pi/skills/verification-before-completion/references/VERIFICATION_PROTOCOL.md`.
 
-**Default: incremental mode** (changed files only). Use `--full` for all files.
+**Default:** run the canonical gate in full. This repository's gate has no incremental mode; `--full`/`--no-cache` only bypass the verification cache.
 
-**Execution order:**
-1. Typecheck + lint (parallel)
-2. Test, then build (sequential, after the parallel passes)
+**Execution order:** run the canonical gate `node scripts/check.mjs` (always full). This repository has no install, typecheck, lint, test, build, or format commands; the canonical gate is the verified completion check.
 
-For browser/manual local-web requirements, use stable URLs as verification evidence. A reachable URL supplements, but never replaces, typecheck/lint/test/build evidence.
+For browser/manual local-web requirements, use stable URLs as verification evidence. A reachable URL supplements, but never replaces, the canonical gate evidence.
 
 Report results with a mode column:
 ```text
-| Gate      | Status | Mode        | Time   |
-|-----------|--------|-------------|--------|
-| Typecheck | PASS   | full        | 2.1s   |
-| Lint      | PASS   | incremental | 0.3s   |
-| Test      | PASS   | incremental | 1.2s   |
+| Gate                     | Status | Mode | Time   |
+|--------------------------|--------|------|--------|
+| Skill packs + manifest   | PASS   | full | 0.5s   |
+| Router probes            | PASS   | full | 0.4s   |
+| Ultra Fabric contract    | PASS   | full | 0.3s   |
+| Work management          | PASS   | full | 0.3s   |
+| Notion workspace         | PASS   | full | 0.4s   |
+| Release hygiene          | PASS   | full | 0.2s   |
+| git diff --check         | PASS   | full | 0.1s   |
 | Build     | SKIP   | —           | —      |
 ```
 
@@ -81,8 +85,8 @@ echo "$CURRENT_STAMP $(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> .pi/work/$(cat .pi/
 
 Then write the durable result to `.pi/work/$(cat .pi/work/.active)/verification.md`
 (the gate table with mode column plus the READY TO SHIP / NEEDS WORK / BLOCKED
-result). Writing `verification.md` is a mutation: it requires an accepted
-`prewalk.checklist({ ... })` handoff before the write.
+result). Writing `verification.md` is a mutation: it requires the Schema loop
+(`schema.hypothesize → verify → commit`) before the write.
 
 ## Phase 4: Coherence (skip with --quick)
 
@@ -119,20 +123,22 @@ Record significant findings in context files:
 # Put under the Decisions or Gotchas section as appropriate
 ```
 
-## Prewalk boundary
+## Schema boundary
 
 Running gates is read-only. Appending to `.pi/work/$(cat .pi/work/.active)/.verify.log` and
-`.pi/work/<id>/.progress.md` is local state and allowed under the active
-checklist. Writing `.pi/work/<id>/verification.md` is a durable mutation and
-requires its own accepted `prewalk.checklist({ ... })` handoff before the
-write. Any remediation also requires an accepted handoff before edits. After verification, record the decision with `workflow.gate({ gate, passed, disposition, evidence })` (evidence kinds: command, artifact, trace, custom) and report the recorded decision.
+`.pi/work/<id>/.progress.md` is local state and allowed without a
+Schema commit. Writing `.pi/work/<id>/verification.md` is a durable mutation and
+requires its own Schema loop (`schema.hypothesize → verify → commit`) before
+the write. Any remediation also requires the Schema loop (or explicit user
+approval when the guard is off) before edits. After verification, record the gate decision (passed/disposition; evidence kinds: command, artifact, trace, custom) with the session's workflow recorder when available, or carry it in the completion report.
 
 **Dual mode.** Read-only discovery is identical in both modes; only a durable
-write branches by mode. Prewalk mode (armed): `prewalk.checklist({ ... })` with
-accepted handoff before the write. Main-session mode (no prewalk): propose the
+write branches by mode. Schema mode (`schema.status().mode === "enforce"`):
+run `schema.hypothesize → verify → commit` in the same `fabric_exec` as the
+write. Main-session mode (guard off or project untrusted): propose the
 write to the user and apply only after explicit approval of the exact file and
-content. Detect at the write boundary: accepted checklist → prewalk mode;
-not-armed rejection or absent `prewalk` → main-session mode.
+content. Detect at the write boundary: `schema.status()` reports `enforce` →
+Schema mode; otherwise → main-session mode.
 
 ## Related Commands
 

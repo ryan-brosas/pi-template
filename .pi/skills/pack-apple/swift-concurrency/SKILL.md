@@ -14,7 +14,7 @@ disable-model-invocation: true
 - **`Sendable` is the contract.** Types that cross actor boundaries must be `Sendable`. Compiler errors are correct, not pedantic.
 - **No blocking on the main actor.** `URLSession` async, not `URLSession.shared.dataTask` (sync wrapping). The user feels every block.
 - **No `Task { }` in a `View.body`.** Use `.task { }` modifier — it's lifecycle-bound and cancellable.
-- **No "fire and forget" without `Task.detached` or `Task { @MainActor }` intent.** The actor the work runs on matters.
+- **No unstructured "fire and forget".** Prefer structured concurrency (`TaskGroup`, `.task`); if work must escape the task's lifetime, name the actor and the cancellation policy. The actor the work runs on matters.
 </EXTREMELY-IMPORTANT>
 
 ## When to Use
@@ -23,7 +23,7 @@ Adopting `async`/`await`; refactoring closures; data race bugs; Swift 6 migratio
 
 ## When NOT to Use
 
-Trivial sync code; one-shot op; "rewrite in async" without reason; legacy target (iOS < 13).
+Trivial sync code; one-shot op; "rewrite in async" without reason; legacy targets without native async/await (iOS < 15, macOS < 12).
 
 ## Task Hierarchy
 
@@ -64,7 +64,7 @@ If not `Sendable`, you probably have a data race.
 
 ## Common Mistakes
 
-`Task { }` in `View.body` (use `.task`); `Task { }` capturing self; `await` on main for network (blocks UI); closures outliving parent; `@unchecked Sendable` (lying to compiler); mixed `DispatchQueue` + async; ignoring `Sendable` warnings.
+`Task { }` in `View.body` (use `.task`); `Task { }` capturing self; long `await`s on the main actor keep UI work serialized (suspension does not block the thread, but the actor stays busy); closures outliving parent; `@unchecked Sendable` (lying to compiler); mixed `DispatchQueue` + async; ignoring `Sendable` warnings.
 
 ## Red Flags
 

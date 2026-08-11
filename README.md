@@ -2,18 +2,21 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Ultra Fabric: nine prompt commands, 86 portable skills,
-12 format templates, Pi-native settings, and the prewalk guard. No build, no
-dependencies, no runtime harness — clone and start.
+tailored to Pi + Ultra Fabric: 9 prompt commands, 99 skill files
+(89 leaves in 10 packs), 12 format templates, Pi-native settings, and the
+Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
 
 1. Clone or copy this repository.
 2. Start pi in the project and trust it (`/trust`).
 3. `/reload` to pick up prompts, skills, and config.
-4. Run `/init` once: it performs full deep discovery and writes AGENTS.md, project.md, tech-stack.md, roadmap.md, state.md, and user.md from the source templates.
+4. Run `/init` once: it performs full deep discovery and writes `AGENTS.md`, `.pi/project.md`, `.pi/tech-stack.md`, `.pi/roadmap.md`, `.pi/state.md`, and `.pi/user.md` from the source templates.
 
 No package install is needed. There is no package.json.
+
+**Requirements:** Pi with Fabric — the prompts, Schema guard, and skill packs ship in this repository (no separate extension install); Node.js 22+ is used only by the optional validation gate
+(`scripts/check.mjs`) and GitHub Actions.
 
 ## Layout
 
@@ -22,19 +25,19 @@ AGENTS.md                    # project agent rules (this repo's own)
 README.md
 .gitignore
 .pi/
-├── fabric.json            # Ultra Fabric prewalk config (gated verification, task arm)
+├── fabric.json            # Ultra Fabric Schema guard (enforce + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 86 skills in 10 progressive-disclosure packs (packs.json)
+├── skills/                # 99 skill files: 10 pack routers + 89 leaves (packs.json)
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
 ├── work/                  # tracked durable records per local work record
-└── scripts/               # 6 dependency-free Node gates (skills, manifest, routing, Ultra Fabric, work, Notion workspace)
+└── scripts/               # canonical check plus 7 dependency-free Node validators
 ```
 
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
 tui.json) and the OpenCode agent/workflow wrappers (`.pi/agents/`,
 `.pi/workflows/`) are removed — Pi and Ultra Fabric provide those natively.
-Generated state (`.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/hindsight/`) is
+Generated state (`.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`) is
 gitignored and never ships. Inside `.pi/work/`, the active pointer and per-work dotfiles stay ignored. Tracked work records live in `.pi/work/`, one
 directory per work record.
 
@@ -50,16 +53,22 @@ directory per work record.
 | `/verify` | run gates against the spec |
 | `/audit` | pattern audit with remediation list |
 | `/gc` | garbage collection: structural scan + cleanup plan |
-| `/research` | evidence references for the prewalk schema |
+| `/research` | evidence references for the Schema evidence loop |
 
 Every command is a Pi prompt template under `.pi/prompts/` and runs as a
-direct single-agent workflow. Commands that mutate defer to Ultra Fabric:
-submit `prewalk.checklist({ items, schema })` and wait for accepted handoff
+direct single-agent workflow. Commands that mutate defer to Fabric's
+Schema guard: run `schema.hypothesize → verify → commit` in one `fabric_exec`
 before writing. Research, audit, and verify are explicitly read-only.
+
+## Validation
+
+Run the complete local gate with `node scripts/check.mjs`. It runs all seven
+dependency-free validators and `git diff --check`. GitHub runs the same command
+from `.github/workflows/check.yml` on pushes to `main` and pull requests.
 
 ## Skills and Templates
 
-- Skills: 86 skills in 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 99 skill files — 10 pack routers, 4 core safety skills, and 85 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
@@ -74,12 +83,14 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Ultra Fabric
 
-Prewalk is the mutation authority when armed: research → checklist → acceptance →
-handoff → verification. Prompts run in dual mode for flexibility: when Ultra
-Fabric prewalk is armed, mutations are prewalk-gated; when it is unavailable, the
-same read-only discovery runs and each mutation requires explicit per-mutation
-user approval (AGENTS.md Prewalk and Mutation). `.pi/fabric.json` holds the guard
-configuration (gated verification, task arm).
+Schema enforce is the mutation authority: research → hypothesize → verify →
+commit → postcondition check. Prompts run in dual mode for flexibility: when
+the Schema guard is active (`schema.status()` reports `enforce`), mutations
+require the commit loop; when it is unavailable (guard off or project
+untrusted), the same read-only discovery runs and each mutation requires
+explicit per-mutation user approval (AGENTS.md Mutation Authority).
+`.pi/fabric.json` holds the guard configuration (`schema.mode: enforce` plus
+the `canonical-check` trusted command).
 `node scripts/validate-ultra-fabric.mjs` pins the contract: native dispositions,
 Schema requirement, and referenced skill paths.
 

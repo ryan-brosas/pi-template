@@ -93,4 +93,4 @@ Core principle: do not ship work that cannot be verified, explained, or rolled b
 
 ## Ultra Fabric Boundaries
 
-**Verification** — cite direct behavioral probes and recorded outputs. Any fix defers to the prewalk Schema contract in AGENTS.md.
+**Verification** — cite direct behavioral probes and recorded outputs. Any fix defers to the Schema mutation guard in AGENTS.md.
