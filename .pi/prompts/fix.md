@@ -30,7 +30,7 @@ A valid root-cause theory must explain all of these. If a theory explains one sy
 
 ### Phase 3: Trace to Root Cause
 
-- Search for the error message or symptom in the codebase (`rg -n`, codemap search).
+- Search for the error message or symptom in the codebase (`rg -n`, Pi Fovea focus).
 - Trace the execution path: entry point → handling → failing call, reading the 2-4 most relevant files.
 - Read the callers and callees of the suspicious function; the bug is often in the boundary between components.
 - Distinguish symptom from root cause: the error message is where it manifests, not necessarily where the bug lives.

@@ -9,14 +9,13 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 ## Members
 
-- brave-search: web search and content extraction
+- codex-websearch: current web search and cited discovery
 - cgc-inspiration-workflow: clone/refresh inspo repos, CGC index, query, adopt/adapt/omit
-- evidence-router: pick research tool: CGC, DeepWiki, Context7, OmniRoute
+- evidence-router: pick a bounded route: Pi Fovea, CGC, DeepWiki, Context7, or Codex web search
 - gemini-large-context: very large documents or contexts
 - github-contribution-opportunities: find and qualify legitimate GitHub PR contribution opportunities
 - grill-me: challenge reasoning before finalizing
 - grill-with-docs: pressure-test claims against docs
 - opensrc: inspect package source internals
 - pdf-extract: extract text and data from PDFs
-- webclaw: crawl and batch-extract sites
 - zoom-out: step back to the bigger picture

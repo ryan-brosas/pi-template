@@ -91,6 +91,6 @@ Core principle: do not ship work that cannot be verified, explained, or rolled b
 
 `finishing-a-development-branch` was removed as a separate optional skill. Keep merge/PR/cleanup choices, release handoff, rollback planning, and completion evidence in this canonical shipping workflow.
 
-## Ultra Fabric Boundaries
+## Pi Fabric Boundaries
 
 **Verification** — cite direct behavioral probes and recorded outputs. Any fix defers to the Schema mutation guard in AGENTS.md.

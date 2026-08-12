@@ -46,7 +46,7 @@ Large patch (>~100 lines) without intermediate test runs; "I'll add tests later"
 
 Big-bang patch (write everything, test at the end); premature abstraction (DRYing two call sites when one is speculative); hero commit (15 files, 3 features, 1 PR); "verify by inspection" (read carefully, *believe* it works — run the check).
 
-## Ultra Fabric Boundaries
+## Pi Fabric Boundaries
 
 **Mutation** — each slice defers to the Schema mutation guard in AGENTS.md. **Verification** — direct behavioral probes; name the check before editing.
 

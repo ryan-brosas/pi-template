@@ -49,7 +49,7 @@
       "id": "pack-research",
       "description": "Research and discovery router: web search, documentation lookup, package source inspection, deep-context study, adversarial review, PDF extraction.",
       "members": [
-        "brave-search",
+        "codex-websearch",
         "cgc-inspiration-workflow",
         "evidence-router",
         "gemini-large-context",
@@ -58,7 +58,6 @@
         "grill-with-docs",
         "opensrc",
         "pdf-extract",
-        "webclaw",
         "zoom-out"
       ]
     },
@@ -177,15 +176,13 @@
     "performance-optimization": "Use when optimizing performance or profiling.",
     "root-cause-tracing": "Use when tracing a failure to its root cause.",
     "typescript-coding-standards": "Use when writing or reviewing TypeScript.",
-    "brave-search": "Use for web search and content extraction.",
     "gemini-large-context": "Use when working with very large documents or contexts.",
     "grill-me": "Use to have your reasoning challenged before finalizing.",
     "grill-with-docs": "Use to pressure-test claims against documentation.",
     "opensrc": "Use to inspect library source internals beyond types and docs.",
     "pdf-extract": "Use to extract text or data from PDFs.",
-    "webclaw": "Use for web crawling or structured site extraction.",
     "cgc-inspiration-workflow": "Use when cloning, indexing, or comparing inspiration repositories through CGC.",
-    "evidence-router": "Use when choosing research tools: CGC, DeepWiki, Context7, OmniRoute search/fetch.",
+    "evidence-router": "Use when choosing bounded research routes: Pi Fovea, CGC, DeepWiki, Context7, or Codex web search.",
     "zoom-out": "Use to step back from details to the bigger picture.",
     "accessibility-audit": "Use when auditing or fixing accessibility.",
     "browser-testing-with-devtools": "Use for browser tests and UI verification.",
@@ -237,6 +234,7 @@
     "shell-development": "Use when writing or reviewing shell scripts.",
     "container-development": "Use when writing Dockerfiles or Compose files.",
     "task-scoped-execution": "Use when executing an ordered plan where each task needs acceptance review and bounded correction.",
-    "github-contribution-opportunities": "Use when finding and qualifying legitimate GitHub pull-request contribution opportunities."
+    "github-contribution-opportunities": "Use when finding and qualifying legitimate GitHub pull-request contribution opportunities.",
+    "codex-websearch": "Use when you need current web facts, documentation discovery, or cited search results through the Codex web-search extension."
   }
 }

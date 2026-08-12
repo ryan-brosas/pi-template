@@ -70,6 +70,6 @@ Did I see RED for the right reason? Minimum code (no extras)? Refactor preserved
 
 Test passes on first run; test asserts implementation details; test breaks on refactor without behavior change; "I'll add tests later"; "obvious code" without test; "manual testing"; mocking the behavior claimed.
 
-## Ultra Fabric Boundaries
+## Pi Fabric Boundaries
 
 Tests are direct behavioral probes (black-box first); mutation defers to the Schema mutation guard in AGENTS.md.

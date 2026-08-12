@@ -53,9 +53,11 @@ const retained = discovered
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const REMOVED = [
-  { name: "memory", reason: "duplicates Pi native memory/sessions (memory.recall, docs/sessions.md)" },
+  { name: "brave-search", reason: "Brave Search MCP not installed; replaced by the codex-websearch leaf (openai_websearch extension) in the Pi Fabric migration" },
   { name: "diagnostics", reason: "wraps removed OpenCode diagnostics tool + aislop/fallow custom tools (plugin/ removed)" },
-  { name: "subagent-driven-development", reason: "OpenCode task() subagent dispatch; superseded by Ultra Fabric agents/handoff" },
+  { name: "memory", reason: "duplicates Pi native memory/sessions (memory.recall, docs/sessions.md)" },
+  { name: "subagent-driven-development", reason: "OpenCode task() subagent dispatch; superseded by Pi Fabric agents/handoff" },
+  { name: "webclaw", reason: "no webclaw CLI, MCP server, or extension on the host; disconnected 2026-08-12; browser fallbacks now use plain fetch/curl" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 const generated = {

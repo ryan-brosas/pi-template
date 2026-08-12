@@ -20,14 +20,14 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
   - Modified README, `.gitignore`, `.pi/fabric.json`, and several prompt templates
   - A simplified current tree centered on AGENTS.md, README.md, and `.pi/`
 - Treat these changes as an active cleanup owned by the user or another agent. Initialization must not restore, stage, revert, or rewrite them.
-- Environment facts: Node.js v26.5.0 is available for the validation scripts (host tool, not a project dependency).
+- Environment facts: Node.js v26.7.0 is available for the validation scripts (host tool, not a project dependency).
 
 ## Verification State
 
 | Gate | Command | Last result | Date |
 | --- | --- | --- | --- |
-| Canonical check | `node scripts/check.mjs` | pass, six validators + git diff --check | 2026-08-09 |
-| Skill packs | `node scripts/validate-skill-packs.mjs` | pass, packs=10 leaves=89 visible=14 | 2026-08-09 |
+| Canonical check | `node scripts/check.mjs` | pass, seven validators + git diff --check | 2026-08-12 |
+| Skill packs | `node scripts/validate-skill-packs.mjs` | pass, packs=10 leaves=88 visible=14 | 2026-08-12 |
 | Manifest parity | `node scripts/sync-skill-manifest.mjs --check` | pass | 2026-08-09 |
 | Routing probes | `node scripts/probe-skill-routing.mjs` | pass, all probes | 2026-08-09 |
 | Whitespace (changed files) | `git diff --check` | pass | 2026-08-09 |
@@ -39,12 +39,16 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 
 | Date | Work | Evidence |
 | --- | --- | --- |
-| 2026-08-09 | Shipped progressive-disclosure skill packs | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) at that time; since extended to 10 packs and 89 leaves |
+| 2026-08-09 | Shipped progressive-disclosure skill packs | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) at that time; since extended to 10 packs and 88 leaves |
 | 2026-08-09 | Gathered user identity and workflow preferences | Authenticated GitHub CLI profile plus explicit user answers |
 | 2026-08-09 | Completed deep repository detection | Manifest, tool, CI, AI-rule, structure, Git-history, and codemap probes |
 | 2026-08-09 | Approved full initialization | User approved detailed core, context, and profile artifacts |
 | 2026-08-09 | Mapped inspiration repository availability | CGC inspiration context queried successfully via the configured inspo root; shorthand context unavailable |
 | 2026-08-09 | Deep init completed with detailed artifacts | AGENTS.md architecture, project.md, tech-stack.md, roadmap, state, and user files enriched; gates green |
+| 2026-08-12 | Pi Fabric-only audit and migration | Schema guard restored, validator renamed to validate-pi-fabric.mjs, Brave leaf replaced by codex-websearch, research routing modernized (CGC CLI, DeepWiki index/page, openai_websearch, Pi Fovea), optional Veda lane documented; `node scripts/check.mjs` exit 0 |
+| 2026-08-12 | Disconnected unavailable webclaw integration | Removed the webclaw skill (no CLI, MCP server, or extension on the host), updated pack catalog, research router, browser fallbacks, source-grounding companion, and skill counts; manifest regenerated; `node scripts/check.mjs` exit 0 |
+| 2026-08-12 | Tailored Veda role routing to verified host lanes | Documented auth-aware Opus planning/review, verified AGY Gemini Pro/Flash fallbacks, direct CLI auth caveats, bounded selection, and Schema-safe handoffs; `node scripts/check.mjs` exit 0 |
+| 2026-08-12 | Added budget-aware AGY model funnel | Added Gemini low/medium profiles for scouting, curation, frontend audit, and synthesis; reserved direct AGY Claude Opus for architecture planning and Sonnet/Opus review; Veda-to-AGY Claude remains unsupported because its adapter injects `--effort`; `node scripts/check.mjs` exit 0 |
 
 ## Active Decisions
 
@@ -53,12 +57,12 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 | 2026-08-09 | Position the repository as a clonable pi.dev template inspired by `inspo/opencode-template` | Explicit user direction | Product vision, roadmap, and future comparison work | User answers |
 | 2026-08-09 | Target developers | Explicit user choice | Documentation and defaults optimize for developer onboarding | User answers |
 | 2026-08-09 | Prioritize stability | Explicit user choice | Safety, consistency, and drift detection outrank feature breadth | User answers |
-| 2026-08-09 | Keep the active product Pi-native and Ultra Fabric-focused | README and current tree | Do not reintroduce OpenCode runtime layers without a separate decision | README.md:33-35 |
+| 2026-08-09 | Keep the active product Pi-native and Pi Fabric-focused | README and current tree | Do not reintroduce OpenCode runtime layers without a separate decision | README.md:33-35 |
 | 2026-08-09 | Keep the template install-free | README states no build, dependencies, runtime harness, or package manifest | New tooling must not silently add a consumer install step | README.md:9-12 |
 | 2026-08-09 | Use detailed AI responses | Explicit user choice | Explanations should include evidence, constraints, and verification detail | User answers |
 | 2026-08-09 | Use auto-commit as the user's general Git preference | Explicit user choice | Agents may commit completed scoped work; they must still avoid unrelated changes and respect explicit task constraints | User answers |
 | 2026-08-09 | Preserve the current dirty worktree | Multi-agent safety and observed status | Stage only declared files if a later task creates a commit | git status, AGENTS.md Multi-Agent Safety |
-| 2026-08-09 | Organize skills as progressive-disclosure packs | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate; now 10 packs and 89 leaves | packs.json, manifest.json, validator |
+| 2026-08-09 | Organize skills as progressive-disclosure packs | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate; now 10 packs and 88 leaves | packs.json, manifest.json, validator |
 
 ## Current Architecture
 
@@ -82,7 +86,7 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 | Large uncommitted cleanup can be overwritten or accidentally staged | High | Treat all pre-existing changes as protected; use scoped edits and staging |
 | README and active tree can drift during simplification | High | Re-run structural inventory before release claims |
 | Historical validation suite is deleted | Medium | Structural validators and the canonical check cover template contracts; interactive command coverage stays a Phase 2 question |
-| No documented Pi/Ultra Fabric compatibility policy | Medium | Defer to Phase 4 after the stable core is settled |
+| No documented Pi/Pi Fabric compatibility policy | Medium | Defer to Phase 4 after the stable core is settled |
 | Upstream inspiration can cause indiscriminate feature copying | Medium | Require a feature matrix and Pi-native rationale in Phase 3 |
 | `.pi/MEMORY.md` and per-work dotfiles are ignored and local-only | Low | Keep durable shared decisions in tracked docs; use MEMORY.md only for local agent context |
 
@@ -91,7 +95,7 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 | Question | Context | Blocking | Roadmap phase |
 | --- | --- | --- | --- |
 | Which deleted scripts/tests are intentionally retired versus awaiting replacement? | Determines the final stable tree and verification gate | Yes for Phase 1 completion | Phase 1 |
-| What minimum Pi and Ultra Fabric versions are supported? | Needed for reliable release claims | No | Phase 4 |
+| What minimum Pi and Pi Fabric versions are supported? | Needed for reliable release claims | No | Phase 4 |
 | Should the repository gate require Node, use another available runtime, or remain shell-only? | Affects the install-free promise | No | Phase 2 |
 | Which OpenCode-template capabilities have direct Pi equivalents? | Prevents redundant wrappers and guides selective ports | No | Phase 3 |
 | Should user profiles and planning context remain ignored/local or be shared by default? | Affects clone behavior and privacy | No | Phase 1 |

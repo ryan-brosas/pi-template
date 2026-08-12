@@ -75,7 +75,7 @@ Detect and validate, all in this one-time pass. Run independent probes through b
 - Existing AI rules (`.cursor/rules/`, `.cursorrules`, `.github/copilot-instructions.md`)
 - Top-level directory structure
 - Git history (last 50 commits) for patterns (commit style, common areas of change)
-- Source structure and subsystem candidates (codemap skeleton/explore)
+- Source structure and subsystem candidates (Pi Fovea sketch/focus)
 - Entrypoints and composition roots (CLI, server, workers, scheduled jobs, event consumers)
 - Import graph and dependency direction
 - Common patterns (error handling, logging, data flow) from reading 3-5 representative files
@@ -187,7 +187,7 @@ state that GitHub setup is skipped and finish.
 ### Phase 1: Discovery (brownfield)
 
 If the project has existing code (brownfield — see auto-detection above), run read-only codebase analysis directly:
-- codemap skeleton/explore to map architecture patterns, data flow, domain boundaries, module structure.
+- Pi Fovea sketch/focus to map architecture patterns, data flow, domain boundaries, module structure.
 - Read 3-5 representative files per subsystem to ground the map in real code.
 
 If greenfield (no existing code), skip to requirements gathering.

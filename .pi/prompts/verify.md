@@ -68,7 +68,7 @@ Report results with a mode column:
 |--------------------------|--------|------|--------|
 | Skill packs + manifest   | PASS   | full | 0.5s   |
 | Router probes            | PASS   | full | 0.4s   |
-| Ultra Fabric contract    | PASS   | full | 0.3s   |
+| Pi Fabric contract    | PASS   | full | 0.3s   |
 | Work management          | PASS   | full | 0.3s   |
 | Notion workspace         | PASS   | full | 0.4s   |
 | Release hygiene          | PASS   | full | 0.2s   |

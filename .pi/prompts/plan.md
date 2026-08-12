@@ -33,7 +33,7 @@ Plans are advisory, not directive: the executor uses the plan as a starting poin
 Load only enough codebase knowledge to name stations correctly. Do not research exhaustively; the assembly carries discovery forward per station.
 
 1. **Project context** — `rg -n "topic" .pi/MEMORY.md`; `git log --oneline -20` for conventions and footgun zones.
-2. **Code reconnaissance** — codemap search for relevant symbols/config keys; codemap refs on key functions; read 2-4 representative files (including tests) so station boundaries match existing structure.
+2. **Code reconnaissance** — Pi Fovea focus for relevant symbols/config keys; Pi Fovea impact on key functions; read 2-4 representative files (including tests) so station boundaries match existing structure.
 3. **Stop when you can name the stations.** Research beyond that is scope discipline without a station to attach it to.
 
 ## Phase 1: Guards

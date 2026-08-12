@@ -6,7 +6,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 - **Goal:** Give a developer a clonable, dependency-free Pi coding-agent workspace with ready-to-use prompts, skills, templates, settings, and a mutation guard, so a new Pi project starts without setup work.
 - **Status:** Polish. The baseline is functional; work is incremental refinement of skills, prompts, and rules.
-- **Milestone:** Baseline with 9 slash commands, 99 skill files (89 leaves in 10 packs), 12 format templates, and the Schema guard. Evidence: validator output 2026-08-09 (packs=10, leaves=89, routers=10, visible=14).
+- **Milestone:** Baseline with 9 slash commands, 98 skill files (88 leaves in 10 packs), 12 format templates, and the Schema guard. Evidence: validator output 2026-08-12 (packs=10, leaves=88, routers=10, visible=14).
 - **Next Milestone:** None planned. Direction comes from .pi/roadmap.md, which the user owns.
 
 ## Success Criteria
@@ -18,7 +18,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 ## Target Users
 
-- **Primary:** Developers who want a stable Pi + Ultra Fabric starting point, clone and start.
+- **Primary:** Developers who want a stable Pi + Pi Fabric starting point, clone and start.
 - **Secondary:** Teams standardizing agent rules, prompts, and skills across Pi projects.
 - **Non-goals:** Serving as an application scaffold, a package distribution, or a runtime. (README.md:7,16.)
 
@@ -34,20 +34,20 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 - **External actors:** A developer operating Pi in the repository; the host-configured Schema trusted commands (`canonical-check`).
 - **External systems:** The Pi coding-agent runtime (Fabric provider), and the Git remote at origin https://github.com/ryan-brosas/pi-template.git. (git remote -v.)
 - **Trust boundaries:** No application runtime, so no data boundary exists. Secret policy bans committed credentials (AGENTS.md Constraints table). Schema commit authorizes or denies mutation operations.
-- **Runtime and environment:** Pi host with Ultra Fabric; Node.js v26.5.0 available for the validation scripts (host tool, not a project dependency).
+- **Runtime and environment:** Pi host with Pi Fabric; Node.js v26.7.0 available for the validation scripts (host tool, not a project dependency).
 
 ## Architecture Overview
 
 - **Architectural style:** Configuration and documentation template. No source tree, no build, no runtime harness. (README.md:7,16.)
 - **Component Responsibilities:**
   - Prompts (.pi/prompts/) - 9 slash commands; each is a self-contained workflow with a Schema boundary section.
-  - Skills (.pi/skills/) - 89 leaves in 10 packs (10 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
+  - Skills (.pi/skills/) - 88 leaves in 10 packs (10 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
   - Templates (.pi/templates/) - 12 format templates rendered by /init, /create, /plan, and /verify.
-  - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Ultra Fabric Schema configuration.
+  - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Pi Fabric Schema configuration.
   - Gates (scripts/) - one canonical check runner and 7 dependency-free Node validators owned by the template itself.
   - Context artifacts (AGENTS.md, .pi/*.md) - durable product and architecture records.
 - **Composition Roots:** No application composition. The Pi host and the /init command are the wiring points: Pi loads .pi/settings.json and .pi/prompts/; /init renders templates into artifacts.
-- **Dependency Rules:** Pi host reads .pi/settings.json and .pi/prompts/; Ultra Fabric reads .pi/fabric.json; scripts read .pi/skills/packs.json and manifest.json; /init renders .pi/templates/*.md. No layer imports another; nothing depends on application code because none exists.
+- **Dependency Rules:** Pi host reads .pi/settings.json and .pi/prompts/; Pi Fabric reads .pi/fabric.json; scripts read .pi/skills/packs.json and manifest.json; /init renders .pi/templates/*.md. No layer imports another; nothing depends on application code because none exists.
 
 ## Runtime Entrypoints
 
@@ -75,7 +75,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 
 ## Configuration
 
-- **Configuration sources:** .pi/settings.json (Pi runtime), .pi/fabric.json (Ultra Fabric Schema: mode enforce, trustedCommands), prompt frontmatter, and AGENTS.md rules. On conflict, AGENTS.md rule precedence applies (Rule 0).
+- **Configuration sources:** .pi/settings.json (Pi runtime), .pi/fabric.json (Pi Fabric Schema: mode enforce, trustedCommands), prompt frontmatter, and AGENTS.md rules. On conflict, AGENTS.md rule precedence applies (Rule 0).
 - **Secrets:** None in the template; AGENTS.md bans committed credentials and requires runtime env/config reads.
 - **Environments:** None; clone-and-start. The repository has no dev/staging/production split.
 - **Validation:** .pi/fabric.json and .pi/settings.json values are documented in README and validated by inspection; [NEEDS CLARIFICATION: a schema-level config validator is a Phase 2 roadmap candidate].
@@ -93,7 +93,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 | Service | Auth | Docs | Rate limits | Error handling |
 | --- | --- | --- | --- | --- |
 | Pi runtime | Local, none | pi coding agent docs | None | N/A |
-| Ultra Fabric | Local, none | .pi/fabric.json and ultra-fabric docs | None | Schema commit authorizes declared file operations |
+| Pi Fabric | Local, none | .pi/fabric.json and pi-fabric docs | None | Schema commit authorizes declared file operations |
 | Git remote origin | HTTPS | github.com/ryan-brosas/pi-template.git | None | None; local repository only |
 
 No external application API, database, deployment provider, or credential-bearing integration exists.
@@ -110,13 +110,13 @@ No external application API, database, deployment provider, or credential-bearin
 
 - **Unit, integration, contract, e2e seams:** None. The repository has no application test suite.
 - **Test locations:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Canonical gate:** `node scripts/check.mjs` runs the seven structural validators and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Ultra Fabric and AGENTS contracts, work management, Notion workspace safety, and release hygiene.
+- **Canonical gate:** `node scripts/check.mjs` runs the seven structural validators and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Pi Fabric and AGENTS contracts, work management, Notion workspace safety, and release hygiene.
 - **CI:** `.github/workflows/check.yml` runs the canonical gate on pushes to `main` and pull requests.
 - **Coverage gaps:** The repository has no application test suite. Slash-command behavior still requires direct Pi probes when a prompt workflow changes.
 
 ## Observability
 
-- **Logging:** Pi and Ultra Fabric runtime logs; none produced by the repository itself.
+- **Logging:** Pi and Pi Fabric runtime logs; none produced by the repository itself.
 - **Metrics:** None.
 - **Tracing:** None.
 - **Alerting:** None. Reproducibility comes from deterministic validation gates and git history.
@@ -149,7 +149,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Known Risks and Hotspots
 
 - Large uncommitted working-tree cleanup. Many tracked files are deleted or modified; a careless commit could sweep unrelated work.
-- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 89 leaves in 10 packs. Regenerate tech-stack.md when the catalog changes.
+- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 88 leaves in 10 packs. Regenerate tech-stack.md when the catalog changes.
 - CI covers structural contracts. It does not execute interactive Pi slash-command flows.
 - No application tests exist. Prompt regressions surface through validators, routing probes, and direct Pi workflow checks.
 
@@ -160,7 +160,7 @@ No external application API, database, deployment provider, or credential-bearin
 | Branch protection policy | Git config has no push or merge protection | No | Medium |
 | Next milestone beyond incremental refinement | Roadmap is user-authored | No | Low |
 | Phase 2 validator scope | Prompt and config contracts are pinned; template validation remains a roadmap candidate | No | Medium |
-| Minimum supported Pi/Ultra Fabric versions | Needed for release claims | No | Low |
+| Minimum supported Pi/Pi Fabric versions | Needed for release claims | No | Low |
 
 ## Evidence
 

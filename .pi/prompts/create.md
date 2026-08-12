@@ -39,7 +39,7 @@ Search `.pi/MEMORY.md` for prior decisions and similar work:
 rg -n "topic" .pi/MEMORY.md
 ```
 
-Also search code history: `git log --oneline -20` for related work, and codemap
+Also search code history: `git log --oneline -20` for related work, and Pi Fovea (`extensions.fovea_focus`)
 search for existing features that might already cover the request.
 
 ### Existing Work Check
@@ -57,9 +57,9 @@ Ask the user how much codebase research they need:
 ## Phase 3: Gather Context (read-only)
 
 Based on the research depth choice, run direct read-only discovery:
-- **Deep**: codemap search for relevant symbols/patterns; read tests to learn conventions; inspect dependency manifests; check docs for architecture guidance.
-- **Standard**: codemap search + read the tests for the nearest existing feature.
-- **Minimal**: quick `rg`/codemap scan of the affected areas.
+- **Deep**: Pi Fovea focus for relevant symbols/patterns; read tests to learn conventions; inspect dependency manifests; check docs for architecture guidance.
+- **Standard**: Pi Fovea focus + read the tests for the nearest existing feature.
+- **Minimal**: quick `rg`/Pi Fovea scan of the affected areas.
 - **Skip**: no discovery; use existing AGENTS.md context.
 
 While discovery runs, ask clarifying questions if the description lacks scope or expected outcome. For bugs, ask for reproduction steps and expected vs actual behavior.

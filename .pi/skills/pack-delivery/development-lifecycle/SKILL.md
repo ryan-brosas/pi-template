@@ -67,9 +67,9 @@ At the active work record `.pi/work/$(cat .pi/work/.active)/`, maintained in the
 - adr.md used as a dumping ground for any choice — noise, not signal.
 - "Done" claim without `/verify` evidence — common regression.
 
-## Ultra Fabric Boundaries
+## Pi Fabric Boundaries
 
-**Discovery** — codemap before text search. **Mutation** — file writes defer to the Schema mutation guard in AGENTS.md. **Verification** — direct behavioral probes with recorded output.
+**Discovery** — Pi Fovea before text search. **Mutation** — file writes defer to the Schema mutation guard in AGENTS.md. **Verification** — direct behavioral probes with recorded output.
 
 ## Skill Result Contract
 

@@ -12,12 +12,12 @@ Evidence: [NEEDS CLARIFICATION: run `gh auth status`, `gh api user`, and `gh rep
 
 ## Project Direction
 
-This repository is a clonable Pi + Ultra Fabric coding template, originally ported from opencode-template. The intended audience is developers; stability is the primary definition of success.
+This repository is a clonable Pi + Pi Fabric coding template, originally ported from opencode-template. The intended audience is developers; stability is the primary definition of success.
 
 When proposing work:
 
 - Protect the clone-and-start experience.
-- Prefer Pi-native and Ultra Fabric-native behavior.
+- Prefer Pi-native and Pi Fabric-native behavior.
 - Treat the inspiration repository as a reference, not a compatibility requirement.
 - Explain how a change affects reliability, setup, customization, and maintenance.
 - Avoid speculative product expansion that weakens the stable core.
@@ -67,7 +67,7 @@ Anything not listed here is [NEEDS CLARIFICATION: reason] until the user states 
 
 ## Technical Preferences
 
-- Pi and Ultra Fabric are the preferred agent workflow foundation.
+- Pi and Pi Fabric are the preferred agent workflow foundation.
 - No language, application framework, database, UI framework, or deployment preference has been specified.
 - Host tools installed in the environment are not project preferences; do not infer a preference from them.
 

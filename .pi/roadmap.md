@@ -4,7 +4,7 @@
 
 ### Vision
 
-Provide a clonable pi.dev project template inspired by `inspo/opencode-template`, adapted for Pi and Ultra Fabric. A developer should be able to clone the repository, trust it in Pi, reload the project configuration, run `/init`, and begin work without installing a package runtime or assembling an agent workflow from scratch.
+Provide a clonable pi.dev project template inspired by `inspo/opencode-template`, adapted for Pi and Pi Fabric. A developer should be able to clone the repository, trust it in Pi, reload the project configuration, run `/init`, and begin work without installing a package runtime or assembling an agent workflow from scratch.
 
 ### Primary Users
 
@@ -23,7 +23,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 ### Supporting Product Principles
 
 1. **Clone and start:** no package installation or runtime harness is required.
-2. **Pi-native behavior:** use Pi and Ultra Fabric directly instead of retaining OpenCode runtime layers.
+2. **Pi-native behavior:** use Pi and Pi Fabric directly instead of retaining OpenCode runtime layers.
 3. **Evidence-backed guidance:** commands and project constraints must come from repository facts.
 4. **Safe mutation:** the Schema commit loop remains the progression authority.
 5. **Portable customization:** developers can add prompts, skills, templates, and settings without understanding an application framework.
@@ -63,14 +63,14 @@ Developers who use Pi for software projects and want a stable, reusable starting
 | --- | --- | --- |
 | Initialization | Idempotent core, context, and user-profile generation | Repeated `/init --all` preserves existing roadmap/state/user files unless overwrite is approved |
 | Prompt consistency | Every mutating command uses the Schema loop; read-only commands remain read-only | Prompt audit lists each command and mutation policy |
-| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 89 leaves, 14 visible, metadata 2,262 chars (~566 tokens) under the 1,200-token budget |
+| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 88 leaves, 14 visible, metadata under the 1,200-token budget |
 | Documentation | README layout and command catalog match the tree | Structural documentation audit has no stale paths |
 | Cleanup | Historical runtime files are either deliberately retained or removed with documented rationale | Final scoped Git diff and repository inventory |
 
 **Dependencies:**
 
 - Current repository structure and deletion decisions must be explicit before Phase 2 begins.
-- Documented minimum Pi and Ultra Fabric versions are deferred to Phase 4.
+- Documented minimum Pi and Pi Fabric versions are deferred to Phase 4.
 
 **Risks:**
 
@@ -80,7 +80,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 **Non-Goals (Out of Scope):**
 
 - Adding an application framework, package manager, database, UI, or deployment target
-- Recreating OpenCode plugins that Pi or Ultra Fabric already supplies
+- Recreating OpenCode plugins that Pi or Pi Fabric already supplies
 - Adding features solely because the inspiration repository contains them
 - Publishing a release before the current cleanup and verification approach are settled
 
@@ -140,7 +140,7 @@ The local CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the us
 **Success Criteria:**
 
 - [ ] Maintain a feature matrix: upstream capability, Pi equivalent, decision, rationale, and verification.
-- [ ] Prefer Pi core or Ultra Fabric behavior over compatibility wrappers.
+- [ ] Prefer Pi core or Pi Fabric behavior over compatibility wrappers.
 - [ ] Port a feature only when it serves the developer audience and stability goal.
 - [ ] Record deliberate omissions so future work does not repeatedly rediscover them.
 - [ ] Keep upstream provenance clear without copying unrelated runtime code.
@@ -175,12 +175,12 @@ The local CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the us
 
 **Outcomes:**
 
-- [ ] A documented compatibility policy for Pi and Ultra Fabric versions.
+- [ ] A documented compatibility policy for Pi and Pi Fabric versions.
 - [ ] A release checklist that a maintainer can execute on a clean clone.
 
 **Success Criteria:**
 
-- [ ] Document supported Pi and Ultra Fabric versions or a clear latest-compatible policy.
+- [ ] Document supported Pi and Pi Fabric versions or a clear latest-compatible policy.
 - [ ] Define a release checklist covering clean clone, `/trust`, `/reload`, `/init`, and one representative workflow.
 - [ ] Verify no secrets, local artifacts, or machine-specific paths ship.
 - [ ] Document upgrade guidance for existing clones with customized AGENTS.md and `.pi/` content.

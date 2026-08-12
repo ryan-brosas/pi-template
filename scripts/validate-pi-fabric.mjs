@@ -1,6 +1,6 @@
-// Ultra Fabric contract gate: pins Schema enforce dispositions, runtime
+// Pi Fabric contract gate: pins Schema enforce dispositions, current runtime
 // configuration, DONE marker contract, and referenced skill paths.
-// Usage: node scripts/validate-ultra-fabric.mjs [root]
+// Usage: node scripts/validate-pi-fabric.mjs [root]
 import { readFileSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,12 +17,20 @@ else {
   let cfg;
   try { cfg = JSON.parse(readFileSync(fabricPath, "utf8")); } catch (e) { fail("fabric.json is not valid JSON: " + e.message); }
   if (cfg) {
+    if (cfg.fullCodeMode === true) ok("fullCodeMode = true");
+    else fail("fullCodeMode must be true for the Pi Fabric execution surface");
+    const executor = cfg.executor || {};
+    if (executor.memoryLimitBytes === 4294967295) ok("executor.memoryLimitBytes uses the QuickJS ceiling");
+    else fail("executor.memoryLimitBytes must be 4294967295 or the guest may reject the config");
     const s = cfg.schema || {};
     if (s.mode === "enforce") ok("schema.mode = enforce"); else fail("schema.mode must be enforce, got " + s.mode);
     const cc = (s.trustedCommands && s.trustedCommands["canonical-check"]) || {};
-    if (cc.command === "node" && Array.isArray(cc.args) && cc.args.join(" ") === "scripts/check.mjs" && cc.shell !== true)
+    if (cc.command === "node" && Array.isArray(cc.args) && cc.args.join(" ") === "scripts/check.mjs" && cc.shell !== true && cc.timeoutMs === 120000)
       ok("schema.trustedCommands.canonical-check = node scripts/check.mjs");
-    else fail("schema.trustedCommands.canonical-check must run node scripts/check.mjs without a shell");
+    else fail("schema.trustedCommands.canonical-check must run node scripts/check.mjs without a shell for 120000ms");
+    if (cfg.agents && Object.prototype.hasOwnProperty.call(cfg.agents, "runner"))
+      fail("project config must not pin agents.runner; let the trusted host choose an optional Veda lane");
+    else ok("project config leaves agent runner host-selectable");
   }
 }
 
@@ -90,5 +98,10 @@ else {
   else fail("CI does not run node scripts/check.mjs");
 }
 
-console.log(failures ? "ultra-fabric contract: FAIL" : "ultra-fabric contract: ok");
+// 7. Local Veda state is host/session data, never a tracked repository artifact.
+const ignorePath = join(root, ".gitignore");
+if (existsSync(ignorePath) && readFileSync(ignorePath, "utf8").includes(".veda/")) ok(".veda/ is ignored");
+else fail(".gitignore must ignore local Veda sessions with .veda/");
+
+console.log(failures ? "pi-fabric contract: FAIL" : "pi-fabric contract: ok");
 process.exit(failures ? 1 : 0);

@@ -29,6 +29,7 @@ const cases = [
   { task: "queue worker task", expect: ["background-jobs"], keywords: ["background"], max: 1 },
   { task: "compare inspiration repository opencode-template for session summaries via CGC", expect: ["cgc-inspiration-workflow"], keywords: ["inspiration"], max: 1 },
   { task: "route library docs, GitHub overview, and web discovery for research", expect: ["evidence-router"], keywords: ["choosing"], max: 1 },
+  { task: "current web discovery with cited sources", expect: ["codex-websearch"], keywords: ["current"], max: 1 },
   { task: "open-source library internals beyond docs", expect: ["opensrc"], keywords: ["internally"], max: 1 },
   { task: "find legitimate GitHub PR contribution opportunities and qualify the safest issue", expect: ["github-contribution-opportunities"], keywords: ["contribution"], max: 1 },
   { task: "execute ordered multi-task plan with acceptance review", expect: ["task-scoped-execution"], keywords: ["ordered"], max: 1 },

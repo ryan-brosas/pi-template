@@ -15,3 +15,4 @@ coverage/
 # Local memory and notes stay ignored
 .pi/MEMORY.md
 .pi/implementation-notes.md
+.veda/

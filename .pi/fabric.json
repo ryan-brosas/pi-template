@@ -1,12 +1,17 @@
 {
   "configVersion": 3,
   "fullCodeMode": true,
+  "executor": {
+    "memoryLimitBytes": 4294967295
+  },
   "schema": {
     "mode": "enforce",
     "trustedCommands": {
       "canonical-check": {
         "command": "node",
-        "args": ["scripts/check.mjs"],
+        "args": [
+          "scripts/check.mjs"
+        ],
         "shell": false,
         "timeoutMs": 120000
       }
@@ -14,5 +19,8 @@
   },
   "compaction": {
     "engine": "pi"
+  },
+  "prewalk": {
+    "mode": "trajectory"
   }
 }

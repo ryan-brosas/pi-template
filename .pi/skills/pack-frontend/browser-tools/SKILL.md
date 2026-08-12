@@ -13,7 +13,7 @@ You need to visibly interact with a web page (not headless); click, type, scroll
 
 ## When NOT to Use
 
-Headless is sufficient (use Playwright); the task is API-level (use curl or fetch); no visual interaction needed (use `webclaw_scrape` or a plain fetch); static page that doesn't need JS execution.
+Headless is sufficient (use Playwright); the task is API-level (use curl or fetch); no visual interaction needed (use a plain fetch or curl); static page that doesn't need JS execution.
 
 ## Capabilities
 
@@ -54,7 +54,7 @@ const content = await page.content()
 | Case | Fallback |
 |---|---|
 | Page needs login | Use `page.goto` with pre-set cookies |
-| Page blocks non-proxied browsers | Use `webclaw_scrape` for static content |
+| Page blocks non-proxied browsers | Use a plain fetch or curl for static content |
 | Page is a heavy SPA (React, Vue) | Browser tool is the right choice |
 | Just need text | plain fetch is cheaper |
 | Need to debug CSS | Browser tool — screenshot is best |

@@ -3,6 +3,10 @@
   "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: ten visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json; node scripts/validate-skill-packs.mjs is the structural gate.",
   "removed": [
     {
+      "name": "brave-search",
+      "reason": "Brave Search MCP not installed; replaced by the codex-websearch leaf (openai_websearch extension) in the Pi Fabric migration"
+    },
+    {
       "name": "diagnostics",
       "reason": "wraps removed OpenCode diagnostics tool + aislop/fallow custom tools (plugin/ removed)"
     },
@@ -12,7 +16,11 @@
     },
     {
       "name": "subagent-driven-development",
-      "reason": "OpenCode task() subagent dispatch; superseded by Ultra Fabric agents/handoff"
+      "reason": "OpenCode task() subagent dispatch; superseded by Pi Fabric agents/handoff"
+    },
+    {
+      "name": "webclaw",
+      "reason": "no webclaw CLI, MCP server, or extension on the host; disconnected 2026-08-12; browser fallbacks now use plain fetch/curl"
     }
   ],
   "retained": [
@@ -71,12 +79,6 @@
       "modelVisible": true
     },
     {
-      "name": "brave-search",
-      "status": "retained",
-      "pack": "pack-research",
-      "modelVisible": false
-    },
-    {
       "name": "browser-testing-with-devtools",
       "status": "retained",
       "pack": "pack-frontend",
@@ -122,6 +124,12 @@
       "name": "code-review-and-quality",
       "status": "retained",
       "pack": "pack-quality",
+      "modelVisible": false
+    },
+    {
+      "name": "codex-websearch",
+      "status": "retained",
+      "pack": "pack-research",
       "modelVisible": false
     },
     {
@@ -531,12 +539,6 @@
       "status": "retained",
       "pack": "core",
       "modelVisible": true
-    },
-    {
-      "name": "webclaw",
-      "status": "retained",
-      "pack": "pack-research",
-      "modelVisible": false
     },
     {
       "name": "writing-skills",

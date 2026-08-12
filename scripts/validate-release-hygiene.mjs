@@ -2,7 +2,7 @@
 // Fails (exit 1) on: tracked runtime state, machine-specific absolute paths,
 // credential-shaped strings in tracked files, and drift between documented
 // counts (prompts, skills, templates) and the actual tree.
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -21,7 +21,9 @@ const files = tracked.stdout.split("\n").filter(Boolean);
 // /home/runner is a documented GitHub Actions CI path in CLI references, not a user path.
 const HOME_RE = /\/(home|Users)\/(?!runner(?:\/|$))[^/\s]+(?:\/|$)/;
 for (const f of files) {
-  const text = readFileSync(join(root, f), "utf8");
+  const full = join(root, f);
+  if (!existsSync(full)) continue; // tracked-but-deleted working-tree files (unstaged cleanup)
+  const text = readFileSync(full, "utf8");
   const m = text.match(HOME_RE);
   if (m) fail(`machine-specific absolute path ${m[0].trim()} in ${f}`);
 }
@@ -29,12 +31,13 @@ for (const f of files) {
 // 2. Credential-shaped strings must not ship.
 const SECRET_RE = /(sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY-----)/;
 for (const f of files) {
+  if (!existsSync(join(root, f))) continue;
   const text = readFileSync(join(root, f), "utf8");
   if (SECRET_RE.test(text)) fail(`credential-shaped string in ${f}`);
 }
 
 // 3. Runtime/generated local state must stay untracked.
-const RUNTIME_RE = /^\.pi\/(?:MEMORY\.md|implementation-notes\.md|fabric\/)/;
+const RUNTIME_RE = /^(?:\.pi\/(?:MEMORY\.md|implementation-notes\.md|fabric\/)|\.veda(?:\/|$))/;
 const runtime = files.filter((f) => RUNTIME_RE.test(f));
 if (runtime.length) fail(`tracked runtime state: ${runtime.join(", ")}`);
 

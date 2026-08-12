@@ -29,7 +29,7 @@ Browser testing proves what users actually experience. Use runtime evidence inst
 | --- | --- |
 | Cross-browser automation, screenshots, repeatable flows | `playwright` |
 | Live Chrome inspection, console/network/runtime state | `chrome-devtools` |
-| Bot-protected docs or static page extraction | `webclaw` |
+| Bot-protected docs or static page extraction | plain `fetch` or `curl` |
 | UI implementation guidance | `frontend-design` |
 
 ## Process

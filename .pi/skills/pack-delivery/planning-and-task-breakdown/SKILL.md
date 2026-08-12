@@ -82,9 +82,22 @@ Record each station's outcome in `.pi/work/$(cat .pi/work/.active)/.progress.md`
 - Risks only listed at the end, not per station.
 - Open questions outnumber stations — spec is incomplete, go back to brainstorming.
 
-## Ultra Fabric Boundaries
+## Optional model funnel
 
-**Discovery** — codemap refs before text search. **Mutation** — plan writes defer to the Schema mutation guard in AGENTS.md. **Execution** — stations run under `task-scoped-execution` with compaction between stations.
+For plans with three or more stations, reduce frontier usage before asking Claude to decide:
+
+1. Run `repo-scout` on a bounded selection with `gemini-lite`.
+2. Run `context-curator` with `gemini-mid`; add `frontend-auditor` with `gemini-ui` for UI work.
+3. Run `cross-system-synthesizer` with `gemini-pro-low` when multiple subsystems conflict.
+4. Give the resulting decision packet and authoritative files to direct AGY `claude-opus-4-6-thinking` with `--mode plan`; require architecture, alternatives, non-goals, stations, acceptance checks, risks, and handoff payloads.
+5. Use direct AGY `claude-sonnet-4-6` for a cheaper critique; reserve a second Opus call for high-risk review only.
+6. The Driver validates call sites, maintains the station ledger, and owns every Schema-gated mutation.
+
+Do not route AGY Claude through Veda: its current adapter injects unsupported `--effort`. Do not delegate repository writes to a Veda worker by default or weaken `schema.mode: enforce`.
+
+## Pi Fabric Boundaries
+
+**Discovery** — Pi Fovea focus/impact before text search. **Mutation** — plan writes defer to the Schema mutation guard in AGENTS.md. **Execution** — stations run under `task-scoped-execution` with compaction between stations.
 
 ## Skill Result Contract
 

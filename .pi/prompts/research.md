@@ -25,14 +25,14 @@ Apply the evidence-validity principle first: a GitHub repository is never assume
 
 Classify the question to pick ONE primary route before any tool call:
 
-- Active-project code or architecture → codemap `mode: "ast"`.
-- Inspiration work → discover first: one codemap `mode: "cgc"` explore over the meta-context `<inspo-root>` (resolve from `$INSPO_ROOT` or ask the user; never assume a machine-specific path) with the domain query; read the covering repo from the path prefix of returned symbols. Then query that repo alone: codemap `mode: "cgc"`, context `<inspo-root>/<repo>`, one repository per query. Ensure the repo is CGC-indexed before querying (`cgc index <inspo-root>/<repo> --summarize` when the context is missing); never rg/grep the inspo tree — the graph is the only query surface.
-- GitHub repository behavior or overview → `mcp.deepwiki.ask_question` (owner/repo + one focused question), or a CGC clone when one exists.
+- Active-project code or architecture → `extensions.fovea_sketch` then `extensions.fovea_focus`.
+- Inspiration work → discover with `cgc find content "<domain>" --context "<inspo-root>"`; resolve the covering repo from the returned path, then query only that repository with `cgc find name/content ... --context "<inspo-root>/<repo>"`. Register/index missing contexts with `cgc context create` and `cgc index ... --summarize`; never rg/grep the inspo tree.
+- GitHub repository behavior or overview → `mcp.deepwiki.get-deepwiki-index` then `mcp.deepwiki.get-deepwiki-page`, or a CGC clone when one exists.
 - Current versioned library or framework docs → `mcp.context7.resolve-library-id` then `mcp.context7.query-docs`, max three single-topic queries per question.
-- Discovery and current facts → `mcp.exa.omniroute_web_search`, bounded to 3-5 results.
-- A selected URL's page content → `mcp.exa.omniroute_web_fetch`, selected URLs only.
+- Discovery and current facts → `extensions.openai_websearch`, bounded to 3-5 cited results.
+- A selected URL's page content → a discovered read-only fetch/crawl capability, selected URLs only; do not invent an action.
 
-Set the Budget: 3-6 angles, one primary route each, a per-source cap (3-5 search results, three Context7 queries, one DeepWiki question per repo), and a target of at most two sources per angle before Stop. Never fan out across tools.
+Set the Budget: 3-6 angles, one primary route each, a per-source cap (3-5 web results, three Context7 topics, one DeepWiki index + page per repo), and a target of at most two sources per angle before Stop. Never fan out across tools.
 
 ## Phase 1: Plan Angles
 
@@ -46,7 +46,7 @@ Ask the user to narrow the scope if the question is too broad to answer usefully
 
 ## Phase 2: Research Each Angle
 
-For each angle, use the classified route and the exact MCP action names above. Escalate one step only on a named evidence gap ("the CGC context has no symbols for X", "Context7 lacks this version", "search shortlist lacks a primary source").
+For each angle, use the classified route and the exact discovered action names above. Escalate one step only on a named evidence gap ("the CGC context has no symbols for X", "Context7 lacks this version", "search shortlist lacks a primary source").
 
 For every finding record:
 - **Finding:** one-paragraph summary

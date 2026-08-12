@@ -4,7 +4,7 @@ const checks = [
   [process.execPath, ["scripts/validate-skill-packs.mjs"]],
   [process.execPath, ["scripts/sync-skill-manifest.mjs", "--check"]],
   [process.execPath, ["scripts/probe-skill-routing.mjs"]],
-  [process.execPath, ["scripts/validate-ultra-fabric.mjs"]],
+  [process.execPath, ["scripts/validate-pi-fabric.mjs"]],
   [process.execPath, ["scripts/validate-work-management.mjs"]],
   [process.execPath, ["scripts/validate-notion-workspace-skill.mjs"]],
   [process.execPath, ["scripts/validate-release-hygiene.mjs"]],

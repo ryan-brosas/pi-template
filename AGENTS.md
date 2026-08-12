@@ -13,12 +13,13 @@ pull requests.
 
 ## Repository facts
 
-- This repository is a clonable Pi + Ultra Fabric coding-agent template.
+- This repository is a clonable Pi + Pi Fabric coding-agent template.
 - The product surface is `.pi/prompts/`, `.pi/skills/`, `.pi/templates/`,
   `.pi/settings.json`, `.pi/fabric.json`, and the rendered context artifacts.
 - The repository has no application source tree, package manifest, dependencies,
   build step, or runtime harness.
 - `.pi/project.md` is the detailed architecture record.
+- Pi Fabric is the host Schema guard; Veda is an optional host-side one-shot lane, never a clone dependency.
 
 ## Mutation authority
 

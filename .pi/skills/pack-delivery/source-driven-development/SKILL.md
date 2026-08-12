@@ -86,7 +86,7 @@ Higher-ranked sources win on conflicts.
 
 ## Consolidated Research Workflow
 
-This is the canonical active source-grounding skill. It absorbs deep-research and source-code-research for normal work. Use opensrc or webclaw as tool-specific companions only when the source demands them.
+This is the canonical active source-grounding skill. It absorbs deep-research and source-code-research for normal work. Use opensrc as the tool-specific companion only when the source demands it.
 
 Evidence hierarchy:
 1. local code and tests;
@@ -99,6 +99,6 @@ Evidence hierarchy:
 
 `v1-run` was removed as an optional package-health skill. Use source-grounded package evaluation, official advisories, lockfile inspection, and package-manager audit commands instead.
 
-## Ultra Fabric Boundaries
+## Pi Fabric Boundaries
 
-**Discovery** — codemap for local code, then authoritative sources. **Verification** — direct behavioral probes for external claims.
+**Discovery** — Pi Fovea for local code, then authoritative sources. **Verification** — direct behavioral probes for external claims.

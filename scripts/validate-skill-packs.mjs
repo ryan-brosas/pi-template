@@ -14,7 +14,7 @@ const skillsRoot = join(root, ".pi", "skills");
 const catalogPath = join(skillsRoot, "packs.json");
 const manifestPath = join(skillsRoot, "manifest.json");
 
-const STALE_TOOL_RE = /TaskCreate|TaskUpdate|ask_user_question|websearch|web_fetch|grepsearch|superpi/;
+const STALE_TOOL_RE = /TaskCreate|TaskUpdate|ask_user_question|web_fetch|grepsearch|superpi/;
 const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const ALLOWED_FIELDS = new Set(["name", "description", "license", "compatibility", "metadata", "allowed-tools", "disable-model-invocation"]);
 const TRIGGER_RE = /^Use when /;

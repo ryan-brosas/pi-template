@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Ultra Fabric: 9 prompt commands, 99 skill files
-(89 leaves in 10 packs), 12 format templates, Pi-native settings, and the
+tailored to Pi + Pi Fabric: 9 prompt commands, 98 skill files
+(88 leaves in 10 packs), 12 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -15,8 +15,8 @@ Schema mutation guard. No build, no dependencies, no runtime harness — clone a
 
 No package install is needed. There is no package.json.
 
-**Requirements:** Pi with Fabric — the prompts, Schema guard, and skill packs ship in this repository (no separate extension install); Node.js 22+ is used only by the optional validation gate
-(`scripts/check.mjs`) and GitHub Actions.
+**Requirements:** Pi 0.80.6+ with Pi Fabric 0.48.0+ installed in the host. The prompts, Schema guard, and skill packs ship in this repository; Node.js 24+ (required by the current Pi Fabric host) is also used by the optional validation gate
+(`scripts/check.mjs`) and GitHub Actions. The repository itself remains dependency-free; Veda is optional and host-local.
 
 ## Layout
 
@@ -25,10 +25,10 @@ AGENTS.md                    # project agent rules (this repo's own)
 README.md
 .gitignore
 .pi/
-├── fabric.json            # Ultra Fabric Schema guard (enforce + canonical-check)
+├── fabric.json            # Pi Fabric Schema guard (enforce + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 99 skill files: 10 pack routers + 89 leaves (packs.json)
+├── skills/                # 98 skill files: 10 pack routers + 88 leaves (packs.json)
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
 ├── work/                  # tracked durable records per local work record
 └── scripts/               # canonical check plus 7 dependency-free Node validators
@@ -36,7 +36,7 @@ README.md
 
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
 tui.json) and the OpenCode agent/workflow wrappers (`.pi/agents/`,
-`.pi/workflows/`) are removed — Pi and Ultra Fabric provide those natively.
+`.pi/workflows/`) are removed — Pi and Pi Fabric provide those natively.
 Generated state (`.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`) is
 gitignored and never ships. Inside `.pi/work/`, the active pointer and per-work dotfiles stay ignored. Tracked work records live in `.pi/work/`, one
 directory per work record.
@@ -68,7 +68,7 @@ from `.github/workflows/check.yml` on pushes to `main` and pull requests.
 
 ## Skills and Templates
 
-- Skills: 99 skill files — 10 pack routers, 4 core safety skills, and 85 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 98 skill files — 10 pack routers, 4 core safety skills, and 84 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
@@ -81,7 +81,7 @@ from `.github/workflows/check.yml` on pushes to `main` and pull requests.
   project, tech-stack, roadmap, state, and user; `/create`, `/plan`, and
   `/verify` render the rest.
 
-## Ultra Fabric
+## Pi Fabric
 
 Schema enforce is the mutation authority: research → hypothesize → verify →
 commit → postcondition check. Prompts run in dual mode for flexibility: when
@@ -91,8 +91,39 @@ untrusted), the same read-only discovery runs and each mutation requires
 explicit per-mutation user approval (AGENTS.md Mutation Authority).
 `.pi/fabric.json` holds the guard configuration (`schema.mode: enforce` plus
 the `canonical-check` trusted command).
-`node scripts/validate-ultra-fabric.mjs` pins the contract: native dispositions,
-Schema requirement, and referenced skill paths.
+`node scripts/validate-pi-fabric.mjs` pins the contract: full-code mode, the QuickJS memory ceiling, Schema enforcement, prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
+
+### Optional Veda lane
+
+Use a budget funnel rather than spending a frontier model on every read. Veda Gemini profiles do cheap discovery and context reduction; direct AGY Claude supplies the load-bearing architecture judgment. Model output is advisory, while Pi Fabric, source evidence, tests, and Schema postconditions remain authoritative.
+
+| Work | Economical lane | Claude escalation | Profile / contract |
+| --- | --- | --- | --- |
+| Repository map | Veda → AGY `gemini-3.6-flash-low` | none | `repo-scout` |
+| Context curation | Veda → AGY `gemini-3.6-flash-medium` | none | `context-curator` |
+| Frontend audit | Veda → AGY Flash high | direct AGY Sonnet for a focused critique | `frontend-auditor` |
+| Cross-system synthesis | Veda → AGY `gemini-3.1-pro-low` | direct AGY Opus if architecture is load-bearing | `cross-system-synthesizer` |
+| Architecture plan / high-risk review | none | direct AGY `claude-opus-4-6-thinking` | `agy --mode plan`, no `--effort` |
+
+The funnel adds planning power by making Opus consume a curated decision packet instead of raw repository noise. Use Opus once for the architecture plan and again only for high-risk final review; use direct AGY Sonnet for cheaper intermediate critique. AGY's current live catalog includes these Claude and Gemini IDs, but it exposes no reliable quota counter, so escalate by risk and cap repeated calls.
+
+```bash
+# Cheap Veda passes (aliases are host-local; select bounded files first).
+veda -S <session> sel clear
+veda -S <session> sel add .pi/work/<slug>/spec.md src/ components/ styles/ tests/
+veda -S <session> -m gemini-lite -p repo-scout 'Map the selected files; cite paths, symbols, dependencies, and gaps.'
+veda -S <session> -m gemini-mid -p context-curator 'Compress selected findings into a bounded handoff packet.'
+veda -S <session> -m gemini-ui -p frontend-auditor 'Audit selected UI structure, states, accessibility, and visual risks.'
+veda -S <session> -m gemini-pro-low -p cross-system-synthesizer 'Merge selected findings into a compact decision packet for architecture planning.'
+
+# Load-bearing planning: direct AGY Claude, not Veda (omit --effort).
+agy --add-dir "$PWD" --model claude-opus-4-6-thinking --mode plan --print 'Read the selected repository context. Do not edit. Produce the architecture decision, rejected alternatives, non-goals, ordered stations, acceptance checks, risks, and implementation handoff.'
+
+# Cheaper critique or follow-up.
+agy --add-dir "$PWD" --model claude-sonnet-4-6 --mode plan --print 'Read the selected context and current diff. Do not edit. Report concrete architectural risks and missing acceptance checks.'
+```
+
+Direct AGY Opus and Sonnet succeeded without `--effort`. Do not route them through `veda -b agy`: Veda's current AGY adapter injects `--effort`, which these Claude models reject. The Veda-to-AGY Claude route is currently unsupported until that adapter conditionally omits the flag. Use `-o /tmp/veda-report.md` for disposable Veda output; durable `.pi/work/` reports require the Schema loop.
 
 ## Work Management
 
