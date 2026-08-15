@@ -91,12 +91,6 @@
       "modelVisible": false
     },
     {
-      "name": "cgc-inspiration-workflow",
-      "status": "retained",
-      "pack": "pack-research",
-      "modelVisible": false
-    },
-    {
       "name": "chrome-devtools",
       "status": "retained",
       "pack": "pack-frontend",

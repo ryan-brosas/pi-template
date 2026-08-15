@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
- tailored to Pi + Pi Fabric: 9 prompt commands, 102 skill files
- (92 leaves in 10 packs), 12 format templates, Pi-native settings, and the
+ tailored to Pi + Pi Fabric: 9 prompt commands, 101 skill files
+ (91 leaves in 10 packs), 12 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -28,7 +28,7 @@ README.md
 ├── fabric.json            # Pi Fabric Schema guard (enforce or audit + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 102 skill files: 10 pack routers + 92 leaves (packs.json)
+├── skills/                # 101 skill files: 10 pack routers + 91 leaves (packs.json)
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
 ├── work/                  # tracked durable records per local work record
 └── scripts/               # canonical check plus 7 dependency-free Node validators
@@ -72,7 +72,7 @@ open source). Without the secret the workflow skips and CI stays green.
 ## Skills and Templates
 
 
-- Skills: 102 skill files — 10 pack routers, 4 core safety skills, and 88 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 101 skill files — 10 pack routers, 4 core safety skills, and 87 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
