@@ -21,6 +21,12 @@ need.
 - `/fix`, `/audit`, and `/gc` drop in anywhere; they don't follow the lane.
 - There is no `/pr` slash command. Opening a pull request is a manual
   `gh pr create` step, and only when a record is linked to a GitHub issue.
+- Two PR shapes share the lane:
+  - **Own project** — branch on `origin`, `gh pr create` against `main`.
+  - **Contributing upstream** — fork the project, clone your fork, add the
+    upstream remote, branch, push to your fork, then open the PR from
+    `fork:branch` to `upstream:main`; follow the project's `CONTRIBUTING.md`
+    and rebase on `upstream/main` before opening.
 - The only hard rules are the Contract below: durable records are tracked,
   dotfiles stay local.
 
