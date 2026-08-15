@@ -13,7 +13,7 @@ disable-model-invocation: true
 - **Keyboard = primary UX.** If a feature isn't keyboard-accessible, it doesn't exist for some users.
 - **Color contrast ≥ 4.5:1 for body text.** No exceptions. Use the WebAIM contrast checker.
 - **All interactive elements need focus states.** `:focus-visible` is the standard.
-- **Forms need labels.** `<input>` without `<label>` is an a11y failure. Always.
+- **Forms need labels.** `` `<input>` `` without `` `<label>` `` is an a11y failure. Always.
 - **Screen reader testing is not optional.** `aria-label` helps but doesn't replace real testing.
 </EXTREMELY-IMPORTANT>
 
