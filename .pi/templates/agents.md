@@ -1,6 +1,6 @@
 ---
 purpose: Source template for the AGENTS.md file /init generates.
-updated: 2026-08-09
+updated: 2026-08-15
 ---
 
 # AGENTS.md template
