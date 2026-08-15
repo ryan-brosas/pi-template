@@ -37,8 +37,8 @@ README.md
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
 tui.json) and the OpenCode agent/workflow wrappers (`.pi/agents/`,
 `.pi/workflows/`) are removed — Pi and Pi Fabric provide those natively.
-Generated state (`.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`) is
-gitignored and never ships. Inside `.pi/work/`, the active pointer and per-work dotfiles stay ignored. Tracked work records live in `.pi/work/`, one
+Generated state (`.idea/`, `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`) is
+gitignored and never ships. Inside `.pi/work/`, the active pointer, per-work dotfiles, and `ide-inspections/` stay ignored. Tracked work records live in `.pi/work/`, one
 directory per work record.
 
 ## Commands

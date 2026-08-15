@@ -66,9 +66,10 @@ then `schema.commit` with declared operations and nonempty postconditions.
 - `.pi/skills/packs.json` owns skill membership. New leaf skills use
   `disable-model-invocation: true`; only pack routers and the four core safety
   skills remain model-visible.
-- Generated local state stays untracked: `.pi/MEMORY.md`,
-  `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/.active`, and
-  per-work `.progress.md` and `.verify.log` files.
+- Generated local state stays untracked: `.idea/`, `.pi/MEMORY.md`,
+  `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/.active`,
+  `.pi/work/ide-inspections/`, and per-work `.progress.md` and `.verify.log`
+  files.
 - Mutating slash commands keep the Schema boundary. Research, audit, and verify
   commands remain read-only.
 

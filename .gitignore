@@ -6,12 +6,14 @@ coverage/
 .env.local
 .env.*.local
 .mcporter/
+.idea/
 .pi/fabric/
 .pi/artifacts/
 # .pi/work/ stays tracked: durable engineering records
 .pi/work/.active
 .pi/work/*/.progress.md
 .pi/work/*/.verify.log
+.pi/work/ide-inspections/
 # Local memory and notes stay ignored
 .pi/MEMORY.md
 .pi/implementation-notes.md
