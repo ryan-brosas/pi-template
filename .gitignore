@@ -8,6 +8,9 @@ coverage/
 .mcporter/
 .idea/
 .pi/fabric/
+# IDE inspection exports (Inspect Code -> Export in IntelliJ)
+inspect/
+
 .pi/artifacts/
 # .pi/work/ stays tracked: durable engineering records
 .pi/work/.active
