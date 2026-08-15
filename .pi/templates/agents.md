@@ -48,9 +48,9 @@ build or restart is required.]
 - [Where the durable architecture record lives.]
 - Optional host-side capabilities (for example Codebase Memory MCP, JetBrains
   IDE/ACP tools, `todo`, or editor-review extensions) are never clone
-  dependencies. When verified, state which structural discovery, IDE mutation,
-  diagnostics, run, and review operations they own; document installation only
-  in README.
+  dependencies. When verified, state which structural discovery, inspiration
+  adoption, IDE mutation, diagnostics, run, and review operations they own;
+  document installation only in README.
 
 Evidence: [paths or command output]
 

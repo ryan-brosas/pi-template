@@ -4,7 +4,7 @@
 
 ### Vision
 
-Provide a clonable pi.dev project template inspired by `inspo/opencode-template`, adapted for Pi and Pi Fabric. A developer should be able to clone the repository, trust it in Pi, reload the project configuration, run `/init`, and begin work without installing a package runtime or assembling an agent workflow from scratch.
+Provide a clonable pi.dev project template originally ported from an OpenCode template and refined against indexed inspiration repositories (starting with `inspo/pi-upstream`), adapted for Pi and Pi Fabric. A developer should be able to clone the repository, trust it in Pi, reload the project configuration, run `/init`, and begin work without installing a package runtime or assembling an agent workflow from scratch.
 
 ### Primary Users
 

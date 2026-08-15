@@ -22,8 +22,9 @@ pull requests.
 - Pi Fabric is the host Schema guard; Veda is an optional host-side one-shot lane, never a clone dependency.
 - Codebase Memory MCP and JetBrains IDE/ACP tools are optional host-side
   capabilities, never clone dependencies. When available, use Codebase Memory
-  for graph orientation, traces, coverage, and blast radius; use JetBrains
-  tools for project-aware search, source reads, patches, semantic refactors,
+  for graph orientation, traces, coverage, blast radius, and inspiration
+  adoption (adopt/adapt/omit verdicts with provenance); use JetBrains tools
+  for project-aware search, source reads, patches, semantic refactors,
   inspections, builds, runs, and focused user review.
 - `todo` and the legacy Zed review tools (pi-workflow extensions) are optional
   host-side tools. When present, use `todo` as a live
