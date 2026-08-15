@@ -21,13 +21,13 @@ approves work; it feeds a later Schema hypothesis evidence set.
 
 ## Phase 0: Classify and Budget
 
-Apply the evidence-validity principle first: a GitHub repository is never assumed to be valid or authoritative evidence just because it relates to the task or project. Topical relevance is a lead, not a warrant. Treat any repository like an arXiv preprint: potentially valuable, always provisional; extract claims only with provenance (owner/repo, commit SHA or branch, retrieval date, license), verify by reading the code, docs, and tests rather than the README, and cross-check any adopted claim against an independent source. A CGC clone is an indexed snapshot for navigation, not a truth store; it can lag HEAD.
+Apply the evidence-validity principle first: a GitHub repository is never assumed to be valid or authoritative evidence just because it relates to the task or project. Topical relevance is a lead, not a warrant. Treat any repository like an arXiv preprint: potentially valuable, always provisional; extract claims only with provenance (owner/repo, commit SHA or branch, retrieval date, license), verify by reading the code, docs, and tests rather than the README, and cross-check any adopted claim against an independent source. A Codebase Memory graph is an indexed snapshot for navigation, not a truth store; confirm coverage and exact source because it can lag HEAD.
 
 Classify the question to pick ONE primary route before any tool call:
 
-- Active-project code or architecture → `extensions.fovea_sketch` then `extensions.fovea_focus`.
-- Inspiration work → discover with `cgc find content "<domain>" --context "<inspo-root>"`; resolve the covering repo from the returned path, then query only that repository with `cgc find name/content ... --context "<inspo-root>/<repo>"`. Register/index missing contexts with `cgc context create` and `cgc index ... --summarize`; never rg/grep the inspo tree.
-- GitHub repository behavior or overview → `mcp.deepwiki.get-deepwiki-index` then `mcp.deepwiki.get-deepwiki-page`, or a CGC clone when one exists.
+- Active-project code or architecture → Codebase Memory architecture/graph/trace tools, then JetBrains IDE source and symbol tools for exact confirmation; use Pi Fovea when either graph is unavailable.
+- Inspiration work → call `codebase-memory_list_projects`, select one indexed repository, then use `codebase-memory_get_architecture`, `codebase-memory_search_graph`, or `codebase-memory_trace_path`. Index only when absent or after a named large update; check coverage and never treat graph output as source truth.
+- GitHub repository behavior or overview → `mcp.deepwiki.get-deepwiki-index` then `mcp.deepwiki.get-deepwiki-page`, or Codebase Memory when a local indexed project exists.
 - Current versioned library or framework docs → `mcp.context7.resolve-library-id` then `mcp.context7.query-docs`, max three single-topic queries per question.
 - Discovery and current facts → `extensions.openai_websearch`, bounded to 3-5 cited results.
 - A selected URL's page content → a discovered read-only fetch/crawl capability, selected URLs only; do not invent an action.
@@ -46,7 +46,7 @@ Ask the user to narrow the scope if the question is too broad to answer usefully
 
 ## Phase 2: Research Each Angle
 
-For each angle, use the classified route and the exact discovered action names above. Escalate one step only on a named evidence gap ("the CGC context has no symbols for X", "Context7 lacks this version", "search shortlist lacks a primary source").
+For each angle, use the classified route and the exact discovered action names above. Escalate one step only on a named evidence gap ("Codebase Memory reports the path as skipped or partially parsed for X", "the IDE cannot resolve the symbol", "Context7 lacks this version", "search shortlist lacks a primary source").
 
 For every finding record:
 - **Finding:** one-paragraph summary

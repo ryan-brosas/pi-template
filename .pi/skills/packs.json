@@ -15,7 +15,9 @@
       "members": [
         "app-experience-mapping",
         "development-lifecycle",
+        "fabric-native-execution",
         "incremental-implementation",
+        "jetbrains-ide-workflow",
         "planning-and-task-breakdown",
         "prototype",
         "shipping-and-launch",
@@ -23,7 +25,8 @@
         "spec-driven-development",
         "test-driven-development",
         "testing-anti-patterns",
-        "task-scoped-execution"
+        "task-scoped-execution",
+        "veda-lane"
       ]
     },
     {
@@ -51,6 +54,7 @@
       "members": [
         "codex-websearch",
         "cgc-inspiration-workflow",
+        "codebase-memory",
         "evidence-router",
         "gemini-large-context",
         "github-contribution-opportunities",
@@ -157,6 +161,7 @@
   "_descriptions": {
     "development-lifecycle": "Use when planning a project lifecycle, milestones, or development phases.",
     "incremental-implementation": "Use when implementing any feature or refactor touching more than one file.",
+    "jetbrains-ide-workflow": "Use when a JetBrains IDE is connected for project-aware development operations.",
     "planning-and-task-breakdown": "Use when breaking a goal into tasks, estimating, or sequencing work.",
     "prototype": "Use when building a throwaway prototype or validating an idea.",
     "shipping-and-launch": "Use when shipping, releasing, launching, or productionizing.",
@@ -181,8 +186,9 @@
     "grill-with-docs": "Use to pressure-test claims against documentation.",
     "opensrc": "Use to inspect library source internals beyond types and docs.",
     "pdf-extract": "Use to extract text or data from PDFs.",
-    "cgc-inspiration-workflow": "Use when cloning, indexing, or comparing inspiration repositories through CGC.",
-    "evidence-router": "Use when choosing bounded research routes: Pi Fovea, CGC, DeepWiki, Context7, or Codex web search.",
+    "cgc-inspiration-workflow": "Use when migrating a legacy CGC request to Codebase Memory.",
+    "codebase-memory": "Use when navigating or comparing repositories through the Codebase Memory MCP graph.",
+    "evidence-router": "Use when choosing bounded research routes: Codebase Memory, JetBrains, Fovea, DeepWiki, Context7, or web search.",
     "zoom-out": "Use to step back from details to the bigger picture.",
     "accessibility-audit": "Use when auditing or fixing accessibility.",
     "browser-testing-with-devtools": "Use for browser tests and UI verification.",

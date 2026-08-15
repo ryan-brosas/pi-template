@@ -1,6 +1,6 @@
 # Python Development Guide
 
-Source: adapted from claude-mpm `src/claude_mpm/skills/bundled/toolchains/python/core/SKILL.md` (local CGC reference).
+Source: adapted from claude-mpm `src/claude_mpm/skills/bundled/toolchains/python/core/SKILL.md` (local reference).
 
 ## Environment
 

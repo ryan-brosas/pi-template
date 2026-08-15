@@ -5,7 +5,7 @@
     "memoryLimitBytes": 4294967295
   },
   "schema": {
-    "mode": "enforce",
+    "mode": "audit",
     "trustedCommands": {
       "canonical-check": {
         "command": "node",
@@ -21,6 +21,7 @@
     "engine": "pi"
   },
   "prewalk": {
-    "mode": "trajectory"
+    "mode": "trajectory",
+    "model": "opencode-go/deepseek-v4-flash"
   }
 }

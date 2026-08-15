@@ -28,9 +28,9 @@ If remediation is wanted, a later Schema commit authorizes mutation.
 ## Phase 1: Discover
 
 Choose the right search for the pattern type:
-- **Symbol or API** (function name, class, method): use Pi Fovea focus to get definitions and call sites with file:line.
-- **Structural pattern** (try/catch, error-return checks): use `rg -n` with a regex over the relevant directories.
-- **Literal text** (strings, comments, TODO markers): use `rg -n` over the relevant directories. Never text-search the inspo tree (resolve the root from `$INSPO_ROOT` or ask the user — never assume a machine-specific path); query its indexed CGC context instead.
+- **Symbol or API** (function name, class, method): use Codebase Memory graph search/trace for coverage and JetBrains symbol/call-hierarchy tools for exact project-aware locations.
+- **Structural pattern** (try/catch, error-return checks): use JetBrains regex search over bounded directories; use Codebase Memory when relationships or exhaustive graph coverage matter.
+- **Literal text** (strings, comments, TODO markers): use JetBrains text/regex search over bounded paths. For inspiration repositories, select one indexed Codebase Memory project and use graph-augmented code search.
 
 Group results by subdirectory. For each match record: `file:line` and one line of context. For independent subdirectories or pattern variants, fan out discovery with bounded read-only sub-agents when the session supports spawning them (explicit per-child bounds, concurrency 2-4); otherwise run the same discovery sequentially in the main session; Main grades and prioritizes. If the pattern has common variations (e.g. `fetch(`, `await fetch(`, `fetch().then(`), include them.
 

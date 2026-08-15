@@ -1,6 +1,6 @@
 # Rust Development Guide
 
-Source: adapted from claude-mpm `src/claude_mpm/skills/bundled/toolchains/rust/core/SKILL.md` (local CGC reference).
+Source: adapted from claude-mpm `src/claude_mpm/skills/bundled/toolchains/rust/core/SKILL.md` (local reference).
 
 ## Ownership and data
 

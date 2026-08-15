@@ -43,7 +43,7 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 | 2026-08-09 | Gathered user identity and workflow preferences | Authenticated GitHub CLI profile plus explicit user answers |
 | 2026-08-09 | Completed deep repository detection | Manifest, tool, CI, AI-rule, structure, Git-history, and codemap probes |
 | 2026-08-09 | Approved full initialization | User approved detailed core, context, and profile artifacts |
-| 2026-08-09 | Mapped inspiration repository availability | CGC inspiration context queried successfully via the configured inspo root; shorthand context unavailable |
+| 2026-08-09 | Mapped inspiration repository availability | Legacy CGC context was queried successfully; Codebase Memory MCP now owns indexed inspiration-repository discovery |
 | 2026-08-09 | Deep init completed with detailed artifacts | AGENTS.md architecture, project.md, tech-stack.md, roadmap, state, and user files enriched; gates green |
 | 2026-08-12 | Pi Fabric-only audit and migration | Schema guard restored, validator renamed to validate-pi-fabric.mjs, Brave leaf replaced by codex-websearch, research routing modernized (CGC CLI, DeepWiki index/page, openai_websearch, Pi Fovea), optional Veda lane documented; `node scripts/check.mjs` exit 0 |
 | 2026-08-12 | Disconnected unavailable webclaw integration | Removed the webclaw skill (no CLI, MCP server, or extension on the host), updated pack catalog, research router, browser fallbacks, source-grounding companion, and skill counts; manifest regenerated; `node scripts/check.mjs` exit 0 |
@@ -114,7 +114,7 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 
 ### Process
 
-- Schema enforce with the `hypothesize → verify → commit` loop is the sole mutation authority.
+- The Schema guard (enforce or audit) with the `hypothesize → verify → commit` loop is the mutation authority; audit mode relies on explicit user approval.
 - Dirty-repository work requires scoped staging and diff review before any commit.
 
 ## Next Actions
@@ -131,7 +131,7 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 - **Next-session priority:** Determine the intended final cleanup boundary, then plan the smallest stability-focused validation slice.
 - **Known issue:** The working tree was already heavily modified before initialization; status output alone does not identify ownership.
 - **Read first:** `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/tech-stack.md`, relevant prompt or skill files, then scoped Git diff.
-- **Reference context:** the configured CGC inspo root (`$INSPO_ROOT`, or ask the user) holds inspiration clones; the shorthand `inspo/opencode-template` is not registered.
+- **Reference context:** Codebase Memory MCP lists indexed inspiration repositories and their root paths; select one project per question and verify graph coverage plus exact source.
 
 ---
 

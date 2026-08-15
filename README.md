@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
-tailored to Pi + Pi Fabric: 9 prompt commands, 98 skill files
-(88 leaves in 10 packs), 12 format templates, Pi-native settings, and the
+ tailored to Pi + Pi Fabric: 9 prompt commands, 102 skill files
+ (92 leaves in 10 packs), 12 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -25,10 +25,10 @@ AGENTS.md                    # project agent rules (this repo's own)
 README.md
 .gitignore
 .pi/
-├── fabric.json            # Pi Fabric Schema guard (enforce + canonical-check)
+├── fabric.json            # Pi Fabric Schema guard (enforce or audit + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 98 skill files: 10 pack routers + 88 leaves (packs.json)
+├── skills/                # 102 skill files: 10 pack routers + 92 leaves (packs.json)
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
 ├── work/                  # tracked durable records per local work record
 └── scripts/               # canonical check plus 7 dependency-free Node validators
@@ -68,7 +68,7 @@ from `.github/workflows/check.yml` on pushes to `main` and pull requests.
 
 ## Skills and Templates
 
-- Skills: 98 skill files — 10 pack routers, 4 core safety skills, and 84 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 102 skill files — 10 pack routers, 4 core safety skills, and 88 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
@@ -83,15 +83,15 @@ from `.github/workflows/check.yml` on pushes to `main` and pull requests.
 
 ## Pi Fabric
 
-Schema enforce is the mutation authority: research → hypothesize → verify →
+Schema commit is the mutation authority: research → hypothesize → verify →
 commit → postcondition check. Prompts run in dual mode for flexibility: when
-the Schema guard is active (`schema.status()` reports `enforce`), mutations
-require the commit loop; when it is unavailable (guard off or project
-untrusted), the same read-only discovery runs and each mutation requires
-explicit per-mutation user approval (AGENTS.md Mutation Authority).
-`.pi/fabric.json` holds the guard configuration (`schema.mode: enforce` plus
-the `canonical-check` trusted command).
-`node scripts/validate-pi-fabric.mjs` pins the contract: full-code mode, the QuickJS memory ceiling, Schema enforcement, prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
+the guard is in enforce mode (`schema.status()` reports `enforce`), mutations
+require the commit loop with automatic rollback; otherwise (`audit` mode, guard
+off, or project untrusted), each mutation requires explicit per-mutation user
+approval (AGENTS.md Mutation Authority).
+`.pi/fabric.json` holds the guard configuration (`schema.mode`: `enforce` or
+`audit`, plus the `canonical-check` trusted command).
+`node scripts/validate-pi-fabric.mjs` pins the contract: full-code mode, the QuickJS memory ceiling, Schema mode (enforce or audit), prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
 
 ### Optional Veda lane
 
@@ -144,10 +144,44 @@ GitHub Project — each mutation needs its own approval.
 No secrets live in the template. Keep credentials in ignored local files or
 your runtime secret store; never commit them.
 
+## Optional host-side tools
+
+Codebase Memory MCP, JetBrains IDE/ACP integration, `todo`, and editor-review
+tools are installed host-side; they are not part of the template surface and a
+fresh clone does not depend on them.
+
+- [Codebase Memory MCP](https://github.com/DeusData/codebase-memory-mcp) — the
+  preferred graph-first surface for repository architecture, symbol discovery,
+  caller/callee and data-flow tracing, blast radius, and indexed inspiration
+  repositories. Agents list indexed projects before use, check index coverage,
+  and confirm exact source before edits or exhaustive claims.
+- JetBrains IDE/ACP tools — the preferred development surface when connected:
+  project-aware file/symbol search, dependency source reads, call hierarchy,
+  IDE-applied patches, semantic rename, formatting, inspections, builds,
+  run/debug configurations, and opening exact review locations.
+
+- `todo` — a branch-aware, session-persisted todo list. The agent can add,
+  start, note, block, and reorder items but never marks them complete;
+  completion is user-controlled. Use it as a live, user-confirmed mirror of a
+  work record's stations; `.pi/work/<slug>/.progress.md` stays the durable
+  ledger.
+- `open_in_zed` — legacy fallback that opens a file at a line/column in Zed for
+  review when JetBrains editor tools are unavailable.
+- `zed_list` — lists a directory's entries (ls-style) so Pi can see what is in
+  the repo or a folder before opening files in Zed.
+- `zed_open_project` — opens a directory as a project in Zed so the user can
+  browse and edit a whole folder.
+
+Install the optional `todo`/Zed extension host-side (never with `-l`, which
+would write `.pi/settings.json` and make the clone depend on it):
+
+```bash
+pi install git:github.com/j-joker/pi-workflow
+```
+
 ## Customization
 
 - Add a command: `.pi/prompts/<name>.md`.
 - Add a skill: `.pi/skills/<name>/SKILL.md`.
 - Edit templates: `.pi/templates/*.md`.
 - Guard config: `.pi/fabric.json`.
-

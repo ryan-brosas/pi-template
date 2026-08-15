@@ -22,7 +22,7 @@ Good docs and types answer; behavior is standard and obvious; "I just want to us
 ## Investigation Workflow
 
 1. **State the question.** "How does X work?", "Why does Y happen?", "What is the actual behavior of Z?"
-2. **Locate the source.** When the library exists as an inspo clone under `<inspo-root>/<repo>` (resolve `$INSPO_ROOT` or ask the user), query its CGC context first (`cgc find name/content ... --context "<inspo-root>/<repo>"`) and read source only through the indexed graph; never clone or grep the inspo tree. Otherwise use the GitHub repo, npm tarball, or the dep's `node_modules/<pkg>/`; the repo is usually the most readable.
+2. **Locate the source.** When the library is already indexed, call `codebase-memory_list_projects`, query one project with `codebase-memory_search_graph` or `codebase-memory_search_code`, check coverage, then confirm exact source through JetBrains or `codebase-memory_get_code_snippet`. Otherwise use the GitHub repo, package archive, or IDE-resolved dependency source; the repository is usually the most readable.
 3. **Read the README + docs first.** 30 seconds can save 30 minutes.
 4. **Navigate the code.** Find the entry point. Follow the call graph for the specific behavior.
 5. **Read the test file.** Tests document the intended behavior. Often clearer than the impl.

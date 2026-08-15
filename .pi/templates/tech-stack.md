@@ -77,9 +77,9 @@ recorded as "none" with the probe result.
 
 ## Active Integrations
 
-- [Service 1: e.g., Stripe for payments] — Evidence: [config or docs]
-- [Service 2: e.g., Resend for email] — Evidence: [config]
-- [Service 3: e.g., Sentry for error tracking] — Evidence: [config]
+- [Runtime service: e.g., Stripe for payments] — Evidence: [config or docs]
+- [Host-side code intelligence: e.g., Codebase Memory MCP] — Evidence: [server status and tool list]
+- [Host-side IDE integration: e.g., JetBrains IDE/ACP] — Evidence: [available IDE tools]
 - If none exist, state "None".
 
 ## Environments

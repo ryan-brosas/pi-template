@@ -7,7 +7,7 @@
 **Status:** open | in-progress | review | closed
 **Priority:** P0 | P1 | P2 | P3
 **Type:** feature | bug | research | maintenance | decision
-**Area:** [prompts | skills | fabric | cgc | templates | docs | workflow | other]
+**Area:** [prompts | skills | fabric | codebase-memory | templates | docs | workflow | other]
 **Artifact:** .pi/work/<slug> (linked: <issue>-<slug>)
 **Created:** [date]
 

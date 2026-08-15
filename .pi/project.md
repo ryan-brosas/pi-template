@@ -6,7 +6,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 - **Goal:** Give a developer a clonable, dependency-free Pi coding-agent workspace with ready-to-use prompts, skills, templates, settings, and a mutation guard, so a new Pi project starts without setup work.
 - **Status:** Polish. The baseline is functional; work is incremental refinement of skills, prompts, and rules.
-- **Milestone:** Baseline with 9 slash commands, 98 skill files (88 leaves in 10 packs), 12 format templates, and the Schema guard. Evidence: validator output 2026-08-12 (packs=10, leaves=88, routers=10, visible=14).
+- **Milestone:** Baseline with 9 slash commands, 102 skill files (92 leaves in 10 packs), 12 format templates, and the Schema guard. Evidence: validator output 2026-08-12 (packs=10, leaves=92, routers=10, visible=14).
 - **Next Milestone:** None planned. Direction comes from .pi/roadmap.md, which the user owns.
 
 ## Success Criteria
@@ -26,7 +26,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 1. **Clone and start.** No install step, no hidden dependencies, no build. (README.md:7,16.)
 2. **Pi-native surface.** Prompts, skills, templates, and settings are the product. OpenCode runtime wrappers are removed and must not return. (README.md:34-35.)
-3. **Schema enforce is the mutation authority.** Non-trivial writes require `schema.hypothesize → verify → commit` in one `fabric_exec`. (AGENTS.md Mutation Authority, .pi/fabric.json.)
+3. **The Schema guard is the mutation authority.** Non-trivial writes require `schema.hypothesize → verify → commit` in one `fabric_exec` under enforce mode; under audit mode (guard off or untrusted), each mutation requires explicit user approval. (AGENTS.md Mutation Authority, .pi/fabric.json.)
 4. **Generated state stays local.** .pi/MEMORY.md, .pi/implementation-notes.md, and .pi/fabric/ are gitignored; inside .pi/work/, .active and per-work dotfiles stay ignored. (README.md, .gitignore.)
 
 ## System Context
@@ -41,7 +41,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 - **Architectural style:** Configuration and documentation template. No source tree, no build, no runtime harness. (README.md:7,16.)
 - **Component Responsibilities:**
   - Prompts (.pi/prompts/) - 9 slash commands; each is a self-contained workflow with a Schema boundary section.
-  - Skills (.pi/skills/) - 88 leaves in 10 packs (10 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
+  - Skills (.pi/skills/) - 92 leaves in 10 packs (10 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
   - Templates (.pi/templates/) - 12 format templates rendered by /init, /create, /plan, and /verify.
   - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Pi Fabric Schema configuration.
   - Gates (scripts/) - one canonical check runner and 7 dependency-free Node validators owned by the template itself.
@@ -75,7 +75,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 
 ## Configuration
 
-- **Configuration sources:** .pi/settings.json (Pi runtime), .pi/fabric.json (Pi Fabric Schema: mode enforce, trustedCommands), prompt frontmatter, and AGENTS.md rules. On conflict, AGENTS.md rule precedence applies (Rule 0).
+- **Configuration sources:** .pi/settings.json (Pi runtime), .pi/fabric.json (Pi Fabric Schema: mode enforce or audit, trustedCommands), prompt frontmatter, and AGENTS.md rules. On conflict, AGENTS.md rule precedence applies (Rule 0).
 - **Secrets:** None in the template; AGENTS.md bans committed credentials and requires runtime env/config reads.
 - **Environments:** None; clone-and-start. The repository has no dev/staging/production split.
 - **Validation:** .pi/fabric.json and .pi/settings.json values are documented in README and validated by inspection; [NEEDS CLARIFICATION: a schema-level config validator is a Phase 2 roadmap candidate].
@@ -133,7 +133,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Architectural Invariants
 
 - The repository stays clonable with no package install, manifest, build, or runtime harness. (README.md:7,16.)
-- Schema enforce with the `hypothesize → verify → commit` loop is the sole authority for non-trivial mutations. (AGENTS.md Mutation Authority.)
+- The Schema guard (enforce or audit) with the `hypothesize → verify → commit` loop is the authority for non-trivial mutations; audit mode relies on explicit user approval rather than rollback enforcement. (AGENTS.md Mutation Authority.)
 - Generated local state (.pi/MEMORY.md, .pi/implementation-notes.md, .pi/fabric/, and .pi/work dotfiles) is gitignored and never committed.
 - The product surface stays Pi-native. OpenCode runtime wrappers must not return. (README.md:34-35.)
 - Skills membership is owned by .pi/skills/packs.json. Adding or moving a skill requires passing node scripts/validate-skill-packs.mjs. (AGENTS.md Skills section.)
@@ -149,7 +149,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Known Risks and Hotspots
 
 - Large uncommitted working-tree cleanup. Many tracked files are deleted or modified; a careless commit could sweep unrelated work.
-- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 88 leaves in 10 packs. Regenerate tech-stack.md when the catalog changes.
+- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 92 leaves in 10 packs. Regenerate tech-stack.md when the catalog changes.
 - CI covers structural contracts. It does not execute interactive Pi slash-command flows.
 - No application tests exist. Prompt regressions surface through validators, routing probes, and direct Pi workflow checks.
 

@@ -1,6 +1,6 @@
 # Container Development Guide
 
-Source: adapted from claude-mpm `plugin/skills/toolchains-universal-infrastructure-docker/SKILL.md` (local CGC reference).
+Source: adapted from claude-mpm `plugin/skills/toolchains-universal-infrastructure-docker/SKILL.md` (local reference).
 
 ## Dockerfile shape
 

@@ -1,6 +1,6 @@
 # Shell Development Guide
 
-Source: adapted from agents `plugins/shell-scripting/skills/bash-defensive-patterns/SKILL.md` (local CGC reference).
+Source: adapted from agents `plugins/shell-scripting/skills/bash-defensive-patterns/SKILL.md` (local reference).
 
 ## Strict mode
 

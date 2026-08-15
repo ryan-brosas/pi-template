@@ -130,7 +130,7 @@ The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog 
 
 **Goal:** Evaluate `inspo/opencode-template` as a design reference and port only capabilities that improve the Pi-native template.
 
-The local CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the user) is queryable. The shorthand context `inspo/opencode-template` is not registered; use the resolved absolute path for future comparisons. Evidence: MEMORY.md reference note, state.md session handoff.
+Codebase Memory MCP lists indexed inspiration repositories. Select one project for `opencode-template` comparisons, verify graph coverage, and confirm exact source through the JetBrains IDE before porting capabilities. Evidence: codebase-memory_list_projects output and state.md session handoff.
 
 **Outcomes:**
 
@@ -155,7 +155,7 @@ The local CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the us
 
 **Dependencies:**
 
-- Queryable CGC context at the configured inspo root (`$INSPO_ROOT`, or ask the user).
+- An indexed Codebase Memory project for the reference repository with verified graph coverage.
 - Phase 1 stable baseline so ports land on settled structure.
 
 **Risks:**

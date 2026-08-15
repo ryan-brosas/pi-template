@@ -11,7 +11,9 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 - app-experience-mapping: map journeys, touchpoints, and service seams
 - development-lifecycle: plan project lifecycle and phases
+- fabric-native-execution: use Pi Fabric native providers (memory, state, mesh, compact)
 - incremental-implementation: implement multi-file changes in slices
+- jetbrains-ide-workflow: use IDE-aware search, editing, refactoring, diagnostics, builds, and runs
 - planning-and-task-breakdown: break goals into ordered tasks
 - prototype: validate an idea with a throwaway build
 - shipping-and-launch: merge, deploy, release, or finish
@@ -20,3 +22,4 @@ Pick at most 2 members below matching the task, most specific first; read each f
 - test-driven-development: write failing tests first
 - testing-anti-patterns: avoid mock tautologies and bad seams
 - task-scoped-execution: execute ordered tasks with acceptance review
+- veda-lane: optional host-side Veda lane (navigator/reviewer/worker/deep)

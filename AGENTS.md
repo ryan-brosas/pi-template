@@ -20,6 +20,16 @@ pull requests.
   build step, or runtime harness.
 - `.pi/project.md` is the detailed architecture record.
 - Pi Fabric is the host Schema guard; Veda is an optional host-side one-shot lane, never a clone dependency.
+- Codebase Memory MCP and JetBrains IDE/ACP tools are optional host-side
+  capabilities, never clone dependencies. When available, use Codebase Memory
+  for graph orientation, traces, coverage, and blast radius; use JetBrains
+  tools for project-aware search, source reads, patches, semantic refactors,
+  inspections, builds, runs, and focused user review.
+- `todo` and the legacy Zed review tools (pi-workflow extensions) are optional
+  host-side tools. When present, use `todo` as a live
+  user-confirmed mirror of the active work record's stations —
+  `.pi/work/<slug>/.progress.md` remains the durable ledger and only the user
+  completes items. Prefer JetBrains editor review tools over `open_in_zed`.
 
 ## Mutation authority
 

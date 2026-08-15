@@ -78,7 +78,7 @@ Do not add commands based only on this host inventory. A project command require
 2. Non-trivial mutations require an accepted checklist with a Schema contract.
 3. The executor owns declared writes and verification after handoff.
 4. Unrelated working-tree changes must remain untouched.
-5. `.pi/fabric.json` pins `schema.mode: enforce` and the `canonical-check` trusted command (`node scripts/check.mjs`).
+5. `.pi/fabric.json` pins `schema.mode` (enforce or audit) and the `canonical-check` trusted command (`node scripts/check.mjs`).
 
 ## Commands
 
@@ -87,7 +87,7 @@ Do not add commands based only on this host inventory. A project command require
 | `node scripts/validate-skill-packs.mjs` | works | Pack catalog, membership, visibility, metadata budget | 2026-08-09, exit 0 |
 | `node scripts/sync-skill-manifest.mjs --check` | works | Manifest parity | 2026-08-09, exit 0 |
 | `node scripts/probe-skill-routing.mjs` | works | Router dispatch probes | 2026-08-09, exit 0 |
-| `node scripts/validate-pi-fabric.mjs` | works | Schema dispositions, enforce config, skill paths | 2026-08-09, exit 0 |
+| `node scripts/validate-pi-fabric.mjs` | works | Schema dispositions, mode config (enforce or audit), skill paths | 2026-08-09, exit 0 |
 | `node scripts/validate-work-management.mjs` | works | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety | 2026-08-09, exit 0 |
 | `node scripts/validate-notion-workspace-skill.mjs` | works | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
 | `node scripts/check.mjs` | works | Canonical gate: all validators + `git diff --check` | 2026-08-11, exit 0 |
@@ -117,7 +117,8 @@ Do not add commands based only on this host inventory. A project command require
 - **Pi:** Agent runtime and project-local prompts, skills, settings, and templates
 - **Pi Fabric:** Schema contract, mutation guard, and model handoff
 - **Pi Fovea:** Semantic local navigation when application source exists; use `extensions.fovea_sketch` and `extensions.fovea_focus`
-- **CodeGraphContext:** Inspiration-repository indexing and bounded `cgc find`/`cgc analyze` queries
+- **Codebase Memory MCP (optional host integration):** Graph-first architecture, symbol search, traces, coverage, blast radius, and indexed inspiration repositories; exact source remains authoritative
+- **JetBrains IDE/ACP (optional host integration):** Project-aware search, source/dependency reads, call hierarchy, IDE mutations, semantic refactors, formatting, inspections, builds, run/debug configurations, and focused editor review
 - **Veda + AGY (optional host lane):** Use Veda Gemini profiles for cheap scouting, context curation, frontend audit, and synthesis; reserve direct AGY Claude Opus for architecture planning and high-risk review, with direct AGY Sonnet for cheaper critique. The Veda-to-AGY Claude route is unsupported while the adapter injects `--effort`; explicitly select `.pi/skills` files with `veda sel add`
 - **Git remote:** origin at github.com/ryan-brosas/pi-template.git
 

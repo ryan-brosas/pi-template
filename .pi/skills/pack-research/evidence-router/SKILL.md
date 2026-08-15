@@ -14,9 +14,10 @@ than guessing a provider action.
 
 | Need | Tool | Budget |
 | --- | --- | --- |
-| Active-project code | `extensions.fovea_sketch` → `extensions.fovea_focus` | bounded by query |
-| Inspiration discovery | `cgc find content "<domain>" --context "<inspo-root>"` | one meta query |
-| Inspiration repository | `cgc find name/content ... --context "<inspo-root>/<repo>"` | one repo per query |
+| Active-project architecture and relationships | `codebase-memory_get_architecture` → `codebase-memory_search_graph` / `codebase-memory_trace_path` | bounded by query and pagination |
+| Exact IDE symbol or call hierarchy | `ide_idea_skill_search` / `ide_idea_search_symbol` → `ide_idea_analyze_calls` | one symbol and bounded depth |
+| Literal/config search and exact source | JetBrains text/regex search → `ide_idea_read_file` | selected paths and ranges |
+| Inspiration repositories | `codebase-memory_list_projects` → one project's graph/architecture tools | one repository per question |
 | GitHub repository overview | `mcp.deepwiki.get-deepwiki-index` → `mcp.deepwiki.get-deepwiki-page` | one index + one page |
 | Library or API docs | `mcp.context7.resolve-library-id` → `mcp.context7.query-docs` | max three topics |
 | Current facts and discovery | `extensions.openai_websearch` | 3–5 cited results |
@@ -24,18 +25,22 @@ than guessing a provider action.
 
 ## Escalation Order
 
-1. Pi Fovea for active-project symbols, routes, and relationships.
-2. CGC meta-context discovery, then one-repository-at-a-time CGC queries.
-3. DeepWiki index/page for a bounded GitHub overview or when CGC is unavailable.
-4. Context7 for current versioned library documentation; resolve the library ID
+1. Codebase Memory for architecture, definitions, relationships, traces, and
+   inspiration-repository comparison. Check coverage for cited paths and scopes.
+2. JetBrains IDE tools for exact symbols, call hierarchy, literal/config search,
+   dependency source, and source confirmation before edits.
+3. Pi Fovea when Codebase Memory or IDE graph coverage is unavailable.
+4. DeepWiki index/page for a bounded GitHub overview.
+5. Context7 for current versioned library documentation; resolve the library ID
    first unless the user supplied `/org/project[/version]`.
-5. Codex web search for current facts or discovery when the earlier routes do
+6. Codex web search for current facts or discovery when the earlier routes do
    not answer the question.
-6. A discovered read-only fetch/crawl tool for one already-selected URL.
+7. A discovered read-only fetch/crawl tool for one already-selected URL.
 
-Move one step only after a named gap: the Fovea graph lacks the symbol, the CGC
-context is missing or stale, the DeepWiki index has no relevant page, Context7
-lacks the version, or the cited shortlist lacks a primary source.
+Move one step only after a named gap: Codebase Memory is unavailable, stale,
+partial, or truncated; the IDE cannot resolve the symbol; Fovea lacks the node;
+DeepWiki has no relevant page; Context7 lacks the version; or the cited
+shortlist lacks a primary source.
 
 ## Optional Veda synthesis
 
@@ -52,8 +57,9 @@ Then invoke direct AGY Claude Opus for architecture planning or high-risk review
 
 A GitHub repository is a lead, not automatically authoritative evidence. Capture
 owner/repo, commit or branch, retrieval date, and license; verify important
-claims against code, tests, and official documentation. A CGC clone is an
-indexed navigation snapshot, not a truth store.
+claims against code, tests, and official documentation. A Codebase Memory graph
+is an indexed navigation snapshot, not a truth store; confirm exact source and
+inspect coverage metadata before negative or exhaustive claims.
 
 ## Anti-Splurge Rules
 

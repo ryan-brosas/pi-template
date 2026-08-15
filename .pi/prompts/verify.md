@@ -27,6 +27,7 @@ If a recent verification is still valid (same commit + diff fingerprint), report
 ```bash
 CURRENT_STAMP=$(printf '%s\n%s\n%s' "$(git rev-parse HEAD)" "$(git diff HEAD)" "$(git ls-files --others --exclude-standard | xargs cat 2>/dev/null)" | shasum -a 256 | cut -d' ' -f1)
 LAST_STAMP=$(tail -1 .pi/work/$(cat .pi/work/.active)/.verify.log 2>/dev/null | awk '{print $1}')
+# Optional: cross-check the cached stamp via state.get('verification_stamp') instead of the dotfile tail.
 ```
 
 | Condition | Action |

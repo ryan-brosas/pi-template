@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10",
+  "generated": "2026-08-12",
   "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: ten visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json; node scripts/validate-skill-packs.mjs is the structural gate.",
   "removed": [
     {
@@ -127,6 +127,12 @@
       "modelVisible": false
     },
     {
+      "name": "codebase-memory",
+      "status": "retained",
+      "pack": "pack-research",
+      "modelVisible": false
+    },
+    {
       "name": "codex-websearch",
       "status": "retained",
       "pack": "pack-research",
@@ -223,6 +229,12 @@
       "modelVisible": false
     },
     {
+      "name": "fabric-native-execution",
+      "status": "retained",
+      "pack": "pack-delivery",
+      "modelVisible": false
+    },
+    {
       "name": "fallow",
       "status": "retained",
       "pack": "pack-quality",
@@ -316,6 +328,12 @@
       "name": "java-development",
       "status": "retained",
       "pack": "pack-toolchains",
+      "modelVisible": false
+    },
+    {
+      "name": "jetbrains-ide-workflow",
+      "status": "retained",
+      "pack": "pack-delivery",
       "modelVisible": false
     },
     {
@@ -526,6 +544,12 @@
       "name": "ux-review",
       "status": "retained",
       "pack": "pack-frontend",
+      "modelVisible": false
+    },
+    {
+      "name": "veda-lane",
+      "status": "retained",
+      "pack": "pack-delivery",
       "modelVisible": false
     },
     {

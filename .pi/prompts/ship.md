@@ -51,7 +51,7 @@ Run each station in dependency order through the station loop:
 4. **Quality review** — read the diff as if a new teammate wrote it: intent, edge cases, naming, consistency, dead code.
 5. **Correct (max two rounds)** — address findings with scoped edits; re-review only the original findings and the correction diff. New observations are notes, not round reopeners.
 6. **Ledger** — append the outcome to `.progress.md` keyed by station id (status, checks, findings, rulings, payload passed on) and update the station list.
-7. **Compact** — request programmatic compaction (`compact.request`) where the host supports it, so the next station starts from the compacted context plus its handoff payload.
+7. **Compact & Handoff** — save the handoff payload for the next station using `state.put('handoff_payload', ...)`. Request programmatic compaction (`compact.request`) where the host supports it, so the next station starts from the compacted context plus its handoff payload retrieved via `state.get('handoff_payload')`.
 8. **Next station** — proceed in dependency order. Re-run the combined check when two stations share a seam.
 9. Stop on BLOCKED (same-approach failure twice, or a load-bearing finding past two rounds), plan conflict, destructive action, or ambiguity.
 

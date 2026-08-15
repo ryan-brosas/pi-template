@@ -1,6 +1,6 @@
 # .NET Development Guide
 
-Source: adapted from agents `plugins/dotnet-contribution/skills/dotnet-backend-patterns/SKILL.md` (local CGC reference).
+Source: adapted from agents `plugins/dotnet-contribution/skills/dotnet-backend-patterns/SKILL.md` (local reference).
 
 ## Async
 

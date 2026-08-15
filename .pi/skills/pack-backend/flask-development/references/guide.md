@@ -1,6 +1,6 @@
 # Flask Development Guide
 
-Source: adapted from claude-mpm `plugin/skills/toolchains-python-frameworks-flask/SKILL.md` (local CGC reference).
+Source: adapted from claude-mpm `plugin/skills/toolchains-python-frameworks-flask/SKILL.md` (local reference).
 
 ## Application factory
 

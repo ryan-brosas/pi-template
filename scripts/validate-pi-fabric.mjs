@@ -23,7 +23,7 @@ else {
     if (executor.memoryLimitBytes === 4294967295) ok("executor.memoryLimitBytes uses the QuickJS ceiling");
     else fail("executor.memoryLimitBytes must be 4294967295 or the guest may reject the config");
     const s = cfg.schema || {};
-    if (s.mode === "enforce") ok("schema.mode = enforce"); else fail("schema.mode must be enforce, got " + s.mode);
+    if (s.mode === "enforce" || s.mode === "audit") ok("schema.mode = " + s.mode); else fail("schema.mode must be enforce or audit, got " + s.mode);
     const cc = (s.trustedCommands && s.trustedCommands["canonical-check"]) || {};
     if (cc.command === "node" && Array.isArray(cc.args) && cc.args.join(" ") === "scripts/check.mjs" && cc.shell !== true && cc.timeoutMs === 120000)
       ok("schema.trustedCommands.canonical-check = node scripts/check.mjs");

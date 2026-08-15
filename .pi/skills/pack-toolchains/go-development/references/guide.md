@@ -1,6 +1,6 @@
 # Go Development Guide
 
-Source: adapted from claude-mpm `src/claude_mpm/skills/bundled/toolchains/golang/core/SKILL.md` (local CGC reference).
+Source: adapted from claude-mpm `src/claude_mpm/skills/bundled/toolchains/golang/core/SKILL.md` (local reference).
 
 ## Errors
 

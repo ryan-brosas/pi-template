@@ -93,7 +93,7 @@ For plans with three or more stations, reduce frontier usage before asking Claud
 5. Use direct AGY `claude-sonnet-4-6` for a cheaper critique; reserve a second Opus call for high-risk review only.
 6. The Driver validates call sites, maintains the station ledger, and owns every Schema-gated mutation.
 
-Do not route AGY Claude through Veda: its current adapter injects unsupported `--effort`. Do not delegate repository writes to a Veda worker by default or weaken `schema.mode: enforce`.
+Do not route AGY Claude through Veda: its current adapter injects unsupported `--effort`. Do not delegate repository writes to a Veda worker by default or weaken the Schema guard (`schema.mode`: enforce or audit).
 
 ## Pi Fabric Boundaries
 

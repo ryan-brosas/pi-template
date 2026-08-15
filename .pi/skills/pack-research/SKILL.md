@@ -10,8 +10,9 @@ Pick at most 2 members below matching the task, most specific first; read each f
 ## Members
 
 - codex-websearch: current web search and cited discovery
-- cgc-inspiration-workflow: clone/refresh inspo repos, CGC index, query, adopt/adapt/omit
-- evidence-router: pick a bounded route: Pi Fovea, CGC, DeepWiki, Context7, or Codex web search
+- codebase-memory: graph-first local and inspiration repository discovery, tracing, coverage, and comparison
+- cgc-inspiration-workflow: legacy compatibility route; migrate CGC tasks to codebase-memory
+- evidence-router: pick a bounded route: Codebase Memory, JetBrains, DeepWiki, Context7, or Codex web search
 - gemini-large-context: very large documents or contexts
 - github-contribution-opportunities: find and qualify legitimate GitHub PR contribution opportunities
 - grill-me: challenge reasoning before finalizing

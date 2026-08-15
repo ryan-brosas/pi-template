@@ -1,6 +1,6 @@
 # Java Development Guide
 
-Source: adapted from antigravity-awesome-skills `skills/java-pro/SKILL.md` (local CGC reference).
+Source: adapted from antigravity-awesome-skills `skills/java-pro/SKILL.md` (local reference).
 
 ## Java 21+
 
