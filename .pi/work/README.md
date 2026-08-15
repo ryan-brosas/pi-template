@@ -4,6 +4,26 @@ Tracked durable engineering records for local work items. One directory per reco
 
 The active pointer `.pi/work/.active` and per-work dotfiles (`.progress.md`, `.verify.log`) stay ignored beside each record. This directory is committed.
 
+## Lifecycle
+
+A record moves through a default lane, but the lane is a suggestion, not a
+pipeline — run commands freeform, in any order, and skip what the work doesn't
+need.
+
+    /research   → evidence in research.md (optional; revisit any time)
+    /create     → issue.md + spec.md (PRD) + tasks.md; sets .active
+    /plan       → plan.md (+ proposal.md, design.md, adr.md when warranted)
+    /ship       → implement the active spec end to end
+    /verify     → run gates; durable result in verification.md
+    PR          → optional; gh pr create, only when the record is issue-linked
+    loop        → back to research/plan/ship as verification or drift demands
+
+- `/fix`, `/audit`, and `/gc` drop in anywhere; they don't follow the lane.
+- There is no `/pr` slash command. Opening a pull request is a manual
+  `gh pr create` step, and only when a record is linked to a GitHub issue.
+- The only hard rules are the Contract below: durable records are tracked,
+  dotfiles stay local.
+
 ## Layout
 
 ```text
