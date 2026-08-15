@@ -2,11 +2,15 @@
 # Reference: https://www.jetbrains.com/help/qodana/qodana-yaml.html
 # This file travels with the repo, so every project configures its own engine,
 # inspection profile, and scope here. Local `qodana scan` uses the same file.
+# Activation: add a QODANA_TOKEN secret from https://qodana.cloud (free for
+# open source). Without it the qodana workflow skips and CI stays green.
 version: 1.0
 
 # Engine per project language. This template's only code is the Node validator
 # scripts (.mjs), so the JS/TS linter applies. Swap for qodana-python,
 # qodana-go, qodana-jvm, qodana-dotnet, qodana-clang in language projects.
+# Token-free Community editions exist only for JVM and Python; the JS linter
+# requires QODANA_TOKEN.
 linter: jetbrains/qodana-js:2026.2
 
 # Inspection profile — the same inspection engine and IDs the IDE uses.
@@ -26,4 +30,3 @@ exclude:
       - .idea
       - .pi/fabric
       - .pi/work
-

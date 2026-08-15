@@ -66,7 +66,11 @@ Run the complete local gate with `node scripts/check.mjs`. It runs all seven
 dependency-free validators and `git diff --check`. GitHub runs the same command
 from `.github/workflows/check.yml` on pushes to `main` and pull requests. Qodana (JetBrains static analysis, configured per project in `qodana.yaml`) runs from `.github/workflows/qodana.yml` and uploads SARIF to code scanning.
 
+To enable it, add a `QODANA_TOKEN` secret (register at qodana.cloud; free for
+open source). Without the secret the workflow skips and CI stays green.
+
 ## Skills and Templates
+
 
 - Skills: 102 skill files — 10 pack routers, 4 core safety skills, and 88 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
