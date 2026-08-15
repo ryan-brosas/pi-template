@@ -65,15 +65,15 @@ export default {
 
 ## Limits
 
-| Resource | Limit |
-|----------|-------|
-| Request size | 100 MB |
-| Response size | Unlimited (streaming) |
-| CPU time | 10ms (standard) / 30ms (unbound) |
-| Subrequests | 1000 per request |
-| KV reads | 1000 per request |
-| KV write size | 25 MB |
-| Environment size | 5 MB |
+| Resource         | Limit                            |
+|------------------|----------------------------------|
+| Request size     | 100 MB                           |
+| Response size    | Unlimited (streaming)            |
+| CPU time         | 10ms (standard) / 30ms (unbound) |
+| Subrequests      | 1000 per request                 |
+| KV reads         | 1000 per request                 |
+| KV write size    | 25 MB                            |
+| Environment size | 5 MB                             |
 
 ## Common Errors
 

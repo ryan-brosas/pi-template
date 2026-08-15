@@ -528,13 +528,13 @@ func decrement() throws {
 
 ### Mutex vs Actor
 
-| Feature | Mutex | Actor |
-|---------|-------|-------|
-| Synchronous | [x] | [ ] (requires await) |
-| Async support | [ ] | [x] |
-| Thread blocking | [x] | [ ] (cooperative) |
-| Fine-grained locking | [x] | [ ] (whole actor) |
-| Legacy code integration | [x] | [ ] |
+| Feature                 | Mutex | Actor                |
+|-------------------------|-------|----------------------|
+| Synchronous             | [x]   | [ ] (requires await) |
+| Async support           | [ ]   | [x]                  |
+| Thread blocking         | [x]   | [ ] (cooperative)    |
+| Fine-grained locking    | [x]   | [ ] (whole actor)    |
+| Legacy code integration | [x]   | [ ]                  |
 
 **Use Mutex when**:
 - Need synchronous access

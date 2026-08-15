@@ -507,17 +507,17 @@ for await value in stream {
 
 ### Quick Decision Table
 
-| Need | Solution |
-|------|----------|
-| Debounce search input | [x] AsyncAlgorithms.debounce() |
-| Throttle button clicks | [x] AsyncAlgorithms.throttle() |
-| Merge independent streams | [x] AsyncAlgorithms.merge() |
-| Combine dependent values | [x] AsyncAlgorithms.combineLatest() or async let |
-| Pair values from two sources | [x] AsyncAlgorithms.zip() |
-| Bridge callback API | AsyncStream |
-| Multi-consumer with backpressure | [x] AsyncChannel |
-| Periodic timer | [x] AsyncTimerSequence |
-| Simple async iteration | for await in... |
+| Need                             | Solution                                         |
+|----------------------------------|--------------------------------------------------|
+| Debounce search input            | [x] AsyncAlgorithms.debounce()                   |
+| Throttle button clicks           | [x] AsyncAlgorithms.throttle()                   |
+| Merge independent streams        | [x] AsyncAlgorithms.merge()                      |
+| Combine dependent values         | [x] AsyncAlgorithms.combineLatest() or async let |
+| Pair values from two sources     | [x] AsyncAlgorithms.zip()                        |
+| Bridge callback API              | AsyncStream                                      |
+| Multi-consumer with backpressure | [x] AsyncChannel                                 |
+| Periodic timer                   | [x] AsyncTimerSequence                           |
+| Simple async iteration           | for await in...                                  |
 
 > **See**: [async-algorithms.md](async-algorithms.md) for detailed usage examples with real-world patterns.
 

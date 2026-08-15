@@ -78,13 +78,13 @@ if showDetail {
 
 ### Built-in Transitions
 
-| Transition | Effect |
-|------------|--------|
-| `.opacity` | Fade in/out (default) |
-| `.scale` | Scale up/down |
-| `.slide` | Slide from leading edge |
-| `.move(edge:)` | Move from specific edge |
-| `.offset(x:y:)` | Move by offset amount |
+| Transition      | Effect                  |
+|-----------------|-------------------------|
+| `.opacity`      | Fade in/out (default)   |
+| `.scale`        | Scale up/down           |
+| `.slide`        | Slide from leading edge |
+| `.move(edge:)`  | Move from specific edge |
+| `.offset(x:y:)` | Move by offset amount   |
 
 ### Combining Transitions
 

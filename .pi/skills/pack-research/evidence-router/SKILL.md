@@ -12,16 +12,16 @@ than guessing a provider action.
 
 ## Routes
 
-| Need | Tool | Budget |
-| --- | --- | --- |
+| Need                                          | Tool                                                                                               | Budget                          |
+|-----------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------|
 | Active-project architecture and relationships | `codebase-memory_get_architecture` → `codebase-memory_search_graph` / `codebase-memory_trace_path` | bounded by query and pagination |
-| Exact IDE symbol or call hierarchy | `ide_idea_skill_search` / `ide_idea_search_symbol` → `ide_idea_analyze_calls` | one symbol and bounded depth |
-| Literal/config search and exact source | JetBrains text/regex search → `ide_idea_read_file` | selected paths and ranges |
-| Inspiration repositories | `codebase-memory_list_projects` → one project's graph/architecture tools | one repository per question |
-| GitHub repository overview | `mcp.deepwiki.get-deepwiki-index` → `mcp.deepwiki.get-deepwiki-page` | one index + one page |
-| Library or API docs | `mcp.context7.resolve-library-id` → `mcp.context7.query-docs` | max three topics |
-| Current facts and discovery | `extensions.openai_websearch` | 3–5 cited results |
-| Selected page content | a discovered read-only fetch/crawl capability | selected URLs only |
+| Exact IDE symbol or call hierarchy            | `ide_idea_skill_search` / `ide_idea_search_symbol` → `ide_idea_analyze_calls`                      | one symbol and bounded depth    |
+| Literal/config search and exact source        | JetBrains text/regex search → `ide_idea_read_file`                                                 | selected paths and ranges       |
+| Inspiration repositories                      | `codebase-memory_list_projects` → one project's graph/architecture tools                           | one repository per question     |
+| GitHub repository overview                    | `mcp.deepwiki.get-deepwiki-index` → `mcp.deepwiki.get-deepwiki-page`                               | one index + one page            |
+| Library or API docs                           | `mcp.context7.resolve-library-id` → `mcp.context7.query-docs`                                      | max three topics                |
+| Current facts and discovery                   | `extensions.openai_websearch`                                                                      | 3–5 cited results               |
+| Selected page content                         | a discovered read-only fetch/crawl capability                                                      | selected URLs only              |
 
 ## Escalation Order
 

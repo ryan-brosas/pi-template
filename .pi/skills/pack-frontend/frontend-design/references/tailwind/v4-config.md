@@ -61,14 +61,14 @@ Usage: `<div class="bg-brand-500 font-display shadow-glow">`
 
 ## Key v4 Changes from v3
 
-| v3 | v4 |
-|----|-----|
+| v3                                    | v4                      |
+|---------------------------------------|-------------------------|
 | `@tailwind base/components/utilities` | `@import "tailwindcss"` |
-| `tailwind.config.js` | `@theme` directive |
-| `content: [...]` array | Automatic detection |
-| sRGB colors | OKLCH/P3 colors |
-| `bg-opacity-50` | `bg-black/50` modifier |
-| Plugin for container queries | Built-in `@container` |
+| `tailwind.config.js`                  | `@theme` directive      |
+| `content: [...]` array                | Automatic detection     |
+| sRGB colors                           | OKLCH/P3 colors         |
+| `bg-opacity-50`                       | `bg-black/50` modifier  |
+| Plugin for container queries          | Built-in `@container`   |
 
 ## Automatic Content Detection
 

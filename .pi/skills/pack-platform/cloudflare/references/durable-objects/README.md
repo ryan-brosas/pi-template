@@ -22,30 +22,30 @@ Use DOs for **stateful coordination**, not stateless request handling:
 
 ## When NOT to Use DOs
 
-| Scenario | Use Instead |
-|----------|-------------|
-| Stateless request handling | Workers |
-| Maximum global distribution | Workers |
-| High fan-out (independent requests) | Workers |
+| Scenario                              | Use Instead               |
+|---------------------------------------|---------------------------|
+| Stateless request handling            | Workers                   |
+| Maximum global distribution           | Workers                   |
+| High fan-out (independent requests)   | Workers                   |
 | Global singleton handling all traffic | Shard across multiple DOs |
-| High-frequency pub/sub | Queues |
-| Long-running continuous processes | Workers + Alarms |
-| Chatty microservice (every request) | Reconsider architecture |
-| Eventual consistency OK, read-heavy | KV |
-| Relational queries across entities | D1 |
+| High-frequency pub/sub                | Queues                    |
+| Long-running continuous processes     | Workers + Alarms          |
+| Chatty microservice (every request)   | Reconsider architecture   |
+| Eventual consistency OK, read-heavy   | KV                        |
+| Relational queries across entities    | D1                        |
 
 ## Design Heuristics
 
 Model each DO around your **atom of coordination**—the logical unit needing serialized access (user, room, document, session).
 
-| Characteristic | Feels Right | Question It | Reconsider |
-|----------------|-------------|-------------|------------|
-| Requests/sec (sustained) | < 100 | 100-500 | > 500 |
-| Storage keys | < 100 | 100-1000 | > 1000 |
-| Total state size | < 10MB | 10MB-100MB | > 1GB |
-| Alarm frequency | Minutes-hours | Every 30s | Every few seconds |
-| WebSocket duration | Short bursts | Hours (hibernating) | Days always-on |
-| Fan-out from this DO | Never/rarely | To < 10 DOs | To 100+ DOs |
+| Characteristic           | Feels Right   | Question It         | Reconsider        |
+|--------------------------|---------------|---------------------|-------------------|
+| Requests/sec (sustained) | < 100         | 100-500             | > 500             |
+| Storage keys             | < 100         | 100-1000            | > 1000            |
+| Total state size         | < 10MB        | 10MB-100MB          | > 1GB             |
+| Alarm frequency          | Minutes-hours | Every 30s           | Every few seconds |
+| WebSocket duration       | Short bursts  | Hours (hibernating) | Days always-on    |
+| Fan-out from this DO     | Never/rarely  | To < 10 DOs         | To 100+ DOs       |
 
 ## Core Concepts
 

@@ -18,11 +18,11 @@ disable-model-invocation: true
 
 ## Test Modes
 
-| Mode | Use when | Bound |
-| --- | --- | --- |
-| **Black-box** (default) | Public APIs, CLI output, HTTP contracts, UI behavior | A test needing internals means the interface or seam is wrong |
-| **Gray-box** | Stateful services, adapter contracts, durable state | Setup and assertions still cross the public interface |
-| **White-box** | Algorithms and invariants where the branch IS the proof | Heavy internal reach means a missing seam; restructure instead |
+| Mode                    | Use when                                                | Bound                                                          |
+|-------------------------|---------------------------------------------------------|----------------------------------------------------------------|
+| **Black-box** (default) | Public APIs, CLI output, HTTP contracts, UI behavior    | A test needing internals means the interface or seam is wrong  |
+| **Gray-box**            | Stateful services, adapter contracts, durable state     | Setup and assertions still cross the public interface          |
+| **White-box**           | Algorithms and invariants where the branch IS the proof | Heavy internal reach means a missing seam; restructure instead |
 
 - **contract test**: assert the real dependency's behavior (real DB, real API) before mocking it. If you cannot explain what the real dependency does, write this first.
 - **live boundary probe**: production behavior that depends on an external system pairs its mocked test with at least one live probe, so a mock cannot hide a contract break.

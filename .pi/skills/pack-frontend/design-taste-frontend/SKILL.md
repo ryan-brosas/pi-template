@@ -43,13 +43,13 @@ disable-model-invocation: true
 
 ## Component Architecture
 
-| Component | Anatomy |
-|---|---|
-| Button | height, padding-x, font-size, weight, radius, 3 color states |
-| Input | button + border + focus ring |
-| Card | padding, radius, border-or-shadow, background |
-| Modal | overlay, panel, padding, max-width, focus trap |
-| Table | row-height, cell-padding, header-weight, divider |
+| Component | Anatomy                                                      |
+|-----------|--------------------------------------------------------------|
+| Button    | height, padding-x, font-size, weight, radius, 3 color states |
+| Input     | button + border + focus ring                                 |
+| Card      | padding, radius, border-or-shadow, background                |
+| Modal     | overlay, panel, padding, max-width, focus trap               |
+| Table     | row-height, cell-padding, header-weight, divider             |
 
 Define each as a token. Don't freestyle at the call site.
 

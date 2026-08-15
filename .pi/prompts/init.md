@@ -16,13 +16,13 @@ user.md. Flags only narrow or repeat parts of that one-time run.
 
 ## Idempotency Rules
 
-| File | Rule |
-| --- | --- |
-| `AGENTS.md` | Improve in-place — never overwrite blindly |
-| `.pi/project.md` | Create if missing; ask before overwriting an existing file (holds product and architecture context) |
-| `.pi/tech-stack.md` | Overwrite with detected values (auto-regenerated) |
-| `.pi/roadmap.md` / `.pi/state.md` | Skip if exists, ask before overwrite |
-| `.pi/user.md` | Skip if exists, ask before overwrite |
+| File                              | Rule                                                                                                |
+|-----------------------------------|-----------------------------------------------------------------------------------------------------|
+| `AGENTS.md`                       | Improve in-place — never overwrite blindly                                                          |
+| `.pi/project.md`                  | Create if missing; ask before overwriting an existing file (holds product and architecture context) |
+| `.pi/tech-stack.md`               | Overwrite with detected values (auto-regenerated)                                                   |
+| `.pi/roadmap.md` / `.pi/state.md` | Skip if exists, ask before overwrite                                                                |
+| `.pi/user.md`                     | Skip if exists, ask before overwrite                                                                |
 
 ## Artifact Quality Contract
 
@@ -43,13 +43,13 @@ Load `.pi/skills/verification-before-completion/SKILL.md` after the artifacts ar
 
 ## Parse Arguments
 
-| Argument | Default | Description |
-| --- | --- | --- |
-| (none) | — | Full deep initialization — every artifact, run once |
-| `--deep` | true | Comprehensive research for every artifact (already the default) |
-| `--context` | false | Planning context only (roadmap.md, state.md) — partial rerun |
-| `--user` | false | User profile only (user.md) — partial rerun |
-| `--all` | false | Full init — same as the default (kept for compatibility) |
+| Argument    | Default | Description                                                     |
+|-------------|---------|-----------------------------------------------------------------|
+| (none)      | —       | Full deep initialization — every artifact, run once             |
+| `--deep`    | true    | Comprehensive research for every artifact (already the default) |
+| `--context` | false   | Planning context only (roadmap.md, state.md) — partial rerun    |
+| `--user`    | false   | User profile only (user.md) — partial rerun                     |
+| `--all`     | false   | Full init — same as the default (kept for compatibility)        |
 
 **Mode rules:**
 - No flags (default): the one-time full deep init — AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md.

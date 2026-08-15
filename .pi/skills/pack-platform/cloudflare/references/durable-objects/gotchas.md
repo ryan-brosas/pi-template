@@ -2,17 +2,17 @@
 
 ## Limits
 
-| Resource | Free | Paid |
-|----------|------|------|
-| Storage per DO | 10GB (SQLite) | 10GB (SQLite) |
-| Total storage | 5GB | Unlimited |
-| DO classes | 100 | 500 |
-| Requests/sec/DO | ~1000 | ~1000 |
-| CPU time | 30s default, 300s max | 30s default, 300s max |
-| WebSocket message | 32MiB | 32MiB |
-| SQL columns | 100 | 100 |
-| SQL statement | 100KB | 100KB |
-| Key+value size | 2MB | 2MB |
+| Resource          | Free                  | Paid                  |
+|-------------------|-----------------------|-----------------------|
+| Storage per DO    | 10GB (SQLite)         | 10GB (SQLite)         |
+| Total storage     | 5GB                   | Unlimited             |
+| DO classes        | 100                   | 500                   |
+| Requests/sec/DO   | ~1000                 | ~1000                 |
+| CPU time          | 30s default, 300s max | 30s default, 300s max |
+| WebSocket message | 32MiB                 | 32MiB                 |
+| SQL columns       | 100                   | 100                   |
+| SQL statement     | 100KB                 | 100KB                 |
+| Key+value size    | 2MB                   | 2MB                   |
 
 ## Billing Gotchas
 
@@ -45,11 +45,11 @@ If users close browser tabs without proper disconnect and you don't handle it, c
 ### Singleton vs Sharding
 Global singleton DO handling all traffic = bottleneck + continuous duration billing (never hibernates).
 
-| Design | Cost Pattern |
-|--------|--------------|
-| One global DO | Never hibernates, continuous billing |
-| Per-user DO | Each only wakes for their requests, most hibernate |
-| Per-user-per-hour | Many cold starts, many minimum durations |
+| Design            | Cost Pattern                                       |
+|-------------------|----------------------------------------------------|
+| One global DO     | Never hibernates, continuous billing               |
+| Per-user DO       | Each only wakes for their requests, most hibernate |
+| Per-user-per-hour | Many cold starts, many minimum durations           |
 
 **Fix**: Use per-entity DOs (per-user, per-room, per-document). They hibernate between activity.
 
@@ -94,34 +94,34 @@ Individual writes billed per-operation. Writing 100 events individually = 100× 
 ### KV vs DO Storage
 For read-heavy, write-rare, eventually-consistent-OK data: **KV is cheaper**.
 
-| | KV | DO Storage |
-|-|----|----|
-| Reads | Global edge cache, cheap | Every read hits DO compute |
-| Writes | ~60s propagation | Immediate consistency |
-| Use case | Config, sessions, cache | Read-modify-write, coordination |
+|          | KV                       | DO Storage                      |
+|----------|--------------------------|---------------------------------|
+| Reads    | Global edge cache, cheap | Every read hits DO compute      |
+| Writes   | ~60s propagation         | Immediate consistency           |
+| Use case | Config, sessions, cache  | Read-modify-write, coordination |
 
 ## Common Issues
 
-| Issue | Cause | Fix |
-|-------|-------|-----|
-| DO overloaded (503) | Single DO bottleneck | Shard across DOs with random/deterministic IDs |
-| Storage quota exceeded | Write failures | Upgrade plan or cleanup via alarms |
-| CPU exceeded | Terminated mid-request | Increase `limits.cpu_ms` or chunk work |
-| WebSockets disconnect | Eviction | Use hibernation + reconnection logic |
-| Migration failed | Deploy error | Check tag uniqueness, class names, use `--dry-run` |
-| RPC not found | Old compatibility_date | Update to >= 2024-04-03 or use fetch |
-| One alarm limit | Need multiple timers | Use event queue pattern (store events, single alarm) |
-| Constructor expensive | Slow cold starts | Lazy load in methods, cache after first load |
+| Issue                  | Cause                  | Fix                                                  |
+|------------------------|------------------------|------------------------------------------------------|
+| DO overloaded (503)    | Single DO bottleneck   | Shard across DOs with random/deterministic IDs       |
+| Storage quota exceeded | Write failures         | Upgrade plan or cleanup via alarms                   |
+| CPU exceeded           | Terminated mid-request | Increase `limits.cpu_ms` or chunk work               |
+| WebSockets disconnect  | Eviction               | Use hibernation + reconnection logic                 |
+| Migration failed       | Deploy error           | Check tag uniqueness, class names, use `--dry-run`   |
+| RPC not found          | Old compatibility_date | Update to >= 2024-04-03 or use fetch                 |
+| One alarm limit        | Need multiple timers   | Use event queue pattern (store events, single alarm) |
+| Constructor expensive  | Slow cold starts       | Lazy load in methods, cache after first load         |
 
 ## RPC vs Fetch
 
-| | RPC | Fetch |
-|-|-----|-------|
-| Type safety | Full TypeScript support | Manual parsing |
-| Simplicity | Direct method calls | HTTP request/response |
-| Performance | Slightly faster | HTTP overhead |
-| Requirement | compatibility_date >= 2024-04-03 | Always works |
-| Use case | **Default choice** | Legacy, proxying |
+|             | RPC                              | Fetch                 |
+|-------------|----------------------------------|-----------------------|
+| Type safety | Full TypeScript support          | Manual parsing        |
+| Simplicity  | Direct method calls              | HTTP request/response |
+| Performance | Slightly faster                  | HTTP overhead         |
+| Requirement | compatibility_date >= 2024-04-03 | Always works          |
+| Use case    | **Default choice**               | Legacy, proxying      |
 
 ```typescript
 // RPC (recommended)

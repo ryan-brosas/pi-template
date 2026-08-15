@@ -52,15 +52,15 @@ Free: 1TB/mo egress. Paid: $0.05/GB. Inbound free. TURN free w/SFU. No participa
 
 ## vs Traditional SFUs
 
-| Aspect | Traditional | Cloudflare |
-|--------|------------|------------|
-| Deploy | Single region | 310+ DCs |
-| Route | Manual | Anycast |
-| SDK | Often required | Pure WebRTC |
-| Arch | Rooms | Sessions/tracks |
-| Scale | Vertical/horiz | Auto global |
-| TURN | Separate | Integrated |
-| State | Centralized | Distributed |
+| Aspect | Traditional    | Cloudflare      |
+|--------|----------------|-----------------|
+| Deploy | Single region  | 310+ DCs        |
+| Route  | Manual         | Anycast         |
+| SDK    | Often required | Pure WebRTC     |
+| Arch   | Rooms          | Sessions/tracks |
+| Scale  | Vertical/horiz | Auto global     |
+| TURN   | Separate       | Integrated      |
+| State  | Centralized    | Distributed     |
 
 ## Quick Ref
 

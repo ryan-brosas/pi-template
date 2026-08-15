@@ -34,10 +34,10 @@ export class Counter extends DurableObject {
 
 ## Storage Backends
 
-| Backend | Create Method | APIs | PITR |
-|---------|---------------|------|------|
-| SQLite (recommended) | `new_sqlite_classes` | SQL + sync KV + async KV | [x] |
-| KV (legacy) | `new_classes` | async KV only | [ ] |
+| Backend              | Create Method        | APIs                     | PITR |
+|----------------------|----------------------|--------------------------|------|
+| SQLite (recommended) | `new_sqlite_classes` | SQL + sync KV + async KV | [x]  |
+| KV (legacy)          | `new_classes`        | async KV only            | [ ]  |
 
 ## Core APIs
 

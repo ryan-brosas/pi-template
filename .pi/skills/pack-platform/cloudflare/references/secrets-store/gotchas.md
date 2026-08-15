@@ -103,15 +103,15 @@ Fix:
 
 ## Comparison Table
 
-| Feature | Secrets Store | Worker Secrets |
-|---------|---------------|----------------|
-| Scope | Account-level | Per-Worker |
-| Reusability | Multi-Worker | Single Worker |
-| Access | `await env.BINDING.get()` | `env.SECRET_NAME` |
-| Management | Centralized | Per-Worker |
-| Commands | `secrets-store` | `secret` |
-| Local dev | Separate local secrets | `.dev.vars`/`.env` |
-| Limits | 100/account | Per-Worker |
+| Feature     | Secrets Store             | Worker Secrets     |
+|-------------|---------------------------|--------------------|
+| Scope       | Account-level             | Per-Worker         |
+| Reusability | Multi-Worker              | Single Worker      |
+| Access      | `await env.BINDING.get()` | `env.SECRET_NAME`  |
+| Management  | Centralized               | Per-Worker         |
+| Commands    | `secrets-store`           | `secret`           |
+| Local dev   | Separate local secrets    | `.dev.vars`/`.env` |
+| Limits      | 100/account               | Per-Worker         |
 
 ## Best Practices
 

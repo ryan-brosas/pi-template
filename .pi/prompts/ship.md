@@ -10,9 +10,9 @@ Implement the active specification end to end: read the spec, run the plan as an
 
 ## Parse Arguments
 
-| Argument | Default | Description |
-| --- | --- | --- |
-| `<id>` | active slug | Feature id from `.pi/work/.active` |
+| Argument | Default     | Description                        |
+|----------|-------------|------------------------------------|
+| `<id>`   | active slug | Feature id from `.pi/work/.active` |
 
 ## Phase 0: Load Skills
 
@@ -105,8 +105,8 @@ or scope changes, do not mutate. After verification, record the gate decision (p
 **Dual mode.** Read-only discovery is identical in both modes; only mutation authorization differs. Schema mode (`schema.status().mode === "enforce"`): the loop above applies. Main-session mode (guard off or project untrusted): propose each mutation to the user and apply only after explicit approval of the exact action and files. Detect at the mutation boundary: `schema.status()` reports `enforce` → Schema mode; otherwise → main-session mode.
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
+| Need                  | Command   |
+|-----------------------|-----------|
 | Create the spec first | `/create` |
-| Deeper planning | `/plan` |
-| Run the full gate | `/verify` |
+| Deeper planning       | `/plan`   |
+| Run the full gate     | `/verify` |

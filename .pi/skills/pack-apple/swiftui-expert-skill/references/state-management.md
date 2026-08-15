@@ -2,19 +2,19 @@
 
 ## Property Wrapper Selection Guide
 
-| Wrapper | Use When | Notes |
-|---------|----------|-------|
-| `@State` | Internal view state that triggers updates | Must be `private` |
-| `@Binding` | Child view needs to modify parent's state | Don't use for read-only |
+| Wrapper     | Use When                                                       | Notes                    |
+|-------------|----------------------------------------------------------------|--------------------------|
+| `@State`    | Internal view state that triggers updates                      | Must be `private`        |
+| `@Binding`  | Child view needs to modify parent's state                      | Don't use for read-only  |
 | `@Bindable` | iOS 17+: View receives `@Observable` object and needs bindings | For injected observables |
-| `let` | Read-only value passed from parent | Simplest option |
-| `var` | Read-only value that child observes via `.onChange()` | For reactive reads |
+| `let`       | Read-only value passed from parent                             | Simplest option          |
+| `var`       | Read-only value that child observes via `.onChange()`          | For reactive reads       |
 
 **Legacy (Pre-iOS 17):**
-| Wrapper | Use When | Notes |
-|---------|----------|-------|
-| `@StateObject` | View owns an `ObservableObject` instance | Use `@State` with `@Observable` instead |
-| `@ObservedObject` | View receives an `ObservableObject` from outside | Never create inline |
+| Wrapper           | Use When                                         | Notes                                   |
+|-------------------|--------------------------------------------------|-----------------------------------------|
+| `@StateObject`    | View owns an `ObservableObject` instance         | Use `@State` with `@Observable` instead |
+| `@ObservedObject` | View receives an `ObservableObject` from outside | Never create inline                     |
 
 ## @State
 

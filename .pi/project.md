@@ -53,17 +53,17 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 No application runtime exists. The operator entrypoints are the slash commands:
 
-| Entrypoint | Kind | Path | Purpose | Config source |
-| --- | --- | --- | --- | --- |
-| /init | CLI (Pi slash command) | .pi/prompts/init.md | One-time full initialization of context artifacts, plus optional GitHub repository setup | .pi/templates/, .pi/fabric.json |
-| /create | CLI (Pi slash command) | .pi/prompts/create.md | Spec: PRD, workspace, tasks | .pi/templates/ |
-| /plan | CLI (Pi slash command) | .pi/prompts/plan.md | Detailed TDD implementation plan | - |
-| /fix | CLI (Pi slash command) | .pi/prompts/fix.md | Debug and fix a bug or failing test | - |
-| /ship | CLI (Pi slash command) | .pi/prompts/ship.md | Implement the active spec end to end | - |
-| /verify | CLI (Pi slash command) | .pi/prompts/verify.md | Run gates against the spec | - |
-| /audit | CLI (Pi slash command) | .pi/prompts/audit.md | Pattern audit with remediation list | - |
-| /gc | CLI (Pi slash command) | .pi/prompts/gc.md | Structural scan and cleanup plan | - |
-| /research | CLI (Pi slash command) | .pi/prompts/research.md | Evidence references for the Schema evidence loop | - |
+| Entrypoint | Kind                   | Path                    | Purpose                                                                                  | Config source                   |
+|------------|------------------------|-------------------------|------------------------------------------------------------------------------------------|---------------------------------|
+| /init      | CLI (Pi slash command) | .pi/prompts/init.md     | One-time full initialization of context artifacts, plus optional GitHub repository setup | .pi/templates/, .pi/fabric.json |
+| /create    | CLI (Pi slash command) | .pi/prompts/create.md   | Spec: PRD, workspace, tasks                                                              | .pi/templates/                  |
+| /plan      | CLI (Pi slash command) | .pi/prompts/plan.md     | Detailed TDD implementation plan                                                         | -                               |
+| /fix       | CLI (Pi slash command) | .pi/prompts/fix.md      | Debug and fix a bug or failing test                                                      | -                               |
+| /ship      | CLI (Pi slash command) | .pi/prompts/ship.md     | Implement the active spec end to end                                                     | -                               |
+| /verify    | CLI (Pi slash command) | .pi/prompts/verify.md   | Run gates against the spec                                                               | -                               |
+| /audit     | CLI (Pi slash command) | .pi/prompts/audit.md    | Pattern audit with remediation list                                                      | -                               |
+| /gc        | CLI (Pi slash command) | .pi/prompts/gc.md       | Structural scan and cleanup plan                                                         | -                               |
+| /research  | CLI (Pi slash command) | .pi/prompts/research.md | Evidence references for the Schema evidence loop                                         | -                               |
 
 ## Request, Data, and Event Flows
 
@@ -90,11 +90,11 @@ No application runtime exists. The operator entrypoints are the slash commands:
 
 ## External Integrations
 
-| Service | Auth | Docs | Rate limits | Error handling |
-| --- | --- | --- | --- | --- |
-| Pi runtime | Local, none | pi coding agent docs | None | N/A |
-| Pi Fabric | Local, none | .pi/fabric.json and pi-fabric docs | None | Schema commit authorizes declared file operations |
-| Git remote origin | HTTPS | github.com/ryan-brosas/pi-template.git | None | None; local repository only |
+| Service           | Auth        | Docs                                   | Rate limits | Error handling                                    |
+|-------------------|-------------|----------------------------------------|-------------|---------------------------------------------------|
+| Pi runtime        | Local, none | pi coding agent docs                   | None        | N/A                                               |
+| Pi Fabric         | Local, none | .pi/fabric.json and pi-fabric docs     | None        | Schema commit authorizes declared file operations |
+| Git remote origin | HTTPS       | github.com/ryan-brosas/pi-template.git | None        | None; local repository only                       |
 
 No external application API, database, deployment provider, or credential-bearing integration exists.
 
@@ -123,12 +123,12 @@ No external application API, database, deployment provider, or credential-bearin
 
 ## Failure Modes
 
-| Failure | Symptom | Detection | Recovery |
-| --- | --- | --- | --- |
-| Schema commit failed | Mutation blocked | Verify/commit rejection in fabric_exec | Revise scope, re-run the loop; do not mutate |
-| Skill catalog drift | Validator nonzero | node scripts/validate-skill-packs.mjs | Fix packs.json/manifest.json membership |
-| Stale generated counts | Artifacts disagree with tree | Cross-artifact rg checks | Regenerate tech-stack.md and reconcile |
-| Accidentally sweeping concurrent work | Out-of-scope files staged | git status, scoped diff review | Unstage only the declared files; never revert others |
+| Failure                               | Symptom                      | Detection                              | Recovery                                             |
+|---------------------------------------|------------------------------|----------------------------------------|------------------------------------------------------|
+| Schema commit failed                  | Mutation blocked             | Verify/commit rejection in fabric_exec | Revise scope, re-run the loop; do not mutate         |
+| Skill catalog drift                   | Validator nonzero            | node scripts/validate-skill-packs.mjs  | Fix packs.json/manifest.json membership              |
+| Stale generated counts                | Artifacts disagree with tree | Cross-artifact rg checks               | Regenerate tech-stack.md and reconcile               |
+| Accidentally sweeping concurrent work | Out-of-scope files staged    | git status, scoped diff review         | Unstage only the declared files; never revert others |
 
 ## Architectural Invariants
 
@@ -140,11 +140,11 @@ No external application API, database, deployment provider, or credential-bearin
 
 ## Decisions
 
-| Date | Decision | Rationale | Alternatives | Record |
-| --- | --- | --- | --- | --- |
-| 2026-08-09 | Deep init creates .pi/project.md and enriches every artifact | Missing architecture record; user asked for detailed init output | Leave project.md missing | MEMORY.md deep-init entry |
-| 2026-08-09 | AGENTS.md carries concise operational architecture; project.md carries the detailed record | Instruction budget and progressive disclosure | Full duplication in AGENTS.md | AGENTS.md Architecture section |
-| 2026-08-09 | Keep the template install-free with Node validation scripts | README promise: no package install | Shell-only gates | README.md:7,16, roadmap Phase 2 |
+| Date       | Decision                                                                                   | Rationale                                                        | Alternatives                  | Record                          |
+|------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------|-------------------------------|---------------------------------|
+| 2026-08-09 | Deep init creates .pi/project.md and enriches every artifact                               | Missing architecture record; user asked for detailed init output | Leave project.md missing      | MEMORY.md deep-init entry       |
+| 2026-08-09 | AGENTS.md carries concise operational architecture; project.md carries the detailed record | Instruction budget and progressive disclosure                    | Full duplication in AGENTS.md | AGENTS.md Architecture section  |
+| 2026-08-09 | Keep the template install-free with Node validation scripts                                | README promise: no package install                               | Shell-only gates              | README.md:7,16, roadmap Phase 2 |
 
 ## Known Risks and Hotspots
 
@@ -155,12 +155,12 @@ No external application API, database, deployment provider, or credential-bearin
 
 ## Open Questions
 
-| Question | Context | Blocking | Priority |
-| --- | --- | --- | --- |
-| Branch protection policy | Git config has no push or merge protection | No | Medium |
-| Next milestone beyond incremental refinement | Roadmap is user-authored | No | Low |
-| Phase 2 validator scope | Prompt and config contracts are pinned; template validation remains a roadmap candidate | No | Medium |
-| Minimum supported Pi/Pi Fabric versions | Needed for release claims | No | Low |
+| Question                                     | Context                                                                                 | Blocking | Priority |
+|----------------------------------------------|-----------------------------------------------------------------------------------------|----------|----------|
+| Branch protection policy                     | Git config has no push or merge protection                                              | No       | Medium   |
+| Next milestone beyond incremental refinement | Roadmap is user-authored                                                                | No       | Low      |
+| Phase 2 validator scope                      | Prompt and config contracts are pinned; template validation remains a roadmap candidate | No       | Medium   |
+| Minimum supported Pi/Pi Fabric versions      | Needed for release claims                                                               | No       | Low      |
 
 ## Evidence
 

@@ -19,18 +19,18 @@ disable-model-invocation: true
 
 ## Audit: What to Look For
 
-| Tells | Example |
-|---|---|
-| AI-default colors | Pastel rainbow, "AI purple", neon |
-| AI-default typography | Multiple families, random weights |
-| Generic layouts | Centered hero with abstract gradient |
-| Stock-feel copy | "Welcome to our amazing platform" |
-| Inconsistent spacing | Magic numbers, no scale |
-| Lorem Ipsum | Sample data in production pages |
-| Missing focus states | Buttons without `:focus-visible` |
-| Card overload | Shadow + border + bg on everything |
-| Animation defaults | Bounces, transitions on everything |
-| "Premium" gestures | Gold gradients, glass blurs, no purpose |
+| Tells                 | Example                                 |
+|-----------------------|-----------------------------------------|
+| AI-default colors     | Pastel rainbow, "AI purple", neon       |
+| AI-default typography | Multiple families, random weights       |
+| Generic layouts       | Centered hero with abstract gradient    |
+| Stock-feel copy       | "Welcome to our amazing platform"       |
+| Inconsistent spacing  | Magic numbers, no scale                 |
+| Lorem Ipsum           | Sample data in production pages         |
+| Missing focus states  | Buttons without `:focus-visible`        |
+| Card overload         | Shadow + border + bg on everything      |
+| Animation defaults    | Bounces, transitions on everything      |
+| "Premium" gestures    | Gold gradients, glass blurs, no purpose |
 
 ## Audit Process
 

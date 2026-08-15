@@ -19,14 +19,14 @@ disable-model-invocation: true
 
 ## State Management
 
-| Type | Scope | When |
-|---|---|---|
-| `@State` | Local view | Form input, toggle, scroll |
-| `@Binding` | Two-way parent ↔ child | Parent-controlled inputs |
-| `@Observable` | Shared model | View model, store, repository |
-| `@Environment` | Injected | Theme, router, current user |
-| `@Query` (SwiftData) | Persistent | Database rows |
-| `@FetchRequest` (Core Data) | Persistent | Legacy |
+| Type                        | Scope                  | When                          |
+|-----------------------------|------------------------|-------------------------------|
+| `@State`                    | Local view             | Form input, toggle, scroll    |
+| `@Binding`                  | Two-way parent ↔ child | Parent-controlled inputs      |
+| `@Observable`               | Shared model           | View model, store, repository |
+| `@Environment`              | Injected               | Theme, router, current user   |
+| `@Query` (SwiftData)        | Persistent             | Database rows                 |
+| `@FetchRequest` (Core Data) | Persistent             | Legacy                        |
 
 `@Observable` (iOS 17+) replaces `ObservableObject`. Use it for new code.
 

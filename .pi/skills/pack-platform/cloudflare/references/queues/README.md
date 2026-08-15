@@ -37,13 +37,13 @@ export default {
 
 ## Core Operations
 
-| Operation | Purpose | Limit |
-|-----------|---------|-------|
-| `send(body, options?)` | Publish message | 128 KB |
-| `sendBatch(messages)` | Bulk publish | 100 msgs/256 KB |
-| `message.ack()` | Acknowledge success | - |
-| `message.retry(options?)` | Retry with delay | - |
-| `batch.ackAll()` | Ack entire batch | - |
+| Operation                 | Purpose             | Limit           |
+|---------------------------|---------------------|-----------------|
+| `send(body, options?)`    | Publish message     | 128 KB          |
+| `sendBatch(messages)`     | Bulk publish        | 100 msgs/256 KB |
+| `message.ack()`           | Acknowledge success | -               |
+| `message.retry(options?)` | Retry with delay    | -               |
+| `batch.ackAll()`          | Ack entire batch    | -               |
 
 ## Architecture
 

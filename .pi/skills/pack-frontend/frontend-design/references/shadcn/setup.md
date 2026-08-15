@@ -26,12 +26,12 @@ Components install to `components/ui/`.
 
 ## Visual Styles
 
-| Style | Description |
-|-------|-------------|
-| **Vega** | Classic shadcn look |
-| **Nova** | Reduced padding, compact |
-| **Maia** | Soft, rounded, generous |
-| **Lyra** | Boxy, sharp, mono fonts |
+| Style    | Description               |
+|----------|---------------------------|
+| **Vega** | Classic shadcn look       |
+| **Nova** | Reduced padding, compact  |
+| **Maia** | Soft, rounded, generous   |
+| **Lyra** | Boxy, sharp, mono fonts   |
 | **Mira** | Compact, dense interfaces |
 
 ## Component Libraries

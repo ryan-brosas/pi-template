@@ -17,16 +17,16 @@ Headless is sufficient (use Playwright); the task is API-level (use curl or fetc
 
 ## Capabilities
 
-| Action | Use |
-|---|---|
-| Navigate to URL | `page.goto(url)` |
-| Get page content | `page.content()` — full HTML |
-| Screenshot | `page.screenshot()` |
-| Click element | `page.click("[data-testid=...]")` |
-| Type into input | `page.fill("[name=email]", "a@b.com")` |
-| Evaluate JS | `page.evaluate(() => document.title)` |
-| Console logs | `page.on("console", ...)` logs to output |
-| Network requests | `page.on("request", ...)` — watch XHR |
+| Action           | Use                                      |
+|------------------|------------------------------------------|
+| Navigate to URL  | `page.goto(url)`                         |
+| Get page content | `page.content()` — full HTML             |
+| Screenshot       | `page.screenshot()`                      |
+| Click element    | `page.click("[data-testid=...]")`        |
+| Type into input  | `page.fill("[name=email]", "a@b.com")`   |
+| Evaluate JS      | `page.evaluate(() => document.title)`    |
+| Console logs     | `page.on("console", ...)` logs to output |
+| Network requests | `page.on("request", ...)` — watch XHR    |
 
 ## Common Patterns
 
@@ -51,13 +51,13 @@ const content = await page.content()
 
 ## When to Fall Back
 
-| Case | Fallback |
-|---|---|
-| Page needs login | Use `page.goto` with pre-set cookies |
+| Case                             | Fallback                                     |
+|----------------------------------|----------------------------------------------|
+| Page needs login                 | Use `page.goto` with pre-set cookies         |
 | Page blocks non-proxied browsers | Use a plain fetch or curl for static content |
-| Page is a heavy SPA (React, Vue) | Browser tool is the right choice |
-| Just need text | plain fetch is cheaper |
-| Need to debug CSS | Browser tool — screenshot is best |
+| Page is a heavy SPA (React, Vue) | Browser tool is the right choice             |
+| Just need text                   | plain fetch is cheaper                       |
+| Need to debug CSS                | Browser tool — screenshot is best            |
 
 ## Common Mistakes
 

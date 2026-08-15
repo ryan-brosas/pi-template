@@ -77,8 +77,8 @@ Report:
 
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
-| Verify gates | `/verify` |
-| Audit a pattern | `/audit` |
+| Need             | Command     |
+|------------------|-------------|
+| Verify gates     | `/verify`   |
+| Audit a pattern  | `/audit`    |
 | Research a topic | `/research` |

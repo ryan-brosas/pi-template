@@ -31,12 +31,12 @@ Developers who use Pi for software projects and want a stable, reusable starting
 
 ## Roadmap Overview
 
-| Phase | Goal | Outcome | Status | Depends on |
-| --- | --- | --- | --- | --- |
-| 1. Stable Core | Establish a coherent, clone-ready Pi template and finish the current simplification | One documented setup path with no stale runtime assumptions | In Progress | Current tree |
-| 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and Schema contracts | Repository drift and malformed artifacts fail early | Not Started | Phase 1 |
-| 3. Reference Parity | Compare high-value ideas from `inspo/opencode-template` and port only Pi-aligned behavior | Useful upstream ideas without OpenCode coupling | Not Started | Phase 1 |
-| 4. Release Readiness | Document versioning, compatibility, and repeatable clone validation | New clones work predictably across supported Pi environments | Not Started | Phases 1-3 |
+| Phase                    | Goal                                                                                      | Outcome                                                      | Status      | Depends on   |
+|--------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------|-------------|--------------|
+| 1. Stable Core           | Establish a coherent, clone-ready Pi template and finish the current simplification       | One documented setup path with no stale runtime assumptions  | In Progress | Current tree |
+| 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and Schema contracts               | Repository drift and malformed artifacts fail early          | Not Started | Phase 1      |
+| 3. Reference Parity      | Compare high-value ideas from `inspo/opencode-template` and port only Pi-aligned behavior | Useful upstream ideas without OpenCode coupling              | Not Started | Phase 1      |
+| 4. Release Readiness     | Document versioning, compatibility, and repeatable clone validation                       | New clones work predictably across supported Pi environments | Not Started | Phases 1-3   |
 
 ## Phase 1: Stable Core
 
@@ -59,13 +59,13 @@ Developers who use Pi for software projects and want a stable, reusable starting
 
 **Work Areas:**
 
-| Work area | Outcome | Evidence when complete |
-| --- | --- | --- |
-| Initialization | Idempotent core, context, and user-profile generation | Repeated `/init --all` preserves existing roadmap/state/user files unless overwrite is approved |
-| Prompt consistency | Every mutating command uses the Schema loop; read-only commands remain read-only | Prompt audit lists each command and mutation policy |
-| Skill catalog | Pack catalog, ledger, and frontmatter agree | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 88 leaves, 14 visible, metadata under the 1,200-token budget |
-| Documentation | README layout and command catalog match the tree | Structural documentation audit has no stale paths |
-| Cleanup | Historical runtime files are either deliberately retained or removed with documented rationale | Final scoped Git diff and repository inventory |
+| Work area          | Outcome                                                                                        | Evidence when complete                                                                                                  |
+|--------------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Initialization     | Idempotent core, context, and user-profile generation                                          | Repeated `/init --all` preserves existing roadmap/state/user files unless overwrite is approved                         |
+| Prompt consistency | Every mutating command uses the Schema loop; read-only commands remain read-only               | Prompt audit lists each command and mutation policy                                                                     |
+| Skill catalog      | Pack catalog, ledger, and frontmatter agree                                                    | `node scripts/validate-skill-packs.mjs` exits 0; 10 packs, 88 leaves, 14 visible, metadata under the 1,200-token budget |
+| Documentation      | README layout and command catalog match the tree                                               | Structural documentation audit has no stale paths                                                                       |
+| Cleanup            | Historical runtime files are either deliberately retained or removed with documented rationale | Final scoped Git diff and repository inventory                                                                          |
 
 **Dependencies:**
 

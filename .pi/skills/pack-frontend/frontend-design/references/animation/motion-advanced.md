@@ -133,10 +133,10 @@ const [items, setItems] = useState([1, 2, 3]);
 ### Use transform properties
 ```tsx
 // Good - GPU accelerated
-animate={{ x: 100, scale: 1.1, rotate: 45, opacity: 0.5 }}
+<motion.div animate={{ x: 100, scale: 1.1, rotate: 45, opacity: 0.5 }} />
 
 // Avoid - triggers layout
-animate={{ width: 200, left: 100, marginTop: 20 }}
+<motion.div animate={{ width: 200, left: 100, marginTop: 20 }} />
 ```
 
 ### Reduce motion

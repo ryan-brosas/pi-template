@@ -35,11 +35,11 @@ Always use `predicate` (no post-fetch filtering). Use `fetchLimit` and `fetchBat
 
 ## Migration Types
 
-| Type | Use | When |
-|---|---|---|
-| Lightweight | Add attribute, optional → non-optional | Most schema changes |
-| Mapping model | Rename, transform, split | Complex changes |
-| Staged | Multiple lightweight in sequence | Versioned deployments |
+| Type          | Use                                    | When                  |
+|---------------|----------------------------------------|-----------------------|
+| Lightweight   | Add attribute, optional → non-optional | Most schema changes   |
+| Mapping model | Rename, transform, split               | Complex changes       |
+| Staged        | Multiple lightweight in sequence       | Versioned deployments |
 
 Lightweight is best. Keep schemas simple to avoid complex migrations.
 

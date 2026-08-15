@@ -15,7 +15,7 @@ if (tracked.status !== 0) {
   console.error("[fail] git ls-files failed; run inside the repository");
   process.exit(1);
 }
-const files = tracked.stdout.split("\n").filter(Boolean);
+const files = String(tracked.stdout ?? "").split("\n").filter(Boolean);
 
 // 1. Machine-specific absolute paths must not ship in a reusable template.
 // /home/runner is a documented GitHub Actions CI path in CLI references, not a user path.

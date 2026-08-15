@@ -37,14 +37,14 @@ Map the gap before proposing. A simpler approach often exists — say so.
 
 ## Cheat Sheet
 
-| Situation | Default action |
-|---|---|
-| Spec concrete, single-file | Skip brainstorm, implement. |
+| Situation                                 | Default action                                   |
+|-------------------------------------------|--------------------------------------------------|
+| Spec concrete, single-file                | Skip brainstorm, implement.                      |
 | Spec concrete, multi-file or design-heavy | One question on the riskiest unknown, then plan. |
-| Spec vague | Variants first, then interview. |
-| "Sanity check" / "prototype" | Use `prototype` skill. |
-| Multiple valid approaches | Show 2–4 variants with trade-offs. |
-| New library / framework | Point at official docs/source. |
+| Spec vague                                | Variants first, then interview.                  |
+| "Sanity check" / "prototype"              | Use `prototype` skill.                           |
+| Multiple valid approaches                 | Show 2–4 variants with trade-offs.               |
+| New library / framework                   | Point at official docs/source.                   |
 
 ## Red Flags
 

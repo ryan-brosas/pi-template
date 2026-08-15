@@ -63,12 +63,12 @@ Each station (S1..Sn) has exactly:
 
 ### Station Quality
 
-| Good station | Bad station |
-| --- | --- |
+| Good station                                                   | Bad station                                                |
+|----------------------------------------------------------------|------------------------------------------------------------|
 | One complete path through the layers; independently verifiable | One layer in isolation; untestable until all stations done |
-| Adds user-visible behavior or fixes a bug | Pure prep with no signal |
-| Has a concrete acceptance check | Acceptance is "looks right" |
-| Ships a handoff payload the next station can run on | Leaves the next station to re-derive context |
+| Adds user-visible behavior or fixes a bug                      | Pure prep with no signal                                   |
+| Has a concrete acceptance check                                | Acceptance is "looks right"                                |
+| Ships a handoff payload the next station can run on            | Leaves the next station to re-derive context               |
 
 ## Phase 3: Write the Plan (output contract)
 
@@ -138,8 +138,8 @@ reports `enforce` → Schema mode; otherwise → main-session mode.
 
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
+| Need                  | Command   |
+|-----------------------|-----------|
 | Create the spec first | `/create` |
-| Implement the plan | `/ship` |
-| Verify gates | `/verify` |
+| Implement the plan    | `/ship`   |
+| Verify gates          | `/verify` |

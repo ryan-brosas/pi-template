@@ -497,12 +497,12 @@ func search(_ query: String) async {
 
 ## async let vs TaskGroup
 
-| Feature | async let | TaskGroup |
-|---------|-----------|-----------|
-| Task count | Fixed at compile-time | Dynamic at runtime |
-| Syntax | Lightweight | More verbose |
-| Cancellation | Automatic on scope exit | Manual via `cancelAll()` |
-| Use when | 2-5 known parallel tasks | Loop-based parallel work |
+| Feature      | async let                | TaskGroup                |
+|--------------|--------------------------|--------------------------|
+| Task count   | Fixed at compile-time    | Dynamic at runtime       |
+| Syntax       | Lightweight              | More verbose             |
+| Cancellation | Automatic on scope exit  | Manual via `cancelAll()` |
+| Use when     | 2-5 known parallel tasks | Loop-based parallel work |
 
 ```swift
 // async let: Known task count

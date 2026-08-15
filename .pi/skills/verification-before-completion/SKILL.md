@@ -25,16 +25,16 @@ Pure prose changes (review the diff); claims backed by a directly observable art
 
 ## Verification Hierarchy
 
-| Claim | Required evidence |
-| --- | --- |
-| "Test passes" | Test runner output, exit 0 |
-| "Typecheck clean" | `tsc --noEmit`, exit 0 |
-| "Lint clean" | Linter output, exit 0 |
-| "Build succeeds" | Build output, exit 0 |
-| "Behavior is X" | Repro + observed output |
-| "Code matches spec" | Diff or path + line range |
-| "Bug is fixed" | Regression test fails without, passes with |
-| "Shipped" | All + commit / PR link |
+| Claim               | Required evidence                          |
+|---------------------|--------------------------------------------|
+| "Test passes"       | Test runner output, exit 0                 |
+| "Typecheck clean"   | `tsc --noEmit`, exit 0                     |
+| "Lint clean"        | Linter output, exit 0                      |
+| "Build succeeds"    | Build output, exit 0                       |
+| "Behavior is X"     | Repro + observed output                    |
+| "Code matches spec" | Diff or path + line range                  |
+| "Bug is fixed"      | Regression test fails without, passes with |
+| "Shipped"           | All + commit / PR link                     |
 
 Lower levels (prose, code review) are inspection, not verification.
 
@@ -49,12 +49,12 @@ Lower levels (prose, code review) are inspection, not verification.
 
 ## Common Rationalizations
 
-| Rationalization | Counter |
-| --- | --- |
-| "One-line change" | They break builds. |
-| "Tested in my head" | Mental model ≠ code. |
-| "Add tests later" | There is no later. |
-| "CI will catch it" | That's the failure mode. |
+| Rationalization     | Counter                  |
+|---------------------|--------------------------|
+| "One-line change"   | They break builds.       |
+| "Tested in my head" | Mental model ≠ code.     |
+| "Add tests later"   | There is no later.       |
+| "CI will catch it"  | That's the failure mode. |
 
 ## Red Flags
 

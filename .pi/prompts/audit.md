@@ -15,9 +15,9 @@ If remediation is wanted, a later Schema commit authorizes mutation.
 
 ## Parse Arguments
 
-| Argument | Default | Description |
-| --- | --- | --- |
-| Pattern | required | Code pattern, symbol, or string to search for |
+| Argument | Default  | Description                                   |
+|----------|----------|-----------------------------------------------|
+| Pattern  | required | Code pattern, symbol, or string to search for |
 
 **Examples:**
 - `/audit console.log` — every debug log
@@ -38,12 +38,12 @@ Group results by subdirectory. For each match record: `file:line` and one line o
 
 For every occurrence, read enough surrounding code (10-30 lines) to grade it:
 
-| Severity | Meaning | Example |
-| --- | --- | --- |
-| Critical | Security hole, data loss, crash on main path | Missing auth check, unvalidated input into SQL/shell |
-| Important | Wrong behavior in production paths | Swallowed error, missing cleanup, off-by-one |
-| Minor | Style, duplication, dead path, debug leftover | console.log, unused variable |
-| Correct | No issue — pattern is used appropriately | Properly wrapped try/finally |
+| Severity  | Meaning                                       | Example                                              |
+|-----------|-----------------------------------------------|------------------------------------------------------|
+| Critical  | Security hole, data loss, crash on main path  | Missing auth check, unvalidated input into SQL/shell |
+| Important | Wrong behavior in production paths            | Swallowed error, missing cleanup, off-by-one         |
+| Minor     | Style, duplication, dead path, debug leftover | console.log, unused variable                         |
+| Correct   | No issue — pattern is used appropriately      | Properly wrapped try/finally                         |
 
 Do not grade from the match line alone; context determines severity.
 For suspicious matches (security-sensitive pattern), check the surrounding validation, authorization, and error handling before grading.
@@ -68,8 +68,8 @@ If the user asks for a written report file, write it only after a Schema commit 
 
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
-| Research a topic | `/research` |
-| Create a fix spec | `/create` |
-| Verify gates | `/verify` |
+| Need              | Command     |
+|-------------------|-------------|
+| Research a topic  | `/research` |
+| Create a fix spec | `/create`   |
+| Verify gates      | `/verify`   |

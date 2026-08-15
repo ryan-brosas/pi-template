@@ -27,19 +27,19 @@ Plain Node.js server (no CF); static without Workers; different platform.
 
 ## Core Services
 
-| Service | Use |
-|---|---|
-| **Workers** | Compute at the edge (V8 isolate) |
-| **Pages** | Static + Workers Functions |
-| **KV** | Low-latency key-value (eventually consistent) |
-| **D1** | SQLite at the edge |
-| **R2** | S3-compatible, no egress fees |
-| **Queues** | Async messaging |
-| **Workers AI** | Run models on Workers |
-| **Vectorize** | Vector DB for similarity search |
-| **Tunnel** | Secure origin connectivity |
-| **WAF** | Web app firewall rules |
-| **DNS** | Authoritative DNS |
+| Service        | Use                                           |
+|----------------|-----------------------------------------------|
+| **Workers**    | Compute at the edge (V8 isolate)              |
+| **Pages**      | Static + Workers Functions                    |
+| **KV**         | Low-latency key-value (eventually consistent) |
+| **D1**         | SQLite at the edge                            |
+| **R2**         | S3-compatible, no egress fees                 |
+| **Queues**     | Async messaging                               |
+| **Workers AI** | Run models on Workers                         |
+| **Vectorize**  | Vector DB for similarity search               |
+| **Tunnel**     | Secure origin connectivity                    |
+| **WAF**        | Web app firewall rules                        |
+| **DNS**        | Authoritative DNS                             |
 
 ## Workers Code Anatomy
 

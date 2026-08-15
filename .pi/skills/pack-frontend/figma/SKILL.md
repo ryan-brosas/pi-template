@@ -34,12 +34,12 @@ Token: Figma → Account Settings → Personal Access Tokens. Scope: `File read`
 
 ## Common Operations
 
-| Operation | When |
-|---|---|
-| Get file metadata | First step in any flow |
-| Get specific node | When you have a node ID from a URL |
-| Get image exports | When you need assets (icons, illustrations) |
-| Get styles / variables | Token extraction |
+| Operation              | When                                        |
+|------------------------|---------------------------------------------|
+| Get file metadata      | First step in any flow                      |
+| Get specific node      | When you have a node ID from a URL          |
+| Get image exports      | When you need assets (icons, illustrations) |
+| Get styles / variables | Token extraction                            |
 
 ## Token Extraction
 

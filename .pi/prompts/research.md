@@ -15,8 +15,8 @@ approves work; it feeds a later Schema hypothesis evidence set.
 
 ## Parse Arguments
 
-| Argument | Default | Description |
-| --- | --- | --- |
+| Argument | Default  | Description                |
+|----------|----------|----------------------------|
 | Question | required | Research question or topic |
 
 ## Phase 0: Classify and Budget
@@ -103,8 +103,8 @@ Schema mode; otherwise → main-session mode.
 
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
+| Need                           | Command   |
+|--------------------------------|-----------|
 | Create a feature from findings | `/create` |
-| Audit a pattern | `/audit` |
-| Verify gates | `/verify` |
+| Audit a pattern                | `/audit`  |
+| Verify gates                   | `/verify` |

@@ -34,11 +34,11 @@ npx wrangler@latest vectorize create <index-name> \
 
 #### Distance Metrics
 
-| Metric | Best For | Score Interpretation |
-|--------|----------|---------------------|
-| `euclidean` | Absolute distance, spatial data | Lower = closer (0.0 = identical) |
-| `cosine` | Text embeddings, semantic similarity | Higher = closer (1.0 = identical) |
-| `dot-product` | Recommendation systems, normalized vectors | Higher = closer |
+| Metric        | Best For                                   | Score Interpretation              |
+|---------------|--------------------------------------------|-----------------------------------|
+| `euclidean`   | Absolute distance, spatial data            | Lower = closer (0.0 = identical)  |
+| `cosine`      | Text embeddings, semantic similarity       | Higher = closer (1.0 = identical) |
+| `dot-product` | Recommendation systems, normalized vectors | Higher = closer                   |
 
 **Metric Selection:**
 - Text/semantic search: `cosine` (most common)
@@ -496,24 +496,24 @@ npx wrangler vectorize info <index-name>
 
 ## Limits (V2)
 
-| Resource | Limit |
-|----------|-------|
-| Indexes per account | 50,000 (Paid) / 100 (Free) |
-| Max dimensions | 1536 (32-bit float) |
-| Max vector ID length | 64 bytes |
-| Metadata per vector | 10 KiB |
-| Max topK (no values/metadata) | 100 |
-| Max topK (with values/metadata) | 20 |
-| Insert batch size (Workers) | 1000 |
-| Insert batch size (HTTP API) | 5000 |
-| List vectors page size | 1000 |
-| Max index name length | 64 bytes |
-| Max vectors per index | 5,000,000 |
-| Max namespaces | 50,000 (Paid) / 1000 (Free) |
-| Max namespace length | 64 bytes |
-| Max upload size | 100 MB |
-| Max metadata indexes | 10 |
-| Indexed metadata per field | 64 bytes (strings, UTF-8) |
+| Resource                        | Limit                       |
+|---------------------------------|-----------------------------|
+| Indexes per account             | 50,000 (Paid) / 100 (Free)  |
+| Max dimensions                  | 1536 (32-bit float)         |
+| Max vector ID length            | 64 bytes                    |
+| Metadata per vector             | 10 KiB                      |
+| Max topK (no values/metadata)   | 100                         |
+| Max topK (with values/metadata) | 20                          |
+| Insert batch size (Workers)     | 1000                        |
+| Insert batch size (HTTP API)    | 5000                        |
+| List vectors page size          | 1000                        |
+| Max index name length           | 64 bytes                    |
+| Max vectors per index           | 5,000,000                   |
+| Max namespaces                  | 50,000 (Paid) / 1000 (Free) |
+| Max namespace length            | 64 bytes                    |
+| Max upload size                 | 100 MB                      |
+| Max metadata indexes            | 10                          |
+| Indexed metadata per field      | 64 bytes (strings, UTF-8)   |
 
 ## Common Patterns
 

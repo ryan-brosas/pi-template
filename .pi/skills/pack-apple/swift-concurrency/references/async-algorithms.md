@@ -597,20 +597,20 @@ do {
 
 ### Operator Mapping Table
 
-| Combine | AsyncAlgorithms | Status | Alternative |
-|---------|-----------------|---------|-------------|
-| `.debounce()` | `debounce()` | [x] Stable | - |
-| `.throttle()` | `throttle()` | [x] Stable | - |
-| `.merge()` | `merge()` | [x] Stable | - |
-| `.combineLatest()` | `combineLatest()` | [x] Stable | - |
-| `.zip()` | `zip()` | [x] Stable | - |
-| `.concat()` | `chain()` | [x] Stable | - |
-| `.removeDuplicates()` | `removeDuplicates()` | [x] Stable | - |
-| `.timer()` | `AsyncTimerSequence` | [x] Stable | - |
-| `.share()` | - | - | `AsyncChannel` |
-| `.flatMap()` | - | - | `TaskGroup` |
-| `.receive(on:)` | - | - | `Task` / `@MainActor` |
-| `.eraseToAnyPublisher()` | - | - | `any AsyncSequence` |
+| Combine                  | AsyncAlgorithms      | Status     | Alternative           |
+|--------------------------|----------------------|------------|-----------------------|
+| `.debounce()`            | `debounce()`         | [x] Stable | -                     |
+| `.throttle()`            | `throttle()`         | [x] Stable | -                     |
+| `.merge()`               | `merge()`            | [x] Stable | -                     |
+| `.combineLatest()`       | `combineLatest()`    | [x] Stable | -                     |
+| `.zip()`                 | `zip()`              | [x] Stable | -                     |
+| `.concat()`              | `chain()`            | [x] Stable | -                     |
+| `.removeDuplicates()`    | `removeDuplicates()` | [x] Stable | -                     |
+| `.timer()`               | `AsyncTimerSequence` | [x] Stable | -                     |
+| `.share()`               | -                    | -          | `AsyncChannel`        |
+| `.flatMap()`             | -                    | -          | `TaskGroup`           |
+| `.receive(on:)`          | -                    | -          | `Task` / `@MainActor` |
+| `.eraseToAnyPublisher()` | -                    | -          | `any AsyncSequence`   |
 
 ---
 

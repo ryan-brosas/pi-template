@@ -4,7 +4,7 @@
 # inspection profile, and scope here. Local `qodana scan` uses the same file.
 # Activation: add a QODANA_TOKEN secret from https://qodana.cloud (free for
 # open source). Without it the qodana workflow skips and CI stays green.
-version: 1.0
+version: "1.0"
 
 # Engine per project language. This template's only code is the Node validator
 # scripts (.mjs), so the JS/TS linter applies. Swap for qodana-python,

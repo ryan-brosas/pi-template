@@ -145,11 +145,11 @@ If an export IS flagged as unused despite being in a barrel file, it means no do
 
 ## Exit Code 1 vs 2
 
-| Code | Meaning | Action |
-|------|---------|--------|
-| 0 | No error-severity issues | Success |
-| 1 | Error-severity issues found | Review findings |
-| 2 | Runtime error (`fix` without `--yes` in non-TTY, invalid config) | Fix config or add `--yes` |
+| Code | Meaning                                                          | Action                    |
+|------|------------------------------------------------------------------|---------------------------|
+| 0    | No error-severity issues                                         | Success                   |
+| 1    | Error-severity issues found                                      | Review findings           |
+| 2    | Runtime error (`fix` without `--yes` in non-TTY, invalid config) | Fix config or add `--yes` |
 
 Exit code 1 is triggered by issues with `"error"` severity in the rules config. Without a rules section, all issue types default to `"error"`. Use the rules system to control which issues fail CI:
 
@@ -601,12 +601,12 @@ fallow license refresh: your stored license is too stale to refresh. Reactivate 
 
 Stable codes the CLI surfaces today:
 
-| Code | Operation | Meaning |
-|------|-----------|---------|
-| `token_stale` | `refresh` | Stored JWT is more than 45 days past its `exp`. Reactivate. |
-| `invalid_token` | `refresh` | Stored JWT is missing required claims (e.g. `sub`). Reactivate. |
-| `unauthorized` | `refresh` or `trial` | Auth failed. Reactivate. |
-| `rate_limit_exceeded` | `trial` | Trial endpoint is capped at 5 per hour per IP. Wait or use a different network. |
+| Code                  | Operation            | Meaning                                                                         |
+|-----------------------|----------------------|---------------------------------------------------------------------------------|
+| `token_stale`         | `refresh`            | Stored JWT is more than 45 days past its `exp`. Reactivate.                     |
+| `invalid_token`       | `refresh`            | Stored JWT is missing required claims (e.g. `sub`). Reactivate.                 |
+| `unauthorized`        | `refresh` or `trial` | Auth failed. Reactivate.                                                        |
+| `rate_limit_exceeded` | `trial`              | Trial endpoint is capped at 5 per hour per IP. Wait or use a different network. |
 
 To detect a rate-limited trial signup in CI:
 

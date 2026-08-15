@@ -90,12 +90,16 @@ No more `tailwind.config.js` for most cases. Use `@theme` in CSS. v4 uses Lightn
 ```tsx
 import { motion } from "motion/react"
 
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  exit={{ opacity: 0 }}
-  transition={{ duration: 0.2 }}
-/>
+function AnimatedBox() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    />
+  )
+}
 ```
 
 Use for entrances, exits, layout transitions. Not for every interaction. Respect `prefers-reduced-motion`.

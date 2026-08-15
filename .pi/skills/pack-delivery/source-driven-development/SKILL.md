@@ -49,12 +49,12 @@ Higher-ranked sources win on conflicts.
 
 ## Common Rationalizations
 
-| Rationalization | Rebuttal |
-| --- | --- |
-| "I know this API" | APIs change; verify version-specific behavior. |
-| "A blog said so" | Blogs lose to official docs/source. |
+| Rationalization               | Rebuttal                                             |
+|-------------------------------|------------------------------------------------------|
+| "I know this API"             | APIs change; verify version-specific behavior.       |
+| "A blog said so"              | Blogs lose to official docs/source.                  |
 | "The package name is obvious" | Similar packages differ in security and maintenance. |
-| "Citations slow us down" | A bad integration costs more than a source check. |
+| "Citations slow us down"      | A bad integration costs more than a source check.    |
 
 ## Red Flags
 

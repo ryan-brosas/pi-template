@@ -40,12 +40,12 @@ Pick the right one. `Task { }` in a class is rarely right.
 
 ## Actor Rules
 
-| Pattern | Use |
-|---|---|
-| `actor Foo { }` | Shared state, mutated across contexts |
-| `@MainActor Foo` | UI class; everything on main |
-| `nonisolated func` | Doesn't access actor state |
-| `isolated parameter` | Already on the actor |
+| Pattern              | Use                                   |
+|----------------------|---------------------------------------|
+| `actor Foo { }`      | Shared state, mutated across contexts |
+| `@MainActor Foo`     | UI class; everything on main          |
+| `nonisolated func`   | Doesn't access actor state            |
+| `isolated parameter` | Already on the actor                  |
 
 Mark `final` and `Sendable` so the compiler can check.
 

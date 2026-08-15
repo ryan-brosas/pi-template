@@ -119,12 +119,12 @@ Rectangle()
 
 ### Built-in Curves
 
-| Curve | Use Case |
-|-------|----------|
-| `.spring` | Interactive elements, most UI |
-| `.easeInOut` | Appearance changes |
-| `.bouncy` | Playful feedback (iOS 17+) |
-| `.linear` | Progress indicators only |
+| Curve        | Use Case                      |
+|--------------|-------------------------------|
+| `.spring`    | Interactive elements, most UI |
+| `.easeInOut` | Appearance changes            |
+| `.bouncy`    | Playful feedback (iOS 17+)    |
+| `.linear`    | Progress indicators only      |
 
 ### Modifiers
 

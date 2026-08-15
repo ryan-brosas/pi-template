@@ -33,13 +33,13 @@ if (object) return new Response(object.body);
 
 ## Core Operations
 
-| Method | Purpose | Returns |
-|--------|---------|---------|
-| `put(key, value, options?)` | Upload object | `R2Object \| null` |
-| `get(key, options?)` | Download object | `R2ObjectBody \| R2Object \| null` |
-| `head(key)` | Get metadata only | `R2Object \| null` |
-| `delete(keys)` | Delete object(s) | `Promise<void>` |
-| `list(options?)` | List objects | `R2Objects` |
+| Method                      | Purpose           | Returns                            |
+|-----------------------------|-------------------|------------------------------------|
+| `put(key, value, options?)` | Upload object     | `R2Object \| null`                 |
+| `get(key, options?)`        | Download object   | `R2ObjectBody \| R2Object \| null` |
+| `head(key)`                 | Get metadata only | `R2Object \| null`                 |
+| `delete(keys)`              | Delete object(s)  | `Promise<void>`                    |
+| `list(options?)`            | List objects      | `R2Objects`                        |
 
 ## Storage Classes
 

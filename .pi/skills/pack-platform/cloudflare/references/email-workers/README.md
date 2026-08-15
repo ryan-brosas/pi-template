@@ -346,12 +346,12 @@ In Cloudflare dashboard:
 
 ## Limits
 
-| Limit | Value |
-|-------|-------|
-| Max message size | 25 MiB |
-| Max rules | 200 |
-| Max destination addresses | 200 |
-| Workers CPU (free tier) | Limited (upgrade for more) |
+| Limit                     | Value                      |
+|---------------------------|----------------------------|
+| Max message size          | 25 MiB                     |
+| Max rules                 | 200                        |
+| Max destination addresses | 200                        |
+| Workers CPU (free tier)   | Limited (upgrade for more) |
 
 ### CPU Limit Errors
 

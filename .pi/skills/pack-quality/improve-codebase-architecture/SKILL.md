@@ -50,16 +50,16 @@ Start at the bottom. Don't jump to 5.
 
 ## Common Smells
 
-| Smell | Indicator | First move |
-|---|---|---|
-| Long method | > 30 lines, multiple responsibilities | Extract method |
-| God class | 1000+ lines, 20+ methods | Extract class |
-| Tight coupling | Changing A forces changes in B | Dependency injection |
-| Feature envy | Method uses B's data more | Move method to B |
-| Primitive obsession | Strings/numbers for domain | Value objects / branded |
-| Long parameter list | > 3 params, especially bools | Parameter object / options |
-| Shotgun surgery | One change touches 5+ files | Consolidate |
-| Divergent change | One class changes for many reasons | Split by axis |
+| Smell               | Indicator                             | First move                 |
+|---------------------|---------------------------------------|----------------------------|
+| Long method         | > 30 lines, multiple responsibilities | Extract method             |
+| God class           | 1000+ lines, 20+ methods              | Extract class              |
+| Tight coupling      | Changing A forces changes in B        | Dependency injection       |
+| Feature envy        | Method uses B's data more             | Move method to B           |
+| Primitive obsession | Strings/numbers for domain            | Value objects / branded    |
+| Long parameter list | > 3 params, especially bools          | Parameter object / options |
+| Shotgun surgery     | One change touches 5+ files           | Consolidate                |
+| Divergent change    | One class changes for many reasons    | Split by axis              |
 
 ## Module Boundaries
 

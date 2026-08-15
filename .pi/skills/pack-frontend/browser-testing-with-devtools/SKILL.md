@@ -25,12 +25,12 @@ Browser testing proves what users actually experience. Use runtime evidence inst
 
 ## Tool Routing
 
-| Need | Use |
-| --- | --- |
-| Cross-browser automation, screenshots, repeatable flows | `playwright` |
-| Live Chrome inspection, console/network/runtime state | `chrome-devtools` |
-| Bot-protected docs or static page extraction | plain `fetch` or `curl` |
-| UI implementation guidance | `frontend-design` |
+| Need                                                    | Use                     |
+|---------------------------------------------------------|-------------------------|
+| Cross-browser automation, screenshots, repeatable flows | `playwright`            |
+| Live Chrome inspection, console/network/runtime state   | `chrome-devtools`       |
+| Bot-protected docs or static page extraction            | plain `fetch` or `curl` |
+| UI implementation guidance                              | `frontend-design`       |
 
 ## Process
 
@@ -45,12 +45,12 @@ Browser testing proves what users actually experience. Use runtime evidence inst
 
 ## Common Rationalizations
 
-| Rationalization | Rebuttal |
-| --- | --- |
+| Rationalization                                   | Rebuttal                                                                            |
+|---------------------------------------------------|-------------------------------------------------------------------------------------|
 | "The component compiles, so the browser is fine." | Runtime integration, CSS, hydration, and network behavior fail outside compilation. |
-| "A screenshot is enough." | Screenshots miss console errors, failed requests, and inaccessible states. |
-| "Manual clicking is faster." | Repeatable scripted flows create evidence and prevent regression. |
-| "The test is flaky, just wait longer." | Use condition-based waiting and prove the actual state changed. |
+| "A screenshot is enough."                         | Screenshots miss console errors, failed requests, and inaccessible states.          |
+| "Manual clicking is faster."                      | Repeatable scripted flows create evidence and prevent regression.                   |
+| "The test is flaky, just wait longer."            | Use condition-based waiting and prove the actual state changed.                     |
 
 ## Red Flags
 

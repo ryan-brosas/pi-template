@@ -10,16 +10,16 @@ Create a specification (PRD), set up the workspace, and define executable tasks 
 
 ## Parse Arguments
 
-| Argument | Default | Description |
-| --- | --- | --- |
+| Argument        | Default  | Description                       |
+|-----------------|----------|-----------------------------------|
 | `<description>` | required | What to build/fix (quoted string) |
 
 ## Determine Input Type
 
-| Input Type | Detection | Action |
-| --- | --- | --- |
-| Quoted text | `"description here"` | Create PRD from description |
-| Short form | Simple string | Ask for more detail if needed |
+| Input Type  | Detection            | Action                        |
+|-------------|----------------------|-------------------------------|
+| Quoted text | `"description here"` | Create PRD from description   |
+| Short form  | Simple string        | Ask for more detail if needed |
 
 ## Before You Create
 
@@ -85,11 +85,11 @@ Render `.pi/templates/issue.md` into `.pi/work/$ID/issue.md` with the work ID an
 
 Not every change needs a full spec. Assess complexity to choose the PRD level:
 
-| Signal | Lite PRD | Full PRD |
-| --- | --- | --- |
-| Scope | Simple, single-concern | Cross-cutting, multi-system |
-| Risk | Low blast radius | Touches auth, data, public API |
-| Unknowns | Few | Many open questions |
+| Signal   | Lite PRD               | Full PRD                       |
+|----------|------------------------|--------------------------------|
+| Scope    | Simple, single-concern | Cross-cutting, multi-system    |
+| Risk     | Low blast radius       | Touches auth, data, public API |
+| Unknowns | Few                    | Many open questions            |
 
 Lite PRD when the change is small and well understood; full PRD otherwise.
 
@@ -128,8 +128,8 @@ Research, question-asking, and PRD drafting are read-only. Before writing any fi
 
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
-| Deeper planning | `/plan` |
-| Implement the spec | `/ship` |
-| Verify gates | `/verify` |
+| Need               | Command   |
+|--------------------|-----------|
+| Deeper planning    | `/plan`   |
+| Implement the spec | `/ship`   |
+| Verify gates       | `/verify` |

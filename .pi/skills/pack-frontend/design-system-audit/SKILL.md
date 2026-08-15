@@ -51,16 +51,16 @@ Every raw value is a breach. Every missing token is a gap. Every drift is a visu
 
 Compare the implementation against the design spec:
 
-| Check | Method |
-|---|---|
-| Color | Hex values vs spec tokens |
-| Typography | Family, size, weight, line-height |
-| Spacing | Padding, margin, gap |
-| Radius | Border radius on every component |
-| Shadow | Shadow tokens |
-| Iconography | Size, stroke, alignment |
-| States | Hover, active, disabled, focus, error |
-| Motion | Duration, easing, transforms |
+| Check       | Method                                |
+|-------------|---------------------------------------|
+| Color       | Hex values vs spec tokens             |
+| Typography  | Family, size, weight, line-height     |
+| Spacing     | Padding, margin, gap                  |
+| Radius      | Border radius on every component      |
+| Shadow      | Shadow tokens                         |
+| Iconography | Size, stroke, alignment               |
+| States      | Hover, active, disabled, focus, error |
+| Motion      | Duration, easing, transforms          |
 
 ## Reporting
 

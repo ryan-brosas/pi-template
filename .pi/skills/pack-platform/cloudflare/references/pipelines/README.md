@@ -491,13 +491,13 @@ export default {
 
 ## Limits (Open Beta)
 
-| Resource | Limit |
-|----------|-------|
-| Streams per account | 20 |
-| Sinks per account | 20 |
-| Pipelines per account | 20 |
-| Payload size per request | 1 MB |
-| Ingest rate per stream | 5 MB/s |
+| Resource                 | Limit  |
+|--------------------------|--------|
+| Streams per account      | 20     |
+| Sinks per account        | 20     |
+| Pipelines per account    | 20     |
+| Payload size per request | 1 MB   |
+| Ingest rate per stream   | 5 MB/s |
 
 Request increases: [Limit Increase Form](https://forms.gle/ukpeZVLWLnKeixDu7)
 

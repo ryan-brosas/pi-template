@@ -14,14 +14,14 @@ Evidence: `README.md:1-12`; `git remote -v` (origin github.com/ryan-brosas/pi-te
 
 ## Languages and File Formats
 
-| Area | Format | Purpose |
-| --- | --- | --- |
-| Agent rules and documentation | Markdown | Repository instructions, project context, and operator guidance |
-| Prompt commands | Markdown | Pi slash-command prompt templates under `.pi/prompts/` |
-| Skills | Markdown with YAML frontmatter | Reusable task-specific agent guidance under `.pi/skills/` |
-| Pi settings | JSON | Thinking level, theme, and compaction configuration |
-| Pi Fabric settings | JSON | Schema and mutation-guard configuration |
-| Validation gates | Node.js (ESM) | Dependency-free structural checks under `scripts/` |
+| Area                          | Format                         | Purpose                                                         |
+|-------------------------------|--------------------------------|-----------------------------------------------------------------|
+| Agent rules and documentation | Markdown                       | Repository instructions, project context, and operator guidance |
+| Prompt commands               | Markdown                       | Pi slash-command prompt templates under `.pi/prompts/`          |
+| Skills                        | Markdown with YAML frontmatter | Reusable task-specific agent guidance under `.pi/skills/`       |
+| Pi settings                   | JSON                           | Thinking level, theme, and compaction configuration             |
+| Pi Fabric settings            | JSON                           | Schema and mutation-guard configuration                         |
+| Validation gates              | Node.js (ESM)                  | Dependency-free structural checks under `scripts/`              |
 
 There is no `src/`, `lib/`, or `app/` source tree and no indexed application code.
 
@@ -42,18 +42,18 @@ There is no `src/`, `lib/`, or `app/` source tree and no indexed application cod
 - **Project dependencies:** None. The repository requires only the Pi host and Pi Fabric; the seven validation scripts run on plain Node with no imports beyond Node built-ins.
 - **Host tools (installed, not project dependencies):** these programs are available in the local environment. They become stack entries only when a project file uses them. Veda and AGY are now used by README's Optional Veda lane; the rest are installed but not project-used.
 
-| Tool | Version | Evidence | Used by the project? |
-| --- | --- | --- | --- |
-| Node.js | v26.7.0 | `node --version`, 2026-08-12 | Yes, validation scripts |
-| npm | 12.0.1 | `npm --version`, 2026-08-09 | No |
-| pnpm | 11.3.0 | `pnpm --version`, 2026-08-09 | No |
-| Bun | 1.3.14 | `bun --version`, 2026-08-09 | No |
-| Python | 3.14.6 | `python3 --version`, 2026-08-09 | No |
-| GNU Make | 4.4.1 | `make --version`, 2026-08-09 | No |
-| veda | 0.75.8 | `veda --version`, 2026-08-12 | Yes, Gemini budget profiles and bounded Veda research/review |
-| agy | 1.1.12 | `agy --version`, 2026-08-12 | Yes, Veda Gemini tiers plus direct Claude Opus/Sonnet planning/review |
-| Claude Code | 2.1.220 | `claude --version`, 2026-08-12 | No, claude-code CLI is unauthenticated; Claude Opus/Sonnet runs through direct AGY models instead |
-| Gemini CLI | 0.55.1 | `gemini --version`, 2026-08-12 | No, installed but unauthenticated; probe-only |
+| Tool        | Version | Evidence                        | Used by the project?                                                                              |
+|-------------|---------|---------------------------------|---------------------------------------------------------------------------------------------------|
+| Node.js     | v26.7.0 | `node --version`, 2026-08-12    | Yes, validation scripts                                                                           |
+| npm         | 12.0.1  | `npm --version`, 2026-08-09     | No                                                                                                |
+| pnpm        | 11.3.0  | `pnpm --version`, 2026-08-09    | No                                                                                                |
+| Bun         | 1.3.14  | `bun --version`, 2026-08-09     | No                                                                                                |
+| Python      | 3.14.6  | `python3 --version`, 2026-08-09 | No                                                                                                |
+| GNU Make    | 4.4.1   | `make --version`, 2026-08-09    | No                                                                                                |
+| veda        | 0.75.8  | `veda --version`, 2026-08-12    | Yes, Gemini budget profiles and bounded Veda research/review                                      |
+| agy         | 1.1.12  | `agy --version`, 2026-08-12     | Yes, Veda Gemini tiers plus direct Claude Opus/Sonnet planning/review                             |
+| Claude Code | 2.1.220 | `claude --version`, 2026-08-12  | No, claude-code CLI is unauthenticated; Claude Opus/Sonnet runs through direct AGY models instead |
+| Gemini CLI  | 0.55.1  | `gemini --version`, 2026-08-12  | No, installed but unauthenticated; probe-only                                                     |
 
 Do not add commands based only on this host inventory. A project command requires a manifest, script, or explicit user decision.
 
@@ -82,18 +82,18 @@ Do not add commands based only on this host inventory. A project command require
 
 ## Commands
 
-| Command | Status | Purpose | Verified |
-| --- | --- | --- | --- |
-| `node scripts/validate-skill-packs.mjs` | works | Pack catalog, membership, visibility, metadata budget | 2026-08-09, exit 0 |
-| `node scripts/sync-skill-manifest.mjs --check` | works | Manifest parity | 2026-08-09, exit 0 |
-| `node scripts/probe-skill-routing.mjs` | works | Router dispatch probes | 2026-08-09, exit 0 |
-| `node scripts/validate-pi-fabric.mjs` | works | Schema dispositions, mode config (enforce or audit), skill paths | 2026-08-09, exit 0 |
-| `node scripts/validate-work-management.mjs` | works | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety | 2026-08-09, exit 0 |
-| `node scripts/validate-notion-workspace-skill.mjs` | works | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
-| `node scripts/check.mjs` | works | Canonical gate: all validators + `git diff --check` | 2026-08-11, exit 0 |
-| `node scripts/validate-release-hygiene.mjs` | works | Release hygiene: machine paths, secrets, runtime state, documented counts | 2026-08-11, exit 0 |
-| `git diff --check` | works | Whitespace check on changed files | 2026-08-09, exit 0 |
-| install / dev / test / lint / typecheck / build / format | none | No command exists in the current tree | probed 2026-08-09 |
+| Command                                                  | Status | Purpose                                                                                          | Verified           |
+|----------------------------------------------------------|--------|--------------------------------------------------------------------------------------------------|--------------------|
+| `node scripts/validate-skill-packs.mjs`                  | works  | Pack catalog, membership, visibility, metadata budget                                            | 2026-08-09, exit 0 |
+| `node scripts/sync-skill-manifest.mjs --check`           | works  | Manifest parity                                                                                  | 2026-08-09, exit 0 |
+| `node scripts/probe-skill-routing.mjs`                   | works  | Router dispatch probes                                                                           | 2026-08-09, exit 0 |
+| `node scripts/validate-pi-fabric.mjs`                    | works  | Schema dispositions, mode config (enforce or audit), skill paths                                 | 2026-08-09, exit 0 |
+| `node scripts/validate-work-management.mjs`              | works  | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety             | 2026-08-09, exit 0 |
+| `node scripts/validate-notion-workspace-skill.mjs`       | works  | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
+| `node scripts/check.mjs`                                 | works  | Canonical gate: all validators + `git diff --check`                                              | 2026-08-11, exit 0 |
+| `node scripts/validate-release-hygiene.mjs`              | works  | Release hygiene: machine paths, secrets, runtime state, documented counts                        | 2026-08-11, exit 0 |
+| `git diff --check`                                       | works  | Whitespace check on changed files                                                                | 2026-08-09, exit 0 |
+| install / dev / test / lint / typecheck / build / format | none   | No command exists in the current tree                                                            | probed 2026-08-09  |
 
 ## CI
 

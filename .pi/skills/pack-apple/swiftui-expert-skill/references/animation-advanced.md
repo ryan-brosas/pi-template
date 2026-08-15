@@ -210,12 +210,12 @@ struct AnimationValues {
 
 ### Keyframe Types
 
-| Type | Behavior |
-|------|----------|
-| `CubicKeyframe` | Smooth interpolation |
-| `LinearKeyframe` | Straight-line interpolation |
-| `SpringKeyframe` | Spring physics |
-| `MoveKeyframe` | Instant jump (no interpolation) |
+| Type             | Behavior                        |
+|------------------|---------------------------------|
+| `CubicKeyframe`  | Smooth interpolation            |
+| `LinearKeyframe` | Straight-line interpolation     |
+| `SpringKeyframe` | Spring physics                  |
+| `MoveKeyframe`   | Instant jump (no interpolation) |
 
 ### Multiple Synchronized Tracks
 

@@ -80,7 +80,7 @@ Deploying an Edge Function (`deploy_edge_function`) is a production mutation —
 
 For advanced usage, modify `mcp.json`:
 
-```json
+```jsonc
 {
   "supabase": {
     "command": "npx",

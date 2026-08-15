@@ -107,23 +107,23 @@ Assumes `main` as default branch.
 
 ## Repo Spec Formats
 
-| Format | Example | Host |
-|--------|---------|------|
-| `owner/repo` | `vercel/ai` | github.com |
-| `github:owner/repo` | `github:facebook/react` | github.com |
-| `gitlab:owner/repo` | `gitlab:inkscape/inkscape` | gitlab.com |
+| Format                 | Example                                | Host          |
+|------------------------|----------------------------------------|---------------|
+| `owner/repo`           | `vercel/ai`                            | github.com    |
+| `github:owner/repo`    | `github:facebook/react`                | github.com    |
+| `gitlab:owner/repo`    | `gitlab:inkscape/inkscape`             | gitlab.com    |
 | `bitbucket:owner/repo` | `bitbucket:atlassian/python-bitbucket` | bitbucket.org |
-| `host/owner/repo` | `gitlab.com/owner/repo` | (from URL) |
-| Full URL | `https://github.com/...` | (from URL) |
+| `host/owner/repo`      | `gitlab.com/owner/repo`                | (from URL)    |
+| Full URL               | `https://github.com/...`               | (from URL)    |
 
 ## Ref Specifications
 
 Append to repo spec:
 
-| Suffix | Example | Meaning |
-|--------|---------|---------|
-| `@ref` | `owner/repo@v1.0.0` | Tag, branch, or commit |
-| `#ref` | `owner/repo#main` | Branch (alternative syntax) |
+| Suffix | Example             | Meaning                     |
+|--------|---------------------|-----------------------------|
+| `@ref` | `owner/repo@v1.0.0` | Tag, branch, or commit      |
+| `#ref` | `owner/repo#main`   | Branch (alternative syntax) |
 
 URL paths also supported: `https://github.com/owner/repo/tree/branch`
 

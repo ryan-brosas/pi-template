@@ -31,15 +31,15 @@ Manual deploys (CI is the answer); one-off scripts (use Make or just); long-runn
 [Trigger] → [Setup + Cache] → [Lint] → [Typecheck] → [Test] → [Build] → [Deploy]
 ```
 
-| Step | Budget |
-|---|---|
-| Lint | < 30s |
-| Typecheck | < 1m |
-| Test (unit) | < 5m |
-| Test (integration) | < 10m |
-| Build | < 5m |
-| Deploy preview | < 10m |
-| Deploy prod | < 15m |
+| Step               | Budget |
+|--------------------|--------|
+| Lint               | < 30s  |
+| Typecheck          | < 1m   |
+| Test (unit)        | < 5m   |
+| Test (integration) | < 10m  |
+| Build              | < 5m   |
+| Deploy preview     | < 10m  |
+| Deploy prod        | < 15m  |
 
 Over budget → separate job (parallel).
 
@@ -82,12 +82,12 @@ Don't test dead versions. Update when the floor moves.
 
 ## Deploy Strategies
 
-| Strategy | When |
-|---|---|
-| Rolling | Default for most services |
-| Blue/green | Zero-downtime, canary-able |
-| Canary | Small % of traffic, ramp |
-| Recreate | Acceptable downtime, stateless |
+| Strategy   | When                           |
+|------------|--------------------------------|
+| Rolling    | Default for most services      |
+| Blue/green | Zero-downtime, canary-able     |
+| Canary     | Small % of traffic, ramp       |
+| Recreate   | Acceptable downtime, stateless |
 
 ## Release Workflow
 

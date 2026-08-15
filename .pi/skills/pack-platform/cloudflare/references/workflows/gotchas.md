@@ -21,15 +21,15 @@ try {
 
 ## Limits
 
-| Limit | Free | Paid |
-|-------|------|------|
-| CPU per step | 10ms | 30s (default), 5min (max) |
-| Step state | 1 MiB | 1 MiB |
-| Instance state | 100 MB | 1 GB |
-| Steps per workflow | 1,024 | 1,024 |
-| Executions/day | 100k | Unlimited |
-| Concurrent instances | 25 | 10k |
-| State retention | 3d | 30d |
+| Limit                | Free   | Paid                      |
+|----------------------|--------|---------------------------|
+| CPU per step         | 10ms   | 30s (default), 5min (max) |
+| Step state           | 1 MiB  | 1 MiB                     |
+| Instance state       | 100 MB | 1 GB                      |
+| Steps per workflow   | 1,024  | 1,024                     |
+| Executions/day       | 100k   | Unlimited                 |
+| Concurrent instances | 25     | 10k                       |
+| State retention      | 3d     | 30d                       |
 
 Note: `step.sleep()` doesn't count toward step limit
 
@@ -101,11 +101,11 @@ const status = await instance.status();
 
 ## Pricing
 
-| Metric | Free | Paid |
-|--------|------|------|
-| Requests | 100k/day | 10M/mo + $0.30/M |
+| Metric   | Free        | Paid                           |
+|----------|-------------|--------------------------------|
+| Requests | 100k/day    | 10M/mo + $0.30/M               |
 | CPU time | 10ms/invoke | 30M CPU-ms/mo + $0.02/M CPU-ms |
-| Storage | 1 GB | 1 GB/mo + $0.20/GB-mo |
+| Storage  | 1 GB        | 1 GB/mo + $0.20/GB-mo          |
 
 Storage: Includes all instances (running/errored/sleeping/completed). Retention: 3d (Free), 30d (Paid)
 

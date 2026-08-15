@@ -150,14 +150,14 @@ Write tasks in a machine-convertible format for `prd-task` skill.
 
 **Rules:**
 
-- Each task is a `### <Title> [category]` heading
+- Each task is a `### [Title] [category]` heading
 - Provide one sentence describing the end state
 - Include `**Metadata:**` with dependency info
 - Include `**Verification:**` with bullet steps proving it works
 
-### <Task Title> [category]
+### [Task Title] [category]
 
-<One sentence describing the end state>
+[One sentence describing the end state]
 
 **Metadata:**
 
@@ -173,9 +173,9 @@ files: [] # Files this task will modify
 - [Command or check]
 - [Command or check]
 
-### <Task Title> [category]
+### [Task Title] [category]
 
-<One sentence describing the end state>
+[One sentence describing the end state]
 
 **Metadata:**
 

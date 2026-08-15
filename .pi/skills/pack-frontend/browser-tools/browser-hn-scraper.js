@@ -18,65 +18,60 @@ import * as cheerio from 'cheerio';
 async function scrapeHackerNews(limit = 30) {
   const url = 'https://news.ycombinator.com';
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const html = await response.text();
+  const $ = cheerio.load(html);
+  const submissions = [];
+
+  // Each submission has class 'athing'
+  $('.athing').each((index, element) => {
+    if (submissions.length >= limit) return false; // Stop when limit reached
+
+    const $element = $(element);
+    const id = $element.attr('id');
+
+    const $titleLine = $element.find('.titleline > a').first();
+    const title = $titleLine.text().trim();
+    const url = $titleLine.attr('href');
+
+    // Get the next row which contains metadata (points, author, comments)
+    const $metadataRow = $element.next();
+    const $subtext = $metadataRow.find('.subtext');
+
+    const $score = $subtext.find(`#score_${id}`);
+    const pointsText = $score.text();
+    const points = pointsText ? parseInt(pointsText.match(/\d+/)?.[0] || '0') : 0;
+
+    const author = $subtext.find('.hnuser').text().trim();
+
+    const time = $subtext.find('.age').attr('title') || $subtext.find('.age').text().trim();
+
+    const $commentsLink = $subtext.find('a').last();
+    const commentsText = $commentsLink.text();
+    let commentsCount = 0;
+
+    if (commentsText.includes('comment')) {
+      const match = commentsText.match(/(\d+)/);
+      commentsCount = match ? parseInt(match[0]) : 0;
     }
 
-    const html = await response.text();
-    const $ = cheerio.load(html);
-    const submissions = [];
-
-    // Each submission has class 'athing'
-    $('.athing').each((index, element) => {
-      if (submissions.length >= limit) return false; // Stop when limit reached
-
-      const $element = $(element);
-      const id = $element.attr('id');
-
-      const $titleLine = $element.find('.titleline > a').first();
-      const title = $titleLine.text().trim();
-      const url = $titleLine.attr('href');
-
-      // Get the next row which contains metadata (points, author, comments)
-      const $metadataRow = $element.next();
-      const $subtext = $metadataRow.find('.subtext');
-
-      const $score = $subtext.find(`#score_${id}`);
-      const pointsText = $score.text();
-      const points = pointsText ? parseInt(pointsText.match(/\d+/)?.[0] || '0') : 0;
-
-      const author = $subtext.find('.hnuser').text().trim();
-
-      const time = $subtext.find('.age').attr('title') || $subtext.find('.age').text().trim();
-
-      const $commentsLink = $subtext.find('a').last();
-      const commentsText = $commentsLink.text();
-      let commentsCount = 0;
-
-      if (commentsText.includes('comment')) {
-        const match = commentsText.match(/(\d+)/);
-        commentsCount = match ? parseInt(match[0]) : 0;
-      }
-
-      submissions.push({
-        id,
-        title,
-        url,
-        points,
-        author,
-        time,
-        comments: commentsCount,
-        hnUrl: `https://news.ycombinator.com/item?id=${id}`
-      });
+    submissions.push({
+      id,
+      title,
+      url,
+      points,
+      author,
+      time,
+      comments: commentsCount,
+      hnUrl: `https://news.ycombinator.com/item?id=${id}`
     });
+  });
 
-    return submissions;
-  } catch (error) {
-    console.error('Error scraping Hacker News:', error.message);
-    throw error;
-  }
+  return submissions;
 }
 
 // CLI interface

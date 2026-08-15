@@ -53,7 +53,7 @@ Disposition:
 ## Output
 
 | Rank | Repository | Stars | Opportunity | Evidence | Effort | Merge signal | Risks | Score | Disposition |
-| --- | --- | ---: | --- | --- | --- | --- | --- | ---: | --- |
+|------|------------|------:|-------------|----------|--------|--------------|-------|------:|-------------|
 
 For the top candidate include policy, collision, reproduction, files/tests, identity facts, unknowns, and the smallest approved next action. Draft any maintainer comment; do not send it.
 

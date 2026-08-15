@@ -43,13 +43,13 @@ git worktree add --detach ~/code/myapp-pr origin/pr/123
 
 ## Common Patterns
 
-| Pattern | Command |
-|---|---|
-| Feature work, isolated | `git worktree add -b feature/X ../X main` |
-| Switch back to main | `cd ../myapp && git checkout main` |
-| Compare two branches | Two worktrees, diff between them |
-| Review a PR | `git worktree add --detach ../pr-123 origin/pr/123` |
-| Cleanup old | `git worktree remove ../X && git worktree prune` |
+| Pattern                | Command                                             |
+|------------------------|-----------------------------------------------------|
+| Feature work, isolated | `git worktree add -b feature/X ../X main`           |
+| Switch back to main    | `cd ../myapp && git checkout main`                  |
+| Compare two branches   | Two worktrees, diff between them                    |
+| Review a PR            | `git worktree add --detach ../pr-123 origin/pr/123` |
+| Cleanup old            | `git worktree remove ../X && git worktree prune`    |
 
 ## Smart Directory Selection
 

@@ -81,14 +81,14 @@ Action: Skip (Bot Management)
 
 ## Plan Restrictions
 
-| Feature | Free | Pro/Business | Enterprise |
-|---------|------|--------------|------------|
-| Granular scores (1-99) | No | No | Yes |
-| JA3/JA4 | No | No | Yes |
-| Anomaly Detection | No | No | Yes |
-| Corporate Proxy detection | No | No | Yes |
-| Verified bot categories | Limited | Limited | Full |
-| Custom WAF rules | 5 | 20/100 | 1,000+ |
+| Feature                   | Free    | Pro/Business | Enterprise |
+|---------------------------|---------|--------------|------------|
+| Granular scores (1-99)    | No      | No           | Yes        |
+| JA3/JA4                   | No      | No           | Yes        |
+| Anomaly Detection         | No      | No           | Yes        |
+| Corporate Proxy detection | No      | No           | Yes        |
+| Verified bot categories   | Limited | Limited      | Full       |
+| Custom WAF rules          | 5       | 20/100       | 1,000+     |
 
 ## Technical Constraints
 

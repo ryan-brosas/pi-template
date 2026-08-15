@@ -38,13 +38,13 @@ For complex bugs, keep a short log: Symptoms / Reproduction / Hypotheses Elimina
 
 ## Common Rationalizations
 
-| Rationalization | Rebuttal |
-| --- | --- |
-| "Probably the issue" | Probably is a hypothesis, not evidence. |
-| "Patch the symptom now" | Symptom patches hide root causes. |
-| "Multiple fixes save time" | You won't know which change mattered. |
-| "Test failure is unrelated" | Prove it with isolation first. |
-| "One more attempt" | After three failures, stop and rethink. |
+| Rationalization             | Rebuttal                                |
+|-----------------------------|-----------------------------------------|
+| "Probably the issue"        | Probably is a hypothesis, not evidence. |
+| "Patch the symptom now"     | Symptom patches hide root causes.       |
+| "Multiple fixes save time"  | You won't know which change mattered.   |
+| "Test failure is unrelated" | Prove it with isolation first.          |
+| "One more attempt"          | After three failures, stop and rethink. |
 
 ## Red Flags
 

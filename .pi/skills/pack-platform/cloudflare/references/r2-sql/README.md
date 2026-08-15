@@ -220,14 +220,14 @@ LIMIT 10;
 
 ### Data Types
 
-| Type | Description | Example |
-|------|-------------|---------|
-| integer | Whole numbers | 1, 42, -10 |
-| float | Decimals | 1.5, 3.14 |
-| string | Text (quoted) | 'hello', 'GET' |
-| boolean | true/false | true, false |
-| timestamp | RFC3339 | '2025-01-01T00:00:00Z' |
-| date | YYYY-MM-DD | '2025-01-01' |
+| Type      | Description   | Example                |
+|-----------|---------------|------------------------|
+| integer   | Whole numbers | 1, 42, -10             |
+| float     | Decimals      | 1.5, 3.14              |
+| string    | Text (quoted) | 'hello', 'GET'         |
+| boolean   | true/false    | true, false            |
+| timestamp | RFC3339       | '2025-01-01T00:00:00Z' |
+| date      | YYYY-MM-DD    | '2025-01-01'           |
 
 ### Operators
 

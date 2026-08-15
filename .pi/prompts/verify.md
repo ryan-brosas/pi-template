@@ -14,11 +14,11 @@ This command is read-only: it runs gates, checks completeness, and reports. It n
 
 ## Parse Arguments
 
-| Argument | Default | Description |
-| --- | --- | --- |
-| `--full` | false | Bypass the cache and run fresh (no incremental mode exists) |
-| `--no-cache` | false | Bypass the verification cache |
-| `--quick` | false | Skip the Phase 4 coherence cross-check |
+| Argument     | Default | Description                                                 |
+|--------------|---------|-------------------------------------------------------------|
+| `--full`     | false   | Bypass the cache and run fresh (no incremental mode exists) |
+| `--no-cache` | false   | Bypass the verification cache                               |
+| `--quick`    | false   | Skip the Phase 4 coherence cross-check                      |
 
 ## Phase 0: Check Verification Cache
 
@@ -30,11 +30,11 @@ LAST_STAMP=$(tail -1 .pi/work/$(cat .pi/work/.active)/.verify.log 2>/dev/null | 
 # Optional: cross-check the cached stamp via state.get('verification_stamp') instead of the dotfile tail.
 ```
 
-| Condition | Action |
-| --- | --- |
-| `--no-cache` or `--full` | Skip cache check, run fresh |
+| Condition                     | Action                              |
+|-------------------------------|-------------------------------------|
+| `--no-cache` or `--full`      | Skip cache check, run fresh         |
 | `CURRENT_STAMP == LAST_STAMP` | Report cached PASS, skip to Phase 2 |
-| otherwise | Run gates normally |
+| otherwise                     | Run gates normally                  |
 
 ## Phase 1: Gather Context
 
@@ -143,8 +143,8 @@ Schema mode; otherwise → main-session mode.
 
 ## Related Commands
 
-| Need | Command |
-| --- | --- |
+| Need              | Command      |
+|-------------------|--------------|
 | Ship after verify | `/ship <id>` |
-| Plan a feature | `/plan` |
-| Fix a bug | `/fix` |
+| Plan a feature    | `/plan`      |
+| Fix a bug         | `/fix`       |

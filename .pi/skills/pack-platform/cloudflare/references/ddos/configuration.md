@@ -37,12 +37,12 @@ interface DDoSOverride {
 
 ## Sensitivity Mapping
 
-| UI | API | Threshold |
-|----|-----|-----------|
-| High | `default` | Most aggressive |
-| Medium | `medium` | Balanced |
-| Low | `low` | Less aggressive |
-| Essentially Off | `eoff` | Minimal mitigation |
+| UI              | API       | Threshold          |
+|-----------------|-----------|--------------------|
+| High            | `default` | Most aggressive    |
+| Medium          | `medium`  | Balanced           |
+| Low             | `low`     | Less aggressive    |
+| Essentially Off | `eoff`    | Minimal mitigation |
 
 ## Common Categories
 

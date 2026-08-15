@@ -6,12 +6,12 @@ Guidance for handling lint rules and compiler warnings related to Swift Concurre
 
 SwiftLint provides several rules targeting async/await and concurrency patterns. Understanding when to fix vs. suppress is critical.
 
-| Rule | Default | Purpose |
-|------|---------|---------|
-| `async_without_await` | warning | Flags `async` functions that never await |
+| Rule                       | Default | Purpose                                            |
+|----------------------------|---------|----------------------------------------------------|
+| `async_without_await`      | warning | Flags `async` functions that never await           |
 | `unowned_variable_capture` | warning | Warns about `unowned` in closures (risky in async) |
-| `class_delegate_protocol` | warning | Ensures delegates are class-bound (AnyObject) |
-| `weak_delegate` | warning | Delegates should be weak to avoid retain cycles |
+| `class_delegate_protocol`  | warning | Ensures delegates are class-bound (AnyObject)      |
+| `weak_delegate`            | warning | Delegates should be weak to avoid retain cycles    |
 
 ## SwiftLint: `async_without_await`
 

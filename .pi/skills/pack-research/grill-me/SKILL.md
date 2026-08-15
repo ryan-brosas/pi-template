@@ -42,15 +42,15 @@ One question at a time. Let the person answer fully before asking another.
 
 ## Common Targets
 
-| Target | Question |
-|---|---|
-| Cost estimate | "What if it takes 3x as long?" |
-| Scale estimate | "What if traffic grows 10x this month?" |
-| One-vendor risk | "What if vendor shuts down?" |
-| "Just use X" | "What does X not do?" |
-| "We'll iterate" | "What's the first working version look like?" |
-| "It's simple" | "Define simple. How many moving parts?" |
-| "Everyone agrees" | "Who did you not ask?" |
+| Target            | Question                                        |
+|-------------------|-------------------------------------------------|
+| Cost estimate     | "What if it takes 3x as long?"                  |
+| Scale estimate    | "What if traffic grows 10x this month?"         |
+| One-vendor risk   | "What if vendor shuts down?"                    |
+| "Just use X"      | "What does X not do?"                           |
+| "We'll iterate"   | "What's the first working version look like?"   |
+| "It's simple"     | "Define simple. How many moving parts?"         |
+| "Everyone agrees" | "Who did you not ask?"                          |
 | "No dependencies" | "What do you depend on that you don't control?" |
 
 ## When to Stop Grilling

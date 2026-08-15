@@ -47,14 +47,14 @@ uses it. Every value carries version or command evidence.
 Verify each command before recording it. A command that does not exist is
 recorded as "none" with the probe result.
 
-| Command | Status | Purpose | Verified |
-| --- | --- | --- | --- |
-| [install] | [works / none] | [purpose] | [date, exit code] |
-| [test] | [works / none] | [purpose] | [date, exit code] |
-| [lint] | [works / none] | [purpose] | [date, exit code] |
-| [typecheck] | [works / none] | [purpose] | [date, exit code] |
-| [build] | [works / none] | [purpose] | [date, exit code] |
-| [format] | [works / none] | [purpose] | [date, exit code] |
+| Command            | Status         | Purpose   | Verified          |
+|--------------------|----------------|-----------|-------------------|
+| [install]          | [works / none] | [purpose] | [date, exit code] |
+| [test]             | [works / none] | [purpose] | [date, exit code] |
+| [lint]             | [works / none] | [purpose] | [date, exit code] |
+| [typecheck]        | [works / none] | [purpose] | [date, exit code] |
+| [build]            | [works / none] | [purpose] | [date, exit code] |
+| [format]           | [works / none] | [purpose] | [date, exit code] |
 | [validation gates] | [works / none] | [purpose] | [date, exit code] |
 
 ## CI
@@ -104,7 +104,7 @@ Facts not yet verified; ask the user rather than guessing.
 **Quality Degradation Rule:** Target ~50% context per plan execution for consistent quality.
 
 | Task Complexity | Max Tasks/Plan | Typical Context Usage |
-| --------------- | -------------- | --------------------- |
+|-----------------|----------------|-----------------------|
 | Simple (CRUD)   | 3              | ~30-45%               |
 | Complex (auth)  | 2              | ~40-50%               |
 | Very complex    | 1-2            | ~30-50%               |

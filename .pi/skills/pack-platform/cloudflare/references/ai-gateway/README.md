@@ -364,23 +364,23 @@ wrangler secret put OPENAI_API_KEY
 
 AI Gateway works with 15+ providers via unified API or provider-specific endpoints:
 
-| Provider | Unified API | Provider Endpoint | Notes |
-|----------|-------------|-------------------|-------|
-| OpenAI | [x] `openai/gpt-4o` | `/openai/*` | Full support |
-| Anthropic | [x] `anthropic/claude-3-5-sonnet` | `/anthropic/*` | Full support |
-| Google AI Studio | [x] `google-ai-studio/gemini-2.0-flash` | `/google-ai-studio/*` | Full support |
-| Workers AI | [x] `workersai/@cf/meta/llama-3` | `/workers-ai/*` | Native integration |
-| Azure OpenAI | [x] `azure-openai/*` | `/azure-openai/*` | Deployment names |
-| AWS Bedrock | [ ] | `/bedrock/*` | Provider endpoint only |
-| Groq | [x] `groq/*` | `/groq/*` | Fast inference |
-| Mistral | [x] `mistral/*` | `/mistral/*` | Full support |
-| Cohere | [x] `cohere/*` | `/cohere/*` | Full support |
-| Perplexity | [x] `perplexity/*` | `/perplexity/*` | Full support |
-| xAI (Grok) | [x] `grok/*` | `/grok/*` | Full support |
-| DeepSeek | [x] `deepseek/*` | `/deepseek/*` | Full support |
-| Cerebras | [x] `cerebras/*` | `/cerebras/*` | Fast inference |
-| Replicate | [ ] | `/replicate/*` | Provider endpoint only |
-| HuggingFace | [ ] | `/huggingface/*` | Provider endpoint only |
+| Provider         | Unified API                             | Provider Endpoint     | Notes                  |
+|------------------|-----------------------------------------|-----------------------|------------------------|
+| OpenAI           | [x] `openai/gpt-4o`                     | `/openai/*`           | Full support           |
+| Anthropic        | [x] `anthropic/claude-3-5-sonnet`       | `/anthropic/*`        | Full support           |
+| Google AI Studio | [x] `google-ai-studio/gemini-2.0-flash` | `/google-ai-studio/*` | Full support           |
+| Workers AI       | [x] `workersai/@cf/meta/llama-3`        | `/workers-ai/*`       | Native integration     |
+| Azure OpenAI     | [x] `azure-openai/*`                    | `/azure-openai/*`     | Deployment names       |
+| AWS Bedrock      | [ ]                                     | `/bedrock/*`          | Provider endpoint only |
+| Groq             | [x] `groq/*`                            | `/groq/*`             | Fast inference         |
+| Mistral          | [x] `mistral/*`                         | `/mistral/*`          | Full support           |
+| Cohere           | [x] `cohere/*`                          | `/cohere/*`           | Full support           |
+| Perplexity       | [x] `perplexity/*`                      | `/perplexity/*`       | Full support           |
+| xAI (Grok)       | [x] `grok/*`                            | `/grok/*`             | Full support           |
+| DeepSeek         | [x] `deepseek/*`                        | `/deepseek/*`         | Full support           |
+| Cerebras         | [x] `cerebras/*`                        | `/cerebras/*`         | Fast inference         |
+| Replicate        | [ ]                                     | `/replicate/*`        | Provider endpoint only |
+| HuggingFace      | [ ]                                     | `/huggingface/*`      | Provider endpoint only |
 
 See [full provider list](https://developers.cloudflare.com/ai-gateway/usage/providers/)
 
