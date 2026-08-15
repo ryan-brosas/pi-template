@@ -1,7 +1,7 @@
 name: Research
 description: Evidence-driven investigation before implementation
 title: "[research]: "
-labels: ["question"]
+labels: ["research"]
 body:
   - type: textarea
     id: question
@@ -17,6 +17,13 @@ body:
       description: What is known already and why this question matters.
     validations:
       required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [prompts, skills, packs, fabric, templates, docs, workflow, research, other]
+    validations:
+      required: true
   - type: textarea
     id: outcome
     attributes:

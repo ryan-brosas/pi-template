@@ -28,14 +28,14 @@ body:
     id: area
     attributes:
       label: Area
-      options: [prompts, skills, fabric, codebase-memory, templates, docs, workflow, other]
+      options: [prompts, skills, packs, fabric, templates, docs, workflow, research, other]
     validations:
       required: true
   - type: input
     id: artifact
     attributes:
       label: Artifact path
-      description: ".pi/work/<issue>-<slug>/ once /fix or /create runs."
+      description: ".pi/work/<issue>-<slug>/ once /create runs."
     validations:
       required: false
   - type: textarea
