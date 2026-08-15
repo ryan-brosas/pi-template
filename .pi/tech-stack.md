@@ -110,6 +110,7 @@ Do not add commands based only on this host inventory. A project command require
 
 - **Unit / integration / contract / e2e tests:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
 - **Structural gates:** the seven Node scripts above, run before completion claims.
+- **CI static analysis:** Qodana (JetBrains engine) scans via `.github/workflows/qodana.yml` with the per-project `qodana.yaml`; SARIF uploads to code scanning.
 - **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: roadmap Phase 2 decides whether template validators are added].
 
 ## Active Integrations

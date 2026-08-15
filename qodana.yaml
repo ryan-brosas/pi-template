@@ -1,0 +1,29 @@
+# Qodana per-project configuration — JetBrains static analysis in CI.
+# Reference: https://www.jetbrains.com/help/qodana/qodana-yaml.html
+# This file travels with the repo, so every project configures its own engine,
+# inspection profile, and scope here. Local `qodana scan` uses the same file.
+version: 1.0
+
+# Engine per project language. This template's only code is the Node validator
+# scripts (.mjs), so the JS/TS linter applies. Swap for qodana-python,
+# qodana-go, qodana-jvm, qodana-dotnet, qodana-clang in language projects.
+linter: jetbrains/qodana-js:2026.2
+
+# Inspection profile — the same inspection engine and IDs the IDE uses.
+# qodana.recommended is the default; override per inspection, e.g.:
+#   include:
+#     - name: JSUnusedLocalSymbols
+#   exclude:
+#     - name: JSUnusedGlobalSymbols
+profile:
+  name: qodana.recommended
+
+# Scope: skip CI plumbing, IDE-managed, and generated local paths.
+exclude:
+  - name: All
+    paths:
+      - .github
+      - .idea
+      - .pi/fabric
+      - .pi/work
+
