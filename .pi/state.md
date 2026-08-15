@@ -127,9 +127,9 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 
 ## Session Handoff
 
-- **Last session:** 2026-08-09 initialization
-- **Next-session priority:** Determine the intended final cleanup boundary, then plan the smallest stability-focused validation slice.
-- **Known issue:** The working tree was already heavily modified before initialization; status output alone does not identify ownership.
+- **Last session:** 2026-08-15 Code Memory graph adoption, Qodana setup, and IDE-inspection cleanup
+- **Next-session priority:** Validate the fresh-clone path (README sequence + `/init`) against the current tree; close the remaining Phase 1 checklist items.
+- **Known issue:** Roadmap Phase 3 previously pointed at `inspo/opencode-template`, which does not exist locally; the indexed `inspo/pi-upstream` repo is the actionable Pi reference.
 - **Read first:** `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/tech-stack.md`, relevant prompt or skill files, then scoped Git diff.
 - **Reference context:** Codebase Memory MCP lists indexed inspiration repositories and their root paths; select one project per question and verify graph coverage plus exact source.
 

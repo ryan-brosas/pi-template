@@ -25,6 +25,23 @@ Read `.pi/work/$(cat .pi/work/.active)/spec.md` to understand the requirements.
 
 Read `.pi/work/$(cat .pi/work/.active)/` to check what plan artifacts exist (plan.md, research.md, proposal.md, design.md, adr.md).
 
+**Inspiration gate (no blind development).** When the spec borrows a known-good
+pattern — a ported capability, a proven architecture, or a reference
+implementation comparison — consult the Codebase Memory graph before writing
+code:
+1. `codebase-memory_list_projects`; select ONE indexed inspiration project per
+   question.
+2. `codebase-memory_get_architecture` for the relevant aspect, then
+   `codebase-memory_search_graph` or `codebase-memory_trace_path` for the
+   borrowed symbol or pattern.
+3. `codebase-memory_check_index_coverage` on cited paths; confirm exact source
+   in the JetBrains IDE before porting.
+4. Record the verdict in the work record: `adopt` (copy with provenance),
+   `adapt` (port behavior in Pi-native shape), or `omit` (recorded gap),
+   with project, branch/commit, license, and the graph call that found it.
+Skip the gate only when the spec has no reusable prior art; one
+`list_projects` glance is cheap enough to always make.
+
 **Guards:**
 - [ ] Spec exists and is up to date
 - [ ] You have read the full spec

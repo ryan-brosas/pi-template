@@ -35,7 +35,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 |--------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------|-------------|--------------|
 | 1. Stable Core           | Establish a coherent, clone-ready Pi template and finish the current simplification       | One documented setup path with no stale runtime assumptions  | In Progress | Current tree |
 | 2. Contract Verification | Add lightweight checks for prompts, skills, templates, and Schema contracts               | Repository drift and malformed artifacts fail early          | Not Started | Phase 1      |
-| 3. Reference Parity      | Compare high-value ideas from `inspo/opencode-template` and port only Pi-aligned behavior | Useful upstream ideas without OpenCode coupling              | Not Started | Phase 1      |
+| 3. Reference Parity      | Compare high-value ideas from indexed inspiration repositories and port only Pi-aligned behavior | Useful upstream ideas without runtime coupling               | Not Started | Phase 1      |
 | 4. Release Readiness     | Document versioning, compatibility, and repeatable clone validation                       | New clones work predictably across supported Pi environments | Not Started | Phases 1-3   |
 
 ## Phase 1: Stable Core
@@ -128,9 +128,9 @@ The skill-pack gate (`scripts/validate-skill-packs.mjs`) already covers catalog 
 
 ## Phase 3: Reference Parity
 
-**Goal:** Evaluate `inspo/opencode-template` as a design reference and port only capabilities that improve the Pi-native template.
+**Goal:** Evaluate indexed inspiration repositories (starting with `inspo/pi-upstream`) as design references and port only capabilities that improve the Pi-native template.
 
-Codebase Memory MCP lists indexed inspiration repositories. Select one project for `opencode-template` comparisons, verify graph coverage, and confirm exact source through the JetBrains IDE before porting capabilities. Evidence: codebase-memory_list_projects output and state.md session handoff.
+Codebase Memory MCP lists indexed inspiration repositories. Select one project per comparison (starting with `inspo/pi-upstream`), verify graph coverage, and confirm exact source through the JetBrains IDE before porting capabilities. Evidence: codebase-memory_list_projects output and state.md session handoff.
 
 **Outcomes:**
 

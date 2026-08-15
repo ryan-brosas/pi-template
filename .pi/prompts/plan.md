@@ -34,7 +34,8 @@ Load only enough codebase knowledge to name stations correctly. Do not research 
 
 1. **Project context** — `rg -n "topic" .pi/MEMORY.md`; `git log --oneline -20` for conventions and footgun zones.
 2. **Code reconnaissance** — Pi Fovea focus for relevant symbols/config keys; Pi Fovea impact on key functions; read 2-4 representative files (including tests) so station boundaries match existing structure.
-3. **Stop when you can name the stations.** Research beyond that is scope discipline without a station to attach it to.
+3. **Inspiration check** — for work that ports or matches a known-good pattern, run one Codebase Memory graph pass (list_projects, pick one indexed project, targeted architecture search or trace, coverage check) and fold each adopt/adapt/omit verdict with provenance into the station payloads.
+4. **Stop when you can name the stations.** Research beyond that is scope discipline without a station to attach it to.
 
 ## Phase 1: Guards
 
