@@ -3,7 +3,7 @@
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
  tailored to Pi + Pi Fabric: 9 prompt commands, 101 skill files
- (91 leaves in 10 packs), 12 format templates, Pi-native settings, and the
+ (91 leaves in 10 packs: 87 pack leaves + 4 core safety), 12 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -28,10 +28,14 @@ README.md
 ├── fabric.json            # Pi Fabric Schema guard (enforce or audit + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 101 skill files: 10 pack routers + 91 leaves (packs.json)
+├── skills/                # 101 skill files: 10 pack routers + 87 pack leaves + 4 core safety
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
-├── work/                  # tracked durable records per local work record
-└── scripts/               # canonical check plus 7 dependency-free Node validators
+└── work/                  # tracked durable work records (one dir per record)
+scripts/                   # canonical check plus 7 dependency-free Node validators
+.github/
+├── workflows/             # check.yml (canonical gate on main + PRs) + qodana.yml (JetBrains analysis)
+├── pull_request_template.md
+└── ISSUE_TEMPLATE/        # issue forms
 ```
 
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
@@ -63,7 +67,7 @@ before writing. Research, audit, and verify are explicitly read-only.
 ## Validation
 
 Run the complete local gate with `node scripts/check.mjs`. It runs all seven
-dependency-free validators, a commit-convention gate, and `git diff --check`.
+dependency-free validators, a commit-convention gate (conventional subjects and branch names for commits not yet on origin/main), and `git diff --check`.
 GitHub runs the same command
 from `.github/workflows/check.yml` on pushes to `main` and pull requests. Qodana (JetBrains static analysis, configured per project in `qodana.yaml`) runs from `.github/workflows/qodana.yml` and uploads SARIF to code scanning.
 
@@ -73,7 +77,7 @@ open source). Without the secret the workflow skips and CI stays green.
 ## Skills and Templates
 
 
-- Skills: 101 skill files — 10 pack routers, 4 core safety skills, and 87 hidden leaves across 10 progressive-disclosure packs under `.pi/skills/`.
+- Skills: 101 skill files — 10 pack routers, 87 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
   Ten visible pack routers (pack-delivery, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
