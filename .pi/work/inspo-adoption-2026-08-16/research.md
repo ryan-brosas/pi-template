@@ -44,3 +44,37 @@ be actively tested with green CI so adopting their patterns is low-risk.
    the agents.md template.
 3. **Qodana CI lane** (from JetBrains/qodana-action, Apache-2.0): already
    present in `.github/workflows/qodana.yml`; provenance recorded here.
+
++3. **Qodana CI lane** (from JetBrains/qodana-action, Apache-2.0): already
+   present in `.github/workflows/qodana.yml`; provenance recorded here.
+
+## JetBrains Toolbox ingestion — 2026-08-22
+
+All 15 installed JetBrains Toolbox apps were rsync-copied (44G, ~126k files)
+to /mnt/hdd/utopia/inspo/jetbrains/<product>/ and indexed into the Codebase
+Memory graph (fast mode; jars are bytecode and do not parse, only text/source
+files land). The pycharm/dataspell OpenAPI source archives were unzipped so
+their Java/Kotlin plugin-API sources were indexed too. Verdict: inspect only —
+these are IDE product installations, not clonable source; no copying.
+
+| project | nodes / edges |
+|---|---|
+| jetbrains-rubymine | 89,780 / 163,359 |
+| jetbrains-pycharm | 78,791 / 375,286 |
+| jetbrains-dataspell | 69,070 / 295,519 |
+| jetbrains-clion | 66,929 / 204,460 |
+| jetbrains-rider | 46,107 / 49,290 |
+| jetbrains-datagrip | 14,488 / 14,706 |
+| jetbrains-dottrace | 12,537 / 12,507 |
+| jetbrains-webstorm | 10,801 / 14,948 |
+| jetbrains-phpstorm-light | 10,240 / 13,181 |
+| jetbrains-rustrover | 10,532 / 14,114 |
+| jetbrains-phpstorm | 10,340 / 13,503 |
+| jetbrains-goland | 9,721 / 11,781 |
+| jetbrains-dotmemory | 5,124 / 5,117 |
+| jetbrains-air | 2,968 / 2,962 |
+| jetbrains-mps | 1,116 / 1,316 |
+
+Total: 438,544 nodes / 1,192,049 edges across the 15 projects. Partial-parse
+coverage flags (jbr/*.h C headers, minified bundles) are per-project in
+index_status. Tracked check impact: none — these live outside the repo.
