@@ -37,7 +37,7 @@ for (const f of files) {
 }
 
 // 3. Runtime/generated local state must stay untracked.
-const RUNTIME_RE = /^(?:\.idea(?:\/|$)|\.pi\/(?:MEMORY\.md|implementation-notes\.md|fabric\/|work\/ide-inspections\/)|\.veda(?:\/|$))/;
+const RUNTIME_RE = /^(?:\.idea(?:\/|$)|\.pi\/(?:implementation-notes\.md|fabric\/|work\/ide-inspections\/)|\.veda(?:\/|$))/;
 const runtime = files.filter((f) => RUNTIME_RE.test(f));
 if (runtime.length) fail(`tracked runtime state: ${runtime.join(", ")}`);
 

@@ -119,9 +119,9 @@ Output:
 
 Record significant findings in context files:
 ```bash
-# Append to .pi/MEMORY.md:
+# Include in the verification summary:
 #   - YYYY-MM-DD: [scope] [key finding] — [what, impact, resolution]
-# Put under the Decisions or Gotchas section as appropriate
+# Pi Fabric retains the session automatically for later memory.recall.
 ```
 
 ## Schema boundary

@@ -41,7 +41,7 @@ scripts/                   # canonical check plus 7 dependency-free Node validat
 OpenCode runtime features (plugin/, dcp-prompts/, opencode.json, dcp.jsonc,
 tui.json) and the OpenCode agent/workflow wrappers (`.pi/agents/`,
 `.pi/workflows/`) are removed — Pi and Pi Fabric provide those natively.
-Generated state (`.idea/`, `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`) is
+Generated state (`.idea/`, `.pi/implementation-notes.md`, `.pi/fabric/`) is
 gitignored and never ships. Inside `.pi/work/`, the active pointer, per-work dotfiles, and `ide-inspections/` stay ignored. Tracked work records live in `.pi/work/`, one
 directory per work record.
 
@@ -141,8 +141,8 @@ Direct AGY Opus and Sonnet succeeded without `--effort`. Do not route them throu
 adr.md, plan.md, tasks.md, verification.md) without GitHub access. An optional `--issue <number>`
 links an existing verified issue and keeps the legacy `<issue>-<slug>` form.
 `/create` never creates a GitHub issue. Local session state stays ignored
-in `.pi/work/.active`, per-work `.progress.md`/`.verify.log` dotfiles, and
-`.pi/MEMORY.md`.
+in `.pi/work/.active` and per-work `.progress.md`/`.verify.log` dotfiles;
+agent memory lives in Pi sessions (`memory.recall`) outside the repo.
 `node scripts/validate-work-management.mjs` pins the ownership split, local
 slug IDs, GitHub templates, and /init GitHub setup safety. `/init` optionally
 creates or links the GitHub repository, pushes, and enrolls in the central

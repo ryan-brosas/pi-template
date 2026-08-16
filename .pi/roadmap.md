@@ -18,7 +18,7 @@ Developers who use Pi for software projects and want a stable, reusable starting
 
 ### Primary Success Criterion
 
-**Stability.** The template succeeds when its documented setup path is reliable, its prompts and skills agree on workflow rules, unsafe or undeclared mutations are blocked, generated context remains accurate, and cloning does not require hidden dependencies. Evidence: explicit user choice, recorded in MEMORY.md and state.md Active Decisions.
+**Stability.** The template succeeds when its documented setup path is reliable, its prompts and skills agree on workflow rules, unsafe or undeclared mutations are blocked, generated context remains accurate, and cloning does not require hidden dependencies. Evidence: explicit user choice, recorded in user.md and state.md Active Decisions.
 
 ### Supporting Product Principles
 

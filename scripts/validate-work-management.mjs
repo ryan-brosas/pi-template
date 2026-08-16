@@ -29,8 +29,6 @@ if (existsSync(join(workDir, "README.md"))) {
   const wr = readFileSync(join(workDir, "README.md"), "utf8");
   if (artifactsRef(wr)) fail(".pi/work/README.md still references .pi/artifacts"); else ok(".pi/work/README.md is artifact-free");
 }
-if (existsSync(join(root, ".pi", "MEMORY.md"))) ok(".pi/MEMORY.md exists"); else ok(".pi/MEMORY.md is the local memory contract");
-
 if (!existsSync(join(root, ".pi", "prompts", "create.md"))) fail("missing .pi/prompts/create.md");
 else {
   const createText = readFileSync(join(root, ".pi", "prompts", "create.md"), "utf8");

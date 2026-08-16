@@ -134,13 +134,7 @@ Ask the user (identity, communication preference, git workflow, approval boundar
 
 ### Phase 8: Persist
 
-Append to `.pi/MEMORY.md` (under Decisions section):
-
-```markdown
-## YYYY-MM-DD Project initialized — [tech stack summary]
-
-Full deep init completed: AGENTS.md, .pi/project.md, .pi/tech-stack.md, .pi/roadmap.md, .pi/state.md, .pi/user.md created for [language/framework] project.
-```
+The files written above are the durable record. Pi Fabric retains the work context in its session store automatically for later `memory.recall`; do not create a separate repo-local memory file.
 
 ### Phase 9: GitHub Setup (Optional)
 

@@ -104,8 +104,7 @@ Do not add commands based only on this host inventory. A project command require
 
 - `.pi/skills/manifest.json` is generated from the skill tree and `packs.json` by `node scripts/sync-skill-manifest.mjs` (no `--check` writes it). Regenerate after adding or moving skills; verify with `--check`.
 - `.pi/tech-stack.md`, `.pi/project.md`, `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/user.md` are rendered by `/init` from `.pi/templates/`; regenerate with `/init` and review the diff.
-- Ignored generated state: `.idea/`, `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/ide-inspections/`, `.veda/`, and `.pi/work` dotfiles never commit.
- Ignored generated state: `.idea/`, `inspect/`, `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/ide-inspections/`, `.veda/`, and `.pi/work` dotfiles never commit.
+- Ignored generated state: `.idea/`, `inspect/`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/ide-inspections/`, `.veda/`, and `.pi/work` dotfiles never commit.
 
 ## Testing
 
@@ -139,7 +138,7 @@ No external application API, database, deployment provider, or credential-bearin
 3. Keep the Schema commit loop as the sole authority for non-trivial repository mutation.
 4. Treat prompts, skills, templates, and settings as the product surface.
 5. Preserve unrelated work in the large current working-tree cleanup.
-6. Keep generated local state in `inspect/`, `.pi/MEMORY.md`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/ide-inspections/`, and ignored `.pi/work` dotfiles.
+6. Keep generated local state in `inspect/`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/ide-inspections/`, and ignored `.pi/work` dotfiles.
 7. Prefer stability and explicit verification over adding features or abstractions.
 8. Record only detected values here; regenerate this file when repository facts change.
 
@@ -174,4 +173,4 @@ There is no typecheck, lint, test, or build command in this repository.
 ---
 
 _Update this file when tech stack or constraints change._
-_AI captures architecture, conventions, and gotchas in `.pi/MEMORY.md` as it works._
+_AI captures architecture, conventions, and gotchas in Pi session memory (`memory.recall`) as it works._

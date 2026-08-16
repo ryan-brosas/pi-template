@@ -27,7 +27,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 1. **Clone and start.** No install step, no hidden dependencies, no build. (README.md:7,16.)
 2. **Pi-native surface.** Prompts, skills, templates, and settings are the product. OpenCode runtime wrappers are removed and must not return. (README.md:34-35.)
 3. **The Schema guard is the mutation authority.** Non-trivial writes require `schema.hypothesize → verify → commit` in one `fabric_exec` under enforce mode; under audit mode (guard off or untrusted), each mutation requires explicit user approval. (AGENTS.md Mutation Authority, .pi/fabric.json.)
-4. **Generated state stays local.** .idea/, .pi/MEMORY.md, .pi/implementation-notes.md, and .pi/fabric/ are gitignored; inside .pi/work/, .active, per-work dotfiles, and ide-inspections/ stay ignored. (README.md, .gitignore.)
+4. **Generated state stays local.** .idea/, .pi/implementation-notes.md, and .pi/fabric/ are gitignored; inside .pi/work/, .active, per-work dotfiles, and ide-inspections/ stay ignored. (README.md, .gitignore.)
 
 ## System Context
 
@@ -86,7 +86,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 - **Cache ownership:** None.
 - **Transaction boundaries:** Not applicable.
 - **Migration mechanism:** Not applicable.
-- **Generated state:** .pi/MEMORY.md holds local durable decisions; .pi/fabric/ holds runtime state; .pi/work/.active and per-work .progress.md/.verify.log hold work-local state; .idea/ and .pi/work/ide-inspections/ hold JetBrains project and inspection state. All are gitignored and owned by the local runtime.
+- **Generated state:** Pi session memory (`memory.recall`) holds local durable decisions; .pi/fabric/ holds runtime state; .pi/work/.active and per-work .progress.md/.verify.log hold work-local state; .idea/ and .pi/work/ide-inspections/ hold JetBrains project and inspection state. All are gitignored and owned by the local runtime.
 
 ## External Integrations
 
@@ -134,7 +134,7 @@ No external application API, database, deployment provider, or credential-bearin
 
 - The repository stays clonable with no package install, manifest, build, or runtime harness. (README.md:7,16.)
 - The Schema guard (enforce or audit) with the `hypothesize → verify → commit` loop is the authority for non-trivial mutations; audit mode relies on explicit user approval rather than rollback enforcement. (AGENTS.md Mutation Authority.)
-- Generated local state (.idea/, .pi/MEMORY.md, .pi/implementation-notes.md, .pi/fabric/, .pi/work/ide-inspections/, and .pi/work dotfiles) is gitignored and never committed.
+- Generated local state (.idea/, .pi/implementation-notes.md, .pi/fabric/, .pi/work/ide-inspections/, and .pi/work dotfiles) is gitignored and never committed.
 - The product surface stays Pi-native. OpenCode runtime wrappers must not return. (README.md:34-35.)
 - Skills membership is owned by .pi/skills/packs.json. Adding or moving a skill requires passing node scripts/validate-skill-packs.mjs. (AGENTS.md Skills section.)
 
@@ -142,7 +142,7 @@ No external application API, database, deployment provider, or credential-bearin
 
 | Date       | Decision                                                                                   | Rationale                                                        | Alternatives                  | Record                          |
 |------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------|-------------------------------|---------------------------------|
-| 2026-08-09 | Deep init creates .pi/project.md and enriches every artifact                               | Missing architecture record; user asked for detailed init output | Leave project.md missing      | MEMORY.md deep-init entry       |
+| 2026-08-09 | Deep init creates .pi/project.md and enriches every artifact                               | Missing architecture record; user asked for detailed init output | Leave project.md missing      | Pi session memory deep-init entry       |
 | 2026-08-09 | AGENTS.md carries concise operational architecture; project.md carries the detailed record | Instruction budget and progressive disclosure                    | Full duplication in AGENTS.md | AGENTS.md Architecture section  |
 | 2026-08-09 | Keep the template install-free with Node validation scripts                                | README promise: no package install                               | Shell-only gates              | README.md:7,16, roadmap Phase 2 |
 

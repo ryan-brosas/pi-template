@@ -34,9 +34,9 @@ Create a specification (PRD), set up the workspace, and define executable tasks 
 
 ### Context Search
 
-Search `.pi/MEMORY.md` for prior decisions and similar work:
-```bash
-rg -n "topic" .pi/MEMORY.md
+Recall prior decisions and similar work from Pi session memory:
+```typescript
+await memory.recall({ query: "topic" })
 ```
 
 Also search code history: `git log --oneline -20` for related work, and Pi Fovea (`extensions.fovea_focus`)

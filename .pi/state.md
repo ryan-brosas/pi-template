@@ -10,7 +10,7 @@
 - **Primary success criterion:** Stability
 - **Primary users:** Developers
 
-No issue tracker or active bead is configured. Do not invent issue IDs. This file uses roadmap phases and concrete next actions until a tracker is explicitly adopted. Evidence: user answers recorded in MEMORY.md and user.md.
+No issue tracker or active bead is configured. Do not invent issue IDs. This file uses roadmap phases and concrete next actions until a tracker is explicitly adopted. Evidence: user answers recorded in user.md.
 
 ## Working Tree Context
 
@@ -75,7 +75,7 @@ This is a configuration product rather than an application:
 5. `.pi/skills/` provides task-specific guidance loaded on demand.
 6. `.pi/templates/` defines reusable output artifacts.
 7. `.pi/roadmap.md`, `.pi/state.md`, and `.pi/user.md` provide optional on-demand context.
-8. `.pi/MEMORY.md` and per-work dotfiles store ignored local decisions and working memory.
+8. Pi session memory and per-work dotfiles hold local decisions and working memory.
 
 There is no source-code execution graph, data layer, UI, or deployment target in the current tree; CI is the GitHub Actions workflow at `.github/workflows/check.yml`. The full architecture record lives in `.pi/project.md`.
 
@@ -88,7 +88,7 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 | Historical validation suite is deleted                              | Medium   | Structural validators and the canonical check cover template contracts; interactive command coverage stays a Phase 2 question |
 | No documented Pi/Pi Fabric compatibility policy                     | Medium   | Defer to Phase 4 after the stable core is settled                                                                             |
 | Upstream inspiration can cause indiscriminate feature copying       | Medium   | Require a feature matrix and Pi-native rationale in Phase 3                                                                   |
-| `.pi/MEMORY.md` and per-work dotfiles are ignored and local-only    | Low      | Keep durable shared decisions in tracked docs; use MEMORY.md only for local agent context                                     |
+| Per-work dotfiles are ignored and local-only    | Low      | Keep durable shared decisions in tracked docs; Pi sessions hold local agent context                                     |
 
 ## Open Questions
 

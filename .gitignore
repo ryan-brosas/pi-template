@@ -17,7 +17,6 @@ inspect/
 .pi/work/*/.progress.md
 .pi/work/*/.verify.log
 .pi/work/ide-inspections/
-# Local memory and notes stay ignored
-.pi/MEMORY.md
+# Local notes stay ignored
 .pi/implementation-notes.md
 .veda/
