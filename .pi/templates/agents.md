@@ -1,6 +1,6 @@
 ---
 purpose: Source template for the AGENTS.md file /init generates.
-updated: 2026-08-15
+updated: 2026-08-16
 ---
 
 # AGENTS.md template
@@ -61,6 +61,12 @@ Evidence: [paths or command output]
   and list the affected files, history, infrastructure, or data.
 - Never expose, invent, or commit credentials.
 - Preserve unrelated working-tree changes and scope staging by path.
+- Assume nothing. Before relying on any capability, verify its live state:
+  check that MCP servers and tools are actually registered and connected
+  (list them; do not assume), that websearch hits are opened and sourced
+  (do not assume relevance), and that a code-memory graph actually covers the
+  code being cited (check index coverage; do not assume it is indexed). Do not
+  assume the codebase — read the source when it matters.
 - [Add a project-specific production or data boundary only when verified.]
 
 ## Repository invariants
@@ -92,7 +98,13 @@ Keep this map compact. Link to `.pi/project.md` for architecture details.
 Include only conventions with a mechanical check or an external protocol, such
 as a commit-message gate, exact budget assertion, or required PR check.
 
-- [Convention]: [checker or protocol]
+- Branch names: at most three hyphen-separated lowercase words, no slashes,
+  no type prefixes (`feat/`, `fix/`); `main`/`master` are the long-lived
+  branches.
+- Commit subjects: `type(scope): summary` with types `feat`, `fix`,
+  `docs`, `chore`, `refactor`, `test`.
+  [State the exact enforcement point — e.g. the golden check on unpushed
+  commits, or CI on pull-request commits.]
 
 Omit this section when no enforced convention exists.
 

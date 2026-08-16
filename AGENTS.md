@@ -57,6 +57,12 @@ then `schema.commit` with declared operations and nonempty postconditions.
 - Never expose, invent, or commit credentials or secret material.
 - Preserve unrelated working-tree changes. Do not stash, revert, overwrite, or
   stage another agent's work. Inspect `git status` and scope staging by path.
+- Assume nothing. Before relying on any capability, verify its live state:
+  check that MCP servers and tools are actually registered and connected
+  (list them; do not assume), that websearch hits are opened and sourced
+  (do not assume relevance), and that the Codebase Memory graph actually
+  covers the code being cited (check index coverage; do not assume it is
+  indexed). Do not assume the codebase — read the source when it matters.
 - Never bypass hooks or force-push `main` or `master`.
 
 ## Repository invariants
@@ -93,6 +99,15 @@ then `schema.commit` with declared operations and nonempty postconditions.
 - `.pi/work/`: tracked durable work records; local pointers and progress logs
   stay ignored.
 - `scripts/`: the canonical check runner and seven structural validators.
+
+## Conventions
+
+- Branch names: at most three hyphen-separated lowercase words, no slashes,
+  no type prefixes (`feat/`, `fix/`); `main` is the long-lived branch.
+- Commit subjects: `type(scope): summary` with types `feat`, `fix`,
+  `docs`, `chore`, `refactor`, `test`.
+- Enforced by `node scripts/check.mjs` on commits not yet on `origin/main`;
+  CI checks pull-request commits the same way.
 
 ## Verification evidence
 
