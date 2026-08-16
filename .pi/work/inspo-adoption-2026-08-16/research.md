@@ -78,3 +78,7 @@ these are IDE product installations, not clonable source; no copying.
 Total: 438,544 nodes / 1,192,049 edges across the 15 projects. Partial-parse
 coverage flags (jbr/*.h C headers, minified bundles) are per-project in
 index_status. Tracked check impact: none — these live outside the repo.
+
+Operational note: Codebase Memory served the index_repository MCP remotely
+(no localhost server on this box; the 8081 port is Nexus); fast mode private
+tool successes landed all 15 projects via the lazy MCP.
