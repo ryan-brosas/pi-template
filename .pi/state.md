@@ -26,7 +26,7 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 
 | Gate                       | Command                                        | Last result                               | Date       |
 |----------------------------|------------------------------------------------|-------------------------------------------|------------|
-| Canonical check            | `node scripts/check.mjs`                       | pass, seven validators + git diff --check | 2026-08-12 |
+| Canonical check            | `node scripts/check.mjs`                       | pass, seven validators + convention gate + git diff --check | 2026-08-16 |
 | Skill packs                | `node scripts/validate-skill-packs.mjs`        | pass, packs=10 leaves=88 visible=14       | 2026-08-12 |
 | Manifest parity            | `node scripts/sync-skill-manifest.mjs --check` | pass                                      | 2026-08-09 |
 | Routing probes             | `node scripts/probe-skill-routing.mjs`         | pass, all probes                          | 2026-08-09 |

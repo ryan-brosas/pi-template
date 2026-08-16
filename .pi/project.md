@@ -12,7 +12,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 ## Success Criteria
 
 1. A developer clones the repository, trusts it in Pi, reloads, and runs /init to get a complete context artifact set. (Verifiable by following README.md:9-17.)
-2. The canonical `node scripts/check.mjs` command exits 0. It runs all seven structural validators and `git diff --check`; GitHub CI runs the same command. (Verifiable locally and in `.github/workflows/check.yml`.)
+2. The canonical `node scripts/check.mjs` command exits 0. It runs all seven structural validators, a commit-convention gate, and `git diff --check`; GitHub CI runs the same command. (Verifiable locally and in `.github/workflows/check.yml`.)
 3. Mutating commands defer to the Schema guard and never touch unrelated working-tree changes. (Verifiable by command behavior and scope checks.)
 4. The repository stays clonable with no package install, build, or runtime harness. (Verifiable by README.md:7,16 and the absence of manifests.)
 
@@ -110,7 +110,7 @@ No external application API, database, deployment provider, or credential-bearin
 
 - **Unit, integration, contract, e2e seams:** None. The repository has no application test suite.
 - **Test locations:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Canonical gate:** `node scripts/check.mjs` runs the seven structural validators and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Pi Fabric and AGENTS contracts, work management, Notion workspace safety, and release hygiene.
+- **Canonical gate:** `node scripts/check.mjs` runs the seven structural validators, a commit-convention gate (unpushed commit subjects and branch names), and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Pi Fabric and AGENTS contracts, work management, Notion workspace safety, and release hygiene.
 - **CI:** `.github/workflows/check.yml` runs the canonical gate on pushes to `main` and pull requests.
 - **Coverage gaps:** The repository has no application test suite. Slash-command behavior still requires direct Pi probes when a prompt workflow changes.
 
@@ -167,7 +167,7 @@ No external application API, database, deployment provider, or credential-bearin
 - README.md:9-17 install flow; README.md:18-39 layout and generated-state boundaries; README.md:41-58 command table; README.md:34-35 removed OpenCode wrappers.
 - AGENTS.md Mutation Authority, Skills, Constraints, Architecture sections.
 - .pi/settings.json and .pi/fabric.json configuration values.
-- `node scripts/check.mjs` is the canonical local and CI gate; it runs all seven validators and `git diff --check`.
+- `node scripts/check.mjs` is the canonical local and CI gate; it runs all seven validators, a commit-convention gate, and `git diff --check`.
 - git remote -v shows origin at github.com/ryan-brosas/pi-template.git.
 
 ---

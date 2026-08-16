@@ -90,7 +90,7 @@ Do not add commands based only on this host inventory. A project command require
 | `node scripts/validate-pi-fabric.mjs`                    | works  | Schema dispositions, mode config (enforce or audit), skill paths                                 | 2026-08-09, exit 0 |
 | `node scripts/validate-work-management.mjs`              | works  | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety             | 2026-08-09, exit 0 |
 | `node scripts/validate-notion-workspace-skill.mjs`       | works  | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
-| `node scripts/check.mjs`                                 | works  | Canonical gate: all validators + `git diff --check`                                              | 2026-08-11, exit 0 |
+| `node scripts/check.mjs`                                 | works  | Canonical gate: all validators + commit-convention gate + `git diff --check`                     | 2026-08-16, exit 0 |
 | `node scripts/validate-release-hygiene.mjs`              | works  | Release hygiene: machine paths, secrets, runtime state, documented counts                        | 2026-08-11, exit 0 |
 | `git diff --check`                                       | works  | Whitespace check on changed files                                                                | 2026-08-09, exit 0 |
 | install / dev / test / lint / typecheck / build / format | none   | No command exists in the current tree                                                            | probed 2026-08-09  |

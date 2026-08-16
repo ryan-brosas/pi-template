@@ -6,7 +6,8 @@
 node scripts/check.mjs
 ```
 
-This command runs all seven dependency-free Node validators and `git diff --check`.
+This command runs all seven dependency-free Node validators, a commit-convention
+gate, and `git diff --check`.
 There is no install, test, lint, typecheck, build, or format command. GitHub runs
 the same check from `.github/workflows/check.yml` on pushes to `main` and on
 pull requests.

@@ -63,7 +63,8 @@ before writing. Research, audit, and verify are explicitly read-only.
 ## Validation
 
 Run the complete local gate with `node scripts/check.mjs`. It runs all seven
-dependency-free validators and `git diff --check`. GitHub runs the same command
+dependency-free validators, a commit-convention gate, and `git diff --check`.
+GitHub runs the same command
 from `.github/workflows/check.yml` on pushes to `main` and pull requests. Qodana (JetBrains static analysis, configured per project in `qodana.yaml`) runs from `.github/workflows/qodana.yml` and uploads SARIF to code scanning.
 
 To enable it, add a `QODANA_TOKEN` secret (register at qodana.cloud; free for
