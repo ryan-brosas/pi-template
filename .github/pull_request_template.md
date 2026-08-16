@@ -2,7 +2,7 @@
 
 - **Issue:** #<issue> (optional — local-first work uses a slug)
 - **Work records:** `.pi/work/<slug>/` (or `<issue>-<slug>` when linked)
-- **Branch:** `feat/<slug>` or `feat/<issue>-<slug>`
+- **Branch:** `<slug>` or `<issue>-<slug>` (at most three hyphen-separated lowercase words, no slashes, no type prefixes)
 
 ## Change summary
 
