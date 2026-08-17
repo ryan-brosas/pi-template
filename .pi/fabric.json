@@ -21,7 +21,7 @@
     "engine": "pi"
   },
   "prewalk": {
-    "mode": "trajectory",
-    "model": "opencode-go/deepseek-v4-flash"
+    "mode": "off",
+    "alwaysRearm": false
   }
 }

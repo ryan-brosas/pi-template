@@ -10,8 +10,8 @@ A record moves through a default lane, but the lane is a suggestion, not a
 pipeline — run commands freeform, in any order, and skip what the work doesn't
 need.
 
-    /research   → evidence in research.md (optional; revisit any time)
-    /create     → issue.md + spec.md (PRD) + tasks.md; sets .active
+    /research   → evidence in research.md (optional; `--slug <id>` persists without an active work item)
+    /create     → issue.md + spec.md (PRD) + tasks.md; sets .active; `--from-research <id>` seeds the PRD from research.md
     /plan       → plan.md (+ proposal.md, design.md, adr.md when warranted)
     /ship       → implement the active spec end to end
     /verify     → run gates; durable result in verification.md

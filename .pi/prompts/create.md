@@ -10,16 +10,18 @@ Create a specification (PRD), set up the workspace, and define executable tasks 
 
 ## Parse Arguments
 
-| Argument        | Default  | Description                       |
-|-----------------|----------|-----------------------------------|
-| `<description>` | required | What to build/fix (quoted string) |
+| Argument               | Default  | Description                                    |
+|------------------------|----------|------------------------------------------------|
+| `<description>`        | required | What to build/fix (quoted string)              |
+| `--from-research <id>` | none     | Seed the PRD from `.pi/work/<id>/research.md`  |
 
 ## Determine Input Type
 
-| Input Type  | Detection            | Action                        |
-|-------------|----------------------|-------------------------------|
-| Quoted text | `"description here"` | Create PRD from description   |
-| Short form  | Simple string        | Ask for more detail if needed |
+| Input Type      | Detection                                          | Action                                                   |
+|-----------------|----------------------------------------------------|----------------------------------------------------------|
+| Quoted text     | `"description here"`                               | Create PRD from description                              |
+| Short form      | Simple string                                      | Ask for more detail if needed                            |
+| Research report | Pasted `/research` output or `--from-research <id>`| Create PRD seeded from research findings (see Phase 3.5) |
 
 ## Before You Create
 
@@ -46,6 +48,12 @@ search for existing features that might already cover the request.
 
 Check `.pi/work/.active` for existing work in progress. If an active ID exists and `.pi/work/<id>/spec.md` exists, ask the user if they want to continue with `/ship` instead.
 
+**Research artifact detection.** The input is a research artifact when either holds:
+- `$ARGUMENTS` includes `--from-research <id>` → read `.pi/work/<id>/research.md`; error clearly if absent.
+- The pasted text is a `/research` report (contains report headers such as `Question:`, `Findings by angle:`, `Evidence ledger:`).
+
+Consume the report in Phase 3.5 instead of treating it as a raw description. A `--from-research <id>` id wins over pasted text; never invent an id.
+
 ## Phase 2: Choose Research Depth
 
 Ask the user how much codebase research they need:
@@ -64,14 +72,35 @@ Based on the research depth choice, run direct read-only discovery:
 
 While discovery runs, ask clarifying questions if the description lacks scope or expected outcome. For bugs, ask for reproduction steps and expected vs actual behavior.
 
+## Phase 3.5: Consume Research (research artifact only)
+
+When the input is a research artifact (see Phase 1), seed the PRD from the report instead of re-deriving its conclusions. Map report sections onto the PRD template:
+
+| Research report section         | PRD section(s)                                                    |
+|---------------------------------|-------------------------------------------------------------------|
+| Question                        | Problem Statement (restated as the spec's problem)                |
+| Answer summary                  | Proposed Solution → Overview                                      |
+| Findings by angle               | Technical Context → Existing Patterns (one per finding, with source) |
+| Contradictions                  | Risks & Mitigations; Open Questions                               |
+| Open gaps                       | Open Questions + `[NEEDS CLARIFICATION]` markers                  |
+| Evidence ledger                 | Notes → provenance appendix; acceptance criteria only from checkable findings |
+| Recommendation for this project | Scope (In-Scope/Out-of-Scope) + Requirements                      |
+
+Rules:
+- Keep provenance: every requirement or pattern lifted from a finding keeps its source (URL/file:line) and confidence in the PRD.
+- Phase 2/3 codebase discovery still applies (it answers "where in this repo"), but it does not re-answer the research question.
+- A finding that already resolved a `[NEEDS CLARIFICATION]` marker must not be re-flagged; carry the resolution.
+- If open gaps block scope or requirements, ask before writing, or mark them `[NEEDS CLARIFICATION]` with the gap named.
+
 ## Phase 4: Initialize Workspace (local-first)
 
 Create a local work record from the description; no GitHub access is needed.
 
 - Derive a kebab-case slug from the description; it is the local work ID.
+- Research artifact: when `--from-research <id>` is given, reuse `<id>` as the work ID (no re-derivation). When a report was pasted, derive the slug from the report's **Question** line (or the user's stated description), never from the whole pasted blob.
 - If `$ARGUMENTS` includes `--issue <number>`, the record links an already-existing issue: verify it with `gh issue view <number>` scoped to the repository remote and record the verified number, URL, title, and repository. Use only the verified number; never guess or fabricate a URL. Linking is optional and read-only; /create never creates a GitHub issue.
 
-Derive a kebab-case slug; the work ID is `<slug>`, or `<issue>-<slug>` when an existing issue is linked:
+Derive a kebab-case slug; the work ID is `<slug>`, or `<issue>-<slug>` when an existing issue is linked. For a research artifact, `TITLE` is the question/description, never the report body:
 ```bash
 SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-' | sed 's/--*/-/g; s/^-//; s/-$//')
 ID="${SLUG}"
@@ -95,7 +124,7 @@ Lite PRD when the change is small and well understood; full PRD otherwise.
 
 ## Phase 6: Write the PRD
 
-Render the PRD from `.pi/templates/prd.md` into `.pi/work/$ID/spec.md`, filling every section with the gathered requirements, goals, non-goals, and acceptance criteria.
+Render the PRD from `.pi/templates/prd.md` into `.pi/work/$ID/spec.md`, filling every section with the gathered requirements, goals, non-goals, and acceptance criteria. When a research artifact was consumed (Phase 3.5), seed each section via the mapping table and carry the evidence ledger into Notes as a provenance appendix.
 
 Every acceptance criterion must be checkable:
 - Observable behavior (what the user or system can verify)
@@ -128,8 +157,9 @@ Research, question-asking, and PRD drafting are read-only. Before writing any fi
 
 ## Related Commands
 
-| Need               | Command   |
-|--------------------|-----------|
-| Deeper planning    | `/plan`   |
-| Implement the spec | `/ship`   |
-| Verify gates       | `/verify` |
+| Need               | Command                          |
+|--------------------|----------------------------------|
+| Seed from research | `/create --from-research <id>`   |
+| Deeper planning    | `/plan`                          |
+| Implement the spec | `/ship`                          |
+| Verify gates       | `/verify`                        |

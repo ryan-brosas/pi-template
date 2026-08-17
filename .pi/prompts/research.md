@@ -15,9 +15,10 @@ approves work; it feeds a later Schema hypothesis evidence set.
 
 ## Parse Arguments
 
-| Argument | Default  | Description                |
-|----------|----------|----------------------------|
-| Question | required | Research question or topic |
+| Argument      | Default  | Description                                              |
+|---------------|----------|----------------------------------------------------------|
+| Question      | required | Research question or topic                               |
+| `--slug <id>` | none     | Persist the report to `.pi/work/<id>/research.md` even without an active work item; do not set `.active` |
 
 ## Phase 0: Classify and Budget
 
@@ -81,9 +82,13 @@ Every claim in the summary must trace to a finding with a source. No source, no 
 
 ## Persist Findings (optional)
 
-If an active work item exists (`.pi/work/.active`) and the user wants the
-report kept with the work, write it to
-`.pi/work/$(cat .pi/work/.active)/research.md`. That write is a mutation: run the Schema loop inside one `fabric_exec` —
+The report lands in `.pi/work/<id>/research.md` so `/create --from-research <id>`
+can seed a spec from it. Resolve `<id>` in this order:
+1. `--slug <id>` in `$ARGUMENTS` → write there even without an active work item (provisional slug; do not set `.active` — `/create` owns that).
+2. An active work item (`.pi/work/.active`) → write to `.pi/work/$(cat .pi/work/.active)/research.md`.
+3. Otherwise → ask the user for a slug or leave the report in the reply for copy-paste.
+
+That write is a mutation: run the Schema loop inside one `fabric_exec` —
 `schema.hypothesize` (evidence: `file_contains`/`file_sha256` literals or the
 `canonical-check` trusted command) → `schema.verify` → `schema.commit` with
 declared operations and nonempty postconditions — before writing.
@@ -105,6 +110,6 @@ Schema mode; otherwise → main-session mode.
 
 | Need                           | Command   |
 |--------------------------------|-----------|
-| Create a feature from findings | `/create` |
+| Create a feature from findings | `/create --from-research <id>` (seed the PRD from `research.md`) |
 | Audit a pattern                | `/audit`  |
 | Verify gates                   | `/verify` |
