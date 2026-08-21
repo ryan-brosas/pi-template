@@ -1,6 +1,6 @@
 ---
 name: pack-delivery
-description: "Delivery workflow router: implementing, planning, testing, shipping, prototyping, or development lifecycle work. Loads matching leaf skill on demand."
+description: "Delivery workflow router: codebase-driven implementation, planning, testing, shipping, prototyping, or development lifecycle work. Loads matching leaf skill on demand."
 ---
 
 # Pack: Delivery
@@ -9,17 +9,19 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 ## Members
 
+- codebase-driven-development: default: code is ground truth; one-shot with examples
+- code-foundations: turn proven code into reusable skills
 - app-experience-mapping: map journeys, touchpoints, and service seams
 - development-lifecycle: plan project lifecycle and phases
-- fabric-native-execution: use Pi Fabric native providers (memory, state, mesh, compact)
+- fabric-native-execution: use Pi Fabric native providers (memory/state/mesh/compact)
 - incremental-implementation: implement multi-file changes in slices
-- jetbrains-ide-workflow: use IDE-aware search, editing, refactoring, diagnostics, builds, and runs
+- jetbrains-ide-workflow: IDE search, edit, refactor, diagnostics, builds, runs
 - planning-and-task-breakdown: break goals into ordered tasks
 - prototype: validate an idea with a throwaway build
 - shipping-and-launch: merge, deploy, release, or finish
-- source-driven-development: ground decisions in authoritative sources
-- spec-driven-development: implement from an approved spec
+- source-driven-development: gate external APIs: cite or mark unverified
+- spec-driven-development: gated: spec only for 4-10 day runs
 - test-driven-development: write failing tests first
 - testing-anti-patterns: avoid mock tautologies and bad seams
 - task-scoped-execution: execute ordered tasks with acceptance review
-- veda-lane: optional host-side Veda lane (navigator/reviewer/worker/deep)
+- veda-lane: optional host-side Veda lane

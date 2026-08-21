@@ -1,16 +1,25 @@
 ---
 name: spec-driven-development
-description: Use when starting a new feature, significant change, product idea, or when requirements are ambiguous and need a concrete specification before implementation.
+description: "Use when a run is expected to last 4-10 days or span multiple sessions, requirements stay ambiguous after code inspection, or a durable cross-team contract is required; otherwise codebase-driven-development is the default."
 disable-model-invocation: true
 ---
 
-
 # Spec-Driven Development
+
+The gated exception, not the default. The default is codebase-driven-development: code is the ground truth, the session is the artifact, and 1-2 examples one-shot the work.
+
+## Gate: escalate here ONLY when
+
+- The run is expected to last 4-10 days or span multiple sessions.
+- Requirements remain ambiguous AFTER reading the code and its foundations.
+- A durable cross-team contract must be recorded and versioned.
+
+Otherwise use codebase-driven-development. A spec written before reading the code is a guess.
 
 ## Iron Laws
 
 <EXTREMELY-IMPORTANT>
-- **Spec before code.** A 200-word spec prevents a 2000-line rewrite.
+- **Spec after code inspection.** Read the codebase and its foundations first; then a 200-word spec prevents a 2000-line rewrite.
 - **The spec is the contract.** Implementation matches the spec, not "what I imagined".
 - **Spec gaps surface in the interview.** Can't write the spec = don't know what you're building.
 - **Spec changes are explicit.** Change in spec = change in scope. Note it.
@@ -19,11 +28,11 @@ disable-model-invocation: true
 
 ## When to Use
 
-New feature with ambiguous requirements; "let's add X" without details; "I want a thing that does Y"; significant change; multi-file or multi-session work; the team disagrees on what to build.
+4-10 day runs; multi-session work; requirements ambiguous after code inspection; a durable cross-team contract.
 
 ## When NOT to Use
 
-Trivial change; one-line fix; bug fix with known root cause; well-understood domain.
+One-session work; anything a 1-2 example one-shot covers; well-understood domain; bug fix with known root cause. Use codebase-driven-development.
 
 ## Spec Anatomy
 
@@ -52,7 +61,7 @@ Goal + non-goals + acceptance criteria = the minimum spec.
 ## Workflow
 
 1. **Capture the request.** What's the user-observable change?
-2. **Draft the spec.** Goal, non-goals, stories, criteria. May take 30-60 min.
+2. **Draft the spec.** Goal, non-goals, stories, criteria. May take 30-60 min — justified only for gated work.
 3. **Interview the gap.** What's underspecified? Ask one question at a time.
 4. **Lock the spec.** User approves.
 5. **Implementation derives from the spec.** Each acceptance criterion → one or more tests.
@@ -67,19 +76,15 @@ Goal + non-goals + acceptance criteria = the minimum spec.
 
 ## Common Mistakes
 
-Spec after code (rewrite); spec too vague ("make it good"); spec too detailed (the spec IS the code, just write it); no non-goals (scope creep); no acceptance criteria (can't test); spec as a wishlist; spec never updated (drift); spec changed verbally (not in file).
+Spec after code (rewrite); spec before reading the code (guess); spec too vague ("make it good"); spec too detailed (the spec IS the code, just write it); no non-goals (scope creep); no acceptance criteria (can't test); spec as a wishlist; spec never updated (drift); spec changed verbally (not in file).
 
 ## Red Flags
 
 No goal; no non-goals; no acceptance criteria; "make it good" (not specific); spec as wishlist; no open questions; spec changed verbally; spec vs code drift; no version; "I'll know it when I see it" (not a spec).
 
-## Self-Quiz
-
-Is the goal 1-2 sentences, observable, measurable? Are non-goals explicit? Are criteria checkable? Are open questions listed? Is the spec a single file, versioned? Is the test plan derived from criteria?
-
 ## Anti-Patterns
 
-**Spec after code**; **vague goal**; **no non-goals**; **no criteria**; **wishlist**; **no questions**; **verbal changes**; **drift**; **"I'll know it"**; **spec = the code**.
+**Spec after code**; **spec before code**; **vague goal**; **no non-goals**; **no criteria**; **wishlist**; **no questions**; **verbal changes**; **drift**; **"I'll know it"**; **spec = the code**.
 
 ## Pi Fabric Boundaries
 

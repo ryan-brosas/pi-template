@@ -11,8 +11,10 @@
   "packs": [
     {
       "id": "pack-delivery",
-      "description": "Delivery workflow router: implementing, planning, testing, shipping, prototyping, or development lifecycle work. Loads matching leaf skill on demand.",
+      "description": "Delivery workflow router: codebase-driven implementation, planning, testing, shipping, prototyping, or development lifecycle work. Loads matching leaf skill on demand.",
       "members": [
+        "codebase-driven-development",
+        "code-foundations",
         "app-experience-mapping",
         "development-lifecycle",
         "fabric-native-execution",
@@ -27,6 +29,23 @@
         "testing-anti-patterns",
         "task-scoped-execution",
         "veda-lane"
+      ]
+    },
+    {
+      "id": "pack-foundations",
+      "description": "Foundations router: reusable proven code from indexed inspiration repositories, encoded as skills so future work stacks shortcuts instead of re-deriving them.",
+      "members": [
+        "foundations-workflow",
+        "billion-context-pi-foundation",
+        "browser-harness-foundation",
+        "browser-use-foundation",
+        "localterm-foundation",
+        "mem0-foundation",
+        "pi-fabric-foundation",
+        "pi-upstream-foundation",
+        "pydantic-ai-harness-foundation",
+        "jobspy-foundation",
+        "linkedin-mcp-foundation"
       ]
     },
     {
@@ -164,8 +183,21 @@
     "planning-and-task-breakdown": "Use when breaking a goal into tasks, estimating, or sequencing work.",
     "prototype": "Use when building a throwaway prototype or validating an idea.",
     "shipping-and-launch": "Use when shipping, releasing, launching, or productionizing.",
-    "source-driven-development": "Use when building from a source template, reference repo, or vendored baseline.",
-    "spec-driven-development": "Use when a spec or PRD exists and implementation must match it.",
+    "source-driven-development": "Use when shipping code that depends on unfamiliar libraries, external APIs, or framework behavior; cite the source or mark the decision unverified.",
+    "spec-driven-development": "Use when a run is expected to last 4-10 days or span multiple sessions, requirements stay ambiguous after code inspection, or a durable cross-team contract is required.",
+    "codebase-driven-development": "Use when starting any implementation work: code is the ground truth, one-shot with examples, and escalate to a spec only when the run outlives the session.",
+    "code-foundations": "Use when a proven code pattern, primitive, or integration is worth reusing: encode it as a skill so future work reuses the shortcut.",
+    "localterm-foundation": "Use when building terminal UIs, terminal rendering, or pi bash-tool security: streaming secret redaction, spawn-side env scrub, and the localterm terminal stack.",
+    "pi-fabric-foundation": "Use when building on Pi Fabric internals: Schema mutation guard, cross-process budget ledger, compaction bounds, actors, or provider patterns.",
+    "pi-upstream-foundation": "Use when building a coding-agent harness: the agent loop, branch-summarization compaction, settings manager, or model catalog.",
+    "jobspy-foundation": "Use when scraping job listings across sites (LinkedIn, Glassdoor, Naukri, Bayt, BdJobs): the JobSpy unified scraper, proxy rotation, and markdown conversion.",
+    "linkedin-mcp-foundation": "Use when building LinkedIn automation: the linkedin-mcp-server session state, cookie bridge, daemon lock/descriptor, and config validation.",
+    "billion-context-pi-foundation": "Use when building long-context agent delegation: subagent spawning, context compress/decompress, tool guardrails, delegate watchdogs, and fleet status widgets.",
+    "browser-harness-foundation": "Use when building browser automation tooling: a CDP daemon that attaches to a real browser, high-level page helpers, action recording, and video composition.",
+    "browser-use-foundation": "Use when building an LLM-driven browser agent: the agent step loop, DOM accessibility-tree serialization, message compaction, tool registry with sensitive-data redaction, and CDP browser sessions.",
+    "mem0-foundation": "Use when building agent memory: memory add/extract/update/delete, scoped retrieval with metadata filters and reranking, vector-store backends, and SQLite history.",
+    "pydantic-ai-harness-foundation": "Use when building a pydantic-ai agent harness: capability/toolset abstractions, context-window compaction strategies, spend budgets, planning stores, and subagent model restrictions.",
+    "foundations-workflow": "Use when turning an indexed repository or memory-graph project into a detailed foundation skill: graph-first deep-pass, source confirmation, lean SKILL.md + split references, and wiring.",
     "test-driven-development": "Use when writing tests first, red-green-refactor.",
     "testing-anti-patterns": "Use when writing or changing tests, mocks, or test-only methods.",
     "agent-code-quality-gate": "Use before claiming implementation work complete.",

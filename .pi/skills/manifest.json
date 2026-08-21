@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12",
+  "generated": "2026-08-21",
   "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: ten visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json; node scripts/validate-skill-packs.mjs is the structural gate.",
   "removed": [
     {
@@ -67,6 +67,12 @@
       "modelVisible": false
     },
     {
+      "name": "billion-context-pi-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "black-box-experience-review",
       "status": "retained",
       "pack": "pack-quality",
@@ -79,6 +85,12 @@
       "modelVisible": true
     },
     {
+      "name": "browser-harness-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "browser-testing-with-devtools",
       "status": "retained",
       "pack": "pack-frontend",
@@ -88,6 +100,12 @@
       "name": "browser-tools",
       "status": "retained",
       "pack": "pack-frontend",
+      "modelVisible": false
+    },
+    {
+      "name": "browser-use-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
       "modelVisible": false
     },
     {
@@ -115,9 +133,21 @@
       "modelVisible": false
     },
     {
+      "name": "code-foundations",
+      "status": "retained",
+      "pack": "pack-delivery",
+      "modelVisible": false
+    },
+    {
       "name": "code-review-and-quality",
       "status": "retained",
       "pack": "pack-quality",
+      "modelVisible": false
+    },
+    {
+      "name": "codebase-driven-development",
+      "status": "retained",
+      "pack": "pack-delivery",
       "modelVisible": false
     },
     {
@@ -253,6 +283,12 @@
       "modelVisible": false
     },
     {
+      "name": "foundations-workflow",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "frontend-design",
       "status": "retained",
       "pack": "pack-frontend",
@@ -331,6 +367,30 @@
       "modelVisible": false
     },
     {
+      "name": "jobspy-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "linkedin-mcp-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "localterm-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "mem0-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "minimalist-ui",
       "status": "retained",
       "pack": "pack-frontend",
@@ -373,6 +433,18 @@
       "modelVisible": false
     },
     {
+      "name": "pi-fabric-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "pi-upstream-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "planning-and-task-breakdown",
       "status": "retained",
       "pack": "pack-delivery",
@@ -394,6 +466,12 @@
       "name": "prototype",
       "status": "retained",
       "pack": "pack-delivery",
+      "modelVisible": false
+    },
+    {
+      "name": "pydantic-ai-harness-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
       "modelVisible": false
     },
     {
