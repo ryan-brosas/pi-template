@@ -29,7 +29,9 @@ Indexed in Codebase Memory as **`openai-agents-python`** (`/mnt/hdd/utopia/inspo
 Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
-- `references/patterns.md` — guardrails, handoffs, RunState, loop decomposition.
+- `references/patterns.md` — guardrails, handoffs, RunState overview, loop decomposition.
+- `references/run-internals.md` — the resolution ladder, handoff arbitration, parallel-tool failure arbiter, malformed-input grading, resume reconciliation.
+- `references/run-state.md` — versioned snapshot contract, approval ledger, parking/resume identity matching, hardened deserialization, conservative context.
 
 ## Skill Result Contract
 
