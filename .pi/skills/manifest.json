@@ -535,6 +535,12 @@
       "modelVisible": false
     },
     {
+      "name": "roo-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "root-cause-tracing",
       "status": "retained",
       "pack": "pack-quality",
