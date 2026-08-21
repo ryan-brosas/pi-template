@@ -18,6 +18,7 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - turso-foundation: storage engine — MVCC, WAL framing/checkpointing, b-tree/pager durability
 - biome-foundation: lossless CST, formatter IR, rule engine
 - roo-foundation: IDE agent modes, mistake breakers, approval classifier
+- continue-foundation: FIM autocomplete pipeline, generator reuse, stream filters
 - billion-context-pi-foundation: long-context delegation, compress/decompress, watchdogs
 - browser-harness-foundation: CDP daemon, page helpers, action recorder, video composition
 - browser-use-foundation: LLM browser agent — step loop, DOM serialization, tool registry

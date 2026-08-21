@@ -181,6 +181,12 @@
       "modelVisible": false
     },
     {
+      "name": "continue-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "core-data-expert",
       "status": "retained",
       "pack": "pack-data",
