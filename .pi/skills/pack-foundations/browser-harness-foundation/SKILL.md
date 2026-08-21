@@ -40,6 +40,7 @@ Confirm every claim against source — the graph is an index, not truth.
 - `references/daemon.md` — Daemon internals: DevTools-port discovery, session replacement, domain enable, tab classification.
 - `references/helpers.md` — the full imperative helper API over the `cdp()` core, with verified anchors.
 - `references/recorder-video.md` — action recording + URL scrubbing + the video composition pipeline.
+- `references/ux.md` — human-facing auth flows: PKCE/device-code/manual-key triage, agent-vs-human output modes.
 
 ## Skill Result Contract
 

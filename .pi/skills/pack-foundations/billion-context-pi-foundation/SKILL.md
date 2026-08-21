@@ -40,6 +40,7 @@ Confirm every claim against source — the graph is an index, not truth.
 - `references/delegation.md` — the roster + restricted tools: AgentDef, the MAX_DEPTH gate, sync/async wait timeouts.
 - `references/watchdog.md` — attachWatchdogs: idle timer (main defense), hard timeout, EOF grace, SIGTERM→SIGKILL escalation.
 - `references/compression.md` — compress/decompress: message-range addressing (mNNNNN / bN), summary limits, token accounting.
+- `references/ux.md` — the delegate fleet status widget: render-key debounce, idle timer shutdown, mode guards.
 
 ## Skill Result Contract
 

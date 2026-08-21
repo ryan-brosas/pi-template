@@ -38,6 +38,7 @@ Confirm every claim against source — the graph is an index, not truth.
 ## References (load on demand)
 - `references/DEEP.md` — Schema evidence/ops/records + allowlist, compaction exports, red flags, verification.
 - `references/internals.md` — budget-ledger semantics from source (O_APPEND atomicity, tolerant reads, env seeding/lifecycle), UTF-8-safe clipping, provenance-preserving sampling.
+- `references/ux.md` — TUI interaction design, 5W1H per pattern: word-diff emphasis, spinner, row balancing, preview selection, transcript sanitization, status widget.
 
 ## Skill Result Contract
 

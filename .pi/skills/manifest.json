@@ -37,6 +37,12 @@
       "modelVisible": false
     },
     {
+      "name": "aider-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "api-and-interface-design",
       "status": "retained",
       "pack": "pack-quality",

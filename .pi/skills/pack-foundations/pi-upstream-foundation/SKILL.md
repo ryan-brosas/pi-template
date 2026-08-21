@@ -38,6 +38,7 @@ Confirm every claim against source — the graph is an index, not truth.
 ## References (load on demand)
 - `references/DEEP.md` — compaction exports list, red flags, verification.
 - `references/internals.md` — loop guards & steering, hybrid token estimation, cut-point rules, structured summary prompts, cache-isolated summarization calls.
+- `references/ux.md` — TUI interaction internals, 5W1H per pattern: input buffering, fuzzy matching; autocomplete/markdown/editor to follow.
 
 ## Skill Result Contract
 

@@ -36,6 +36,7 @@
       "description": "Foundations router: reusable proven code from indexed inspiration repositories, encoded as skills so future work stacks shortcuts instead of re-deriving them.",
       "members": [
         "foundations-workflow",
+        "aider-foundation",
         "billion-context-pi-foundation",
         "browser-harness-foundation",
         "browser-use-foundation",
