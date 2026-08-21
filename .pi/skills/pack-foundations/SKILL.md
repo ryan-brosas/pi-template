@@ -16,6 +16,7 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - openai-agents-foundation: multi-agent framework — guardrail tripwires, typed handoffs, resumable runs
 - graphiti-foundation: temporal knowledge graphs — bi-temporal edges, contradiction arithmetic
 - turso-foundation: storage engine — MVCC, WAL framing/checkpointing, b-tree/pager durability
+- biome-foundation: lossless CST, formatter IR, rule engine
 - billion-context-pi-foundation: long-context delegation, compress/decompress, watchdogs
 - browser-harness-foundation: CDP daemon, page helpers, action recorder, video composition
 - browser-use-foundation: LLM browser agent — step loop, DOM serialization, tool registry

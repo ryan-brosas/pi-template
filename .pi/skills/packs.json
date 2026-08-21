@@ -42,6 +42,7 @@
         "openai-agents-foundation",
         "graphiti-foundation",
         "turso-foundation",
+        "biome-foundation",
         "billion-context-pi-foundation",
         "browser-harness-foundation",
         "browser-use-foundation",

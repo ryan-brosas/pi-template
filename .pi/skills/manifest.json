@@ -79,6 +79,12 @@
       "modelVisible": false
     },
     {
+      "name": "biome-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "black-box-experience-review",
       "status": "retained",
       "pack": "pack-quality",
