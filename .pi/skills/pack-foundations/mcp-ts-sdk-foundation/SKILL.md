@@ -29,6 +29,8 @@ Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
 - `references/protocol.md` — the inbound ladder decision table, Protocol base internals, wire-codec era layering.
+- `references/auth.md` — SEP-2352 issuer-stamped credential isolation, discovery pipeline, scope step-up, callback validation, token-request chokepoint.
+- `references/transports.md` — session lifecycle, store-first resumability with version-gated priming events, identity-checked stream teardown, reconnect predicate, content negotiation.
 
 ## Skill Result Contract
 
