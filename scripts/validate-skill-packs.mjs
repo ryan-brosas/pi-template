@@ -19,7 +19,8 @@ const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const ALLOWED_FIELDS = new Set(["name", "description", "license", "compatibility", "metadata", "allowed-tools", "disable-model-invocation"]);
 const TRIGGER_RE = /^Use when /;
 const TRIGGER_BUDGET = 240;
-const ROUTER_WORD_BUDGET = 190;
+// One line per pack member plus the shared intro; grows as packs add leaves.
+const ROUTER_WORD_BUDGET = 300;
 const LEAF_WARN_WORDS = 600;
 const wordCount = (s) => s.trim().split(/\s+/).length;
 const unquote = (s) => (s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'")) ? s.slice(1, -1) : s;
