@@ -19,6 +19,7 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - biome-foundation: lossless CST, formatter IR, rule engine
 - roo-foundation: IDE agent modes, mistake breakers, approval classifier
 - continue-foundation: FIM autocomplete pipeline, generator reuse, stream filters
+- ai-sdk-foundation: LLM streaming, stop predicates, tool-call repair, history pruning
 - billion-context-pi-foundation: long-context delegation, compress/decompress, watchdogs
 - browser-harness-foundation: CDP daemon, page helpers, action recorder, video composition
 - browser-use-foundation: LLM browser agent — step loop, DOM serialization, tool registry

@@ -37,6 +37,12 @@
       "modelVisible": false
     },
     {
+      "name": "ai-sdk-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "aider-foundation",
       "status": "retained",
       "pack": "pack-foundations",
