@@ -415,6 +415,12 @@
       "modelVisible": false
     },
     {
+      "name": "opencode-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "opensrc",
       "status": "retained",
       "pack": "pack-research",

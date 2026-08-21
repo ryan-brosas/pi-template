@@ -37,6 +37,7 @@
       "members": [
         "foundations-workflow",
         "aider-foundation",
+        "opencode-foundation",
         "billion-context-pi-foundation",
         "browser-harness-foundation",
         "browser-use-foundation",
