@@ -1,5 +1,7 @@
 # Localterm — Completion, Theme & Fonts Reference
 
+(Source-grounded reference; read in full during the pack's gold-standard calibration pass. Covers `packages/server/src/completion/` and theme/font catalog import paths.)
+
 The shell completion engine, iTerm2 theme import, and the font catalog.
 
 ## Shell completion engine (`packages/server/src/completion/`)

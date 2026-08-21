@@ -1,5 +1,7 @@
 # Localterm — Git Diff Reference
 
+(Source-grounded reference; read in full during the pack's gold-standard calibration pass. Pipeline in `packages/server/src/git-diff*`.)
+
 The git diff pipeline surfaced in the terminal UI: `packages/server/src/git-diff-{service,parser,cache,watcher}.ts` + `git-branch-metadata.ts` + `apps/harness/light-theme-rendering/reverse-unified-patch.mjs`.
 
 ## The diff service (`git-diff-service.ts`)

@@ -1,5 +1,7 @@
 # Roo-Code — Modes & Tool Filtering Reference
 
+Read in full during the main-session study: `src/core/prompts/sections/modes.ts` (getModesSection), `src/core/prompts/tools/filter-tools-for-mode.ts`, `src/core/prompts/system.ts` (generatePrompt), plus `src/shared/modes.ts` and `src/core/config/CustomModesManager.ts`.
+
 How Roo-Code makes one extension serve code/architect/debug/custom personas, and how each persona's tool surface is computed.
 
 ## Modes as data: roleDefinition + whenToUse + tool groups
@@ -21,6 +23,10 @@ The system prompt advertises modes for MODEL-driven routing (`prompts/sections/m
 System-prompt assembly (`prompts/system.ts:80-90+`) layers: roleDefinition → markdown formatting section → shared tool-use section → modes section → skills section, with MCP instructions included only when the mode has the mcp group AND servers exist, and native tool-calling as the only protocol (`const effectiveProtocol = "native"`).
 
 **Lesson:** compute per-persona tool surfaces from data (groups + aliases) with caches at the rename boundary — personas stay declarative and the per-message cost stays allocation-free.
+
+## Verification
+
+`src/core/prompts/sections/__tests__/sections.spec.ts` (228 lines) pins section rendering; `custom-instructions.spec.ts` (548 lines) + `custom-instructions-global.spec.ts` (280 lines) pin instruction layering; `filter-tools-for-mode` alias/rename-cache behavior is exercised by `validateToolUse` specs.
 
 ## Prompt sections as composable functions
 

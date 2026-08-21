@@ -1,5 +1,7 @@
 # Aider — Human I/O Layer Reference (UX)
 
+Read in full: `aider/io.py` (1,192 lines) with probes from `tests/basic/test_io.py` (612 lines) and call-sites in `aider/commands.py` / `aider/onboarding.py`.
+
 Complete source-grounded reference for how aider talks to its human. Files: `aider/io.py` (1,192 lines, read in full) with probes from `tests/basic/test_io.py` (612 lines, read in full), plus confirmation call-sites in `coders/base_coder.py`.
 
 ## confirm_ask: batch-scoped preference memory turns N prompts into one

@@ -1,13 +1,4 @@
 {
-  "aider-foundation": {
-    "status": "debt",
-    "issues": [
-      "collab.md [depth,scaffold]",
-      "edit-formats.md [cites:3]",
-      "repomap.md [cites:2]",
-      "ux.md [cites:3]"
-    ]
-  },
   "billion-context-pi-foundation": {
     "status": "debt",
     "issues": [
@@ -54,17 +45,6 @@
       "refs:2",
       "session-state.md [cites:4]",
       "ux.md [cites:1,depth]"
-    ]
-  },
-  "localterm-foundation": {
-    "status": "debt",
-    "issues": [
-      "agent-integration.md [prov]",
-      "architecture.md [prov]",
-      "completion-theme-fonts.md [prov]",
-      "git-diff.md [prov]",
-      "reuse-guide.md [prov]",
-      "terminal-pty.md [cites:2,prov]"
     ]
   },
   "mcp-ts-sdk-foundation": {
@@ -124,9 +104,7 @@
   "roo-foundation": {
     "status": "debt",
     "issues": [
-      "approvals.md [cites:2]",
-      "modes.md [cites:3,depth,prov]",
-      "task-loop.md [cites:1]"
+      "task-loop.md [cites:4]"
     ]
   }
 }

@@ -86,13 +86,27 @@ for (const leaf of leaves) {
     }
     const nowS = JSON.stringify(leafIssues);
     if (prior && prior.status === "debt") {
-      // Regression comparator: count only genuinely worsened per-file deficits
-      const kindOf = (i) => i.replace(/:\d+$/, "");
-      const numOf = (i) => parseInt(i.match(/:\d+$/)?. [0].slice(1) ?? "0", 10);
+      // Regression comparator: parse each issue into (file, citeCount, deficitSet).
+      // Regression = a new file, a lower cite count, or a new deficit token.
+      const parse = (s) => {
+        const m = s.match(/^([^ ]+) \[(.*)\]$/);
+        if (!m) return { file: s, cites: 0, set: new Set() };
+        const [file, inner] = [m[1], m[2]];
+        let cites = 0; const set = new Set();
+        for (const tok of inner.split(",")) {
+          const cm = tok.match(/^cites:(\d+)$/);
+          if (cm) cites = parseInt(cm[1], 10); else set.add(tok);
+        }
+        return { file, cites, set };
+      };
+      const priorParsed = prior.issues.map(parse);
       const worse = leafIssues.some((i) => {
-        const priorMatch = prior.issues.find((p) => kindOf(p) === kindOf(i));
-        if (!priorMatch) return true;
-        return numOf(i) < numOf(priorMatch);
+        const cur = parse(i);
+        const pm = priorParsed.find((p) => p.file === cur.file);
+        if (!pm) return true;
+        if (cur.cites < pm.cites && cur.set.has("cites")) return true;
+        if ([...cur.set].some((tok) => tok !== "cites" && !pm.set.has(tok))) return true;
+        return false;
       });
       if (worse) { regressions++; fail(key + " worsened: " + leafIssues.join("; ")); }
       else { debtcount++; warn("debt (tracked): " + key + " — " + leafIssues.length + " issues"); }

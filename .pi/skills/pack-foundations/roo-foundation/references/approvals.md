@@ -1,6 +1,6 @@
 # Roo-Code — Approvals, Repetition Guards & Checkpoints Reference
 
-Files: `src/core/auto-approval/{index.ts,tools.ts,commands.ts,mcp.ts}`, `src/core/tools/ToolRepetitionDetector.ts`, `src/services/checkpoints/ShadowCheckpointService.ts`.
+Files read in full: `src/core/auto-approval/index.ts`, `src/core/auto-approval/tools.ts`, `src/core/auto-approval/commands.ts`, `src/core/auto-approval/mcp.ts`, `src/core/tools/ToolRepetitionDetector.ts`, and the checkpoint base `src/services/checkpoints/ShadowCheckpointService.ts`.
 
 ## Auto-approval as a PURE decision function
 

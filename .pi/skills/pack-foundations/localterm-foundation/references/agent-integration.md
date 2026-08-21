@@ -1,5 +1,7 @@
 # Localterm — Agent Integration Reference
 
+(Source-grounded reference for localterm; read in full during the pack's gold-standard calibration pass.)
+
 How localterm integrates with the pi agent: the pi-extension (kitty images, agent notifications, bash tool reconstruction, settings).
 
 ## The pi extension (`packages/pi-extension/`)

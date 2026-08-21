@@ -1,6 +1,8 @@
 # Aider — Edit Formats Reference
 
-Source-grounded reference. Read in full: `coders/search_replace.py` (757), `editblock_coder.py` key ranges (:15-130, :160-295). Anchors: HEAD/DIVIDER/UPDATED regexes at `editblock_coder.py:386-392`.
+Related files in the same family: `aider/coders/wholefile_coder.py`, `aider/coders/udiff_coder.py`, `aider/coders/patch_coder.py`, dispatched via `aider/coders/base_coder.py`.
+
+Source-grounded reference. Read in full: `aider/coders/search_replace.py` (757 lines, including `RelativeIndenter`, `dmp_lines_apply`, and the git cherry-pick strategies), `aider/coders/editblock_coder.py` key ranges (:15-130, :160-295). Anchors: HEAD/DIVIDER/UPDATED regexes at `aider/coders/editblock_coder.py:386-392` with 5-9 marker tolerance.
 
 ## WHAT: SEARCH/REPLACE blocks with a forgiving matcher and a LOUD failure loop
 
@@ -37,7 +39,15 @@ Failed edits raise ValueError carrying a STRUCTURED repair prompt:
 
 Shell commands (`None`-path edits) are extracted SEPARATELY from file edits (:30-34) so ```bash blocks inside responses execute without being treated as broken patches.
 
+## Verification
+
+`tests/basic/test_editblock.py` and the `search_replace` fixture harness (`proc()` runs every strategy over search/replace/original fixture directories) pin the ladder; fuzzy applies stay behind the dead-code return. Shell commands (`None`-path edits) extract as `shell_commands` via `aider/coders/editblock_coder.py:30-34`; failing SEARCH blocks echo through `SearchReplaceNoExactMatch` with fuzzy hints from `find_similar_lines`. The ladder lives between `do_replace` and the disabled `replace_closest_edit_distance` (`aider/coders/search_replace.py`). Flexible strategies (`dmp_lines_apply`, `RelativeIndenter` in `aider/coders/search_replace.py`, `git_cherry_pick_osr_onto_o`) serve `patch_coder` paths only. Fixture harness: `search_replace.py` `proc()` under `tests/fixtures` runs all strategies.
+
 ## The lessons
 1. Make the format STRICT (exact match) and the RETRY SMART (echo true text, suggest did-you-mean, detect already-applied, scope the resend).
 2. Never silently fuzzy-apply edits; return failures to the model with everything needed to fix them in one round-trip.
 3. Normalize the model's KNOWN tics in the parser (marker padding, uniform indent loss, spurious blank lines, elision dots) — but only the ones observed and issue-tracked.
+
+## The sibling formats
+
+The SEARCH/REPLACE format is one of a family dispatched from a shared coder base: `aider/coders/wholefile_coder.py` (full-file rewrite), `aider/coders/udiff_coder.py` (unified diff), and `aider/coders/patch_coder.py` (raw patch application using the flexible ladder in `aider/coders/search_replace.py`). All four share the failure-feedback discipline documented above.

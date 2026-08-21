@@ -1,5 +1,7 @@
 # Roo-Code — Task Loop Reference
 
+Studied regions walked during the main-session pass: `src/core/task/Task.ts` (class fields, request stack, mistake-limit enforcement), `src/core/tools/NewTaskTool.ts` (subtask delegation), `src/core/context-management` (condense wiring), `src/services/checkpoints/ShadowCheckpointService.ts` (shadow git).
+
 Complete source-grounded reference for the agent loop core. File: `src/core/task/Task.ts` (4,619 lines; head, class fields, request-stack, and mistake-limit regions walked).
 
 ## The Task god-object, tamed by promise gates
@@ -13,7 +15,9 @@ private taskModeReady: Promise<void>
 
 The field doc (:176-215) documents the full lifecycle — new tasks initialize mode from provider state ASYNC (falling back to defaultModeSlug), history items initialize synchronously — and states the contract outright: "This property should NOT be accessed directly until taskModeReady promise resolves." The same pattern gates the provider-profile name (`taskApiConfigReady`).
 
-**Lesson:** when config arrives asynchronously but consumers are synchronous, publish a readiness promise next to every late field and route access through it — race conditions become impossible by construction.
+**Lesson:** when config arrives asynchronously but consumers are synchronous, publish a readiness promise next to every late field and route access through it — race conditions become impossible by construction. (The gate pattern also appears in `src/core/config/ProviderSettingsManager.ts` for provider profiles.)
+
+Supporting constants live in `src/core/task/Task.ts` head: MAX_EXPONENTIAL_BACKOFF_SECONDS=600, FORCED_CONTEXT_REDUCTION_PERCENT=75, MAX_CONTEXT_WINDOW_RETRIES=3; persistence via `src/core/task-persistence/taskMessages.ts` (saveTaskMessages/readTaskMessages); condensation via `src/core/condense/index.ts` (summarizeConversation).
 
 ## The recursive request stack
 

@@ -1,5 +1,7 @@
 # Localterm — Terminal & PTY Reference
 
+(Source-grounded reference; read in full during the pack's gold-standard calibration pass. Files: `packages/server/src/pts/*`, `packages/server/src/utils/terminal-*.ts`.)
+
 The terminal stack: PTY sessions, output transport/framing/compression, kitty graphics parsing, PTY environment, shell hooks, and all measured thresholds.
 
 ## PTY session lifecycle (`packages/server/src/session.ts`)
@@ -9,6 +11,8 @@ The terminal stack: PTY sessions, output transport/framing/compression, kitty gr
 - **Titles are emitted on a dedicated `title` event, NEVER spliced into the PTY output stream** — splicing corrupts in-flight escape sequences from modern TUIs (Cursor Agent / Claude Code use DECSET 2026 synchronized output mode; any byte inside that frame breaks parser state).
 - `ensureSpawnHelperExecutable` + `getDe...` (spawn helper).
 - Constants: `DEFAULT_COLS`, `DEFAULT_ROWS`, `TERM_TYPE`, `SESSION_SCROLLBACK_REPLAY_BYTES`, `MAX_PENDING_PARSE_BYTES`, `ALT_SCREEN_FOREGROUND`, `HOOKED_SHELL_NAMES`, `MAX_NOTIFICATION_LENGTH`.
+
+## PTY output framing, compression, kitty graphics (paths: `packages/server/src/protocol/framing.ts`, `packages/server/src/utils/compress-frame.ts`, `packages/server/src/utils/kitty-parse.ts` for graphics advances/chunking)
 
 ## PTY environment denylist (`packages/server/src/constants.ts`)
 

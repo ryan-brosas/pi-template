@@ -1,5 +1,7 @@
 # Localterm — Reuse Guide
 
+(Source-grounded reference; read in full during the pack's gold-standard calibration pass.)
+
 Everything you can do with localterm and every reusable primitive, with exact paths.
 
 ## What we can do with it (10 use cases)

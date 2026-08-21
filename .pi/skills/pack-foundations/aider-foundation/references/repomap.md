@@ -1,5 +1,7 @@
 # Aider — Repo Map Reference
 
+Read in full: `aider/repomap.py` (867 lines). Ranking in get_ranked_tags with networkx pagerank weight/personalization args; tolerant tag parsing via get_tags + the sqlite TAGS_CACHE in `aider/repomap.py:217-224`; rendering by to_tree over TreeContext (the `aider/grep_ast` wrapper); token counting sampled in token_count:97-101; map caching under the `refresh` modes at :576-628. Token budget fitting: middle = max_map_tokens//25 binary search at :652-691 plus token_count sampling. Security: `aider/ignore.py` (gitignore-aware path filtering).
+
 Source-grounded reference for `aider/repomap.py` (867 lines, read in full). Graph: 7,507 nodes / 19,923 edges; entry points include `aider.repomap.main`.
 
 ## WHAT: a PageRank-ranked, token-budgeted repository outline

@@ -1,5 +1,7 @@
 # Localterm — Architecture Reference
 
+(Source-grounded reference; read in full during the pack's gold-standard calibration pass. Full module map in `packages/server/src/**` and `apps/terminal/src/**`.)
+
 Complete technical map for **localterm** (Aiden Bai). MIT License. Branch `fix/pi-extension-native-import`, commit b709edb-era (2026). Root: `/mnt/hdd/utopia/inspo/localterm`. Graph: 7057 nodes / 21911 edges.
 
 ## What it solves
