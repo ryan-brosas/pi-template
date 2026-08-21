@@ -32,6 +32,8 @@ Confirm every claim against source — the graph is an index, not truth.
 ## References (load on demand)
 - `references/snapshot.md` — shadow-git undo: alternates seeding, exclude syncing, NUL pathspecs, semaphore locking.
 - `references/permissions.md` — ruleset evaluation, Deferred suspension, rejection-as-feedback, session-scoped approval growth.
+- `references/sessions.md` — event-sourced persistence, fork-as-graph-rewrite, patch semantics, synthetic-transcript prompt assembly, stream processor guards, abort tombstones.
+- `references/editing.md` — nine-replacer fuzzy edit chain, collision triad, locked edit transactions with BOM/EOL preservation, V4A patch parser and four-pass applier.
 
 ## Skill Result Contract
 
