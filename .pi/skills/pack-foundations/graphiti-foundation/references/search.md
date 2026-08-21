@@ -1,5 +1,7 @@
 # Graphiti — Search Subsystem Reference
 
+(Source-grounded; read in full: `search/search_utils.py` (2,048 lines), `search/search.py` (874 lines), `search/search_config_recipes.py`.)
+
 Complete source-grounded reference for graphiti's retrieval layer. Files: `graphiti_core/search/search_utils.py` (2,048 lines), `search/search.py` (874 lines), `search/search_config_recipes.py` — all walked in full.
 
 ## The orchestrator: pay for embeddings only when needed

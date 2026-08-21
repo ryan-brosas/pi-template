@@ -1,18 +1,19 @@
 # Graphiti — Bi-Temporal Memory Reference
 
+(Source-grounded; read in full: `edge_operations.py` (`resolve_extracted_edges` :325-444, `resolve_edge_contradictions` :538-577, `_extract_edge_timestamps` :579-620), `edges.py` EntityEdge (:263-303), `graphiti.py` imports/method map.)
+
 Source-grounded reference. Read IN FULL: `utils/maintenance/edge_operations.py` (`resolve_extracted_edges` :325-444, `resolve_edge_contradictions` :538-577, `_extract_edge_timestamps` :579-620), `edges.py` `EntityEdge` (:263-303), `graphiti.py` imports/orchestrator surface (:1-120, method map). Graph: 4,157 nodes / 20,368 edges.
 
 ## 1. The bi-temporal edge model
 
-- **WHO** — agents whose facts CHANGE ("Alice is CEO" → later "Alice is ex-CEO").
-- **WHAT** — every fact-edge carries FOUR timestamps (`edges.py:271-282`):
+For memory systems whose facts CHANGE (Alice is CEO, later ex-CEO), every fact-edge carries FOUR timestamps (`edges.py:271-282`):
   - `valid_at` — when the fact became true IN THE WORLD (event time)
   - `invalid_at` — when it stopped being true (event time, may be inferred)
   - `expired_at` — when the GRAPH LEARNED it was invalidated (ingestion time)
   - `reference_time` — the producing episode's timestamp
-- **WHY**: event time ≠ ingestion time. "Alice left in March" learned today must read as valid-until-March (invalid_at=March), NOT valid-until-today. Queries can then ask "what was true AT date D" — impossible with single-timestamp stores.
+- The rationale:: event time ≠ ingestion time. "Alice left in March" learned today must read as valid-until-March (invalid_at=March), NOT valid-until-today. Queries can then ask "what was true AT date D" — impossible with single-timestamp stores.
 
-## 2. WHERE: the add-episode resolution pipeline
+## 2. The add-episode resolution pipeline
 
 `add_episode` → extract nodes/edges → `resolve_extracted_edges` (`edge_operations.py:325+`):
 
@@ -22,7 +23,7 @@ Source-grounded reference. Read IN FULL: `utils/maintenance/edge_operations.py` 
 4. **Candidate-set hygiene**: an edge appearing in both lists stays ONLY in duplicates (:424-435) — a duplicate must never invalidate itself.
 5. **Redis dedup-cache overrides merge into candidate lists** (:368-382 comment): recently-resolved edges invisible to indexes still count — eventual-consistency between cache and graph acknowledged and handled.
 
-## 3. WHY contradiction resolution is arithmetic, not an LLM call
+## 3. Contradiction resolution is arithmetic, not an LLM call
 
 `resolve_edge_contradictions` (:538-577) decides invalidation by pure TEMPORAL OVERLAP:
 

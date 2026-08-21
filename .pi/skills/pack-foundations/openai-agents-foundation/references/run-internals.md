@@ -1,5 +1,7 @@
 # OpenAI Agents — Turn Engine Internals Reference
 
+(Source-grounded; read in full: `run_internal/turn_resolution.py` (3,618 lines) and `run_internal/tool_execution.py` (2,776 lines), walked by the forge worker.)
+
 Complete source-grounded reference for how a model response becomes action. Files: `run_internal/turn_resolution.py` (3,618 lines) and `run_internal/tool_execution.py` (2,776 lines), both walked in full.
 
 ## The resolution ladder: one dispatch pass, then a fixed priority chain
@@ -87,3 +89,7 @@ Resuming an interrupted run re-derives everything from persisted state (`resolve
 - Already-completed calls are suppressed via an output index built from pre-step items; nested Agent.as_tool() interruptions are carried over or re-bound to replacement tool objects (:2110-2133).
 
 **Lesson:** HITL replays need identity validation on every restored artifact, validation-before-side-effects ordering, and a preflight against call-ID reuse — persisted state is a claim, not a fact.
+
+## Verification
+
+The ladder and arbiter are covered by `tests/test_run_config.py` (max concurrency), `tests/test_tool_name_collision_policy.py` (not-found routing), plus `run_internal/tool_execution.py` drain constants covered by tool-calling suites.

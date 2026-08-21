@@ -8,28 +8,12 @@
       "ux.md [cites:2,depth]"
     ]
   },
-  "graphiti-foundation": {
-    "status": "debt",
-    "issues": [
-      "bitemporal.md [scaffold]",
-      "nodes.md [cites:2]",
-      "search.md [cites:3]"
-    ]
-  },
   "mcp-ts-sdk-foundation": {
     "status": "debt",
     "issues": [
       "auth.md [cites:2]",
       "protocol.md [depth,scaffold]",
       "transports.md [cites:2]"
-    ]
-  },
-  "openai-agents-foundation": {
-    "status": "debt",
-    "issues": [
-      "patterns.md [depth,scaffold]",
-      "run-internals.md [cites:2]",
-      "run-state.md [cites:1]"
     ]
   },
   "opencode-foundation": {

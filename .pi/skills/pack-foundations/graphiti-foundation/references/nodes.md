@@ -1,5 +1,7 @@
 # Graphiti — Entity Node Extraction & Resolution Reference
 
+(Source-grounded; read in full: `utils/maintenance/node_operations.py` (1,032 lines) and `nodes.py` (1,122 lines).)
+
 Complete source-grounded reference for how entities enter the graph and survive deduplication. Files: `graphiti_core/utils/maintenance/node_operations.py` (1,032 lines) and `graphiti_core/nodes.py` (1,122 lines), both read in full.
 
 ## Extraction: one batched call, attribution built in
@@ -53,6 +55,8 @@ Summaries split by size: if appending connected edge facts stays under 2× MAX_S
 **Probe:** a short summary plus edge facts under 2× cap asserts ZERO LLM invocations (:750); callback veto at :776/:806; long summaries trigger flights at :882.
 
 ## Node taxonomy and provider traps
+
+Class home: `graphiti_core/nodes.py` (EntityNode/EpisodicNode/CommunityNode/SagaNode plus record converters).
 
 Four node classes on a uuid-only identity base (hash/eq on uuid alone, :163-171):
 

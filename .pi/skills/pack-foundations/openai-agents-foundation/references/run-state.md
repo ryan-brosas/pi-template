@@ -1,5 +1,7 @@
 # OpenAI Agents — RunState Serialization & Resume Reference
 
+(Source-grounded; read in full: `run_state.py` (5,492 lines) serialization/ledger/parking/hardened-deserialization paths, walked by the forge worker.)
+
 Complete source-grounded reference for human-in-the-loop run persistence. File: `run_state.py` (5,492 lines; serialization, approval ledger, parking/resume, and hardened deserialization paths walked in full).
 
 ## The versioned contract: snapshots are durable artifacts
@@ -79,3 +81,7 @@ Restore precedence is documented (:3861-3869): context_override → context_dese
 **Lesson:** never fake a round trip you can't perform — serialize what's safe, attach machine-readable metadata describing the gap, and force callers to acknowledge it at restore time.
 
 **Probe:** :906-937 non-mapping warns/omits + strict requires serializer; :1050-1069 pydantic metadata recorded; :651-664 duplicate identity references fail loudly.
+
+## Verification
+
+The versioned contract lives in `src/agents/run_state.py` (SCHEMA_VERSION_SUMMARIES, tests in `tests/test_run_state.py` at 8k+ lines) and the compatibility corpus `tests/fixtures/run_state/`. Tool-identity serialization helpers sit in `src/agents/_tool_identity.py` (`build_function_tool_lookup_map`).
