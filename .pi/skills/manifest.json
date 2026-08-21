@@ -349,6 +349,12 @@
       "modelVisible": false
     },
     {
+      "name": "graphrag-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "grill-me",
       "status": "retained",
       "pack": "pack-research",

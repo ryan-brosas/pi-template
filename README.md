@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
- tailored to Pi + Pi Fabric: 9 prompt commands, 125 skill files
- (114 leaves in 11 packs: 110 pack leaves + 4 core safety), 12 format templates, Pi-native settings, and the
+ tailored to Pi + Pi Fabric: 9 prompt commands, 126 skill files
+ (115 leaves in 11 packs: 111 pack leaves + 4 core safety), 12 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -28,7 +28,7 @@ README.md
 ├── fabric.json            # Pi Fabric Schema guard (enforce or audit + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 125 skill files: 11 pack routers + 107 pack leaves + 4 core safety
+├── skills/                # 126 skill files: 11 pack routers + 108 pack leaves + 4 core safety
 ├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
 └── work/                  # tracked durable work records (one dir per record)
 scripts/                   # canonical check plus 7 dependency-free Node validators
@@ -77,7 +77,7 @@ open source). Without the secret the workflow skips and CI stays green.
 ## Skills and Templates
 
 
-- Skills: 125 skill files — 11 pack routers, 107 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
+- Skills: 126 skill files — 11 pack routers, 108 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
   Eleven visible pack routers (pack-delivery, pack-foundations, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by

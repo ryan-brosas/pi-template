@@ -20,6 +20,7 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - roo-foundation: IDE agent modes, mistake breakers, approval classifier
 - continue-foundation: FIM autocomplete pipeline, generator reuse, stream filters
 - ai-sdk-foundation: LLM streaming, stop predicates, tool-call repair, history pruning
+- graphrag-foundation: GraphRAG search — Map-Reduce, local context, DRIFT
 - billion-context-pi-foundation: long-context delegation, compress/decompress, watchdogs
 - browser-harness-foundation: CDP daemon, page helpers, action recorder, video composition
 - browser-use-foundation: LLM browser agent — step loop, DOM serialization, tool registry
@@ -29,4 +30,4 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - pydantic-ai-harness-foundation: capability/toolset abstractions, compaction strategies, spend budgets
 - mem0-foundation: agent memory — add/search pipeline, metadata filters, vector stores
 - jobspy-foundation: multi-site job scraping (8 sites)
-- linkedin-mcp-foundation: LinkedIn as MCP server — session state, daemon locks, cookie bridge
+- linkedin-mcp-foundation: LinkedIn MCP server — session state, daemon locks
