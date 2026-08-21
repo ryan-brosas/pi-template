@@ -1,0 +1,168 @@
+{
+  "ai-sdk-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:2",
+      "tool-calls.md [cites:4]"
+    ]
+  },
+  "aider-foundation": {
+    "status": "debt",
+    "issues": [
+      "collab.md [depth,scaffold]",
+      "edit-formats.md [cites:3]",
+      "repomap.md [cites:2]",
+      "ux.md [cites:3]"
+    ]
+  },
+  "billion-context-pi-foundation": {
+    "status": "debt",
+    "issues": [
+      "ux.md [cites:1,depth]",
+      "watchdog.md [cites:2]"
+    ]
+  },
+  "biome-foundation": {
+    "status": "debt",
+    "issues": [
+      "analyzer.md [cites:0]",
+      "formatter-ir.md [cites:0]"
+    ]
+  },
+  "browser-harness-foundation": {
+    "status": "debt",
+    "issues": [
+      "daemon.md [cites:3,depth]",
+      "helpers.md [cites:1]",
+      "recorder-video.md [cites:3]",
+      "ux.md [cites:2,depth]"
+    ]
+  },
+  "browser-use-foundation": {
+    "status": "debt",
+    "issues": [
+      "agent-step-loop.md [cites:1]",
+      "dom-serialization.md [cites:3]",
+      "tools-compaction.md [cites:3]"
+    ]
+  },
+  "continue-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:1",
+      "autocomplete.md [cites:4]"
+    ]
+  },
+  "graphiti-foundation": {
+    "status": "debt",
+    "issues": [
+      "bitemporal.md [scaffold]",
+      "nodes.md [cites:2]",
+      "search.md [cites:3]"
+    ]
+  },
+  "graphrag-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:1",
+      "search-modes.md [cites:3,depth,scaffold]"
+    ]
+  },
+  "jobspy-foundation": {
+    "status": "debt",
+    "issues": [
+      "contract.md [cites:1]",
+      "scraper-pattern.md [cites:1,depth]",
+      "sessions-proxies.md [cites:1]"
+    ]
+  },
+  "linkedin-mcp-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:2",
+      "session-state.md [cites:4]",
+      "ux.md [cites:1,depth]"
+    ]
+  },
+  "localterm-foundation": {
+    "status": "debt",
+    "issues": [
+      "agent-integration.md [prov]",
+      "architecture.md [prov]",
+      "completion-theme-fonts.md [prov]",
+      "git-diff.md [prov]",
+      "reuse-guide.md [prov]",
+      "terminal-pty.md [cites:2,prov]"
+    ]
+  },
+  "mcp-ts-sdk-foundation": {
+    "status": "debt",
+    "issues": [
+      "auth.md [cites:2]",
+      "protocol.md [depth,scaffold]",
+      "transports.md [cites:2]"
+    ]
+  },
+  "mem0-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:1",
+      "pipeline.md [cites:1]"
+    ]
+  },
+  "openai-agents-foundation": {
+    "status": "debt",
+    "issues": [
+      "patterns.md [depth,scaffold]",
+      "run-internals.md [cites:2]",
+      "run-state.md [cites:1]"
+    ]
+  },
+  "opencode-foundation": {
+    "status": "debt",
+    "issues": [
+      "editing.md [cites:2]",
+      "permissions.md [cites:1]",
+      "sessions.md [cites:3]",
+      "snapshot.md [cites:1]"
+    ]
+  },
+  "pi-fabric-foundation": {
+    "status": "debt",
+    "issues": [
+      "architecture.md [cites:1,depth,prov]",
+      "budget-ledger.md [cites:1,depth]",
+      "ux.md [depth,scaffold]"
+    ]
+  },
+  "pi-upstream-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:2",
+      "internals.md [cites:3]",
+      "ux.md [depth,scaffold]"
+    ]
+  },
+  "pydantic-ai-harness-foundation": {
+    "status": "debt",
+    "issues": [
+      "refs:1"
+    ]
+  },
+  "roo-foundation": {
+    "status": "debt",
+    "issues": [
+      "approvals.md [cites:2]",
+      "modes.md [cites:3,depth,prov]",
+      "task-loop.md [cites:1]"
+    ]
+  },
+  "turso-foundation": {
+    "status": "debt",
+    "issues": [
+      "mvcc.md [cites:2]",
+      "storage.md [cites:2]",
+      "wal.md [cites:2]"
+    ]
+  }
+}
