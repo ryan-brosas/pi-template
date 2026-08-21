@@ -1,6 +1,6 @@
 # Vercel AI SDK — Streaming Reference
 
-Complete source-grounded reference for the streaming layer. Files: `packages/ai/src/generate-text/{stream-text.ts` (2,864 lines, head+structure read), `smooth-stream.ts` (163 lines, full), `stop-condition.ts` (full), `stream-language-model-call.ts`}.
+Complete source-grounded reference for the streaming layer. Files: `packages/ai/src/generate-text/stream-text.ts` (2,864 lines, head+structure read), `packages/ai/src/generate-text/smooth-stream.ts` (163 lines, read in full), `packages/ai/src/generate-text/stop-condition.ts` (read in full), and `packages/ai/src/generate-text/stream-language-model-call.ts`.
 
 ## Stop conditions replace max-steps
 
@@ -28,6 +28,10 @@ Built-ins compose: `isStepCount(n)`, `isLoopFinished()` (never true — natural 
 - Each detected chunk enqueues then awaits delayInMs (default 10ms; null disables).
 
 **Lesson:** smooth streaming = buffer + chunk-detector + fixed-delay drain, with type/id changes as flush boundaries and metadata carried through buffers.
+
+## Verification
+
+The chunking contract is pinned by `smooth-stream.test.ts` (2,101 lines): custom detectors must return buffer prefixes or throw; word/line defaults match the `CHUNKING_REGEXPS` word/line pair. Stop conditions compose by construction — `isStepCount(1)` is the default in `stream-text.ts` and evaluation is `Promise.all(...).some()` in `stop-condition.ts`. Four-layer timeouts (first-chunk / per-chunk / per-step / total) live in `packages/ai/src/prompt/request-options.ts` and merge via `packages/ai/src/util/merge-abort-signals.ts`; multi-step runs stitch per-step results (`packages/ai/src/util/create-stitchable-stream.ts`) into one continuous observable.
 
 ## Timeouts layered four ways
 

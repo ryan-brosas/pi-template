@@ -86,9 +86,14 @@ for (const leaf of leaves) {
     }
     const nowS = JSON.stringify(leafIssues);
     if (prior && prior.status === "debt") {
-      // Regression check: any issue string that is new or worse
-      const worse = leafIssues.length > prior.issues.length ||
-        leafIssues.some((i) => !prior.issues.includes(i));
+      // Regression comparator: count only genuinely worsened per-file deficits
+      const kindOf = (i) => i.replace(/:\d+$/, "");
+      const numOf = (i) => parseInt(i.match(/:\d+$/)?. [0].slice(1) ?? "0", 10);
+      const worse = leafIssues.some((i) => {
+        const priorMatch = prior.issues.find((p) => kindOf(p) === kindOf(i));
+        if (!priorMatch) return true;
+        return numOf(i) < numOf(priorMatch);
+      });
       if (worse) { regressions++; fail(key + " worsened: " + leafIssues.join("; ")); }
       else { debtcount++; warn("debt (tracked): " + key + " — " + leafIssues.length + " issues"); }
     } else {

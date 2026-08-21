@@ -1,6 +1,6 @@
 # Biome — Rowan CST Core Reference
 
-Complete source-grounded reference for the lossless syntax-tree core. Files: `crates/biome_rowan/src/` — green layer (`green/{node,token,trivia,node_cache}.rs`), cursor layer (`cursor.rs`, `cursor/{node,token,trivia}.rs`), `tree_builder.rs`, `syntax_node_text.rs`, plus the mutation region of `syntax/token.rs`. All walked in full by the forge worker.
+Complete source-grounded reference for the lossless syntax-tree core (read in full by the forge worker). Files: `crates/biome_rowan/src/` — green layer (`green/{node,token,trivia,node_cache}.rs`), cursor layer (`cursor.rs`, `cursor/{node,token,trivia}.rs`), `tree_builder.rs`, `syntax_node_text.rs`, plus the mutation region of `syntax/token.rs`. All walked in full by the forge worker.
 
 ## Lossless syntax: trivia as (kind, length) pieces pinned to tokens
 

@@ -29,6 +29,8 @@ Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
 - `references/autocomplete.md` — the full pipeline, generator reuse, stream filters, templating, caching.
+- `references/llm-abstraction.md` — BaseLLM capability flags, OpenAI-adapter layering, autodetected prompt templates.
+- `references/next-edit.md` — Instinct next-edit prediction: sentinel token prompting, editable regions, prefetch queueing.
 
 ## Unmined subsystems
 

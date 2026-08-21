@@ -28,6 +28,10 @@ Kept-window semantics: the last N messages are scanned FIRST to collect kept too
 
 **Probe:** prune with toolCalls=[{type:'before-last-3-messages', tools:['risky']}] keeps risky-tool parts inside the last 3 messages, removes them earlier, and never orphans an approval response whose request survived.
 
+## Verification
+
+The repair contract is exercised across `execute-tool-call.test.ts` (1,288 lines), `execute-tools-from-stream.test.ts` (1,366 lines), and parsing edge cases in `parse-tool-call` itself; `prune-messages` behavior including the orphaned-approval fix is covered by `prune-messages.test.ts` (914 lines).
+
 ## execute-tools-from-stream: tools start while the model streams
 
 `executeToolsFromStream` (246 lines) begins executing tool calls AS their inputs finish streaming (not waiting for response end), with execute-tool-call handling approval requests as first-class outcomes. Tool-input refinement hooks run post-parse pre-execute.

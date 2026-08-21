@@ -31,6 +31,7 @@ Confirm every claim against source — the graph is an index, not truth.
 ## References (load on demand)
 - `references/streaming.md` — stop conditions, prepareStep, smoothStream, timeout layering, stitchable streams.
 - `references/tool-calls.md` — parse/repair/degrade flow, prune-messages integrity, stream-time execution.
+- `references/provider-interface.md` — the LanguageModelV4 seam: specification-versioned model interface, middleware wrapping, media-type URL routing.
 
 ## Unmined subsystems
 

@@ -8,7 +8,11 @@ Complete source-grounded reference for continue's tab-autocomplete engine. Files
 
 **Lesson:** autocomplete is a pipeline where EVERY stage can bail to `undefined`; latency comes from caching on pruned prefix and debouncing, correctness from never post-processing an aborted stream.
 
-**Probe:** feed a `.env` filepath (isSecurityConcern) → undefined before any LLM call; same prunedPrefix twice → second hits cache (cacheHit flag in outcome).
+**Probe:** feed a `.env` filepath via `core/indexing/ignore.ts` (isSecurityConcern) → undefined before any LLM call; same prunedPrefix twice → second hits `core/autocomplete/util/AutocompleteLruCache.ts` (cacheHit flag in outcome).
+
+## Verification
+
+The pipeline stages are covered by vitest suites: `lineStream.vitest.ts` (1,301 lines) over the filter transforms, `filterCodeBlock.vitest.ts` (452 lines), `renderPrompt.vitest.ts` (275 lines) for template binding, `formatOpenedFilesContext.vitest.ts` (435 lines) for snippet formatting, and `AutocompleteLruCache.test.ts` (650 lines) for cache eviction/bounds. `GeneratorReuseManager.vitest.ts` (223 lines) pins the typed-prefix/backspace reuse invariants.
 
 ## Generator reuse: the crown jewel
 

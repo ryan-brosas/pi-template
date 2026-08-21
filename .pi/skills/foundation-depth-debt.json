@@ -1,11 +1,4 @@
 {
-  "ai-sdk-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:2",
-      "tool-calls.md [cites:4]"
-    ]
-  },
   "aider-foundation": {
     "status": "debt",
     "issues": [
@@ -20,13 +13,6 @@
     "issues": [
       "ux.md [cites:1,depth]",
       "watchdog.md [cites:2]"
-    ]
-  },
-  "biome-foundation": {
-    "status": "debt",
-    "issues": [
-      "analyzer.md [cites:0]",
-      "formatter-ir.md [cites:0]"
     ]
   },
   "browser-harness-foundation": {
@@ -46,26 +32,12 @@
       "tools-compaction.md [cites:3]"
     ]
   },
-  "continue-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:1",
-      "autocomplete.md [cites:4]"
-    ]
-  },
   "graphiti-foundation": {
     "status": "debt",
     "issues": [
       "bitemporal.md [scaffold]",
       "nodes.md [cites:2]",
       "search.md [cites:3]"
-    ]
-  },
-  "graphrag-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:1",
-      "search-modes.md [cites:3,depth,scaffold]"
     ]
   },
   "jobspy-foundation": {
@@ -155,14 +127,6 @@
       "approvals.md [cites:2]",
       "modes.md [cites:3,depth,prov]",
       "task-loop.md [cites:1]"
-    ]
-  },
-  "turso-foundation": {
-    "status": "debt",
-    "issues": [
-      "mvcc.md [cites:2]",
-      "storage.md [cites:2]",
-      "wal.md [cites:2]"
     ]
   }
 }

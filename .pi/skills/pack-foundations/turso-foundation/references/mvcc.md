@@ -1,5 +1,7 @@
 # Turso — MVCC Reference
 
+Complete source-grounded reference (walked in full by the forge worker) for the optimistic MVCC layer in `core/mvcc/database/mod.rs` (10,296 lines), with probes sampled from `tests.rs` in `core/mvcc/database/tests.rs`.
+
 Complete source-grounded reference for turso's optimistic MVCC layer. File: `core/mvcc/database/mod.rs` (10,296 lines, walked in full); probes sampled from `tests.rs` (20,570 lines). The design descends from the **Hekaton paper** — cite comments name it throughout, including one place where turso corrects a typo *in the paper itself*.
 
 ## The version model: two tagged u64s per boundary

@@ -1,5 +1,7 @@
 # Turso — B-tree & Pager Reference
 
+Complete source-grounded reference (read in full) for the storage layer: `core/storage/btree.rs` (14,335 lines) and `core/storage/pager.rs` (6,870 lines).
+
 Complete source-grounded reference for turso's storage layer. Files: `core/storage/btree.rs` (14,335 lines) and `core/storage/pager.rs` (6,870 lines), both read in full.
 
 ## Balancing: proven bounds and an append fast path
@@ -96,3 +98,7 @@ One honest gap is documented as a FIXME (:5412-5416): allocate_page hasn't imple
 **Lesson:** treat cache limits as pressure signals, not walls — but pair softness with single-flight bookkeeping so degradation never becomes duplication or torn reads.
 
 **Probe:** read_page_nonblock_reentry_reuses_pending_entry asserts Arc::ptr_eq reuse of the memoized read (the no-duplicate-IO invariant) plus entry removal; read_page_nonblock_inflight_cache_hit_yields_not_done plants a locked/unloaded page and asserts yield-not-done.
+
+## Verification
+
+Balancing is pinned by `test_delete_balancing` in `core/storage/btree.rs` (10k rows, middle-range deletion, recursive validate_btree); pin discipline by `read_page_exceeds_capacity_when_cache_unevictable` and `test_evict_all_unpinned_clean` in `core/storage/pager.rs`; spill timing by `arm_spill_yield_on_read` with SpillYieldHook; durability ordering by `checkpoint_db_sync_completion_still_leaves_backfill_unpublished_until_proof_install`; single-flight reads by the reentry probe above.

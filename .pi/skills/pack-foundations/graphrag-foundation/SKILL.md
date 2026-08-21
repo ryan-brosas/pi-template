@@ -28,7 +28,9 @@ Indexed in Codebase Memory as **`graphrag`** (`/mnt/hdd/utopia/inspo/graphrag`).
 Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
-- `references/search-modes.md` — global/local/DRIFT modes with anchors and cost tiers.
+- `references/search-modes.md` — global Map-Reduce and DRIFT expand-and-specialize with anchors and cost tiers.
+- `references/local-search.md` — the LocalSearchMixedContext builder: vector-seeded entity mapping, rank-weighted relationship inclusion, and source context citation.
+- `references/architecture.md` — the monorepo package split behind factories (graphrag-llm/storage/vectors/cache/chunking).
 
 ## Unmined subsystems
 

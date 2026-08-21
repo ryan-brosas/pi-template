@@ -1,6 +1,8 @@
 # Biome — Formatter IR Reference
 
-Complete source-grounded reference for the language-agnostic formatting intermediate representation. Files: `crates/biome_formatter/src/{format_element.rs, format_element/tag.rs, format_element/document.rs, printer/mod.rs, printer/queue.rs, buffer.rs, formatter.rs, source_map.rs, builders.rs, macros.rs}` — all walked in full by the forge worker.
+Files walked in full by the forge worker: `crates/biome_formatter/src/format_element.rs`, `crates/biome_formatter/src/format_element/tag.rs`, `crates/biome_formatter/src/format_element/document.rs`, `crates/biome_formatter/src/printer/mod.rs`, `crates/biome_formatter/src/printer/queue.rs`, `crates/biome_formatter/src/buffer.rs`, `crates/biome_formatter/src/formatter.rs`, `crates/biome_formatter/src/source_map.rs`, `crates/biome_formatter/src/builders.rs`, `crates/biome_formatter/src/macros.rs`.
+
+Complete source-grounded reference for the language-agnostic formatting intermediate representation (all walked in full by the forge worker). Files: `crates/biome_formatter/src/{format_element.rs, format_element/tag.rs, format_element/document.rs, printer/mod.rs, printer/queue.rs, buffer.rs, formatter.rs, source_map.rs, builders.rs, macros.rs}` — all walked in full by the forge worker.
 
 ## The IR: a flat 24-byte element stream with paired inline tags
 

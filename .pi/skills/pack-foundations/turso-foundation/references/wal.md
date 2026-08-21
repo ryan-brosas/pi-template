@@ -1,10 +1,12 @@
 # Turso — WAL Reference
 
+Complete source-grounded reference (walked in full) for the write-ahead log in `core/storage/wal.rs` (10,620 lines incl. test module), and the frame codec in `core/storage/sqlite3_ondisk.rs`.
+
 Complete source-grounded reference for turso's write-ahead log. Files: `core/storage/wal.rs` (10,620 lines, walked in full including the test module) and the frame codec in `core/storage/sqlite3_ondisk.rs`. The format is deliberately **byte-compatible with SQLite's WAL** — a rusqlite-created `-wal` file opens cleanly.
 
 ## Frame format: a checksum chain seeded per generation
 
-A frame is 24 bytes of header (six big-endian u32s: page_number, db_size, salt_1, salt_2, checksum_1, checksum_2) followed by the page body. Constants live at sqlite3_ondisk.rs:412-417 (`WAL_HEADER_SIZE = 32`, `WAL_FRAME_HEADER_SIZE = 24`, `WAL_MAGIC_LE = 0x377f0682`, with `BE = LE | 1`).
+A frame is 24 bytes of header (the codec lives in `core/storage/sqlite3_ondisk.rs`; the writer side in `core/storage/wal.rs`) — (six big-endian u32s: page_number, db_size, salt_1, salt_2, checksum_1, checksum_2) followed by the page body. Constants live at sqlite3_ondisk.rs:412-417 (`WAL_HEADER_SIZE = 32`, `WAL_FRAME_HEADER_SIZE = 24`, `WAL_MAGIC_LE = 0x377f0682`, with `BE = LE | 1`).
 
 The integrity story is a **cumulative Fibonacci-weighted checksum**: each frame's checksum covers `x[0..8]` then the page body, seeded with the previous frame's value, forming one unbroken chain from the 32-byte header:
 
@@ -105,3 +107,7 @@ Every number trades a named failure for throughput: IOV headroom avoids EINVAL o
 **Lesson:** pin every concurrency budget to a named constant beside the comment explaining the failure it prevents — and admit loudly (TODO) when a number is a guess.
 
 **Probe:** ~10210-10240 asserts FULL backfill equals mx_before; ~9840-9925 asserts incremental passive checkpoints sum to r2's frame with row counts preserved.
+
+## Verification
+
+The test module inside `core/storage/wal.rs` covers all pillars: `test_wal_concurrent_readers_during_checkpoint` pins read-mark clamping, `test_wal_full_waits_for_old_reader_then_succeeds` pins nbackfills ordering, `test_checkpoint_truncate_reset_handling` pins deferred truncation, `page_codec_round_trips_raw_wal_frames` round-trips the frame format, and `test_classify_authority_snapshot_marks_truncated_wal_for_rebuild` pins recovery classification. `test_read_retry_does_not_leak_vacuum_guard_or_block_vacuum` forces the retry path by occupying all four read-mark slots.

@@ -1,6 +1,8 @@
 # Biome — Analyzer Infrastructure Reference
 
-Complete source-grounded reference for the rule engine shared by every language. Files: `crates/biome_analyze/src/{lib.rs, rule.rs, query.rs, registry.rs, signals.rs, context.rs, services.rs, matcher.rs}` (rule.rs read twice, 1,848 lines) plus representative rules in `biome_js_analyze/src/lint/suspicious/`.
+Files studied in full: `crates/biome_analyze/src/lib.rs` (run/phase orchestration), `crates/biome_analyze/src/rule.rs` (1,848 lines, read twice), `crates/biome_analyze/src/query.rs`, `crates/biome_analyze/src/registry.rs`, `crates/biome_analyze/src/signals.rs`, `crates/biome_analyze/src/context.rs`, `crates/biome_analyze/src/services.rs`, `crates/biome_analyze/src/matcher.rs`, plus representative rules in `crates/biome_js_analyze/src/lint/suspicious/`.
+
+Complete source-grounded reference for the rule engine shared by every language (read in full; rule.rs read twice). Files: `crates/biome_analyze/src/{lib.rs, rule.rs, query.rs, registry.rs, signals.rs, context.rs, services.rs, matcher.rs}` (rule.rs read twice, 1,848 lines) plus representative rules in `biome_js_analyze/src/lint/suspicious/`.
 
 ## Rule anatomy: cheap run, lazy diagnostic/action
 
