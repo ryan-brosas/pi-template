@@ -31,3 +31,7 @@ Errors land in `last_result` as `ActionResult(error=...)` so the MODEL sees them
 Both `take_step` :2248-2281 and `_execute_step` check `history.is_done()` AFTER the step, then optionally run a full JUDGE (`settings.use_judge`) before firing the done callback — completion claims are verified before callbacks consume them. `take_step` also executes initial actions on step 0.
 
 **The lesson: a robust agent loop needs (a) state cleared between LLM calls, (b) an error CLASSIFIER that distinguishes interrupt/recoverable/terminal/format-feedback, (c) timeout paths that still advance counters, and (d) judged done-detection before callbacks.**
+
+## Verification
+
+The loop is exercised by `tests/ci/test_beta_agent.py` (take_step/step-finalization orderings), `tests/ci/test_action_loop_detection.py` (nudge injection windows), `tests/ci/test_agent_planning.py` (step advancement), and `tests/ci/test_step_meta_suffix` via `browser_use/agent/service.py` paths. Connection-loss recovery paths live behind `browser_use/browser/session.py` reconnect event wiring.

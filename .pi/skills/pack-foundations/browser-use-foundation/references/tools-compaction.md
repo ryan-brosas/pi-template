@@ -40,3 +40,7 @@ Per step there is exactly ONE user-visible state message (`create_state_messages
 Also note the mutable-default guard (:76-78 comment): fresh `MessageManagerState()` per instance — a shared default would cross-contaminate histories.
 
 **The lessons: secrets resolve only at execution, scoped by URL pattern, with TOTP generation and tag-forgiving fallbacks; compaction needs dual gates plus explicit anti-inference framing; and a single replaceable state message beats append-only transcripts.**
+
+## Verification
+
+Secret resolution is covered by `tests/ci/security/test_sensitive_data.py`; compaction gating by message-manager tests in `browser_use/agent/message_manager/` paths inside `browser_use/agent/views.py` settings defaults (`keep_last_items=6`, `summary_max_chars=6000`).

@@ -1,5 +1,7 @@
 # Billion-Context-Pi — Fleet Widget UX (5W1H)
 
+(Source-grounded; read in full: `src/fleet-widget.ts` (97 lines).)
+
 Source-grounded reference for `src/fleet-widget.ts` (97 lines, read in full).
 
 ## WHO
@@ -14,7 +16,7 @@ Visible while delegates run; CLEARS itself and STOPS ITS TIMER when the list emp
 ## WHERE
 Render-key debounce :38-42/:55-60, mode guard :70-77, lifecycle :79-97.
 
-## WHY
+Supporting dirs in the same package: `src/delegate-tool.ts` hosts run spawn/done wiring, `src/runtime.ts` provides the snapshot values.
 - *Debounce by render key*: key = agent + elapsed-SECOND + truncated task per run. Elapsed rounds to seconds, so the 500ms timer naturally re-renders ~once per second per run instead of churning every tick — motion stays legible and cheap.
 - *Idle TUIs must not tick*: empty list clears the widget AND stops the interval (unref'd anyway) — a background poller that outlives its content is a bug dressed as a feature.
 - *Mode guards over capability sniffing*: RPC mode reports hasUI=true but setWidget there emits useless extension_ui_request notifications (~1Hz chatter); print/json have none. Guard on `ctx.mode === "tui"` DIRECTLY (:73-76 comment cites types.d.ts rationale).
@@ -24,3 +26,7 @@ Render-key debounce :38-42/:55-60, mode guard :70-77, lifecycle :79-97.
 
 ## HOW
 setContext binds ui + snapshot getter and starts the interval; refresh() pulls a fresh snapshot each tick (never caches state between ticks); placement `belowEditor` keeps it adjacent to the input where attention already is.
+
+## Verification
+
+Render-key equivalence is pure (`renderKeyFor`), dispose() idempotent across session teardown; the widget shares the repo's delegated-run tests in `src/delegate-tool.ts` (widget poke on spawn/done at :522-524, :600-606) which assert the widget stays live until the last run settles.

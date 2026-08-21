@@ -22,3 +22,7 @@ Source-grounded reference for `browser_use/dom/service.py` (1,231 lines) and `do
 `EnhancedDOMTreeNode` (`views.py:375-912`) is the internal tree: stable hashing (`compute_stable_hash` :830-858), xpath (:492-516), scrollability (:624-672). `SerializedDOMState` (:932-974) splits `llm_representation` (what the model reads, index-based) from `eval_representation` (what the action executor resolves back to nodes). Keeping these separate means prompt indexes never collide with execution lookups.
 
 **The lessons: merge AX trees across frames but tolerate detached ones; copy shared snapshot geometry before mutating; visibility = CSS × ancestor-chain intersection × viewport; and keep the LLM-facing index space disjoint from the executor's.**
+
+## Verification
+
+Frame-merge tolerance and concurrency are exercised by `browser_use/dom/service.py` snapshot-task assembly (retry wrappers on ax_tree/viewport tasks, task names in create_task_with_error_handling call sites); index-space disjointness is structural (separate `llm_representation`/`eval_representation` builders in `browser_use/dom/views.py`).

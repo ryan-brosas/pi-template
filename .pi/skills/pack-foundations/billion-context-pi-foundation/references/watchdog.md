@@ -1,8 +1,10 @@
 # Billion-Context-Pi — Watchdog Reference
 
+(Source-grounded; read in full: `src/delegate-watchdog.ts` (100 lines).)
+
 Source-grounded reference for `attachWatchdogs(child, hooks, opts)` (`src/delegate-watchdog.ts`, 100 lines, read in full; graph anchor :32-100). Used only on the async spawn path (`delegate-tool.ts:529`).
 
-## WHY: EOF lies
+Supporting surface: `src/delegate-tool.ts` integrates the watchdog on the async spawn path, `src/compress-tool.ts`/`src/decompress-tool.ts` are siblings in the tool suite.
 
 A stuck child holds its stdout fd open, so stdout EOF never fires — the module docstring states this directly. A hard timeout alone fires too late; EOF alone never fires. Hence FOUR timers.
 

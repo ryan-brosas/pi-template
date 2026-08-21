@@ -1,11 +1,4 @@
 {
-  "billion-context-pi-foundation": {
-    "status": "debt",
-    "issues": [
-      "ux.md [cites:1,depth]",
-      "watchdog.md [cites:2]"
-    ]
-  },
   "browser-harness-foundation": {
     "status": "debt",
     "issues": [
@@ -13,14 +6,6 @@
       "helpers.md [cites:1]",
       "recorder-video.md [cites:3]",
       "ux.md [cites:2,depth]"
-    ]
-  },
-  "browser-use-foundation": {
-    "status": "debt",
-    "issues": [
-      "agent-step-loop.md [cites:1]",
-      "dom-serialization.md [cites:3]",
-      "tools-compaction.md [cites:3]"
     ]
   },
   "graphiti-foundation": {
