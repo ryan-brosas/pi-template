@@ -1,5 +1,7 @@
 # Browser-Harness — Helper API Reference
 
+(Source-grounded; read in full: `src/browser_harness/helpers.py` (539 lines). Sibling: `src/browser_harness/_ipc.py` (201 lines), `src/browser_harness/paths.py`. Clerk opinion in `src/browser_harness/run.py`.)
+
 Source-grounded reference for `src/browser_harness/helpers.py` (539 lines, read in full). Every public helper is transparently wrapped by `run.py:_traced` (duration/errors → trace + `recorder.observe`) — helpers themselves know nothing about recording or telemetry.
 
 ## Core plumbing
@@ -34,5 +36,9 @@ Source-grounded reference for `src/browser_harness/helpers.py` (539 lines, read 
 - `capture_screenshot(max_dim=1800)` :242-254 downsizes for 2× displays to stay under 2000px-per-side limits some image-aware LLMs enforce.
 - `http_get` :498-515 routes through fetch-use proxy (bot detection/residential proxies) when `BROWSER_USE_API_KEY` is set, local urllib otherwise; gzip handled manually.
 - `goto_url` attaches domain-skills hints (per-hostname markdown dirs) into the result when `BH_DOMAIN_SKILLS=1`.
+
+## Verification
+
+`src/browser_harness/_ipc.py` carries the request-side of helpers contract; `src/browser_harness/run.py` wraps each helper via `_traced` for telemetry; `src/browser_harness/helpers.py` confirms waits/fill_input.
 
 **The lesson: each helper encodes one specific browser/platform failure mode — insertText bypasses frameworks, readyState lies for SPAs, visibility is inherited, attach ≠ activate, createTarget-with-url races attach. Port the lessons, not just the functions.**

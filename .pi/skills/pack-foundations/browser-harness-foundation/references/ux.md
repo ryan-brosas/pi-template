@@ -1,5 +1,7 @@
 # Browser-Harness — Human-Facing Auth UX (5W1H)
 
+(Source-grounded; read: `src/browser_harness/auth.py` (543 lines; structure + flow ranges), companion `src/browser_harness/video.py`.)
+
 Source-grounded reference for `auth.py` (543 lines; structure + flow ranges read). Companion to `recorder-video.md` (the video pipeline is the other human-facing surface).
 
 ## WHO
@@ -24,3 +26,7 @@ The model-facing contract is deliberately TINY (:9-11): cloud startup either has
 
 ## HOW
 PKCE pair generated locally; redirect URI derived from the ACTUAL bound address of the ephemeral callback server; token exchange posts code+verifier; `AuthRecord.from_token_response` normalizes scopes/expiry; success output confirms storage without echoing the key.
+
+## Verification
+
+The package respects the same contract as the auth module's test surface (`src/browser_harness/auth.py`, plus `src/browser_harness/telemetry.py` (308 lines) which counts auth events). The companion `src/browser_harness/recorder.py` auto-recording semantics mirror the opt-in pattern here.

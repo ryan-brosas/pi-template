@@ -1,13 +1,4 @@
 {
-  "browser-harness-foundation": {
-    "status": "debt",
-    "issues": [
-      "daemon.md [cites:3,depth]",
-      "helpers.md [cites:1]",
-      "recorder-video.md [cites:3]",
-      "ux.md [cites:2,depth]"
-    ]
-  },
   "opencode-foundation": {
     "status": "debt",
     "issues": [

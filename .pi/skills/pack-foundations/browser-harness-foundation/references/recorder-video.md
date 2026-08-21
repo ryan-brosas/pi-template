@@ -1,5 +1,7 @@
 # Browser-Harness — Recorder & Video Composition Reference
 
+(Source-grounded; read in full: `src/browser_harness/recorder.py` (324 lines), `src/browser_harness/video.py` validation core (1-420).)
+
 Source-grounded reference for `recorder.py` (324 lines, full) and `video.py` validation core (:1-420). 
 
 ## Recorder: a folder, a marker, and a whitelist

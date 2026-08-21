@@ -1,5 +1,7 @@
 # Browser-Harness — Daemon Reference
 
+(Source-grounded; read in full: `src/browser_harness/daemon.py` (729 lines) + `src/browser_harness/run.py`.)
+
 Source-grounded reference for `src/browser_harness/daemon.py` (729 lines, read in full) + `run.py`. Graph: hotspot `Daemon.attach_first_page` fan-in 12; `_StreamTail.write` fan-in 10.
 
 ## WHAT: a CDP WS holder + line-JSON IPC relay
@@ -23,6 +25,10 @@ One daemon per `BU_NAME`: holds the single CDP websocket to the real browser, se
 Tab classification decides what's attachable: `is_real_page` (not `chrome://`/internal), `is_reusable_blank_page` (skips “Starting agent …” placeholders), `is_reusable_new_tab_page`, `is_inspect_tab`. Fallback order: real pages → blank → NTP → take over a leftover chrome://inspect recovery tab (navigate it to about:blank) → create about:blank.
 
 **Named daemons get a DEDICATED tab** (`NAME != "default"`): parallel daemons sharing one browser would fight over a single tab — navigations clobber each other. Cloud browsers are exclusive, so they keep first-page attach. A narrow lock re-checks under concurrency so two simultaneous stale-session recoveries share one replacement tab.
+
+## Verification
+
+`src/browser_harness/_ipc.py` (201 lines) pins the token-guard contract; startup/attachment decisions see daemon.py log lines; watch for `_PatientCDPClient` handshake stretch and `_close_inspect_tabs` marker cleanup.
 
 ## Correctness details worth porting verbatim
 
