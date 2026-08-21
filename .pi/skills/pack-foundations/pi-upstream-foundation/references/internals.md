@@ -1,5 +1,7 @@
 # Pi Upstream — Agent Loop & Compaction Internals
 
+(Source-grounded; read in full: `packages/agent/src/harness/compaction/compaction.ts` (848 lines, key ranges), `packages/agent/src/harness/compaction/branch-summarization.ts` (280 lines), `packages/agent/src/agent-loop.ts` (modes/steering ranges).)
+
 Source-grounded reference. Read in full: `packages/agent/src/harness/compaction/compaction.ts` (848 lines, key ranges), `branch-summarization.ts` (280 lines), plus `agent-loop.ts` modes/steering ranges (:25-95, :160-260).
 
 ## Agent loop: two modes, one enforced boundary

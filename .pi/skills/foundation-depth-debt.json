@@ -24,13 +24,5 @@
       "budget-ledger.md [cites:1,depth]",
       "ux.md [depth,scaffold]"
     ]
-  },
-  "pi-upstream-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:2",
-      "internals.md [cites:3]",
-      "ux.md [depth,scaffold]"
-    ]
   }
 }
