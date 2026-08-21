@@ -30,6 +30,8 @@ Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
 - `references/bitemporal.md` — the four-clock edge model, resolution pipeline, contradiction arithmetic.
+- `references/search.md` — hybrid composition, five rerankers, fail-closed fulltext construction, filter scaffolding, cost-tier recipes.
+- `references/nodes.md` — extraction batching, three-tier dedup with defensive LLM guardrails, summary flights, node taxonomy traps.
 
 ## Skill Result Contract
 
