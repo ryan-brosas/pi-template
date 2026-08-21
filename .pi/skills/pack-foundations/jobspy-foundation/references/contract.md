@@ -1,5 +1,7 @@
 # JobSpy — Typed Contract Reference
 
+(Source-grounded; read in full: `jobspy/model.py` (335 lines). Sibling files: `jobspy/exception.py`, `jobspy/util.py`, `jobspy/linkedin/constant.py` (headers).)
+
 Source-grounded reference for `jobspy/model.py` (335 lines, read in full).
 
 ## The chain
@@ -26,3 +28,7 @@ Same trick in `JobType`: each member's value packs dozens of LOCALIZED ALIASES (
 - DescriptionFormat: MARKDOWN | HTML | PLAIN.
 
 **The lessons: enums-as-routing-tables (tuples carrying per-site domains) beat parallel lookup dicts; localized aliases belong IN the enum values; internal pseudo-members need explicit display suppression.**
+
+## Verification
+
+The routing tables are exercised by `jobspy/model.py` docstrings and `tests/` coverage for Country.from_string plus display_location US_CANADA/WORLDWIDE suppression; per-site scraper subclasses (`jobspy/linkedin/__init__.py`, `jobspy/naukri/__init__.py`, `jobspy/bdjobs/__init__.py`) consume the contract as a typed JobResponse.

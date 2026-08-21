@@ -1,5 +1,7 @@
 # JobSpy — Per-Site Scraper Pattern Reference
 
+(Source-grounded; ground truth from `jobspy/linkedin/__init__.py` (345 lines, read in full); package shape per site: `__init__.py`, `constant.py`, `util.py`.)
+
 Ground truth from `jobspy/linkedin/__init__.py` (345 lines, read in full). Copy this package shape for new sites.
 
 ## Package shape
@@ -33,3 +35,7 @@ jobspy/<site>/
 5. Put site parsers in the package's own util.py — model.py stays site-agnostic.
 
 **Verification probes**: typed JobResponse returned · results_wanted honored exactly · second run dedupes · 429 mid-pagination preserves earlier pages · description format matches DescriptionFormat.
+
+## Verification
+
+The guest endpooint and pagination ceiling are visible in `jobspy/linkedin/__init__.py` (jobs-guest path, start<1000); auth-wall detection lives in the signup redirect check in the same file; `jobspy/exception.py` holds the per-site exception types; site parsers live in `jobspy/<site>/util.py`.

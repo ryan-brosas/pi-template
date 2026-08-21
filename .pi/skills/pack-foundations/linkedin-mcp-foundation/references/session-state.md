@@ -1,6 +1,6 @@
 # LinkedIn MCP — Session State Reference
 
-Source-grounded reference for `linkedin_mcp_server/session_state.py` (1,087 lines, read in full). This module implements cross-platform logged-in-profile reuse — the single most instructive pattern in the repo.
+Source-grounded reference for `linkedin_mcp_server/session_state.py` (1,087 lines, read in full). This module implements cross-platform logged-in-profile reuse — the single most instructive pattern in the repo. Support: `linkedin_mcp_server/profile_claim.py` (ownership), `linkedin_mcp_server/windows_acl.py` (platform ACLs).
 
 ## WHAT: two state files + derived runtime profiles
 

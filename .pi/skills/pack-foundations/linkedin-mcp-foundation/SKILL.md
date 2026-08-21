@@ -38,6 +38,7 @@ Confirm every claim against source — the graph is an index, not truth.
 - `references/DEEP.md` — architecture map, lock-vs-lease rules, descriptor trust model, config validation, tool surface, red flags.
 - `references/session-state.md` — the crown pattern in depth: canonical paths, container detection, rotation/quarantine/restore, Chromium lock attribution.
 - `references/ux.md` — the Docker login viewer UX: preflight-with-remedies, token-private noVNC, layered readiness probes.
+- `references/daemon-trust.md` — lock vs lease lifetimes, loopback-checked keyed-fingerprint descriptors, election arbitration.
 
 ## Skill Result Contract
 

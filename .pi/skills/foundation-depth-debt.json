@@ -16,22 +16,6 @@
       "search.md [cites:3]"
     ]
   },
-  "jobspy-foundation": {
-    "status": "debt",
-    "issues": [
-      "contract.md [cites:1]",
-      "scraper-pattern.md [cites:1,depth]",
-      "sessions-proxies.md [cites:1]"
-    ]
-  },
-  "linkedin-mcp-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:2",
-      "session-state.md [cites:4]",
-      "ux.md [cites:1,depth]"
-    ]
-  },
   "mcp-ts-sdk-foundation": {
     "status": "debt",
     "issues": [

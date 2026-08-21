@@ -1,6 +1,6 @@
 # LinkedIn MCP — Login Viewer UX (5W1H)
 
-Source-grounded reference for `login_viewer.py` (357 lines, read in full): short-lived noVNC access to the Docker login browser.
+Source-grounded reference for `linkedin_mcp_server/login_viewer.py` (357 lines, read in full): short-lived noVNC access to the Docker login browser, with the config side in `linkedin_mcp_server/config/schema.py`.
 
 ## WHO
 A user logging into LinkedIn from inside a container that has no display — they need to SEE and drive the login browser from their host browser.
@@ -15,6 +15,8 @@ Only under `--login-viewer`; before ANY of it starts, a preflight refuses logins
 Preflight :66-176, supervision :181-357, viewer URL :170-174.
 
 ## WHY (the preflight is the product)
+
+Neighbors: `linkedin_mcp_server/config/loaders.py` (882 lines, env-driven config), `linkedin_mcp_server/daemon_liveness.py` (347 lines, readiness).
 Every refusal names the REMEDY inline (`_remedy`: exact `-v ~/.linkedin-mcp:...` flag or volume path):
 
 - *Mount-on-profile is worse than no mount*: session rotation MOVES the profile directory aside, but a mountpoint cannot move — `shutil.move` falls back to copy-then-delete across devices, duplicating then emptying the session before EBUSY (:88-96 comment). Refusal message says exactly what to mount instead (the auth ROOT).
@@ -28,3 +30,7 @@ Every refusal names the REMEDY inline (`_remedy`: exact `-v ~/.linkedin-mcp:...`
 - Layered readiness: each process gets a per-component LOG FILE; `_require_alive` polls after every start, `_wait_for_port` polls TCP with 0.1s sleeps up to 10s, openbox readiness = `obxprop --root _NET_SUPPORTING_WM_CHECK` actually answering (not just process-alive).
 - Failure messages APPEND THE COMPONENT LOG — diagnosis ships with the error.
 - Teardown removes exposure in REVERSE order (websockify → x11vnc → openbox), attempts EVERY layer even after one fails (first exception preserved), deletes the credential file and temp dir in a `finally`.
+
+## Verification
+
+The preflight decisions are deterministic (mountinfo text + remedy strings): every refusal carries the exact fix inline. See the daemon-trust reference for the descriptor/lock side; `linkedin_mcp_server/private_state.py` (505 lines) holds the encrypted state model this viewer's credentials must not outlive (token file removed on teardown).
