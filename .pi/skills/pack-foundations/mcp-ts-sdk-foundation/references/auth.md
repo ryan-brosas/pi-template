@@ -1,5 +1,7 @@
 # MCP TS SDK — OAuth Client Authorization Reference
 
+(Source-grounded; read in full: `packages/client/src/client/auth.ts` (2,376 lines) with probes from `test/client/auth.test.ts`.)
+
 Complete source-grounded reference for the client authorization machinery. File: `packages/client/src/client/auth.ts` (2,376 lines, read in full); probes from `test/client/auth.test.ts`. The design implements SEP-2352 (per-authorization-server credential isolation), RFC 6749/8414/9207, and OIDC discovery.
 
 ## The provider seam: minimal contract, adapted richness
@@ -66,6 +68,8 @@ The decision table has four rows (:524-553), including the non-obvious ones: ser
 **Probe:** describes at :1235/:1295. Assert (issSupported=true, iss absent) throws; (false, absent) proceeds; a params-form callback with no discoverable baseline yields an UnauthorizedError containing none of the callback's error text.
 
 ## Token requests: one chokepoint, negotiated method, secure endpoint
+
+Covers applyClientAuthentication, selectClientAuthMethod, assertSecureTokenEndpoint, and executeTokenRequest — all in `packages/client/src/client/auth.ts`.
 
 Client authentication selects exactly ONE of `client_secret_basic` | `client_secret_post` | `none` via a priority ladder: DCR-issued hint → RFC 8414 §2 default → intersection with server-advertised methods → has-secret fallback (`selectClientAuthMethod`). All application flows through `applyClientAuthentication`; token URLs pass `assertSecureTokenEndpoint` (http:// non-loopback → InsecureTokenEndpointError; localhost allowed).
 

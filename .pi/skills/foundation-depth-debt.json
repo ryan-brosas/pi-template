@@ -8,14 +8,6 @@
       "ux.md [cites:2,depth]"
     ]
   },
-  "mcp-ts-sdk-foundation": {
-    "status": "debt",
-    "issues": [
-      "auth.md [cites:2]",
-      "protocol.md [depth,scaffold]",
-      "transports.md [cites:2]"
-    ]
-  },
   "opencode-foundation": {
     "status": "debt",
     "issues": [

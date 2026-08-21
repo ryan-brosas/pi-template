@@ -1,5 +1,7 @@
 # MCP TS SDK — Streamable HTTP Transport Reference
 
+(Source-grounded; read in full: `packages/server/src/server/streamableHttp.ts` (1,242 lines) and `packages/client/src/client/streamableHttp.ts` (1,250 lines).)
+
 Complete source-grounded reference for the transport pair. Files: `packages/server/src/server/streamableHttp.ts` (1,242 lines) and `packages/client/src/client/streamableHttp.ts` (1,251 lines), both read in full.
 
 ## Session lifecycle: mint-once, adopt-from-handshake, 400-vs-404 asymmetry
@@ -60,6 +62,10 @@ Backoff honors the server's SSE `retry:` field first, then grows 1000ms × 1.5 u
 **Lesson:** encode reconnection as an explicit predicate over stream provenance, completion (any JSON-RPC response counts), and intent (abort means silence) — plus one deterministic end-of-stream callback for callers.
 
 **Probe:** :1298 reconnect-after-priming-event; :1468/:1607 pin the no-reconnect path for unprimed POST streams; :2423-2461 verifies Last-Event-ID sent after a retry-field priming event.
+
+## Verification
+
+Test surfaces: `test/server/streamableHttp.test.ts` (session/replay/409 paths), `test/server/streamableHttpFutureVersionGates.test.ts` (priming gates), `test/client/streamableHttp.test.ts` (reconnect matrix and parses).
 
 ## Content negotiation: substring Accept, essence-parsed Content-Type, drained error bodies
 
