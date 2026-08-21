@@ -37,7 +37,9 @@ Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
 - `references/DEEP.md` — storage layer, vector-store + reranker surface, red flags, verification.
-- `references/pipeline.md` — the V3 phased add pipeline, scope-key escaping, filter operator language, anti-hallucination id mapping.
+- `references/pipeline.md` — the V3 phased add pipeline (six phases, corrections vs older write-ups).
+- `references/scoping.md` — identity-stripping metadata templates, deliberate add-vs-search API asymmetry, escaped scope keys.
+- `references/search.md` — reject-don't-default validation, the operator filter language, per-backend normalization.
 
 ## Skill Result Contract
 

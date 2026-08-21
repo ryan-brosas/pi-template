@@ -36,8 +36,9 @@ Indexed in Codebase Memory as **`pydantic-ai-harness`** (`/mnt/hdd/utopia/inspo/
 Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
-- `references/DEEP.md` — six strategies overview, spend/planning surface, red flags, verification.
-- `references/internals.md` — fraction-over-constant window resolution, sliding-window mechanics incl. receipt reservation, budget keys/TTL/validation post-mortems, PlanStore event gotcha.
+- `references/internals.md` — window-resolution philosophy, strategy ladder overview, PlanStore protocol.
+- `references/compaction.md` — SlidingWindowCompaction mechanics: pair-safe cutoffs, pinning, receipts with identity-based drops, window resolution.
+- `references/spend.md` — budget-as-keys, TTL compromise table, validation-as-failure-modes, scope type checks.
 
 ## Skill Result Contract
 

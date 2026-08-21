@@ -2,6 +2,8 @@
 
 Source-grounded reference for `mem0/memory/main.py` (3,856 lines; sync+async twins). Ranges read in full: `_build_filters_and_metadata` :314-420, `add` :760-880, `_add_to_vector_store` :881-1050, `search` :3031-3130.
 
+Verification surface: `mem0/configs/base.py` holds the config chain, `mem0/memory/base.py` the MemoryBase interface, `mem0/memory/storage.py` the history storage, and `mem0/vector_stores/filters.py`-family files the per-backend translation. Tests pin the phased flow in `tests/memory/`.
+
 **Correction to older write-ups:** the shipped pipeline is the **V3 PHASED BATCH PIPELINE** — ADDITIVE extraction in one LLM call, not the classic per-fact ADD/UPDATE/DELETE decision loop.
 
 ## WHAT: scoping is enforced twice, asymmetrically

@@ -55,13 +55,6 @@
       "transports.md [cites:2]"
     ]
   },
-  "mem0-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:1",
-      "pipeline.md [cites:1]"
-    ]
-  },
   "openai-agents-foundation": {
     "status": "debt",
     "issues": [
@@ -93,12 +86,6 @@
       "refs:2",
       "internals.md [cites:3]",
       "ux.md [depth,scaffold]"
-    ]
-  },
-  "pydantic-ai-harness-foundation": {
-    "status": "debt",
-    "issues": [
-      "refs:1"
     ]
   },
   "roo-foundation": {
