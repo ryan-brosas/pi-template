@@ -10,14 +10,15 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 ## Members
 
 - foundations-workflow: author foundation skills from memory-graph repos
-- aider-foundation: repo maps, SEARCH/REPLACE matching, watch mode, lint reflection
+- aider-foundation: repo maps, SEARCH/REPLACE matching, lint reflection
 - opencode-foundation: shadow-git undo, permission gates, client/server agents
 - mcp-ts-sdk-foundation: dual-era MCP protocol serving, JSON-RPC correlation
-- billion-context-pi-foundation: long-context delegation, compress/decompress, watchdog
+- openai-agents-foundation: guardrails, handoffs, resumable runs
+- billion-context-pi-foundation: delegation, compress/decompress, watchdog
 - browser-harness-foundation: CDP daemon, page helpers
-- browser-use-foundation: LLM browser agent, DOM serialization, tool registry
+- browser-use-foundation: LLM browser agent, DOM serialization
 - localterm-foundation: terminal rendering, secret-scrubbed bash, redaction
-- pi-fabric-foundation: Schema guard, budget ledger, compaction
+- pi-fabric-foundation: Schema guard, budget ledger
 - pi-upstream-foundation: agent loop, summarizing compaction
 - pydantic-ai-harness-foundation: capability/toolset, compaction strategies, budgets
 - mem0-foundation: agent memory, metadata filters, vector stores

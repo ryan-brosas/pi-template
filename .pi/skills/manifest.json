@@ -421,6 +421,12 @@
       "modelVisible": false
     },
     {
+      "name": "openai-agents-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "opencode-foundation",
       "status": "retained",
       "pack": "pack-foundations",
