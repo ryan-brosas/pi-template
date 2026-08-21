@@ -625,6 +625,12 @@
       "modelVisible": false
     },
     {
+      "name": "turso-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "typescript-coding-standards",
       "status": "retained",
       "pack": "pack-quality",

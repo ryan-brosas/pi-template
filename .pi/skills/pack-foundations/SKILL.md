@@ -15,13 +15,14 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - mcp-ts-sdk-foundation: dual-era MCP protocol serving
 - openai-agents-foundation: guardrails, handoffs, resumable runs
 - graphiti-foundation: bi-temporal memory, contradictions
+- turso-foundation: MVCC, WAL, b-tree durability
 - billion-context-pi-foundation: delegation, compress/decompress, watchdog
 - browser-harness-foundation: CDP daemon, page helpers
-- browser-use-foundation: LLM browser agent, DOM serialization
-- localterm-foundation: terminal rendering, secret-scrubbed bash, redaction
-- pi-fabric-foundation: Schema guard, budget ledger
-- pi-upstream-foundation: agent loop, summarizing compaction
+- browser-use-foundation: LLM browser agent, DOM
+- localterm-foundation: terminal, secret-scrubbed bash, redaction
+- pi-fabric-foundation: Schema guard, budgets
+- pi-upstream-foundation: agent loop, compaction
 - pydantic-ai-harness-foundation: capability/toolsets, compaction, budgets
-- mem0-foundation: agent memory, metadata filters, vector stores
+- mem0-foundation: agent memory, metadata filters
 - jobspy-foundation: multi-site job scraping
 - linkedin-mcp-foundation: LinkedIn MCP server, session-state reuse

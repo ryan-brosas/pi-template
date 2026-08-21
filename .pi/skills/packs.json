@@ -41,6 +41,7 @@
         "mcp-ts-sdk-foundation",
         "openai-agents-foundation",
         "graphiti-foundation",
+        "turso-foundation",
         "billion-context-pi-foundation",
         "browser-harness-foundation",
         "browser-use-foundation",
