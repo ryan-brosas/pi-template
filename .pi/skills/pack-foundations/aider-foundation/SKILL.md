@@ -35,6 +35,7 @@ Confirm every claim against source — the graph is an index, not truth.
 - `references/repomap.md` — PageRank ranking heuristics, personalization, budget binary search, cache policies.
 - `references/edit-formats.md` — SEARCH/REPLACE ladder, elision handling, the disabled fuzzy path, the structured failure loop.
 - `references/collab.md` — watch mode, lint reflection, commit-per-edit, spinner, streaming markdown (5W1H).
+- `references/ux.md` — the human I/O layer: group-scoped confirmations, never-prompts, deferred bells, multiline protocols, interrupt preservation, output conventions.
 
 ## Skill Result Contract
 
