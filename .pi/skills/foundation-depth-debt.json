@@ -72,11 +72,5 @@
       "internals.md [cites:3]",
       "ux.md [depth,scaffold]"
     ]
-  },
-  "roo-foundation": {
-    "status": "debt",
-    "issues": [
-      "task-loop.md [cites:4]"
-    ]
   }
 }
