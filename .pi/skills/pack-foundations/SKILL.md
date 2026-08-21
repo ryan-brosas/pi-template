@@ -9,16 +9,17 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 
 ## Members
 
-- foundations-workflow: author foundation skills from a memory-graph repo (graph-first, source-confirmed)
+- foundations-workflow: author foundation skills from memory-graph repos
 - aider-foundation: repo maps, SEARCH/REPLACE matching, watch mode, lint reflection
 - opencode-foundation: shadow-git undo, permission gates, client/server agents
+- mcp-ts-sdk-foundation: dual-era MCP protocol serving, JSON-RPC correlation
 - billion-context-pi-foundation: long-context delegation, compress/decompress, watchdog
-- browser-harness-foundation: CDP daemon, page helpers, recorder
+- browser-harness-foundation: CDP daemon, page helpers
 - browser-use-foundation: LLM browser agent, DOM serialization, tool registry
-- localterm-foundation: terminal rendering, secret-scrubbed bash, streaming redaction
+- localterm-foundation: terminal rendering, secret-scrubbed bash, redaction
 - pi-fabric-foundation: Schema guard, budget ledger, compaction
-- pi-upstream-foundation: agent loop, branch-summarization compaction
+- pi-upstream-foundation: agent loop, summarizing compaction
 - pydantic-ai-harness-foundation: capability/toolset, compaction strategies, budgets
 - mem0-foundation: agent memory, metadata filters, vector stores
-- jobspy-foundation: multi-site job scraping (linkedin/glassdoor/naukri/bayt/bdjobs)
-- linkedin-mcp-foundation: LinkedIn MCP server, session state, cookie bridge
+- jobspy-foundation: multi-site job scraping
+- linkedin-mcp-foundation: LinkedIn MCP server, session-state reuse

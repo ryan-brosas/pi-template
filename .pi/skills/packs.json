@@ -38,6 +38,7 @@
         "foundations-workflow",
         "aider-foundation",
         "opencode-foundation",
+        "mcp-ts-sdk-foundation",
         "billion-context-pi-foundation",
         "browser-harness-foundation",
         "browser-use-foundation",

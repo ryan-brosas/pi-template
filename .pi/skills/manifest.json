@@ -391,6 +391,12 @@
       "modelVisible": false
     },
     {
+      "name": "mcp-ts-sdk-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "mem0-foundation",
       "status": "retained",
       "pack": "pack-foundations",
