@@ -3,7 +3,7 @@
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
  tailored to Pi + Pi Fabric: 9 prompt commands, 128 skill files
- (117 leaves in 11 packs: 113 pack leaves + 4 core safety), 12 format templates, Pi-native settings, and the
+ (117 leaves in 11 packs: 113 pack leaves + 4 core safety), 14 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -29,7 +29,7 @@ README.md
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
 ├── skills/                # 132 skill files: 11 pack routers + 117 pack leaves + 4 core safety
-├── templates/             # 12 format templates (PRD, design, ADR, issue, ...)
+├── templates/             # 14 format templates (incl. foundation skill/capsule) (PRD, design, ADR, issue, ...)
 └── work/                  # tracked durable work records (one dir per record)
 scripts/                   # canonical check plus 8 dependency-free Node validators
 .github/
@@ -86,9 +86,11 @@ open source). Without the secret the workflow skips and CI stays green.
   invocable via `/skill:<name>`. Membership is owned by `.pi/skills/packs.json`;
   run `node scripts/validate-skill-packs.mjs` after adding or moving a skill.
 - Templates: `.pi/templates/*.md` — PRD, design, ADR, proposal, roadmap, state,
-  tasks, agents, tech-stack, project, user, issue. `/init` renders agents,
-  project, tech-stack, roadmap, state, and user; `/create`, `/plan`, and
-  `/verify` render the rest.
+  tasks, agents, tech-stack, project, user, issue, plus foundation
+  skill and capsule templates. `/init` renders agents, project, tech-stack,
+  roadmap, state, and user; `/create`, `/plan`, and `/verify` render the rest.
+  `foundation-skill.md` and `foundation-capsule.md` are template-only library
+  assets copied by the foundations workflow, not slash-command outputs.
 
 ## Pi Fabric
 

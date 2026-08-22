@@ -10,6 +10,10 @@ const required = [
   [".pi/skills/pack-foundations/foundations-workflow/references/quality-bar.md", "direct test path"],
   ["scripts/validate-foundation-depth.mjs", "CAPSULE_V2_MARKER"],
   ["scripts/validate-foundation-depth.mjs", "decisive-source"],
+  [".pi/skills/pack-foundations/foundations-workflow/references/foundation-templates.md", "Canonical foundation leaf template"],
+  [".pi/skills/pack-foundations/foundations-workflow/references/foundation-templates.md", "Canonical capsule-v2 reference template"],
+  [".pi/templates/foundation-skill.md", "## Load the matching source dump"],
+  [".pi/templates/foundation-capsule.md", "<!-- capsule-v2 -->"],
 ];
 let failures = 0;
 for (const [path, text] of required) {

@@ -22,5 +22,8 @@ Work **one source repository and one porting question at a time**. The graph is 
 ## Durable leaf shape
 A leaf is a compact capability/source map, not a project ledger or a repo summary. Group only proven capsules by subsystem and end with a short recipe for adding one. Keep optional wave notes and unresolved work in the work record; never substitute a coverage census for evidence.
 
+## Canonical templates
+Create every foundation leaf from the canonical loader/map structure and every new or substantively rewritten reference from the canonical capsule-v2 form, both in `references/foundation-templates.md`; portable copies are `.pi/templates/foundation-skill.md` and `.pi/templates/foundation-capsule.md` (template-only library assets, not slash-command render targets). Do not invent a second leaf or reference layout.
+
 ## Capsule versions and stopping rules
 `<!-- capsule-v1 -->` remains legacy retrieval metadata. Every **new or substantively rewritten** reference must use `<!-- capsule-v2 -->` and pass the decisive-source contract enforced by the validator. Keep the canonical pinned commit; do not vendor modules. Stop a wave when its chosen graph seam has a precise retrieval target, decisive source/test evidence, a preserved invariant, and a behavior boundary—not when a repository has been exhaustively described. Volume follows the seam; source excerpt length follows the ambiguity it prevents.

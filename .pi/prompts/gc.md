@@ -16,7 +16,7 @@ Load the skill at `.pi/skills/verification-before-completion/SKILL.md`.
 Scan the project for dead weight:
 - **Dead references**: skills/templates/prompts mentioned nowhere (grep each `.pi/skills/*/SKILL.md` name against prompts, README, AGENTS.md).
 - **Stale instructions**: AGENTS.md or docs claiming behaviors that no longer exist (removed commands, removed tools).
-- **Unused assets**: template files never referenced by any prompt.
+- **Unused assets**: template files never referenced by any prompt or explicitly linked by a workflow skill (documented template-only library assets are intentional).
 - **Generated state**: `.pi/implementation-notes.md`, `.pi/work/.active`, per-work `.progress.md`/`.verify.log`, `.pi/work/ide-inspections/`, `.pi/fabric/` contents that can be regenerated.
 - **Redundant rules**: duplicated instructions across AGENTS.md, skills, and prompts that say the same thing differently.
 
