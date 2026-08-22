@@ -22,7 +22,7 @@ The exact edits to register a foundation skill, the gates that must pass, and th
 
 ### 4. `README.md` counts (three places + wording)
 - Line ~5: `9 prompt commands, N skill files`.
-- Line ~6: `(L leaves in P packs: L-4 pack leaves + 4 core safety), 12 format templates`.
+- Line ~6: `(L leaves in P packs: L-4 pack leaves + 4 core safety), n format templates` where n matches the count of `.pi`/templates format files PLUS the documented template-only foundation library assets in `.pi`/templates/ (currently 14).
 - Line ~31 tree comment: `N skill files: P pack routers + (L-4) pack leaves + 4 core safety`.
 - Line ~80: `N skill files — P pack routers, (L-4) hidden pack leaves, and 4 core safety skills` + the spelled-out router-count sentence (`Ten/Eleven visible pack routers (...)`).
 - Math: skill files = routers + leaves; leaves = pack leaves + 4 core. Verify against `validate-release-hygiene.mjs` output (`tracked=... skills=N (leaves=L, packs=P)`).
