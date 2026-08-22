@@ -23,47 +23,47 @@ Building AI coding agents, repo-map-style context selection, structured edit for
 ## Capsule map
 
 ### Token-bounded context
-- **Path/Symbol:** `aider/repomap.py` — `RepoMap.get_ranked_tags(chat_fnames, other_fnames, mentioned_fnames, mentioned_idents, progress=None)`.
-- **Flow:** tree-sitter tags → weighted MultiDiGraph → personalized PageRank → ranked definitions; rendering fits the token budget.
-- **Invariant:** conversation files steer rank but are excluded from emitted map text.
-- **Probe:** mention a file/identifier and assert its connected definitions rise while the chat file itself is absent.
+- **Symbol:** `RepoMap.get_ranked_tags()` in `aider/repomap.py`.
+- **Flow:** tree-sitter tags → weighted graph → personalized PageRank → ranked definitions, rendered to the token budget.
+- **Invariant:** conversation files steer rank but are never emitted.
+- **Probe:** mention a file/ident, assert its definitions rise while the chat file stays absent.
 - **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "RepoMap get_ranked_tags"})`; load `references/repomap.md`.
 
 ### Repairable edit application
-- **Path/Symbol:** `aider/coders/editblock_coder.py` — `replace_most_similar_chunk(whole, part, replace)` and `EditBlockCoder.apply_edits(edits, dry_run=False)`.
-- **Data/Flow:** `(path, SEARCH, REPLACE)` blocks accept exact/uniform-indent/leading-blank/elision forms; an unmatched block raises a repair prompt containing current text and passed-block state.
-- **Invariant:** nearest-edit-distance code is unreachable after an unconditional `return`; do not silently fuzzy-apply.
-- **Probe:** a near miss returns no replacement; an indentation-only mismatch preserves the file's indentation.
+- **Symbol:** `replace_most_similar_chunk()` / `EditBlockCoder.apply_edits()` in `aider/coders/editblock_coder.py`.
+- **Flow:** `(path, SEARCH, REPLACE)` accept exact/uniform-indent/leading-blank/elision forms; an unmatched block raises a repair prompt with current text.
+- **Invariant:** nearest-edit-distance code is unreachable after an unconditional `return`; never silently fuzzy-apply.
+- **Probe:** a near miss yields no replacement; an indent-only mismatch preserves surrounding indent.
 - **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "replace_most_similar_chunk apply_edits"})`; load `references/edit-formats.md`.
 
 ### Bounded collaboration loops
-- **Path/Symbol:** `aider/coders/base_coder.py` — `Coder.run_one(user_message, preproc)`; `aider/watch.py` — `FileWatcher.get_ai_comments(filepath)`.
-- **Flow:** a reflected lint/edit message becomes the next model input until `max_reflections`; watched comments classify `ai!` as change and `ai?` as question.
-- **Invariant:** loop termination is explicit, and watcher input preserves the author's comment text.
-- **Probe:** set a reflection at the cap and assert no extra send; classify `// ai? explain` as question.
+- **Symbol:** `Coder.run_one()` in `aider/coders/base_coder.py`; `FileWatcher.get_ai_comments()` in `aider/watch.py`.
+- **Flow:** a reflected lint/edit message becomes the next model input until `max_reflections`; watched comments classify `ai!` change vs `ai?` question.
+- **Invariant:** loop termination is explicit; watcher input preserves the author's comment text.
+- **Probe:** at the reflection cap, assert no extra send; classify `// ai? explain` as question.
 - **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "run_one reflected_message get_ai_comments"})`; load `references/collab.md`.
 
 ## Extending the foundation
-1. Choose one uncovered porting seam, then prewalk it and its direct test with Codebase Memory.
+1. Choose one uncovered porting seam, prewalk it + its direct test with Codebase Memory.
 2. Add a map entry with Path/Symbol, Flow, Invariant, Probe, and Retrieve; put detailed source notes in the matching reference.
 3. Record module coverage and open gaps in the work record, then run `node scripts/check.mjs`.
 
 ## Full view (memory graph)
 
-Indexed in Codebase Memory as **`aider`** (`/mnt/hdd/utopia/inspo/aider`, branch default). Pull the full view before porting:
+Indexed in Codebase Memory as **`aider`** (`/mnt/hdd/utopia/inspo/aider`). Pull the full view before porting:
 
-- `codebase_memory_get_architecture({ project: "aider", aspects: ["overview", "entry_points", "hotspots", "boundaries"] })` — shape, hotspots by fan-in, package boundaries.
-- `codebase_memory_search_graph({ project: "aider", query: "<symbol>" })` — find a specific symbol.
-- `codebase_memory_trace_path({ project: "aider", ... })` — call flows across packages.
-- `codebase_memory_check_index_coverage({ project: "aider", paths: [...] })` — confirm a cited path is indexed.
+- `codebase_memory_get_architecture({ project: "aider", aspects: ["overview", "entry_points", "hotspots", "boundaries"] })`
+- `codebase_memory_search_graph({ project: "aider", query: "<symbol>" })`
+- `codebase_memory_trace_path({ project: "aider" })`
+- `codebase_memory_check_index_coverage({ project: "aider", paths: [...] })`
 
 Confirm every claim against source — the graph is an index, not truth.
 
 ## References (load on demand)
-- `references/repomap.md` — PageRank ranking heuristics, personalization, budget binary search, cache policies.
-- `references/edit-formats.md` — SEARCH/REPLACE ladder, elision handling, the disabled fuzzy path, the structured failure loop.
-- `references/collab.md` — watch mode, lint reflection, commit-per-edit, spinner, streaming markdown (5W1H).
-- `references/ux.md` — the human I/O layer: group-scoped confirmations, never-prompts, deferred bells, multiline protocols, interrupt preservation, output conventions.
+- `references/repomap.md` — PageRank ranking, personalization, budget fitting, cache.
+- `references/edit-formats.md` — SEARCH/REPLACE ladder, elision, disabled fuzzy path, failure loop.
+- `references/collab.md` — watch mode, lint reflection, commit-per-edit, streaming markdown.
+- `references/ux.md` — human I/O: group confirmations, never-prompts, interrupt preservation.
 
 ## Skill Result Contract
 
