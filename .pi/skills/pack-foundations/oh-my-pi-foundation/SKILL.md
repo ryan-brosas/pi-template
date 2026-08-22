@@ -27,6 +27,9 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - `references/hashline-parser-seams.md` — lexical section splitter, lenient ranges, strict anchors, snapshot cache.
 - `references/mnemonic-embeddings.md` — four-stage provider chain, guarded model heal, runtime install, host LLM bridge.
 - `references/stats-db.md` — WAL init + idempotent migrations, per-file offsets, bucketed series, usage windows.
+- `references/hashline-normalize-prefixes.md` — text-shape round-trip (CRLF/BOM) and echoed-prefix stripping before tokenizing.
+- `references/mnemonic-binary-vectors.md` — int8/bit binary store, Hamming+cosine, triples-split migration guard.
+- `references/stats-gain-dashboard.md` — savings ledger aggregation with worktree-root folding and zero-record tolerance.
 - `references/advice-delivery.md` — severity-based steer/aside/preserve routing to a live agent.
 
 
@@ -34,7 +37,8 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - [DONE: wave1] hashline (patch/apply seam), mnemopi (facade + orchestration), stats (usage windows + user metrics) — 3 capsules, check mjs green at wave close.
 - [DONE: wave2] hashline (filesystem seam + numbered streaming), mnemopi (beam recall/consolidate), stats (sync-worker + embedded-client) — 3 capsules, check green at wave close.
 - - [DONE: wave3] hashline (parser/anchors/snapshots), mnemopi (embedding seam + model heal + host bridge), stats (WAL db + series + windows) — 3 capsules, check green at wave close.
-- Pending waves: hashline input/syntax generalization; mnemoni migrations/vector internals + recall parity; stats gain-aggregator + server/provider faces; then the next queued repo.## Provenance
+- - [DONE: wave4] hashline (normalize/prefix strip), mnemoni (binary vectors + triples migration), stats (gain dashboard) — 3 capsules, check green at wave close.
+- Pending waves: hashline clipboard / syntax polish; mnemoni temporal/query/cost internals + recall-feature tails; stats server + provider dials; then the next queued repo (vitest on go).## Provenance
 oh-my-pi (MIT), `main@96f428097`; Codebase Memory project `oh-my-pi` (114,761 nodes / 595,806 edges, `full` index since 2026-08-22 — tests graph-covered; only `parse_partial` ranges read directly).
 
 ## Boundaries
