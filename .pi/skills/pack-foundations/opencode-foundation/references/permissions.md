@@ -1,29 +1,37 @@
-# OpenCode — Permission Model Reference
+<!-- capsule-v2 -->
+# Permission model — how tool approvals resolve and suspend
 
-Source-grounded reference for `packages/opencode/src/permission/index.ts` (223 lines, read in full).
+**Source:** opencode MIT `<branch>@<commit>`; Codebase Memory `opencode`. **Question:** how does a tool call get allow/deny/ask, and how does "ask" suspend and resume?
 
-## WHAT: ruleset-evaluated, Deferred-suspended tool approvals
+## Connected graph-selected seam
+**Path/Symbol:** `packages/opencode/src/permission/index.ts`: `evaluate` (:28-37), `Service` (:40), `fromConfig` (:186), `merge` (:200), `disabled` (:204), `visibleTools` (:216).
+**Signature:** `evaluate(permission: string, pattern: string, ...rulesets: PermissionV1.Ruleset[]): PermissionV1.Rule`.
+**Data Shape:** rulesets are arrays of `{permission, pattern, action}` rules; returns the matched rule or the default `{action:"ask", permission, pattern:"*"}`.
 
-Tool calls declare a permission name + patterns; config rulesets decide allow/deny/ask per pattern. "Ask" SUSPENDS the tool call as a pending request surfaced to clients; the human reply resolves it.
+### Decisive source
+```ts
+export function evaluate(permission: string, pattern: string, ...rulesets: PermissionV1.Ruleset[]): PermissionV1.Rule {
+  return (
+    rulesets
+      .flat()
+      .findLast((rule) => Wildcard.match(permission, rule.permission) && Wildcard.match(pattern, rule.pattern)) ?? {
+      action: "ask",
+      permission,
+      pattern: "*",
+    }
+  )
+}
+```
 
-## WHERE
-`evaluate` :30-37, ask loop :74-105, pending/Deferred :107-124, reply :126-163, finalizer :56-64.
+**Flow:** rule layers (user config → project config → session approvals) append; `findLast` makes the LAST matching rule authoritative → later, more specific config overrides earlier. No match → fail toward `ask`, never allow. "Ask" suspends the tool call as a pending request (Effect Deferred); the human reply resolves it — reject feeds `CorrectedError({feedback})` back to the model; approve appends to the `approved` ruleset (always-allow = ruleset growth, not a side-channel).
+**Invariant:** a single "ask" pattern creates ONE pending request covering all patterns — no partial allows leak mid-request; shutdown finalizer fails all pending with `RejectedError` so nothing hangs.
+**Probe:** `packages/opencode/test/permission/next.test.ts` (rejectAll/waitForPending drive the ask→reply→resolve loop; `permission/arity.test.ts` pins `evaluate` wildcard matching).
 
-## WHY each decision
+## Get live surrounding code
+**Retrieve:**
+```ts
+await mcp.codebase_memory.search_graph({ project: "opencode", query: "Permission evaluate ruleset findLast ask", limit: 10, fields: ["signature", "name", "file"] });
+```
 
-- **findLast wins** (:30-37): rule layers (user config → project config → session approvals) append; the LAST matching rule is authoritative — later, more specific configuration naturally overrides earlier. Default when nothing matches: `{action: "ask", pattern: "*"}` — fail toward asking, never toward allowing.
-- *Deny short-circuits WITH the matching ruleset* (:84-89): DeniedError carries the filtered ruleset so the model/UI can explain WHICH rule refused.
-- *One ask pattern suspends everything*: any pattern evaluating to ask creates ONE pending request covering all patterns (:90-96) — no partial allows leaking mid-request.
-- *Suspension = Effect Deferred*: the tool call literally awaits the human; shutdown finalizer fails ALL pending with RejectedError so nothing hangs (:56-64).
-- *Rejection is FEEDBACK*: reply "reject" with a message fails the deferred with `CorrectedError({feedback})` (:144-150) — the model receives the human's correction as an error it can act on, not just a stop sign.
-- *Rejection cascades within the session* (:151-160): other pending requests in the SAME session also reject — a human stopping one action clearly intends to stop the batch.
-- *Approvals accumulate*: approved replies append to `approved` ruleset, making later evaluates findLast-match them — "always allow" is implemented as ruleset growth, not a side-channel.
-- *Events on both edges*: Asked/Replied published over the event bridge — every client surface (TUI, web, desktop) sees identical permission state.
-
-## HOW
-Wildcard matching on permission name AND pattern (`Wildcard.match`); request carries optional `always` flag and tool identity for UI rendering; `PermissionV1.ID.ascending()` orders pending requests fairly.
-
-## The lessons
-1. Permission systems should fail toward ASKING, carry their reasons (matching rules) in errors, and treat rejection text as model feedback.
-2. Layered rules resolve last-wins; session approvals are just more layers.
-3. Suspend-and-resume via deferreds keeps tool semantics synchronous while humans think.
+## Verdict
+Adopt the ruleset-evaluated, last-wins, fail-toward-ask permission model with Deferred suspension and rejection-as-feedback; adapt rule-layer ordering and the pending-request UI surface to host; omit the opencode-specific `Effect`/`Context.Service` wiring unless the target uses Effect.

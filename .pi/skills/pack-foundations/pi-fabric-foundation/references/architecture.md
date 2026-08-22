@@ -1,58 +1,30 @@
-# Pi Fabric — Architecture Reference
+<!-- capsule-v2 -->
+# Architecture — the schema mutation guard + full-code executor
 
-Complete technical map for **pi-fabric** (monotykamary). MIT License. Branch `feat/veda-runner`, commit b709edb (2026-08-13). Root: `/mnt/hdd/utopia/inspo/pi-fabric`. Graph: 4354 nodes / 17822 edges.
+**Source:** pi-fabric (monotykamary) MIT `<branch>@<commit>`; Codebase Memory `pi-fabric`. **Question:** how does pi-fabric guard every mutation against unauthorized writes and recover a torn transaction?
 
-## What it solves
+## Connected graph-selected seam
+**Path/Symbol:** `src/schema/controller.ts`: `SchemaController` (:88) — `authorize`/`status`/`hypothesize`/`verify`/`commit`/`abort`; `src/schema/types.ts` (SchemaEvidence, SchemaFileOperation, records, stateBinding); `src/schema/workspace.ts` (`snapshotWorkspace`: fingerprinted workspace snapshots, caps, symlinks); `src/core/atomic-write.ts` (`writeJsonAtomic`).
+**Signature:** `SchemaController.authorize(ref)` blocks non-allowlisted mutations (enforce) or reports would-block (audit); `hypothesize` → typed evidence + workspace snapshot fingerprint + state binding → record stored in mesh (ifVersion 0); `verify` → re-snapshot, evidence checked (`file_exists`/`absent`/`contains`/`sha256`/`trusted_command`), certificate issued with TTL; `commit` → certificate consumed under a commit lock, operations applied, postconditions verified.
+**Data Shape:** transaction journal written before, updated after (`committed`/`rolled_back`/`quarantined`); recovery on startup; allowlist = pi.read/grep/find/ls, memory.recall/expand/sessions, state.get/history/complexity, mesh.self/read/members/get/list, compact.status, schema.status/hypothesize/verify/commit/abort.
 
-Pi Fabric: the **Schema mutation guard + full-code executor** for Pi. It is the runtime this template runs on: native providers (memory/state/mesh/compact/schema), an actor system for multi-process delegation, a compaction pipeline with measured bounds, and a cross-process cost ledger.
-
-## The stack
-
-| Layer | Technology | Where |
-|---|---|---|
-| Language | TypeScript (184 files), Bash, Python | whole repo |
-| Atomic writes | `writeJsonAtomic` (`src/core/atomic-write.ts`) | schema, actors |
-| Crypto | `node:crypto` (sha256, randomUUID, randomBytes) | schema controller |
-| Process | `node:child_process` spawn (trusted commands) | schema controller |
-| Mesh | `MeshStore` / `MeshIdentity` (key-version CAS puts) | schema, state |
-| PTY/transports | process, tmux, screen, localterm, herdr | actors |
-
-## Full module map
-
-```
-src/schema/        -> THE MUTATION GUARD
-  controller.ts    -> SchemaController: authorize/status/hypothesize/verify/commit/abort,
-                      transaction journal + commit lock + journal recovery
-  types.ts         -> SchemaEvidence, SchemaFileOperation, records, stateBinding
-  workspace.ts     -> snapshotWorkspace: fingerprinted workspace snapshots (caps, symlinks)
-src/compaction/    -> THE CONTEXT PIPELINE
-  bounds.ts        -> clipUtf8, canonicalizeText, sampleAddressedFrom, omissionLine
-  render.ts        -> renderSummary: sectioned summary with per-section byte budgets
-  threshold.ts     -> compactAtConfiguredThreshold (per-model token thresholds)
-  branch-summary.ts, branch-details.ts, enrichers.ts, projections.ts, qa.ts, hook.ts,
-  instructions.ts, normalize.ts, trace-events.ts
-src/agents/        -> budget-ledger.ts (cross-process cost), thinking-transfer.ts (clipUtf8 digest)
-src/actors/        -> global-registry.ts (resolve, fan-in 25), manager, delivery-policy,
-                      predicate, host-event-observer, host-event-payload, context, types
-src/providers/     -> memory, state, mesh, compact, schema (the native providers)
-src/ui/            -> transcript-sanitization.ts (recordOf, terminalSafe, clip), format, highlight, types
-src/core/          -> atomic-write.ts
-src/config.ts      -> FabricConfig (schema mode, certificateTtlMs, maxFiles/maxBytes, trustedCommands,
-                      compaction tokenThresholds/thresholds per model)
+### Decisive source
+```ts
+// authorize blocks non-allowlisted mutations (enforce) or reports would-block (audit)
+// verify re-snapshots and checks evidence, then issues a certificate with TTL
+// commit consumes the certificate under a commit lock, applies operations,
+//   verifies postconditions, and writes the transaction journal before/after
 ```
 
-## Graph signals
+**Flow:** agent wants to mutate → calls a non-allowlisted ref → `authorize` blocks (enforce) or reports (audit). `hypothesize` stores a typed record in mesh (ifVersion 0). `verify` re-snapshots and checks evidence, issuing a TTL certificate. `commit` consumes the certificate under a commit lock, applies ops, verifies postconditions, writes the journal (committed/rolled_back/quarantined), and recovers on startup. Compaction triggers per-model via `threshold.ts`, renders sectioned summaries within byte budgets (`render.ts`), and `bounds.ts` guarantees UTF-8 safety + provenance-preserving sampling. Delegation resolves actors via `global-registry` (fan-in 25), spawns via transports (process/tmux/tmux/screen/localterm/herdr), and `budget-ledger.ts` tracks spend across the tree.
+**Invariant:** a mutation can never land without a certificate issued from a verified hypothesis; a torn transaction is journaled and recovered on startup; atomic writes (`writeJsonAtomic`) survive partial failure.
+**Probe:** `tests/approval-controller.test.ts` (authorize blocks/audits non-allowlisted refs), `tests/state-file-preview.test.ts` (workspace snapshot fingerprint), `tests/compaction-threshold.test.ts` (per-model compaction trigger), `tests/memory-integrity.test.ts`.
 
-- Boundaries: fabric-state->topology (19), fabric-state->providers (13), providers->memory (13), fabric-state->actors (10), ui->config (8).
-- Hotspots: GlobalActorRegistry.resolve (25), isActiveStatus (27), safeText (20), ActorManager.#publicInfo (16), recordOf (13), clipUtf8 (13), highlightCode (12).
-- Layers: memory/topology/config/core = "core" (high fan-in); fabric-state/ui/jetbrains = "entry".
-- Clusters: src cohesion 0.88-0.99 (12 clusters).
+## Get live surrounding code
+**Retrieve:**
+```ts
+await mcp.codebase_memory.search_graph({ project: "pi-fabric", query: "SchemaController authorize verify commit journal allowlist", limit: 10, fields: ["signature", "name", "file"] });
+```
 
-## Data-flow overview
-
-1. **Agent wants to mutate** -> calls a non-allowlisted ref -> `SchemaController.authorize` blocks it (enforce) or reports would-block (audit). Allowlist: pi.read/grep/find/ls, memory.recall/expand/sessions, state.get/history/complexity, mesh.self/read/members/get/list, compact.status, schema.status/hypothesize/verify/commit/abort.
-2. **hypothesize** -> typed evidence + workspace snapshot fingerprint + state binding -> record stored in mesh (ifVersion 0).
-3. **verify** -> re-snapshot; evidence checked (file_exists/absent/contains/sha256/trusted_command); certificate issued with TTL.
-4. **commit** -> certificate consumed under a commit lock; operations applied; postconditions verified; transaction journal written before, updated after (committed / rolled_back / quarantined); recovery on startup.
-5. **Compaction** -> threshold.ts triggers per-model; render.ts renders sectioned summaries within byte budgets; bounds.ts guarantees UTF-8 safety and provenance-preserving sampling.
-6. **Delegation** -> actors/global-registry resolves actors; manager spawns via transports (process/tmux/screen/localterm/herdr); budget-ledger tracks spend across the tree.
+## Verdict
+Adopt the schema mutation guard (authorize → hypothesize → verify → commit with journaled recovery) and the full-code executor contract; adapt the allowlist and TTL to host; omit the pi-fabric-specific provider wiring (memory/state/mesh/compact/schema) unless the target runs on pi-fabric.

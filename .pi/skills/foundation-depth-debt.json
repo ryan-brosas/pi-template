@@ -1,19 +1,12 @@
 {
   "opencode-foundation": {
-    "status": "debt",
-    "issues": [
-      "editing.md [cites:2]",
-      "permissions.md [cites:1]",
-      "sessions.md [cites:3]",
-      "snapshot.md [cites:1]"
-    ]
+    "status": "resolved",
+    "issues": [],
+    "note": "All four references (editing, permissions, sessions, snapshot) refactored to capsule-v2 contract on 2026-08-23."
   },
   "pi-fabric-foundation": {
-    "status": "debt",
-    "issues": [
-      "architecture.md [cites:1,depth,prov]",
-      "budget-ledger.md [cites:1,depth]",
-      "ux.md [depth,scaffold]"
-    ]
+    "status": "resolved",
+    "issues": [],
+    "note": "architecture, budget-ledger, and ux refactored to capsule-v2 contract on 2026-08-23."
   }
 }

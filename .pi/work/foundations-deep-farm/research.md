@@ -701,3 +701,15 @@ them.
 
 
 
+
+### [DONE:17] 2026-08-23 — depth-debt refactor (opencode + pi-fabric)
+Refactored the flagged depth-debt references into the capsule-v2 contract:
+- opencode-foundation: editing, permissions, sessions, snapshot — each now has the
+  `<!-- capsule-v2 -->` marker, structured Path/Symbol/Signature/Data Shape,
+  decisive source excerpt, Flow/Invariant, direct-test Probe, graph Retrieve,
+  and Verdict.
+- pi-fabric-foundation: architecture (schema mutation guard), budget-ledger
+  (cross-process cost accounting), ux (transcript sanitization as security
+  surface + supporting UI checklist) — same capsule-v2 contract.
+Cleared foundation-depth-debt.json (opencode + pi-fabric now resolved).
+Checks green: check-integrity OK, quality-gate OK (92 skills), repo-hygiene OK.

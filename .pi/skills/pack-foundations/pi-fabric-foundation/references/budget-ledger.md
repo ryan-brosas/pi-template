@@ -1,53 +1,30 @@
-# Pi Fabric — Budget Ledger Reference
+<!-- capsule-v2 -->
+# Budget ledger — cross-process cost accounting for a recursion tree
 
-Cross-process cost accounting for a Fabric recursion tree. Source: `src/agents/budget-ledger.ts` (read in full).
+**Source:** pi-fabric (monotykamary) MIT `<branch>@<commit>`; Codebase Memory `pi-fabric`. **Question:** how does a tree of Pi processes track and bound total spend across nodes without a shared DB?
 
-## The model
+## Connected graph-selected seam
+**Path/Symbol:** `src/agents/budget-ledger.ts` (read in full): `activeBudgetState()`, `initBudgetLedger(budget)`, `useBudgetLedger(state)`, `clearOwnedBudgetEnv()`, `readBudgetLedger(file)`, `appendBudgetLedger(file, entry)`, `readBudgetLedgerDetailed(file)`.
+**Signature:** `initBudgetLedger(budget)` (root only, depth 0) does `fs.mkdtempSync(tmpdir/pi-fabric-budget-)`, writes empty `cost.jsonl` mode 0o600, seeds three env vars, returns `{budget, file, id}`; `appendBudgetLedger(file, entry)` does `fs.appendFileSync(file, JSON.stringify(entry) + "\n")`.
+**Data Shape:** `BudgetLedgerEntry { id, depth, cost, tokens, ts, runner?, actorId?, actorName?, input?, output?, cacheRead?, cacheWrite? }`; env contract `PI_FABRIC_BUDGET` / `PI_FABRIC_BUDGET_FILE` / `PI_FABRIC_BUDGET_ID` (16 hex chars from randomUUID), forwarded to children via `{...process.env}`.
 
-A recursion tree spans **one Pi process per node**. Each node's AgentManager records the cost of the children it spawns into a single append-only JSONL file, and checks accumulated spend before spawning another child. Mirrors ypi's RLM_BUDGET / RLM_COST_FILE model.
-
-## Env contract
-
-| Var | Meaning |
-|---|---|
-| `PI_FABRIC_BUDGET` | the budget number |
-| `PI_FABRIC_BUDGET_FILE` | the shared ledger path |
-| `PI_FABRIC_BUDGET_ID` | tree id (16 hex chars from randomUUID) |
-
-The worker forwards these to child Pi processes via `{ ...process.env }`.
-
-## API (exact)
-
-- `activeBudgetState(): BudgetLedgerState | undefined` — reads inherited env; undefined when no budget active (missing file, or budget <= 0, or non-finite).
-- `initBudgetLedger(budget): BudgetLedgerState` — **root only (depth 0)**: `fs.mkdtempSync(tmpdir/pi-fabric-budget-)`, writes empty `cost.jsonl` with mode 0o600, seeds the three env vars, returns `{ budget, file, id }`.
-- `useBudgetLedger(state)` — re-seed env (used when re-attaching).
-- `clearOwnedBudgetEnv()` — deletes all three; called by the depth-0 manager on close so a long-lived host doesn't leak a budget into a later unrelated session.
-- `readBudgetLedger(file): { cost, tokens }` — tolerant sum: malformed lines ignored (ypi semantics: one bad entry never aborts the read); missing file returns zeros.
-- `appendBudgetLedger(file, entry)` — `fs.appendFileSync(file, JSON.stringify(entry) + "\n")`. **O_APPEND makes small single-line writes atomic across concurrent writers on POSIX.** A write failure is swallowed — the next check still guards via the per-execution call ceiling.
-- `readBudgetLedgerDetailed(file): BudgetLedgerDetail` — full rollups: byRunner, byActor, entries[], plus input/output/cacheRead/cacheWrite token kinds. Validates entries (id string, cost/tokens/ts numbers); legacy flat rows accepted.
-
-## Entry shape
-
+### Decisive source
 ```ts
-interface BudgetLedgerEntry {
-  id: string; depth: number; cost: number; tokens: number; ts: number;
-  runner?: string; actorId?: string; actorName?: string;
-  input?: number; output?: number; cacheRead?: number; cacheWrite?: number;
-}
+// O_APPEND makes small single-line writes atomic across concurrent writers on POSIX
+fs.appendFileSync(file, JSON.stringify(entry) + "\n")
+// tolerant read: malformed lines ignored; missing file returns zeros
+// root-only init seeds env; clearOwnedBudgetEnv deletes all three on owner close
 ```
 
-## The honest semantics (read this)
+**Flow:** each node's AgentManager records the cost of the children it spawns into a single append-only JSONL file, and checks accumulated spend before spawning another child. Root-only init (depth 0) creates the ledger + seeds env; workers forward env to children. Cost recorded only after a child finishes (append-after-completion). `readBudgetLedger` is a tolerant sum (one bad entry never aborts); `readBudgetLedgerDetailed` does full rollups (byRunner, byActor, entries, token kinds).
+**Invariant:** the check is best-effort (concurrent children can each pass before cost lands, so a tree may slightly overshoot) — the race-free ceiling is the per-execution call count (`agents.maxPerExecution`); ledger file created mode 0o600 (owner-only); `clearOwnedBudgetEnv` prevents a long-lived host leaking a budget into a later unrelated session.
+**Probe:** `tests/` budget-ledger coverage (append-after-completion ordering; tolerant read of a malformed line; env seeding/clearing on root init/close).
 
-- The check is **best-effort**: concurrent children can each pass the check before any cost lands, so a tree may slightly overshoot.
-- The **race-free ceiling** remains the per-execution call count (`agents.maxPerExecution`).
-- Cost is recorded **only after a child finishes** (append-after-completion).
-- Ledger file created with mode 0o600 (owner-only).
+## Get live surrounding code
+**Retrieve:**
+```ts
+await mcp.codebase_memory.search_graph({ project: "pi-fabric", query: "budget ledger append read env cost tokens recursion", limit: 10, fields: ["signature", "name", "file"] });
+```
 
-## Porting recipe
-
-1. Copy the module; keep the three env vars (or rename consistently).
-2. Root-only init: mkdtemp + 0600 + seed env.
-3. Append-after-completion only; O_APPEND single-line writes.
-4. Tolerant reads (skip malformed lines).
-5. Pair with a race-free ceiling (call count) — the ledger alone is not a hard limit.
-6. Clear env on owner close.
+## Verdict
+Adopt the append-only JSONL ledger with root-only init, O_APPEND atomic writes, tolerant reads, and env-based propagation; adapt env var names and budget source to host; pair with a race-free call-count ceiling (the ledger alone is not a hard limit).
