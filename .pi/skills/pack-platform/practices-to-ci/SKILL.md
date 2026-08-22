@@ -57,6 +57,8 @@ From the pre-commit configs of high-quality repos:
 - `conventional-commit.py` — validates commit subjects follow conventional
   commits; `pr-title.yml` validates PR titles (farmed from graphrag's semver
   check)
+- `labeler.yml` + `labeler workflow` — auto-labels PRs by changed paths
+  (farmed from modelcontextprotocol's labeler)
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene

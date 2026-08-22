@@ -1,0 +1,14 @@
+# PR labeler config (farmed from modelcontextprotocol's labeler.yml).
+# Auto-labels PRs based on which paths they change.
+skills:
+  - changed-files:
+      - any-glob-to-any-file: '.pi/skills/**'
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/workflows/**'
+docs:
+  - changed-files:
+      - any-glob-to-any-file: ['README.md', '.pi/essentials/**', '.pi/templates/**', 'SECURITY.md']
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ['tests/**', 'scripts/*test*']
