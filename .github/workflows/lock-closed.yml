@@ -1,0 +1,27 @@
+name: lock-closed
+
+# Auto-locks closed issues/PRs after inactivity (farmed from vitest's
+# lock-closed-issues pattern using dessant/lock-threads). Prevents zombie
+# threads and keeps the tracker clean.
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: dessant/lock-threads@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-inactive-days: '14'
+          pr-inactive-days: '14'
+          issue-lock-reason: ''
+          pr-lock-reason: ''
+          process-only: issues,prs

@@ -65,6 +65,8 @@ From the pre-commit configs of high-quality repos:
   opencode's close-prs pattern)
 - `stale.yml` — auto-closes stale issues/PRs via actions/stale (farmed from
   graphrag's issues-autoresolve)
+- `lock-closed.yml` — auto-locks closed issues/PRs via lock-threads (farmed
+  from vitest's lock-closed-issues)
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene
