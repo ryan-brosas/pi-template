@@ -22,14 +22,5 @@ jobs:
           fetch-depth: 0
       - name: Whitespace check
         run: git diff --check HEAD~1 || git diff --check
-      - name: Skill catalog parity
-        run: |
-          python3 - <<'EOF'
-          import json, os
-          d = json.load(open('.pi/skills/packs.json'))
-          for p in d['packs']:
-              for m in p['members']:
-                  if not os.path.isdir(f".pi/skills/{p['id']}/{m}"):
-                      raise SystemExit(f"missing member: {p['id']}/{m}")
-          print("pack members all resolve")
-          EOF
+      - name: Structural integrity
+        run: python3 scripts/check-integrity.py
