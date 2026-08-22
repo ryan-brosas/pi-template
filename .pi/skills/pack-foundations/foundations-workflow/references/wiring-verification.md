@@ -4,6 +4,8 @@ The exact edits to register a foundation skill, the gates that must pass, and th
 
 ## Wiring (four edits + one regeneration)
 
+**Rewrites with unchanged membership skip sections 1–3:** leave packs.json, the router, and the manifest untouched; update only the leaf SKILL.md and its references. Catalog edits are for membership changes only.
+
 ### 1. `.pi/skills/packs.json`
 - Add the member to `pack-foundations.members` (alphabetical is conventional).
 - Add a `_descriptions["<name>"]` entry mirroring the frontmatter description (human-maintained routing hint; not validator-enforced but kept in sync).
