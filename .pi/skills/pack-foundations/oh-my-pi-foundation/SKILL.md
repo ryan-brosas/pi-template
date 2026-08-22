@@ -33,6 +33,9 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - `references/hashline-clipboard-syntax.md` — clipboard register resolution and parser-backed structural proof boundaries.
 - `references/mnemonic-query-cache.md` — tiered recall cache thresholds, SQLite persistence, and zero-safe cost logging.
 - `references/stats-server-port.md` — dashboard route behavior, embedded client selection, and safe port reuse/reclamation.
+- `references/hashline-format-recovery.md` — format grammar, content-derived identity, and anchor-proved recovery.
+- `references/mnemonic-temporal-gates.md` — deterministic temporal parser and host/env recall feature gates.
+- `references/stats-provider-client.md` — bounded abortable dashboard data client over typed API endpoints.
 - `references/advice-delivery.md` — severity-based steer/aside/preserve routing to a live agent.
 
 ## Wave coverage ledger
@@ -41,7 +44,8 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - [DONE: wave3] hashline (parser/anchors/snapshots), mnemopi (embedding seam + model heal + host bridge), stats (WAL db + series + windows) — 3 capsules, check green at wave close.
 - [DONE: wave4] hashline (normalize/prefix strip), mnemopi (binary vectors + triples migration), stats (gain dashboard) — 3 capsules, check green at wave close.
 - [DONE: wave5] hashline (clipboard registers + syntax proof), mnemopi (query cache + cost log), stats (server + port safety) — 3 capsules, check green at wave close.
-- Pending waves: hashline format/recovery tails; mnemopi temporal + recall-feature tails; stats provider/client dials; then the next queued repo (vitest on go).
+- [DONE: wave6] hashline (format + recovery), mnemopi (temporal recall + feature gates), stats (provider projection + client view) — 3 capsules, check green at wave close.
+- Next queued repo: vitest on go
 
 ## Provenance
 oh-my-pi (MIT), `main@96f428097`; Codebase Memory project `oh-my-pi` (114,761 nodes / 595,806 edges, `full` index since 2026-08-22 — tests graph-covered; only `parse_partial` ranges read directly).
