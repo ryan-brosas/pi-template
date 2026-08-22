@@ -728,3 +728,15 @@ capsule-v2 references covering the full tool write-path:
   Verdict.
 - SKILL.md capsule map regrown to grouped by subsystem (write path, execution,
   model-facing helpers). Checks green (92 skills, 7 essentials).
+
+### [DONE:19] 2026-08-23 — pi-fabric deep re-squeeze (4 → 8 capsules)
+Went deep on pi-fabric, expanding the foundation from 4 references to 8
+capsule-v2 references:
+- New: atomic-write (temp+rename, Windows contention retry), compaction-bounds
+  (UTF-8-safe clip/canonicalize/sample), prewalk (arm→claim-on-mutation→
+  continuation state machine), mesh-store (append-only event log + CAS state),
+  memory-discovery (session scope resolution).
+- Refactored: architecture (schema guard), budget-ledger, ux (sanitization).
+- Removed the superseded internals.md (overlapped with budget-ledger +
+  compaction-bounds).
+- SKILL.md capsule map regrown grouped by subsystem. Checks green.
