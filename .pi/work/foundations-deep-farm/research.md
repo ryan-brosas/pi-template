@@ -760,3 +760,12 @@ Went deep on graphiti, expanding the foundation from 3 references to 6 capsule-v
   fact-edge model).
 - SKILL.md capsule map regrown grouped by subsystem (bi-temporal facts,
   retrieval, orchestration, drivers). Checks green.
+
+### [DONE:22] 2026-08-23 — graphiti deep pass 2 (6 → 12 capsules)
+Mined the graphiti utils/ and llm_client/ seams I missed in the first pass:
+- content-chunking (density-gated chunking, token estimate, JSON/text overlap),
+  llm-client (provider-agnostic ABC: input cleaning, retry, caching, token
+  tracking), dedup (MinHash + LSH fuzzy dedup with entropy gating), attribute-
+  capping (defend against schema-description bleed), community-detection
+  (label-propagation clustering), datetime-text-utils (UTC, sentence truncation).
+- SKILL.md capsule map regrown (12 capsules total). Checks green.

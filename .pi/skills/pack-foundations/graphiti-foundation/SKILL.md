@@ -15,12 +15,20 @@ Agent memory over a knowledge graph where facts are bi-temporal, contradictions 
 - `references/graphiti-orchestrator.md` — add_episode, bulk, and saga summarization.
 - `references/driver.md` — the GraphDriver ABC (Cypher queries, sessions, transactions, node ops) across Neo4j/FalkorDB/Kuzu/Neptune.
 - `references/edges.md` — the bi-temporal fact-edge model (save, get_by_uuid, embedding).
+- `references/content-chunking.md` — density-gated chunking (token estimate, JSON/text split with overlap).
+- `references/llm-client.md` — provider-agnostic LLM client (input cleaning, retry, caching, token tracking).
+- `references/dedup.md` — MinHash + LSH fuzzy dedup with entropy gating.
+- `references/attribute-capping.md` — cap string/list attributes against schema-description bleed.
+- `references/community-detection.md` — label-propagation community clustering.
+- `references/datetime-text-utils.md` — UTC normalization, sentence-boundary truncation.
 
 ## Capsule map
 - **Bi-temporal facts** — `references/bitemporal.md`, `references/edges.md`: valid_at/invalid_at/expired_at edges, contradiction resolution, fact-edge model.
 - **Retrieval** — `references/search.md`, `references/nodes.md`: hybrid-search recipes, extraction batching, dedup.
 - **Orchestration** — `references/graphiti-orchestrator.md`: add_episode/bulk, saga summarization.
 - **Drivers** — `references/driver.md`: the GraphDriver ABC across Neo4j/FalkorDB/Kuzu/Neptune.
+- **Ingestion utilities** — `references/content-chunking.md`, `references/attribute-capping.md`, `references/dedup.md`, `references/datetime-text-utils.md`: density-gated chunking, attribute caps, MinHash+LSH dedup, UTC/sentence helpers.
+- **LLM & communities** — `references/llm-client.md`, `references/community-detection.md`: provider-agnostic client, label-propagation clustering.
 
 ## Extending the foundation
 Add one references-fileshaped capsule per portable seam: one loader line, one grouped map entry, decisive source with an invariant, a direct-test probe, and a `search_graph` retrieval.
