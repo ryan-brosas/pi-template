@@ -59,6 +59,8 @@ From the pre-commit configs of high-quality repos:
   check)
 - `labeler.yml` + `labeler workflow` — auto-labels PRs by changed paths
   (farmed from modelcontextprotocol's labeler)
+- `security-audit.yml` — runs zizmor on workflows (farmed from pydantic-ai's
+  zizmor hook) to catch insecure GitHub Actions patterns
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene

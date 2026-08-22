@@ -1,0 +1,38 @@
+name: security-audit
+
+# Audits GitHub Actions workflows for insecure patterns using zizmor
+# (farmed from pydantic-ai's pre-commit zizmor hook). Catches dangerous
+# triggers, untrusted-input injection, and other workflow security issues.
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Install zizmor
+        run: |
+          pip install zizmor
+      - name: Audit workflows
+        run: |
+          zizmor .github/workflows/ 2>&1 | tee /tmp/zizmor.log
+      - name: Upload audit log on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: zizmor-audit
+          path: /tmp/zizmor.log
+          retention-days: 2
