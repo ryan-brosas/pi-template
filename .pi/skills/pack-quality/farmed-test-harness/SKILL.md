@@ -28,8 +28,10 @@ When writing tests for code that:
   fixture, `raise_if_exception`.
 - `mock_async_stream.py` — (from pydantic-ai) wraps a sync iterator as an async
   stream for testing async/await code. Adapted to be standalone.
-- `conftest.py` — (from graphrag) pytest options + fixtures, including
-  `--run_slow` gating for slow tests.
+- `conftest.py` — (from graphrag + browser-harness) pytest options + fixtures:
+  `--run_slow` gating for slow tests, `fake_png` fixture for image/screenshot
+  tests, project-root `sys.path` setup, and `collect_ignore_glob` to exclude
+  subdirectories with their own suites.
 
 ## How to Use
 
