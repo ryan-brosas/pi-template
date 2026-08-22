@@ -3,11 +3,6 @@ name: mem0-foundation
 description: "Use when building agent memory: memory add/extract/update/delete, scoped retrieval with metadata filters and reranking, vector-store backends, and SQLite history."
 disable-model-invocation: true
 ---
----
-name: mem0-foundation
-description: "Use when building agent memory: memory add/extract/update/delete, scoped retrieval with metadata filters and reranking, vector-store backends, and SQLite history."
-disable-model-invocation: true
----
 
 # Mem0 Foundation
 
@@ -23,6 +18,19 @@ Building agent memory.
 - Metadata filtering -> the filter language: eq/ne/in/nin/gt/gte/lt/lte/contains/icontains/wildcard + AND/OR/NOT.
 - Memory history -> SQLiteManager: history + messages tables, batch add, per-memory history.
 - Vector store -> the common interface over 30+ backends; swap by config.
+
+## Capsule map
+
+### Add/search pipeline
+- LLM extract + add/update/delete on write, scoped retrieval with metadata filters + rerank — `references/pipeline.md`.
+### Scoping & search
+- user/agent/run scoping in filters, filter-language operators, vector-store backends — `references/scoping.md`, `references/search.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

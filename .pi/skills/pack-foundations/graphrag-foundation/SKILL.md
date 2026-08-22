@@ -17,6 +17,19 @@ Building RAG over knowledge graphs, hierarchical summarization pipelines, or mul
 - Unknown scope -> DRIFT: prime globally to generate follow-up questions, execute each as a local search sharing QueryState (`references/search-modes.md`).
 - Architecture -> monorepo interface split: graphrag-llm/storage/vectors/cache/chunking packages behind factories; prompt_tune generates domain extraction prompts.
 
+## Capsule map
+
+### Search modes
+- Global Map-Reduce, local vector-seeded mixed context, DRIFT expand-and-specialize — `references/search-modes.md`, `references/local-search.md`.
+### Architecture
+- Monorepo interface split: llm/storage/vectors/cache packages behind factories — `references/architecture.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`graphrag`** (`/mnt/hdd/utopia/inspo/graphrag`). 5,367 nodes / 24,019 edges; 574 Python files; monorepo packages graphrag/graphrag-llm/graphrag-storage/graphrag-vectors/graphrag-cache.

@@ -3,11 +3,6 @@ name: browser-harness-foundation
 description: "Use when building browser automation tooling: a CDP daemon that attaches to a real browser, high-level page helpers, action recording, and video composition from recordings."
 disable-model-invocation: true
 ---
----
-name: browser-harness-foundation
-description: "Use when building browser automation tooling: a CDP daemon that attaches to a real browser, high-level page helpers, action recording, and video composition."
-disable-model-invocation: true
----
 
 # Browser-Harness Foundation
 
@@ -23,6 +18,19 @@ Building browser automation tooling: a CDP daemon, page helpers, action recordin
 - Browser automation API -> `helpers.py`: pre-imported imperative functions over a cdp() core, explicit waits (load/element/network-idle).
 - Action recording -> `recorder.py`: start/stop, recordings list, URL scrubbing.
 - Video from browser actions -> the composition pipeline: validate composition strictly, match events to beats, verify viewport, render.
+
+## Capsule map
+
+### CDP daemon
+- Auto-start, classified-tab attach, parallel CDP domain enable, session-replacement chains — `references/daemon.md`.
+### Page helpers & recording
+- Pre-imported imperative `helpers.py`, explicit waits, action recorder with URL scrubbing, video composition — `references/helpers.md`, `references/recorder-video.md`, `references/ux.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

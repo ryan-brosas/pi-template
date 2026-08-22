@@ -17,6 +17,19 @@ Building autocomplete/inline-suggestion engines, streaming LLM UX, FIM prompting
 - Output trust -> line-level filter pipeline: English-phrase stripping, bracket-aware stopping, quote/identifier-guarded pattern validation (`references/autocomplete.md`).
 - FIM prompts -> per-model templates, snippet pruning under token budget, stop tokens derived from template format (`references/autocomplete.md`).
 
+## Capsule map
+
+### Pipeline & caching
+- Stage-bail autocomplete pipeline, prefix-keyed LRU, GeneratorReuseManager — `references/autocomplete.md`.
+### FIM prompts & LLM
+- Per-model templates, token pruning, LLM abstraction and next-edit reuse — `references/llm-abstraction.md`, `references/next-edit.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`continue`** (`/mnt/hdd/utopia/inspo/continue`). 51,815 nodes / 120,775 edges; 1,757 TS files.

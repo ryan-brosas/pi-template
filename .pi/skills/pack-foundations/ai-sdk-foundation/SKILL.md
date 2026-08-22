@@ -18,6 +18,19 @@ Building multi-provider LLM libraries, streaming agent loops, tool-calling layer
 - Broken tool calls -> parse → typed-error-routed repair hook → degrade to visible invalid parts; both cause and original preserved (`references/tool-calls.md`).
 - History pruning -> global id→name maps + keep-set collection from the retained window BEFORE filtering, so approval responses never orphan (`references/tool-calls.md`).
 
+## Capsule map
+
+### Provider abstraction
+- Loop termination via predicate arrays + `prepareStep` per-step mutation, and smoothStream word/line/segmenter chunked buffering — `references/streaming.md`, `references/provider-interface.md`.
+### Tool-call recovery
+- Typed error-routed repair hooks, invalid-part degradation, and referential-integrity-aware history pruning — `references/tool-calls.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`ai`** (`/mnt/hdd/utopia/inspo/ai`). 68,288 nodes / 204,996 edges; 6,030 TS files; ~40 provider packages.

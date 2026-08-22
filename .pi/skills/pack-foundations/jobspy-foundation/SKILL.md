@@ -3,11 +3,6 @@ name: jobspy-foundation
 description: "Use when scraping job listings across sites (LinkedIn, Indeed, Glassdoor, Naukri, Bayt, BdJobs, ZipRecruiter, Google): the JobSpy unified Scraper abstraction, proxy rotation, and description conversion."
 disable-model-invocation: true
 ---
----
-name: jobspy-foundation
-description: "Use when scraping job listings across sites (LinkedIn, Indeed, Glassdoor, Naukri, Bayt, BdJobs, ZipRecruiter, Google): the JobSpy unified Scraper abstraction, proxy rotation, and description conversion."
-disable-model-invocation: true
----
 
 # JobSpy Foundation
 
@@ -23,6 +18,19 @@ Scraping job listings across LinkedIn, Indeed, Glassdoor, Naukri, Bayt, BdJobs, 
 - Resilient HTTP session -> `create_session(is_tls=True, has_retry=True)` (TLS fingerprint + 429/5xx retry).
 - HTML->markdown for job descriptions -> `markdown_converter` (or `plain_converter`).
 - New site -> copy the linkedin package: subclass Scraper, implement scrape(), keep the typed JobPost contract.
+
+## Capsule map
+
+### Unified scraper contract
+- ScraperInput → Scraper(ABC) → JobResponse across 8 sites — `references/contract.md`.
+### Sessions, proxies & patterns
+- Rotating proxies, TLS+retry session, HTML→markdown, per-site scraper pattern — `references/scraper-pattern.md`, `references/sessions-proxies.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

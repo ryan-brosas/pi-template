@@ -3,11 +3,6 @@ name: pydantic-ai-harness-foundation
 description: "Use when building a pydantic-ai agent harness: capability/toolset abstractions, context-window compaction strategies, spend budgets, planning stores, and subagent model restrictions."
 disable-model-invocation: true
 ---
----
-name: pydantic-ai-harness-foundation
-description: "Use when building a pydantic-ai agent harness: capability/toolset abstractions, context-window compaction strategies, spend budgets, planning stores, and subagent model restrictions."
-disable-model-invocation: true
----
 
 # Pydantic-AI-Harness Foundation
 
@@ -23,6 +18,19 @@ Building a pydantic-ai agent harness.
 - Cost control -> Budget + SpendStore with time buckets, scope keys, TTL.
 - Plan store -> PlanStore Protocol with InMemory/Postgres/Redis backends + event emitter.
 - Subagent model limits -> validate_restriction (allowed list per agent).
+
+## Capsule map
+
+### Capability/toolset
+- AbstractCapability + toolset, wrapper toolset chaining — `references/internals.md`.
+### Compaction & spend
+- sliding-window→summarizing→tiered compaction, Budget/SpendStore time buckets — `references/compaction.md`, `references/spend.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

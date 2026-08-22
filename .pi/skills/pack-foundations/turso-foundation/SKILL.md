@@ -18,6 +18,19 @@ Building databases, embedded storage engines, write-ahead logs, MVCC layers, pag
 - Storage -> asserted 3→5 sibling rebalancing bounds, mandatory legality-repair passes, PinGuard counted pins making unsafe states unrepresentable, write-pending sentinels for async spill (`references/storage.md`).
 - Cross-cutting -> named perf constants beside their failure-mode comments, honest TODO debt, verification probes mined from 20k lines of tests.
 
+## Capsule map
+
+### MVCC
+- Tagged-u64 versions, first-committer-wins, Hekaton counted dependencies — `references/mvcc.md`.
+### WAL & storage
+- Checksum-chained WAL, publish-on-IO-completion, b-tree rebalancing bounds, PinGuard — `references/wal.md`, `references/storage.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`turso`** (`/mnt/hdd/utopia/inspo/turso`). 43,962 nodes / 310,242 edges; 663 Rust files.

@@ -16,6 +16,21 @@ Building parsers/editors over syntax trees, formatters, linters, code-action sys
 - Formatter -> flat 24-byte element stream with inline tags (size static_asserted), shadow-replay fits checking, BestFitting variants with documented quadratic cost, pointer-interned memoization, deferred source-map markers (`references/formatter-ir.md`).
 - Analyzer -> five-method Rule state machine (cheap run / lazy diagnostic+action), kind-indexed dispatch tables, positional suppression pre-pass flagging unused ignores, services-as-scheduling-key (`references/analyzer.md`).
 
+## Capsule map
+
+### Lossless CST
+- Trivia as (kind,length) pieces, green/red split with zipper cursors, fixed-slot arity, hash-consing — `references/cst.md`.
+### Formatter IR
+- Flat 24-byte element stream, BestFitting variants, pointer-interned memoization, deferred source maps — `references/formatter-ir.md`.
+### Rule engine
+- Three-method RuleState, kind-indexed dispatch, positional suppression — `references/analyzer.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`biome`** (`/mnt/hdd/utopia/inspo/biome`). 141,682 nodes / 644,530 edges; 4,549 Rust files; biggest packages: biome_js_analyze (8,718), biome_css_syntax (7,532), biome_js_formatter (6,125).

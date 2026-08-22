@@ -3,11 +3,6 @@ name: billion-context-pi-foundation
 description: "Use when building long-context agent delegation: subagent spawning, context compress/decompress, tool guardrails, delegate watchdogs, and fleet status widgets."
 disable-model-invocation: true
 ---
----
-name: billion-context-pi-foundation
-description: "Use when building long-context agent delegation: subagent spawning, context compress/decompress, tool guardrails, delegate watchdogs, and fleet status widgets."
-disable-model-invocation: true
----
 
 # Billion-Context-Pi Foundation
 
@@ -23,6 +18,19 @@ Building long-context agent delegation, subagent spawning, context compress/deco
 - Deliver async results exactly once -> parked waiter XOR injected notification, deduped by `injected`/`consumed` flags; status+result flip atomically.
 - Message-range compression -> compress/decompress with mNNNNN refs + dense summaries; never compress live content.
 - Cap tool output -> `capToolOutput` with a named dropped-bytes notice.
+
+## Capsule map
+
+### Subagent delegation
+- AgentDefs roster + restricted-tools patterns, watchdog attach (idle/hard/EOF/SIGTERM→SIGKILL), exactly-once async delivery — `references/delegation.md`, `references/watchdog.md`.
+### Context compression & UX
+- Message-range compress/decompress with mNNNNN refs, capToolOutput dropped-bytes notice, fleet status — `references/compression.md`, `references/ux.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

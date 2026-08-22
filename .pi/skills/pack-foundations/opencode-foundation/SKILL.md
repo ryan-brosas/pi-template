@@ -18,6 +18,21 @@ Building client/server agent architectures, edit-undo systems, permission/approv
 - Multi-surface architecture -> protocol-first codegen: `@opencode-ai/protocol` defines the API once; `makeDefaultApi` generates the server; TUI/web/desktop are thin clients.
 - Effect-TS layering -> services as `Context.Service` + `Layer.effect` with InstanceState per directory; every external failure degrades to logWarning, never aborts the task.
 
+## Capsule map
+
+### Shadow-git undo
+- Per-worktree hidden repo, SHARED object DB via alternates, ignore-drift correction, 7-day gc — `references/snapshot.md`.
+### Permission model
+- Last-match-wins rulesets, fail-toward-asking, Deferred-suspended requests, rejection-as-feedback — `references/permissions.md`.
+### Sessions & editing
+- Event-sourced persistence, fork-as-graph-rewrite, replacer chains, locked edit transactions — `references/sessions.md`, `references/editing.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`opencode`** (`/mnt/hdd/utopia/inspo/opencode`). 64,850 nodes / 234,775 edges; engine packages: opencode (5,144), core (2,319), tui (1,339), server, protocol, sdk.

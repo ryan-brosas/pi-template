@@ -3,11 +3,6 @@ name: pi-fabric-foundation
 description: "Use when building on Pi Fabric internals: the Schema mutation guard, cross-process budget ledger, compaction bounds, actors, or provider patterns."
 disable-model-invocation: true
 ---
----
-name: pi-fabric-foundation
-description: "Use when building on Pi Fabric internals: the Schema mutation guard, cross-process budget ledger, compaction bounds, actors, or provider patterns."
-disable-model-invocation: true
----
 
 # Pi Fabric Foundation
 
@@ -23,6 +18,19 @@ Building on Pi Fabric internals: Schema guard, cross-process cost budgets, compa
 - UTF-8-safe context clipping -> `src/compaction/bounds.ts` clipUtf8 (code-point iteration).
 - Sample without losing provenance -> `sampleAddressedFrom` + `omissionLine`.
 - Actor resolution -> `GlobalActorRegistry.resolve` (fan-in 25).
+
+## Capsule map
+
+### Budget ledger
+- Append-only JSONL cross-process budget, env propagation, append-after-completion — `references/budget-ledger.md`.
+### Mutation guard & internals
+- Schema hypothesize/verify/commit loop, UTF-8-safe clipping, actor resolution — `references/architecture.md`, `references/internals.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

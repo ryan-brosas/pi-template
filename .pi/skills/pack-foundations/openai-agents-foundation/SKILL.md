@@ -18,6 +18,19 @@ Building agent frameworks, multi-agent routing, approval workflows, or resumable
 - Human-in-the-loop -> RunState serializes the entire run including tool-identity keys; approvals resume across process restarts (`references/patterns.md` §3).
 - Loop hygiene -> run_internal/ splits preparation/planning/execution/approvals/streaming into named modules with tracing spans at every boundary.
 
+## Capsule map
+
+### Guardrails & handoffs
+- Parallel guardrail tripwires, strict-schema tool handoffs, history filtering — `references/patterns.md`.
+### Run state
+- Serializable human-in-the-loop RunState and loop hygiene — `references/run-state.md`, `references/run-internals.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`openai-agents-python`** (`/mnt/hdd/utopia/inspo/openai-agents-python`). 28,011 nodes / 202,610 edges.

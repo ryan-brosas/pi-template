@@ -3,11 +3,6 @@ name: localterm-foundation
 description: "Use when building terminal UIs, terminal rendering, or pi bash-tool security: the streaming secret redactor, spawn-side env scrub, and the localterm terminal stack."
 disable-model-invocation: true
 ---
----
-name: localterm-foundation
-description: "Use when building terminal UIs, terminal rendering, or pi bash-tool security: the streaming secret redactor, spawn-side env scrub, and the localterm terminal stack."
-disable-model-invocation: true
----
 
 # Localterm Foundation
 
@@ -23,6 +18,19 @@ Building terminal UIs, terminal rendering, or pi bash-tool security.
 - Git command runner -> `packages/server/src/utils/run-git.ts` (fan-in 26).
 - Completion engine -> `packages/server/src/completion/`.
 - Cross-platform daemon install -> `packages/cli/src/commands/install-launchd.ts` + `install-systemd.ts`.
+
+## Capsule map
+
+### Bash-secret defense
+- spawn-side env scrub, streaming output redactor with overlap-lux hold-back, canonical env-var validation — `references/secret-defense.md`.
+### Terminal stack & UX
+- terminal/PTY/reuse/agent-integration plus completion-theme-fonts, git-diff, and architecture — `references/terminal-pty.md`, `references/architecture.md`, `references/agent-integration.md`, `references/reuse-guide.md`, `references/completion-theme-fonts.md`, `references/git-diff.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

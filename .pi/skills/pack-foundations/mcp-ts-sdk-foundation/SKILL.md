@@ -17,6 +17,19 @@ Building MCP servers or clients, JSON-RPC transports, protocol-version migration
 - Request plumbing -> the Protocol base class: per-id response/progress/timeout maps, resetTimeoutOnProgress + maxTotalTimeout, opt-in remote-capability enforcement, tick-coalesced notifications.
 - Protocol revisions -> generated wire codecs per spec revision (`rev2025-11-25`, `rev2026-07-28`) selected via `codecForVersion`; error codes derived from the published conformance suite.
 
+## Capsule map
+
+### Dual-era protocol
+- Body-primary classification, per-id request plumbing, generated wire codecs per revision — `references/protocol.md`, `references/transports.md`.
+### Auth & capability gating
+- Auth flows, progress-aware timeouts, remote-capability enforcement — `references/auth.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`typescript-sdk`** (`/mnt/hdd/utopia/inspo/typescript-sdk`). 4,346 nodes / 15,001 edges; packages: core-internal (975), client (382), server (353), conformance, middleware.

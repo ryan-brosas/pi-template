@@ -3,11 +3,6 @@ name: linkedin-mcp-foundation
 description: "Use when building LinkedIn automation or an MCP server over a logged-in browser: session-state persistence, cross-platform profile reuse, daemon ownership/lock, config validation, and the tool surface."
 disable-model-invocation: true
 ---
----
-name: linkedin-mcp-foundation
-description: "Use when building LinkedIn automation or an MCP server over a logged-in browser: session-state persistence, cross-platform profile reuse, daemon ownership/lock, config validation, and the tool surface."
-disable-model-invocation: true
----
 
 # LinkedIn MCP Foundation
 
@@ -22,6 +17,19 @@ Building LinkedIn automation or an MCP server over a logged-in browser.
 - Daemon that owns a shared browser -> `daemon_lock.py` (process-lifetime, one-holder) + `profile_lease.py` (reference-counted, per-op) + `daemon_descriptor.py` (loopback-checked, keyed-fingerprint trust).
 - MCP server over a browser -> FastMCP + @mcp.tool + Depends() DI + singleton driver + centralized raise_tool_error().
 - Validated browser config -> `BrowserConfig.validate()` + env-driven `load_from_env` + repr=False secrets + keyed config fingerprint.
+
+## Capsule map
+
+### Session persistence
+- SourceState/RuntimeState files, portable_cookie_path, canonical() everywhere, conservative container detection — `references/session-state.md`.
+### Daemon trust & UX
+- daemon_lock/profile_lease/descriptor trust, FastMCP + DI + singleton driver, validated BrowserConfig, user-facing UX — `references/daemon-trust.md`, `references/ux.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

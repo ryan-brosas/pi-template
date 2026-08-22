@@ -3,11 +3,6 @@ name: browser-use-foundation
 description: "Use when building an LLM-driven browser agent: the agent step loop, DOM accessibility-tree serialization, message compaction, tool registry with sensitive-data redaction, and CDP browser sessions."
 disable-model-invocation: true
 ---
----
-name: browser-use-foundation
-description: "Use when building an LLM-driven browser agent: the agent step loop, DOM accessibility-tree serialization, message compaction, tool registry with sensitive-data redaction, and CDP browser sessions."
-disable-model-invocation: true
----
 
 # Browser-Use Foundation
 
@@ -23,6 +18,19 @@ Building an LLM-driven browser agent.
 - Agent-context compaction -> maybe_compact_messages: DUAL gate (every-N-steps cadence AND a 40k-char floor), anti-hallucination summarizer prompt ("never infer completion"), first+last-N history retention.
 - Typed tool registry -> Registry + @action decorator -> pydantic param model -> typed union; redact secrets to placeholders.
 - Reuse a real browser profile -> from_system_chrome / list_chrome_profiles.
+
+## Capsule map
+
+### Agent step loop
+- prepare/get-action/execute/post-process flow, exception containment, per-step state reset — `references/agent-step-loop.md`.
+### DOM & context
+- CDP accessibility-tree serialization, dual-gate message compaction, typed tool registry with redaction — `references/dom-serialization.md`, `references/tools-compaction.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

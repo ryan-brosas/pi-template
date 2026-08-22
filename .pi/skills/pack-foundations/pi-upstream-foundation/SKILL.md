@@ -3,11 +3,6 @@ name: pi-upstream-foundation
 description: "Use when building a coding-agent harness: the agent loop (start/continue), branch-summarization compaction, context-token estimation, and the cut-point logic."
 disable-model-invocation: true
 ---
----
-name: pi-upstream-foundation
-description: "Use when building a coding-agent harness: the agent loop (start/continue), branch-summarization compaction, context-token estimation, and the cut-point logic."
-disable-model-invocation: true
----
 
 # Pi Upstream Foundation
 
@@ -23,6 +18,19 @@ Building a coding-agent harness: agent loop, branch-summarization compaction, to
 - Branch navigation summarization -> `branch-summarization.ts`: common-ancestor collection, newest-first budgeted selection, summary entries with readFiles/modifiedFiles.
 - Settings manager -> `SettingsManager` (save/markModified, fan-in 46).
 - Model catalog -> `flattenModelCatalog` + `createProvider`.
+
+## Capsule map
+
+### Agent loop
+- AgentMessage-throughout, convertToLlm at the boundary, agentLoop/Continue modes, continue precondition — `references/internals.md`.
+### Compaction & UX
+- shouldCompact→estimate→cut-point→summary pipeline, branch summarization, session/TUI UX — `references/session.md`, `references/ux.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
 
 ## Full view (memory graph)
 

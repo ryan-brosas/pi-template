@@ -18,6 +18,19 @@ Building IDE extensions, autonomous agents with human approval gates, multi-pers
 - Approvals -> checkAutoApproval as a PURE four-way classifier (approve/deny/ask/timeout-with-resume), per-server MCP allowlists, followup timeout auto-answer (`references/approvals.md`).
 - Undo -> RepoPerTaskCheckpointService: shadow git repo per task over the real worktree.
 
+## Capsule map
+
+### Task loop
+- Promise-gated late config, consecutive-mistake circuit breaker, per-repo checkpoint undo — `references/task-loop.md`.
+### Modes & approvals
+- Data-driven personas, cached tool filtering, pure auto-approval classifier, MCP allowlists — `references/modes.md`, `references/approvals.md`.
+
+## Extending the foundation
+1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
+2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
+3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`Roo-Code`** (`/mnt/hdd/utopia/inspo/Roo-Code`). 36,333 nodes / 77,100 edges; 1,555 TS files; core packages: src (1,593), core (1,111), cli (759).
