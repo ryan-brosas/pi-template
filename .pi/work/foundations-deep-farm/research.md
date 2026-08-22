@@ -62,3 +62,29 @@ The user approved editing the workflow and three retained references, deleting s
 - **[CORRECTION] Aider squeeze census was overstated.** The prior `[DONE:13]`–`[DONE:15]` records claimed a complete re-squeeze and module disposition, but that was a self-authored inventory with no machine-checkable basis; the coverage probe script introduced to check it was removed at the user‘s explicit request (“no script”). The verified facts stand without any script: the ten `capsule-v2` capsules cite **only 11 distinct production files**; **69 production modules are not cited by any capsule** (args/CLI, prompt, coder-variant, linter-adjacent, and host/provider/transport modules). The disposition groups exist only as prose, not as an enforceable map. **Aider is NOT evidence-complete.** Until every production module carries a real capsule citation or an explicit omission list, do not claim the squeeze is complete.
 
 - [DONE:16] Uniform envelope migration (wave 3): rewrote all 21 non-workflow, non-Oh-My-Pi leaves that still carried the legacy `Solves/When-to-use/Key-skill-lines/Full-view/References/Skill-Result-Contract` shape into the canonical six-heading envelope (`Use this for` / `Load the matching source dump` / `Capsule map` / `Extending the foundation` / `Provenance` / `Boundaries`), flattening `###` capability subgroups into a grouped, bolded map and preserving every cited reference. Leaves migrated: ai-sdk, billion-context-pi, biome, browser-harness, browser-use, continue, eslint, graphiti, graphrag, jobspy, linkedin-mcp, localterm, mcp-ts-sdk, mem0, openai-agents, opencode, pi-fabric, pi-upstream, pydantic-ai-harness, roo, turso (21 leaves). Corrected citation parity (localterm git-diff/completion-theme-fonts/reuse-guide; pi-fabric budget-ledger/internals; flattened lone SEARCH/REPLACE placeholders that the parity probe would treat as missing files). Removed nine legacy `references/DEEP.md` sidecars (absorbed into surviving capsules; now orphan-free). `probe-foundation-squeeze.mjs`: all pass (23 leaves). `node scripts/check.mjs`: exit 0, 0 fails, foundation capsule standard all pass, repository check ok. `validate-foundation-depth.mjs`: regresses nothing. `probe-skill-routing.mjs`: pass.
+
+## 2026-08-22 guide normalization
+
+Applied the approved canonical guidance replacement. Commit `8616a11` rewrites the seven foundation-authoring files (template, pack router, workflow skill, squeeze/runbook/anatomy/wiring references) so they no longer instruct running the deleted `scripts/*.mjs` and instead require direct graph, source, test, coverage, and final-diff evidence. The canonical leaf template now includes the required `Full view (memory graph)` block. Protected dirty files were left uncommitted. No scripts restored.
+
+## 2026-08-22 aider template-and-capsule pass (in progress)
+User request: manually squeeze the Aider memory-graph, apply the single canonical template uniformly to SKILL.md and references.
+
+Live index: `aider` project, root `/mnt/hdd/utopia/inspo/aider`, branch `main`, 7,507 nodes / 19,923 edges, full mode, indexed 2026-08-16, 74 ignored non-code assets; only parse_partial gaps are .scm tree-sitter queries and website assets (no production Python gaps).
+
+Existing leaf: 10 `capsule-v2` references all covered: context-orchestration, edit-admission, repomap, diagnostic-feedback, model-policy, edit-formats, collab, architect-handoff, git-safety, ux. Leaf currently LACKS the `Full view (memory graph)` block.
+To do: add the live-graph block to `aider-foundation/SKILL.md`; verify each reference is uniformly canonical capsule-v2; record graph-confirmed new seams and module dispositions; then commit.
+
+## 2026-08-22 aider template-and-capsule uniformization (complete)
+
+Manual, graph-derived pass applying the canonical capsule-v2 template uniformly. Commit `8616a11` already normalized the foundation guides.
+
+Work done:
+- `aider-foundation/SKILL.md`: added the required `## Full view (memory graph)` block; verified `non-code assets` wording.
+- All ten prior references conform to one canonical capsule-v2 layout (no flat `## Path/Symbol` headings): repomap, context-orchestration, edit-formats, git-safety, model-policy, collab, ux, architect-handoff, edit-admission, diagnostic-feedback.
+- New graph-mined seam added on top of the ten: `references/undo.md` — git-backed undo that reverts only the last aider-owned, single-parent, unpushed commit (restore-from-HEAD~1 + soft reset). Source `Commands.raw_cmd_undo` `aider/commands.py:560-655`; probes `tests/basic/test_commands.py::test_cmd_undo_with_first_commit` (:1260), `::test_cmd_undo_with_newly_committed_file` (:1224), `::test_cmd_undo_with_dirty_files_not_in_last_commit` (:1176). Registered in the loader and the Edit-protocol map group.
+- Loader/map parity verified: 11 on-disk references, all 11 listed in the leaf, none missing.
+
+Deliberately NOT mined (boundaries): Aider CLI/prompt wording, GUI/analytics, voice, onboarding/scraping, commit-message generation, model-info cache tables, shell-command suggestion, and reasoning-tag stream transport stay outside the reusable contract. These are recorded here as omitted, not shipped.
+
+On-disk verification: `mkcs — no flat `## Path/Symbol` headings remain in any reference; every capsule carries Source/Decisive source/Flow/Invariant/Probe/Retrieve/Verdict.
