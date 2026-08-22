@@ -1,31 +1,47 @@
 <!-- capsule-v1 -->
-# Compaction suite: legal local reduction
+# Compaction — cut legally, then reduce only cheap history
 
-**Provenance:** Oh My Pi (MIT), main @45eaa; Codebase Memory project oh-my-pi. compaction.ts, pruning.ts, shake.ts, tool-protection.ts are source-covered; tests are fast-index excluded (direct-source probes).
+**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory `oh-my-pi`. **Question:** How can local context shrink without orphaning tool results or invalidating prompt caches?
 
-**Porting question:** how should an agent cut local history without orphan split tool-result pairs, stale token accounting, or loss of recovery-bearing output?
+## Legal cuts precede budget choice
+**Path/Symbol:** `packages/agent/src/compaction/compaction.ts:findValidCutPoints/findCutPoint` (540–686).
+**Signature:** `findCutPoint(entries, startIndex, endIndex, keepRecentTokens): CutPointResult`.
+**Data Shape:** session entries, legal indices, accumulated token estimate, split-turn metadata.
 
-## Capsule: budget and settled estimates are separate
+### Decisive source
+```ts
+case "assistant":
+  cutPoints.push(i);
+  break;
+case "toolResult":
+  break; // never start retained history at a result
+```
 
-**Path/Symbol:** packages/agent/src/compaction/compaction.ts:shouldCompact (335-339), resolveThresholdTokens (360-384), estimateTokens (408-421).
-**Data Shape:** threshold order (fixed > percent > window-reserve); a message token cache is valid only for settled/cacheable history.
-**Flow:** resolve usable threshold -> compare occupancy -> estimate retained history -> cache settled values -> invalidate the estimate on any prune/shake/reducer mutation.
-**Porting shape:** threshold = fixed ?? percent(window) ?? window - reserve; if occupancy > threshold { prepare }; cache only after message settles; invalidate on mutation.
-**Invariant:** budget selection does not decide cut legality; no cached estimate outlives a history mutation.
-**Adopt/Adapt/Omit:** adopt pure threshold + invalidation ownership; adapt token heuristics/reserve defaults; omit provider-specific encrypted fields when absent.
-**Probe:** compaction-reserve-provenance.test.ts:13-92 (small-window/default-reserve); message-cache.test.ts (cacheability + variants).
-**Retrieve:** graph-search the three symbols, read snippets, then direct-read the excluded tests.
+**Flow:** enumerate legal boundaries -> walk backward by token estimate -> include adjacent non-message state -> return first kept entry plus split-turn prefix.
+**Invariant:** retained history never begins at a tool result; a split turn is summarized separately, never silently discarded.
+**Probe:** direct `packages/agent/test/compaction-reserve-provenance.test.ts:1–115` proves threshold provenance is distinct from cut legality.
 
-## Capsule: choose a legal cut, then partition the turn
-**Path/Symbol:** compaction.ts:findValidCutPoints (540-575), findCutPoint (624-686), prepareCompaction (1213-1321).
-**Signature:** findCutPoint(entries,startIndex,endIndex,keepRecentTokens); findValidCutPoints admits user/assistant/durable-host boundaries, never tool-result.
-**Flow:** enumerate legal message-role boundaries -> walk backward by token estimate -> keep adjacent non-message state with its turn -> note split turns -> partition messagesToSummarize vs turnPrefix vs recent before a summarizer.
-**Invariant:** retained history never starts at a tool result; split-turn prefix is summarized separately, not dropped.
-**Retrieve:** graph-trace prepareCompaction into the cut/summary callers, direct-read compaction tests for pairing/split-turn assertions.
+## Prune and shake only mutable suffixes
+**Path/Symbol:** `compaction/pruning.ts:pruneSupersededToolResults/pruneToolOutputs` (249–408); `compaction/shake.ts:collectShakeRegions` (297–356).
+**Signature:** both receive `entries` and policy config; shake returns eligible regions without mutating them.
+**Data Shape:** keep boundary, protected tools, suffix-token warmth, `prunedAt`, supersede key.
 
-## Capsule: prune/shake are guarded suffix mutations with protection
-**Path/Symbol:** pruning.ts:pruneSupersededToolResults (249-303), pruneToolOutputs (305-408); shake.ts:collectShakeRegions (297-356); tool-protection.ts:isProtectedToolResult (52-65).
-**Flow:** act only after the retained boundary; reject recent/protected/error/needed output; keep semantic supersede identity; mutate only when aggregate savings clear the configured minute; invalidate estimates.
-**Invariant:** recovery-bearing results and the latest useful reads survive; cache warmth alone does not justify rewriting an expensive prefix.
-**Probe:** tests: supersede-prune, shake, tool-protection (direct-source).
-**Retrieve:** round up each file's specifics after graph-search + direct test reads.
+### Decisive source
+```ts
+const inWarmPrefix = messageSuffix[i] > cacheWarmSuffixTokens;
+if (inWarmPrefix || i < boundaryIndex) continue;
+if (!superseded && !useless && (accumulatedTokens < config.protectTokens || isProtected || tooSmall)) continue;
+message.content = [{ type: "text", text: notice }];
+invalidateMessageCache(message);
+```
+
+**Flow:** reject pre-boundary and warm-prefix entries -> respect protected/recent results -> require aggregate savings -> mutate and invalidate cached estimates.
+**Invariant:** a superseded result is still preserved when rewriting its cached prefix costs more than its savings; tool calls remain untouched.
+**Probe:** direct `supersede-prune.test.ts:526–650` protects deep cache-warm results but prunes tail copies; `shake.test.ts:72–135` preserves protected/recent/already-pruned results.
+
+## Get live surrounding code
+**Retrieve:**
+```ts
+await mcp.codebase_memory.search_graph({ project: "oh-my-pi", name_pattern: "^(findValidCutPoints|findCutPoint|pruneToolOutputs|collectShakeRegions)$", limit: 12, fields: ["signature"] });
+await mcp.codebase_memory.get_code_snippet({ project: "oh-my-pi", qualified_name: "oh-my-pi.packages.agent.src.compaction.compaction.findCutPoint" });
+```

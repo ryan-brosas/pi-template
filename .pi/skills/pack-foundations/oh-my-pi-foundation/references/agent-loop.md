@@ -1,21 +1,54 @@
 <!-- capsule-v1 -->
-# Agent loop: live steering and tool-result safety
+# Agent loop — steer safely, retain only paired work
 
-**Provenance:** Oh My Pi (MIT) main @45eaa; Codebase Memory project oh-my-pi. agent-loop.ts source-covered; agent-loop.test.ts fast-index excluded (direct probes).
-**Porting question:** during tool execution, how do you steer or interrupt without orphaning results or serializing malformed tool output?
+**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory `oh-my-pi`. **Question:** How can live input interrupt tool work without stealing a later follow-up or emitting invalid provider history?
 
-## Capsule: steering is observed before it is consumed
-**Path/Symbol:** packages/agent/src/agent-loop.ts:checkSteering (2331-2369), executeToolCalls (2220-2742).
-**Signature:** checkSteering(): void; executeToolCalls(currentContext, assistantMessage, signal, config): void.
-**Data Shape:** live steering messages are queue-owned; tool execution has its own abort signal and the assistant message being resolved.
-**Flow:** batch starts -> observe steering/abort without dequeuing follow-up ownership -> soft vs hard -> stop/continue -> append paired results.
-**Porting shape:** observe steering+abort; if hard: stop active work, preserve finished pairs; if soft: schedule next boundary; execute pending; append each result beside its call.
-**Invariant:** observing steering does not consume a later follow-up's message; interrupted turns retain only completed call/result pairs.
-**Probe:** agent-loop.test.ts:1674,1746 (steering/interrupt), :727 (completed retention), :4629 (coercion).
-**Retrieve:** graph-search the two symbols, read snippets, direct-read the tests.
+## 1. Observe steering; dequeue only at the boundary
+**Path/Symbol:** `packages/agent/src/agent-loop.ts:checkSteering` (2331–2369), `executeToolCalls` (2220–2742).
+**Signature:** `checkSteering(): Promise<void>`; `executeToolCalls(currentContext, assistantMessage, signal, stream, config, telemetry, span)`.
+**Data Shape:** steering queue state, hard abort signal, cooperative soft signal, per-call record.
 
-## Capsule: tool results are made serializable before provider replay
-**Path/Symbol:** agent-loop.ts:coerceToolResult (436-510), retainCompletedToolCalls (1900-1925).
-**Flow:** tool returns unknown -> normalize to provider-safe result content -> attach to its call id -> on interruption keep only completed ids + their outputs.
-**Invariant:** every retained result has its call; a malformed result becomes non-empty before provider serialization.
-**Retrieve:** graph the symbols, read their source windows + named excluded tests.
+### Decisive source
+```ts
+const queuedState = await hasSteeringMessages(); // observation only
+steeringQueued = typeof queuedState === "boolean"
+  ? queuedState
+  : queuedState.queued;
+if (steeringQueued && !steeringAbortController.signal.aborted) {
+  steeringAbortController.abort(); // interruptible waits
+  steeringSoftController.abort(); // cooperative work
+}
+```
+
+**Flow:** subscribe -> check non-consuming queue -> hard-abort waits / soft-signal work -> skip unstarted calls -> boundary dequeues steering.
+**Invariant:** polling never consumes a follow-up; a second poll is idempotent.
+**Probe:** direct `packages/agent/test/agent-loop.test.ts:1674–1746` aborts an interruptible wait and injects the steer; `:1746–` distinguishes an in-flight abort from a never-started skip.
+
+## 2. Normalize results before replay; retain only completed pairs
+**Path/Symbol:** `coerceToolResult` (436–510), `retainCompletedToolCalls` (1900–1925).
+**Signature:** `coerceToolResult(raw): { result, malformed }`; `retainCompletedToolCalls(message, completedToolCallIds)`.
+**Data Shape:** unknown tool payload -> typed content blocks; completed call-ID set -> filtered assistant tool calls.
+
+### Decisive source
+```ts
+if (!Array.isArray(rawContent)) return {
+  result: { content: [{ type: "text", text: "Tool returned an invalid result: missing content array." }], isError: true },
+  malformed: true,
+};
+if (isError && !hasSubstantiveToolResultContent(content)) {
+  content.length = 0;
+  content.push({ type: "text", text: EMPTY_ERROR_TOOL_RESULT_TEXT });
+}
+```
+
+**Flow:** validate unknown blocks -> make errors non-empty -> attach result to call ID -> on error/abort drop unfinished call declarations.
+**Invariant:** every retained result has its call; malformed error output is serializable and non-empty.
+**Probe:** direct `agent-loop.test.ts:700–770` retains only a completed call after parse failure; `:4600–4680` proves whitespace-only error output becomes `Tool failed with no output.`.
+
+## Get live surrounding code
+**Retrieve:**
+```ts
+await mcp.codebase_memory.check_index_coverage({ project: "oh-my-pi", paths: ["packages/agent/src/agent-loop.ts"] });
+await mcp.codebase_memory.search_graph({ project: "oh-my-pi", name_pattern: "^(coerceToolResult|executeToolCalls|retainCompletedToolCalls)$", limit: 8, fields: ["signature"] });
+await mcp.codebase_memory.get_code_snippet({ project: "oh-my-pi", qualified_name: "oh-my-pi.packages.agent.src.agent-loop.executeToolCalls" });
+```

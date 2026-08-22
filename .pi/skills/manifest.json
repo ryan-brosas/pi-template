@@ -451,7 +451,37 @@
       "modelVisible": false
     },
     {
+      "name": "oh-my-pi-advisor-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "oh-my-pi-autoresearch-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "oh-my-pi-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "oh-my-pi-prewalk-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "oh-my-pi-task-orchestration-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
+      "name": "oh-my-pi-vibe-foundation",
       "status": "retained",
       "pack": "pack-foundations",
       "modelVisible": false
