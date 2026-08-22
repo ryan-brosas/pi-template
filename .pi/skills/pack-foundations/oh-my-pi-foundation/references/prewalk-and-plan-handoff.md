@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Prewalk — plan first, hand off only after a durable implementation boundary
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/session/prewalk.ts`. **Question:** How do you move from planning to implementation without switching on read-only exploration or losing hidden plan state?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/session/prewalk.ts`. **Question:** How do you move from planning to implementation without switching on read-only exploration or losing hidden plan state?
 
 ## Source contract
 **Path/Symbol:** `PrewalkCoordinator.advanceAtTurnEnd` (143–204), `isPrewalkImplementationAction` (42–53), `#finalizePlanYoloProposal` (275–318).

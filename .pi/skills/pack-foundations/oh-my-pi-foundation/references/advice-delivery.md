@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Advisor delivery — severity alone is not enough
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/advisor/advise-tool.ts`. **Question:** When should automated review advice interrupt, wait, or be preserved for the user?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/advisor/advise-tool.ts`. **Question:** When should automated review advice interrupt, wait, or be preserved for the user?
 
 ## Source contract
 **Path/Symbol:** `isInterruptingSeverity` (74–76), `isAdvisorInterruptImmuneTurnActive` (81–88), `resolveAdvisorDeliveryChannel` (116–132).

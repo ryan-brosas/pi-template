@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Agent loop — steer safely, retain only paired work
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory `oh-my-pi`. **Question:** How can live input interrupt tool work without stealing a later follow-up or emitting invalid provider history?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory `oh-my-pi`. **Question:** How can live input interrupt tool work without stealing a later follow-up or emitting invalid provider history?
 
 ## 1. Observe steering; dequeue only at the boundary
 **Path/Symbol:** `packages/agent/src/agent-loop.ts:checkSteering` (2331–2369), `executeToolCalls` (2220–2742).

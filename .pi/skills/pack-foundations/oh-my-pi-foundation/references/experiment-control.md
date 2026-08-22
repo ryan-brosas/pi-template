@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Autoresearch — experiments belong to a branch and a durable ledger
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/autoresearch/{index,git,state,storage}.ts`. **Question:** How can an agent experiment repeatedly without destroying a user worktree or reviving runs on the wrong branch?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/autoresearch/{index,git,state,storage}.ts`. **Question:** How can an agent experiment repeatedly without destroying a user worktree or reviving runs on the wrong branch?
 
 ## Source contract
 **Path/Symbol:** `ensureAutoresearchBranch` (36–97), extension `rehydrate` (33–120), `buildExperimentState/reconstructControlState` (172–236).

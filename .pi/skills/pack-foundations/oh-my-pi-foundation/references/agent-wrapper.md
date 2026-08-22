@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Agent facade — separate queue ownership from continuation
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory `oh-my-pi`. **Question:** Which object owns a prompt, steer, follow-up, and transcript boundary?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory `oh-my-pi`. **Question:** Which object owns a prompt, steer, follow-up, and transcript boundary?
 
 ## Queue ownership is explicit
 **Path/Symbol:** `packages/agent/src/agent.ts:Agent.steer/followUp/continue` (951–1108, 1194–1260).

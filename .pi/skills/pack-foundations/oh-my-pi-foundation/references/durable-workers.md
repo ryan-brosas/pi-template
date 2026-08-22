@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Vibe — durable workers are journaled child sessions, not in-memory promises
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/vibe/runtime.ts`. **Question:** How do persistent workers survive reloads without crossing parent-session ownership?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/vibe/runtime.ts`. **Question:** How do persistent workers survive reloads without crossing parent-session ownership?
 
 ## Source contract
 **Path/Symbol:** `VibeSessionRegistry.rehydrate/spawn/send/wait` (820–1211).

@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Compaction — cut legally, then reduce only cheap history
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory `oh-my-pi`. **Question:** How can local context shrink without orphaning tool results or invalidating prompt caches?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory `oh-my-pi`. **Question:** How can local context shrink without orphaning tool results or invalidating prompt caches?
 
 ## Legal cuts precede budget choice
 **Path/Symbol:** `packages/agent/src/compaction/compaction.ts:findValidCutPoints/findCutPoint` (540–686).

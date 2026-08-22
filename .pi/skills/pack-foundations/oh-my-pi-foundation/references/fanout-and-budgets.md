@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Task fanout — preserve order, release only acquired permits, steer before stopping
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/task/{index,executor}.ts`. **Question:** How does a task fanout remain deterministic under cancellation and runaway subagents?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/task/{index,executor}.ts`. **Question:** How does a task fanout remain deterministic under cancellation and runaway subagents?
 
 ## Source contract
 **Path/Symbol:** `TaskTool.#runSyncSpawns` (1319–1381), `runSubagent` (2773–3406).

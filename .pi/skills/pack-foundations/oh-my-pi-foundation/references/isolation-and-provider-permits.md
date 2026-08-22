@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Task isolation — isolate Git state and cap only network production
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/task/{worktree,provider-concurrency}.ts`. **Question:** How do parallel coding workers avoid both Git cross-talk and provider-cap deadlock?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory project `oh-my-pi`. `packages/coding-agent/src/task/{worktree,provider-concurrency}.ts`. **Question:** How do parallel coding workers avoid both Git cross-talk and provider-cap deadlock?
 
 ## Source contract
 **Path/Symbol:** `ensureIsolation` (422–472), `wrapStreamFnWithProviderConcurrency` (76–100).

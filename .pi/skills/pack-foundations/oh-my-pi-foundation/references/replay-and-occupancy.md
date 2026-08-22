@@ -1,7 +1,7 @@
 <!-- capsule-v1 -->
 # Replay and occupancy — native payloads need a portable escape hatch
 
-**Source:** Oh My Pi MIT `main@45e12e5`; Codebase Memory `oh-my-pi`. **Question:** When can provider-native compacted history be replayed, and what happens after a provider switch?
+**Source:** Oh My Pi MIT `main@96f428097`; Codebase Memory `oh-my-pi`. **Question:** When can provider-native compacted history be replayed, and what happens after a provider switch?
 
 ## Reuse native data only for the active compatible provider
 **Path/Symbol:** `packages/agent/src/compaction/compaction.ts:remotePreserveReusable/prepareCompaction` (1200–1244).
