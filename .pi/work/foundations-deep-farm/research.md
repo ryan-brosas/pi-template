@@ -12,7 +12,7 @@ Turn indexed inspiration repositories into small, reusable code shortcuts. Codeb
 |---|------|---------------|------:|--------|
 | 1 | oh-my-pi | oh-my-pi | 84,012 | repair in progress |
 | 2 | eslint | eslint | 14,207 | queued after pilot |
-| A1 | aider | aider | 7,507 | mined |
+| A1 | aider | aider | 7,507 | squeezed — canonical leaf |
 | 3 | vitest | vitest | queued |
 | 4 | rsbuild | rsbuild | queued |
 | 5 | nest | nest | queued |
@@ -48,3 +48,5 @@ The user approved editing the workflow and three retained references, deleting s
 - [DONE:11] Aider promoted to the capsule/source-map quality bar (package router first loads `foundations-workflow`). Live index `main@5dc9490`, 7,507 nodes / 19,923 edges; core edits, repomap, and collaboration sources fresh. Added a **Capsule map** (token-bounded context, repairable edit application, bounded collaboration loops) and an **Extending the foundation** recipe; three references each gained a **Capsule evidence (current source)** block with Path/Symbol, Flow, Invariant, Probe, Retrieve. Canonical check green.
 - [DONE:12] Squeeze codified and enforced: new `foundations-workflow/references/squeeze-process.md` names the wave loop (crown -> capsule -> map -> check -> commit), RED/GREEN pressure test, stop criteria, and the hard `/skill` entry; `probe-foundation-squeeze.mjs` (wired after `validate-foundation-depth` in `check.mjs`) enforces every foundation leaf's shape — Capsule map, Extending recipe, graph provenance, map-to-reference parity. Migrated all 23 leaves to the leaf-shape contract from existing in-repo refs; deduped duplicate frontmatter in 10. Reference-level capsule depth stays tracked as debt in `foundation-depth-debt.json`. Routing probe adds a re-squeeze case to `foundations-workflow`. Canonical green (23/23).
 - [DONE:13] Aider full re-squeeze: refreshed canonical inspo clone and Codebase Memory **full** index at `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c` (7,507 nodes / 19,923 edges; 0 skipped; 28 parse-partial tree/site/fixture files as coverage caveats). The census covers the app, coder-format family, model/provider policy, Git wrapper, I/O, context/history, tests, CLI, website, benchmark, scripts, and tree-sitter queries. This wave added source-backed capsules for provider/retry, scoped Git safety, and context orchestration (three new `references/*.md`), upgraded all four prior references to `capsule-v1` retrieval contracts, and regrew the leaf Capsule map around them. Canonical green.
+
+- [DONE:14] Aider canonical squeeze closed: kept the seven source-backed `capsule-v2` references unchanged, refactored `aider-foundation/SKILL.md` into the uniform loader/map shape, confirmed each capsule once per surface. Preflight: `aider` full index at `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c`, 7,507 nodes / 19,923 edges; cited source/test paths metadata-match/no-recorded-issue (best-effort). Squeeze and canonical checks are GREEN evidence.
