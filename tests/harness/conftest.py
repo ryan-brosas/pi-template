@@ -16,6 +16,68 @@ def pytest_addoption(parser):
     parser.addoption(
         "--run_slow", action="store_true", default=False, help="run slow tests"
     )
+    parser.addoption(
+        "--stability-threshold",
+        action="store",
+        default=None,
+        type=float,
+        help="Minimum stability test pass rate (percent) required to exit 0 (default: disabled)",
+    )
+
+
+# Stability-threshold gating (from cuga-agent): lets flaky/load tests be gated
+# on a minimum pass rate instead of all-or-nothing, while non-stability
+# failures stay hard failures.
+_stability_outcomes: dict[str, bool] = {}
+_hard_failure = False
+
+
+def pytest_sessionstart(session):
+    global _stability_outcomes, _hard_failure
+    _stability_outcomes = {}
+    _hard_failure = False
+
+
+def pytest_runtest_logreport(report):
+    """Track one stability outcome per nodeid (tests marked 'stability')."""
+    global _hard_failure
+    keywords = getattr(report, "keywords", {})
+    is_stability = "stability" in keywords
+
+    if report.when == "call":
+        if is_stability:
+            _stability_outcomes[report.nodeid] = report.passed
+        elif report.failed:
+            _hard_failure = True
+        return
+
+    if not report.failed:
+        return
+
+    if is_stability:
+        if report.when == "setup" and report.nodeid not in _stability_outcomes:
+            _stability_outcomes[report.nodeid] = False
+        elif report.when == "teardown":
+            _hard_failure = True
+        return
+
+    _hard_failure = True
+
+
+def pytest_sessionfinish(session, exitstatus):
+    threshold = session.config.getoption("stability_threshold")
+    if threshold is None or not _stability_outcomes:
+        return
+
+    passed = sum(_stability_outcomes.values())
+    total = len(_stability_outcomes)
+    pass_rate = 100.0 * passed / total
+    print(f"\nStability pass rate: {pass_rate:.1f}% ({passed}/{total}), threshold: {threshold}%")
+
+    if _hard_failure:
+        session.exitstatus = 1
+    elif pass_rate < threshold:
+        session.exitstatus = 1
 
 
 def make_png(width, height):

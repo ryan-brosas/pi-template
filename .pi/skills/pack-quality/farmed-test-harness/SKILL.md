@@ -29,11 +29,13 @@ When writing tests for code that:
   (hermetic HTTP tests independent of host proxy config).
 - `mock_async_stream.py` — (from pydantic-ai) wraps a sync iterator as an async
   stream for testing async/await code. Adapted to be standalone.
-- `conftest.py` — (from graphrag + browser-harness + graphiti + Auto_job_applier)
-  pytest options + fixtures: `--run_slow` gating, `fake_png` fixture for
-  image/screenshot tests, project-root `sys.path` setup, `collect_ignore_glob`
-  to exclude subdirectories, and a custom `pytest_terminal_summary` (failing
-  tests first, then counts, then verdict).
+- `conftest.py` — (from graphrag + browser-harness + graphiti + Auto_job_applier
+  + cuga-agent) pytest options + fixtures: `--run_slow` gating, `fake_png`
+  fixture for image/screenshot tests, project-root `sys.path` setup,
+  `collect_ignore_glob` to exclude subdirectories, a custom
+  `pytest_terminal_summary` (failing tests first, then counts, then verdict),
+  and a `--stability-threshold` option that gates flaky/load tests on a minimum
+  pass rate while keeping non-stability failures hard.
 
 ## How to Use
 
