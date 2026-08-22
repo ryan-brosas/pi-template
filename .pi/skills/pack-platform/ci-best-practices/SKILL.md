@@ -93,6 +93,18 @@ concurrency:
   cut-release and opencode's close-prs.
 - Use `workflow_dispatch` inputs with `type: choice` for enum options.
 
+## Release gating (critical)
+
+- **Gate publish/release on a detected condition, not any push.** A stray push
+  must never publish. Use a `detect` job that resolves whether HEAD is a
+  release commit (e.g. commit message, tag, release-branch merge), then gate the
+  publish job on it. Farmed from vitest's publish.yml and modelcontextprotocol's
+  publish-release.yml.
+- Keep detection outside the Release environment (environment approval is
+  job-level), so the publish job is only created after a release is detected.
+- Use `if:` conditions on commit messages / branch names to scope publish to
+  the exact merge commit.
+
 ## When to use
 
 Apply these when writing or reviewing any GitHub Actions workflow. They
