@@ -60,7 +60,8 @@
         "jobspy-foundation",
         "linkedin-mcp-foundation",
         "maximo3k-sales-nav-scraper-foundation",
-        "veda-foundation"
+        "veda-foundation",
+        "pi-better-openai-foundation"
       ]
     },
     {
@@ -289,6 +290,7 @@
     "github-contribution-opportunities": "Use when finding and qualifying legitimate GitHub pull-request contribution opportunities.",
     "codex-websearch": "Use when you need current web facts, documentation discovery, or cited search results through the Codex web-search extension.",
     "eslint-foundation": "Use when building a lint rule engine or flat-config linter: the verify pipeline, config loading/validation, RuleTester harness, and AST rule primitives.",
-    "veda-foundation": "Use when building a coding-agent oracle/verifier: factored verification checks, model/backend resolution with aliases, parallel ensemble retries, and resumable checkpoint persistence."
+    "veda-foundation": "Use when building a coding-agent oracle/verifier: factored verification checks, model/backend resolution with aliases, parallel ensemble retries, and resumable checkpoint persistence.",
+    "pi-better-openai-foundation": "Use when building a pi/OpenAI extension: layered config resolution with clamping, provider-payload fast-mode injection, Codex OAuth credential resolution, subscription usage snapshot parsing, and diagnostic secret redaction."
   }
 }

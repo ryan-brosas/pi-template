@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
- tailored to Pi + Pi Fabric: 9 prompt commands, 128 skill files
- (117 leaves in 11 packs: 113 pack leaves + 4 core safety), 14 format templates, Pi-native settings, and the
+ tailored to Pi + Pi Fabric: 9 prompt commands, 131 skill files
+ (116 leaves in 11 packs: 112 pack leaves + 4 core safety), 14 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation
@@ -27,7 +27,7 @@ README.md
 ├── fabric.json            # Pi Fabric Schema guard (enforce or audit + canonical-check)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
-├── skills/                # 132 skill files: 11 pack routers + 117 pack leaves + 4 core safety
+├── skills/                # 131 skill files: 11 pack routers + 116 pack leaves + 4 core safety
 ├── templates/             # 14 format templates (incl. foundation skill/capsule) (PRD, design, ADR, issue, ...)
 └── work/                  # tracked durable work records (one dir per record).github/
 ├── workflows/             # check.yml (canonical gate on main + PRs) + qodana.yml (JetBrains analysis)
@@ -71,7 +71,7 @@ open source). Without the secret the workflow skips and CI stays green.
 ## Skills and Templates
 
 
-- Skills: 129 skill files — 11 pack routers, 114 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
+- Skills: 131 skill files — 11 pack routers, 116 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
   Eleven visible pack routers (pack-delivery, pack-foundations, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by

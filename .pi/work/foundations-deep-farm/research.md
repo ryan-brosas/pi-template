@@ -241,3 +241,88 @@ uncommitted (unrelated).
 ensemble retry-on-empty, and locked YAML checkpoint store; adapt backend names/
 alias tables/defaults and file I/O to host; omit CLI/commands, judge/winner-
 rationale internals, and Glicko-2 rating logic.
+
+## 2026-08-22 pi-better-openai squeezed (autonomous drain)
+
+Squeezed `pi-better-openai` (user's own pi/OpenAI extension) into a canonical
+foundation leaf `pi-better-openai-foundation` with 5 capsule-v2 references.
+
+**Live graph (gate 1):** project `pi-better-openai`, root
+`/mnt/hdd/utopia/inspo/pi-better-openai`, branch `main`, HEAD
+`86814e9047996abba08e4c907e23286329196fe0`, `fast` index mode, 847 nodes /
+2,729 edges, indexed 2026-08-15. Excluded by design: `.git`, LICENSE,
+pnpm-lock.yaml, and all `tests/` (19 files, `fast-pattern` skip-list).
+0 parse_partial / 0 skipped. `check_index_coverage` on the 7 cited source files
+reports `no_recorded_issue` with `freshness: missing` (best-effort — read
+source to confirm shipped claims).
+
+**Graph-led seams (gate 2):** architecture shows packages live/pets/config/
+websearch/usage/fast-controller/usage-controller; entry points in `index.ts`.
+Crowned five reusable seams: layered config resolution, fast-mode provider
+injection, Codex OAuth credential resolution, usage snapshot parsing, and
+diagnostic redaction.
+
+**Source/test confirmation (gate 3):** read decisive ranges in
+`src/config.ts` (resolveConfig 768-876, parseModelKey 566-573, normalizeModelKeys
+575-583, applySettingToRawConfig 725-751, writeConfig 753-761),
+`src/fast-controller.ts` (FastController 37-112, injectProviderPayload 89-100),
+`src/codex-auth.ts` (getCodexCredentials 120-136, readCodexAuth 96-118,
+parseCodexRegistryCredentials 66-94, extractAccountIdFromJwt 51-64),
+`src/usage.ts` (parseUsageSnapshot 205-224, formatUsageSnapshot 232-256,
+requestCodexUsage 129-147, formatResetCountdown 84-95), `src/format.ts`
+(sanitizeDiagnosticError 64-81, redactDiagnosticValue 93-104, maskIdentifier
+57-62), `src/paths.ts` (piAgentDir 10-13). Direct tests read on disk:
+`tests/config.test.ts`, `tests/fast.test.ts`, `tests/usage.test.ts`,
+`tests/format.test.ts`. Coverage caveat: `tests/` is excluded from the graph
+index by design, so probes are source-grounded from the on-disk test files, not
+graph-covered.
+
+**Capsules (gate 4):** five `<!-- capsule-v2 -->` references in
+`pack-foundations/pi-better-openai-foundation/references/`:
+- `config-resolution.md` — defaults→global→project merge, field-by-field
+  type/enum validation, model-key normalization, numeric clamping, non-
+  destructive writeConfig.
+- `fast-mode-injection.md` — desired-vs-active split, derived
+  `active = desiredActive && supportsFast`, non-mutating `{...payload,
+  service_tier}` spread, allow-list gating.
+- `codex-auth.md` — registry-first credential resolution with auth-file
+  fallback, OAuth-type + expiry validation, JWT account-id extraction, abort-
+  aware wait.
+- `usage-snapshot.md` — bucket normalization, used→left-percent clamping,
+  reset-seconds derivation, compact countdown + fixed clock, Spark-scope
+  fallback.
+- `diagnostic-redaction.md` — ANSI/control stripping, embedded-credential
+  regex redaction, recursive sensitive-key redaction, length cap,
+  maskIdentifier.
+
+**Pressure test (gate 5):** no vitest runner on this host (no node_modules,
+no local vitest), so no agent-runner RED/GREEN was executed. Ran deterministic
+retrieval/probe checks instead: every cited seam symbol resolves in
+`search_graph` with exact qn/file/line (resolveConfig 768-876,
+FastController.injectProviderPayload 89-100, getCodexCredentials 120-136,
+parseUsageSnapshot 205-224, sanitizeDiagnosticError 64-81). No fabricated pass.
+
+**Wiring (gate 6, NEW membership):** added `pi-better-openai-foundation` to
+`packs.json` pack-foundations members (27), router `pack-foundations/SKILL.md`,
+`manifest.json` (retained, pack-foundations), and `_descriptions`. JSON parses;
+member + manifest parity confirmed. README skill-file counts corrected to the
+verified on-disk totals (131 total = 11 pack routers + 116 pack leaves + 4 core
+safety).
+
+**Verify (gate 7):** loader/map parity 5/5 (all five references once in loader
+and map, all resolve to on-disk files, all capsule-v2); leaf matches canonical
+template (all 7 headings in fixed order: Use this for / Load the matching
+source dump / Capsule map / Extending the foundation / Provenance / Full view
+(memory graph) / Boundaries). Diff touches only the new foundation dir,
+packs.json, router, manifest.json, README, and the work record. Pre-existing
+dirty files (.pi/fabric.json, project.md, roadmap.md, state.md, tech-stack.md)
+left uncommitted (unrelated).
+
+**Verdicts:** adopt layered config resolution + clamping, non-mutating fast-mode
+injection, registry-first Codex auth, usage snapshot parsing/formatting, and
+diagnostic redaction; adapt config basename, supported-model list, service-tier
+value, usage endpoint, and auth file path to host; omit the live WebRTC voice
+stack, image generation (sharp), web search backend, Codex pets spritesheet
+rendering, footer layout, the `UsageController` polling lifecycle, and the
+settings-picker UI unless a target needs them.
+

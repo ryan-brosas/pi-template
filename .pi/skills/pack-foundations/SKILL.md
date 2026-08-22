@@ -41,3 +41,4 @@ Load the leaf's map group, then add one evidence-backed capsule when the seam is
 - linkedin-mcp-foundation: LinkedIn MCP — session, daemon
 - maximo3k-sales-nav-scraper-foundation: LinkedIn Sales Navigator CSV scrape — pagination, data-anonymize extraction, CSV output
 - veda-foundation: coding-agent oracle — factored verification, model resolution, ensemble retry, checkpoint resume
+- pi-better-openai-foundation: pi/OpenAI extension — layered config + clamping, fast-mode injection, Codex auth, usage snapshot, diagnostic redaction

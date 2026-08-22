@@ -541,6 +541,12 @@
       "modelVisible": false
     },
     {
+      "name": "pi-better-openai-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "pydantic-ai-harness-foundation",
       "status": "retained",
       "pack": "pack-foundations",
