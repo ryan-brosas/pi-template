@@ -12,12 +12,12 @@ Work **one source repository at a time**. Do not open the next graph project unt
 
 ## Seven acceptance gates
 1. **Live index** - project/root/branch/commit/mode/counts/exclusions/freshness.
-2. **Graph survey** - compact architecture, bounded search, traces; crown 3-6 reusable contracts.
-3. **Selective confirmation** - coverage for every cited path; get_code_snippet; direct excluded tests; full-file reads only with a named uncertainty.
+2. **Repo sweep** – census every module (package/crate/python dir) once: architecture, bounded search, traces; crown reusable contracts per module, repeat until the module is exhausted — no per-repo cap.
+3. **Module coverage account** - coverage for every cited path; graph snippet; direct excluded tests; full-file reads only with a named uncertainty; ledger each module as mined/skipped-with-reason/omitted.
 4. **Implementation capsule** - per distinct porting question: Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve.
 5. **Behavior test** - RED without the capsule, GREEN with it, adversarial compression; no runner = record the block + run deterministic retrieval/probe checks (never invent a pass).
 6. **Wire** - update catalog only for new membership.
 7. **Verify** - `node scripts/check.mjs` before closing.
 
 ## Token + stopping rules
-Start with IDs/signatures + small limits; widen only on truncation. Never require a number of lines/references/citations/code excerpts; natural depth follows the porting question. Keep the canonical pinned commit; do not vendor modules. Stop when every public skill line has retrieval provenance, a confirmed anchor, a behavior boundary, and an honest coverage note; name unmined areas.
+Start with IDs/signatures + small limits; widen only on truncation. Never require a number of lines/references/citations/code excerpts; natural depth follows the porting question. Keep the canonical pinned commit; do not vendor modules. Stop the whole-repo sweep only when every module is ledgered (mined or skipped with reason) and every public skill line has retrieval provenance, a confirmed anchor, a behavior boundary, and an honest coverage note. Volume tracks the module surface, never a quota; a small harness gets a small capsule, the whole repo gets as many as its seams demand.

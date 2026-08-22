@@ -48,7 +48,7 @@ Negative or exhaustive claims require complete pagination plus coverage for the 
 
 ## Fast-index test caveat
 
-Fast indexes commonly exclude tests by pattern. Do not say a graph TESTS edge proves a behavior unless coverage confirms the test is indexed. Search the excluded test file directly, read the named test block, and label it as direct-source evidence.
+Index mode decides test coverage: `full` covers tests (cite graph edges only after `check_index_coverage` shows no_recorded_issue + metadata_match); `fast` excludes tests by pattern (read them directly). Search the excluded test file directly, read the named test block, and label it as direct-source evidence.
 
 ## Required use-time block
 

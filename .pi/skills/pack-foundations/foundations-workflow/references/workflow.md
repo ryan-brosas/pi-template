@@ -23,9 +23,7 @@ If the project is missing or stale, index/re-index before drawing structural con
 3. Page while `has_more` is true, or narrow by file/label/query. Never treat the first page as exhaustive.
 4. Use `query_graph` only for an aggregation or multi-hop question that search cannot answer.
 
-Crown a primitive when it is reusable and its relationships explain why it matters. Fan-in is evidence, not the decision.
-
-**Gate:** 3–6 candidates with a one-line reuse hypothesis and the graph query that found each one.
+Crown a primitive when it is reusable and its relationships explain why it matters. Fan-in is evidence, not the decision. Sweep repeatedly: high-seam modules (auth, audits) can support many capsules; small modules may warrant one. The repo is exhausted when, module by module, no new reusable seam remains — not at a fixed candidate count.
 
 ## 3. Trace contracts, not files
 
@@ -67,11 +65,10 @@ Use one realistic scenario and a fixed rubric:
 
 Run RED without the new guidance. After authoring, run GREEN with the skill and an adversarial variant. If no agent runner is available, record the infrastructure block and run deterministic retrieval/content probes; do not invent a pass.
 
-## 6. Write the minimum durable artifact
+## 6. Write the minimum durable artifact per seam
+The leaf skill is a routing surface plus reuse map. Add a reference only for a distinct porting question that needs more than the surface can carry. Reference length follows the contract's complexity; no document-count or line-count target exists. Land capsules in waves: each wave covers a named module, updates the coverage ledger, and keeps `node scripts/check.mjs` green.
 
-The leaf skill is a routing surface plus reuse map. Add a reference only for a distinct porting question that needs more than the surface can carry. Reference length follows the contract's complexity; no document-count or line-count target exists.
-
-Stop when every skill line is actionable and evidenced. Put unresolved areas in an unmined ledger instead of expanding prose.
+Stop when every skill line is actionable and evidenced. Put unresolved areas in an unmined ledger instead of expanding prose. A repo is finished when the ledger shows every module mined or skipped-with-reason — never at a token or document budget.
 
 ## 7. Wire and verify
 

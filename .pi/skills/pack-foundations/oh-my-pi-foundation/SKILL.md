@@ -21,7 +21,7 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - `references/advice-delivery.md` — severity-based steer/aside/preserve routing to a live agent.
 
 ## Provenance
-oh-my-pi (MIT), `main@45e12e5`; Codebase Memory project `oh-my-pi` (84,012 nodes / 374,075 edges). Agent and tool source paths are graph-covered; the fast-index excludes tests, so every cited test was read directly.
+oh-my-pi (MIT), `main@45e12e5`; Codebase Memory project `oh-my-pi` (112,667 nodes / 556,147 edges, `full` index since 2026-08-22 — tests graph-covered; only `parse_partial` ranges read directly).
 
 ## Boundaries
 All Oh My Pi material lives under this single foundation; prewalk, vibe workers, task orchestration, experiment control, and advisor delivery are all `references/` capsules here, not sibling leaves. Adopt pure contracts; adapt provider dialects, storage, and token estimators; omit OMP-specific telemetry and transports.
