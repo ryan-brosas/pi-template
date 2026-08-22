@@ -15,6 +15,7 @@ Pick at most 2 members below matching the task, most specific first; read each f
 - code-cleanup: simplify and deduplicate code
 - code-review-and-quality: review code and PRs
 - quality-gate-methodology: write tests/gates that catch (un-fixed+fixed, broad, expand don't duplicate)
+- farmed-test-harness: reuse farmed test patterns (cassette replay, client errors, fixtures)
 - deep-module-design: design deep module boundaries
 - defense-in-depth: validate at every layer
 - deprecation-and-migration: deprecate or migrate APIs

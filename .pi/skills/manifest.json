@@ -677,6 +677,12 @@
       "status": "retained",
       "pack": "pack-quality",
       "modelVisible": false
+    },
+    {
+      "name": "farmed-test-harness",
+      "status": "retained",
+      "pack": "pack-quality",
+      "modelVisible": false
     }
   ]
 }
