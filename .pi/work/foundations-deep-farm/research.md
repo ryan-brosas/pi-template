@@ -35,3 +35,8 @@ Turn indexed inspiration repositories into small, reusable code shortcuts. Codeb
 ## Mutation note
 
 The user approved editing the workflow and three retained references, deleting seven padded references, and aligning `scripts/validate-foundation-depth.mjs`. Unrelated working-tree changes, including the pre-existing deletion of `.pi/foundations.md`, remain untouched.
+
+## Serial code-grounded capsule pass
+
+- [IN PROGRESS:7] Oh My Pi is the only active source repository; eslint stays queued until this pilot closes.
+- capsule-v1 is opt-in: Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve. No line/reference/citation quota.

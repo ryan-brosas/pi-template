@@ -29,6 +29,7 @@ Before porting, rerun `index_status`, coverage for cited paths, bounded `search_
 - `references/agent-loop.md` — provider/tool loop, steering, pairing, and soft requirements.
 - `references/agent-wrapper.md` — prompt/continue ownership, queues, pause, replay, and append-only context.
 - `references/compaction-suite.md` — thresholds, legal cuts, estimates, prune/shake, and protection.
+- `references/replay-and-occupancy.md` — honest occupancy, provider-native replay compatibility, fallback, abort, and archive migration.
 
 ## Adopt / adapt / omit
 

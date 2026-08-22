@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Foundation evidence enforcement.
-// References are optional and their size/count is never scored. Existing debt is
-// regression-guarded; new or changed references must carry source anchors,
-// provenance, a verification/probe signal, and no authoring-floor padding.
+// References are optional and code stays ground truth. Existing files
+// keep their evidence: anchors, provenance, probes, and no authoring-floor padding.
+// A reference marked <!-- capsule-v1 --> also carries a retrieval contract.
 // See .pi/skills/pack-foundations/foundations-workflow/references/quality-bar.md.
 import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -21,24 +21,33 @@ const EXT_RE = /\.(tsx?|rs|py|jsx?|json|cpp|hpp|scss|css|md|sql|toml|sh|log)$/;
 const cite = (t) => (t.match(/`[^`]+`/g) ?? [])
   .map((s) => s.slice(1, -1))
   .filter((s) => EXT_RE.test(s) || /^[\w./-]+:\d/.test(s));
-const MIN_CITES = 5;
+const MIN_CITES = 0;
+const CAPSULE_MARKER = "<!-- capsule-v1 -->";
+const CAP_NAMES = ["Path/Symbol", "Signature", "Data Shape", "Flow", "Invariant", "Probe", "Retrieve"];
+const CAP_FIELDS = CAP_NAMES.map((n) => new RegExp("\\b" + n.replace(/\//g, "\\/") + "\\b", "i"));
 const DEPTH_RES = [/^##\s+Verif/m, /(\.test\.|tests?\/|test-driven)/i, /^> /m, /(the lesson|\*\*Probe:)/i];
 const PROV_RES = [/read in full|source-grounded|graph-first|Codebase Memory|walked in full|Studied main-session|read in full by the forge worker/i];
 const SCAFFOLD_RE = /\*\*(WHO|WHAT|WHEN|WHERE|WHY|HOW)\*\*/;
 const PADDING_RE = /cross(?:es|ed|ing)? (?:the )?(?:standing )?(?:authoring )?floor|floor confirm(?:ation)?|(?:700[- ]line|10[- ]reference|ten reference).*(?:floor|minimum)|minimums, not caps/i;
 
 function metric(text) {
+  const hasMarker = text.includes(CAPSULE_MARKER);
+  const capsuleMissing = hasMarker
+    ? CAP_FIELDS.map((re, i) => ({re, i})).filter((o) => !o.re.test(text)).map((o) => String(o.i))
+    : [];
   return {
     cites: cite(text).length,
     depth: DEPTH_RES.some((re) => re.test(text)) ? 1 : 0,
     prov: PROV_RES.some((re) => re.test(text)) ? 1 : 0,
     scaffold: SCAFFOLD_RE.test(text) ? 1 : 0,
     padding: PADDING_RE.test(text) ? 1 : 0,
+    capsuleMissing,
   };
 }
 function deficits(m) {
   const d = [];
   if (m.cites < MIN_CITES) d.push("cites:" + m.cites);
+  if (m.capsuleMissing && m.capsuleMissing.length) d.push("capsule:" + m.capsuleMissing.join("+"));
   if (!m.depth) d.push("depth");
   if (!m.prov) d.push("prov");
   if (m.scaffold) d.push("scaffold");

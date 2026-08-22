@@ -1,60 +1,25 @@
-# Foundation quality bar: shortcut utility
+# Foundation quality bar: code-grounded shortcut utility
 
-A foundation succeeds when another agent can select and port a proven primitive without rediscovering the repository. Size is not evidence.
+A foundation succeeds when another agent can retrieve and port proven code without rediscovering the repo. Source/tests are authoritative; a skill carries only the retrieval decision, the contract, and the behavioral boundary.
 
 ## The failure pattern
+Volume targets create repeated summaries, invented taxonomies, stale copied code, and prose that hides the contract. Never score by length, count, citation count, or the amount of code copied in.
 
-Volume targets create predictable artifacts: repeated summaries, invented section taxonomies, duplicated anchor lists, progress commentary embedded in documentation, and paragraphs whose only job is to cross a threshold. These make retrieval slower and hide the actual contract.
+## The useful unit: an implementation capsule
 
-Never reward reference count, line count, full-file reading, or prose mass by itself.
-
-## The useful unit
-
-Each skill line answers four questions:
-
-1. **When should I use this?** A precise trigger.
-2. **What do I reuse?** Exact path and symbol.
-3. **What must remain true?** The tested invariant or failure boundary.
-4. **How do I verify the port?** A named source test or direct behavioral probe.
-
-A reference exists only when one distinct porting question needs deeper treatment. Its natural structure is:
-
-- scope and provenance;
-- the graph-discovered flow;
-- source-confirmed contract and constraints;
-- adopt/adapt/omit guidance;
-- probes and known coverage gaps.
+A `<!-- capsule-v1 -->` reference answers one distinct porting question. It exposes Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve (the capsule fields the validator checks for the marker). Include a short interface, state transition, or labelled pseudocode only when it prevents a likely wrong implementation. A reference does not duplicate a whole module.
 
 ## Evidence hierarchy
-
-1. Current source and tests.
-2. Fresh, covered graph symbols and high-confidence traces.
-3. Source comments explaining a non-obvious trade-off.
-4. Documentation or history for context.
-
-The graph chooses what to inspect; it does not override source. A direct test read is mandatory when tests are excluded from the index.
+1. Current source + tests.
+2. Fresh, covered graph symbols + high-confidence traces.
+3. Source comments on non-obvious trade-offs.
+4. Documentation/history for context.
+The graph chooses what to inspect; source overrides it. Direct test reads are required for excluded paths.
 
 ## Behavior pressure test
-
-Score a scenario out of five:
-
-- 1: routes to the right foundation;
-- 1: selects a relevant primitive rather than a large file;
-- 1: names path/symbol and coverage state;
-- 1: preserves a named probe/invariant;
-- 1: avoids irrelevant reference loading.
-
-RED must expose a real miss. GREEN passes at 4/5 twice, including one adversarial variant. Compress after passing; if compression breaks the behavior, restore only the load-bearing instruction.
+Score 5 bars: right foundation, relevant primitive, exact retrieval target/coverage, preserved invariant/probe, no irrelevant loading. RED must expose a real miss; GREEN passes at 4/5 twice (incl. adversarial). No runner = record the block and use deterministic retrieval/probe checks; never fabricate a pass.
 
 ## Editorial checks
-
-- Concept names replace generic numbered studies.
-- Claims sit next to their anchors.
-- Quotes appear only when author intent changes the porting decision.
-- Scratch ledgers, worker scaffolding, and production-progress notes are absent.
-- No claim of completeness survives a truncated query or uncovered scope.
-- Unmined subsystems are named without pretending they were studied.
-
+Claims beside anchors; code context labelled; constants only when load-bearing; no diaries/glossary/threshold commentary; no completeness claim beyond fresh, covered scope.
 ## Reference acceptance
-
-A reference is done when its porting question, source anchors, verdicts, probes, provenance, and coverage caveats are all present. If removing a paragraph changes none of those, remove it.
+Done when porting question, retrieval anchor, capsule, verdict, probe, provenance, coverage caveat are present. Removing any non-load-bearing text is welcome.
