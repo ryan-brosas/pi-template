@@ -63,7 +63,8 @@
         "veda-foundation",
         "pi-better-openai-foundation",
         "pi-hermes-memory-foundation",
-        "dsh-template-foundation"
+        "dsh-template-foundation",
+        "pi-memory-foundation"
       ]
     },
     {
@@ -188,6 +189,7 @@
     "pi-better-openai-foundation": "Use when building a pi/OpenAI extension: layered config resolution with clamping, provider-payload fast-mode injection, Codex OAuth credential resolution, subscription usage snapshot parsing, and diagnostic secret redaction.",
     "pi-hermes-memory-foundation": "Use when building agent persistent memory: SQLite FTS5 memory/session search, atomic Markdown memory with metadata comments, a corruption-recovering SQLite manager, a cross-process atomic lock coordinator, a procedural skill store, standing instructions, and content/secret scanning.",
     "dsh-template-foundation": "Use when building a DeepSeek Harness (DSH) coding-agent template or harness: a dependency-free canonical check gate, a command-plugin that turns prompt files into slash-commands, a CDP browser-automation toolset, a profile patch layer, home config templates, and DSH workflow orchestration.",
+    "pi-memory-foundation": "Use when building a coding-agent persistent-memory extension: plain-Markdown memory with timestamp comments, line-preserving scratchpad mutations, forget/restore with durable recovery records, a KV-cache-stable context snapshot, and qmd-powered keyword/semantic/deep search.",
     "quality-gate-methodology": "Use when writing/reviewing tests or quality gates: test un-fixed+fixed, broad tests, expand don't duplicate, maintain test list, turn manual catches into workflows.",
     "farmed-test-harness": "Use when writing tests for HTTP/LLM/external-service code: reuse the farmed harness (cassette recording/replay, client error handling, pytest fixtures).",
     "code-discipline": "Use when implementing/reviewing/committing code: general code-discipline (scope, verification, type-safety, tests, context-gathering, one source of truth).",
