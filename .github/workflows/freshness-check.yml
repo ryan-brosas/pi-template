@@ -1,0 +1,32 @@
+name: freshness-check
+
+# Scheduled drift check (farmed from aider's check_pypi_version pattern):
+# runs the template's full check suite daily so drift is caught automatically,
+# not only when a PR happens to touch .pi/. A stale/regressed template fails
+# here even if no PR triggers the path-filtered workflows.
+
+on:
+  schedule:
+    # Run once a day at midnight UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Structural integrity
+        run: python3 scripts/check-integrity.py
+      - name: Quality gate
+        run: python3 scripts/quality-gate.py
+      - name: Repo hygiene
+        run: python3 scripts/repo-hygiene.py
+      - name: Report
+        run: echo "::notice::All checks pass — template is fresh and consistent."

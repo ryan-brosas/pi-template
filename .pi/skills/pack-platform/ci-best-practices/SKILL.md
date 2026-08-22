@@ -72,6 +72,13 @@ concurrency:
   downstream jobs when upstream succeeded.
 - Prefer reusable composite actions (`.github/actions/`) for repeated setup.
 
+## Scheduled drift checks
+
+- Run a `schedule` cron (daily) that re-runs the full check suite, so drift is
+  caught even when no PR triggers the path-filtered workflows. Farmed from
+  aider's `check_pypi_version` pattern (a scheduled version-drift check).
+- Use `workflow_dispatch` to allow manual triggering alongside the cron.
+
 ## When to use
 
 Apply these when writing or reviewing any GitHub Actions workflow. They
