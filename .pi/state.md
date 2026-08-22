@@ -26,7 +26,7 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 
 | Gate                       | Command                                        | Last result                               | Date       |
 |----------------------------|------------------------------------------------|-------------------------------------------|------------|
-| Canonical check            | `node scripts/check.mjs`                       | pass, seven validators + convention gate + git diff --check | 2026-08-16 |
+| Canonical check            | `node scripts/check.mjs`                       | pass, 8 validators + convention gate + git diff --check | 2026-08-16 |
 | Skill packs                | `node scripts/validate-skill-packs.mjs`        | pass, packs=10 leaves=88 visible=14       | 2026-08-12 |
 | Manifest parity            | `node scripts/sync-skill-manifest.mjs --check` | pass                                      | 2026-08-09 |
 | Routing probes             | `node scripts/probe-skill-routing.mjs`         | pass, all probes                          | 2026-08-09 |
@@ -39,7 +39,7 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 
 | Date       | Work                                              | Evidence                                                                                                                                                                                                                                                                                 |
 |------------|---------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2026-08-09 | Shipped progressive-disclosure skill packs        | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) at that time; since extended to 10 packs and 88 leaves                                                                                                                     |
+| 2026-08-09 | Shipped progressive-disclosure skill packs        | 12 visible skills (8 routers + 4 core), 58 hidden leaves, validator green, metadata 1,962 chars (~491 tokens) at that time; since extended to 11 packs and 116 leaves                                                                                                                     |
 | 2026-08-09 | Gathered user identity and workflow preferences   | Authenticated GitHub CLI profile plus explicit user answers                                                                                                                                                                                                                              |
 | 2026-08-09 | Completed deep repository detection               | Manifest, tool, CI, AI-rule, structure, Git-history, and codemap probes                                                                                                                                                                                                                  |
 | 2026-08-09 | Approved full initialization                      | User approved detailed core, context, and profile artifacts                                                                                                                                                                                                                              |
@@ -62,7 +62,7 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 | 2026-08-09 | Use detailed AI responses                                                                   | Explicit user choice                                                                                          | Explanations should include evidence, constraints, and verification detail                                                    | User answers                             |
 | 2026-08-09 | Use auto-commit as the user's general Git preference                                        | Explicit user choice                                                                                          | Agents may commit completed scoped work; they must still avoid unrelated changes and respect explicit task constraints        | User answers                             |
 | 2026-08-09 | Preserve the current dirty worktree                                                         | Multi-agent safety and observed status                                                                        | Stage only declared files if a later task creates a commit                                                                    | git status, AGENTS.md Multi-Agent Safety |
-| 2026-08-09 | Organize skills as progressive-disclosure packs                                             | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate; now 10 packs and 88 leaves | packs.json, manifest.json, validator     |
+| 2026-08-09 | Organize skills as progressive-disclosure packs                                             | Reduce always-visible skill metadata from ~3,362 to ~491 tokens while keeping direct `/skill:leaf` invocation | Eight pack routers, four visible core skills, hidden leaves, `packs.json` catalog, validator gate; now 11 packs and 116 leaves | packs.json, manifest.json, validator     |
 
 ## Current Architecture
 
@@ -105,7 +105,7 @@ There is no source-code execution graph, data layer, UI, or deployment target in
 ### Technical
 
 - Progressive-disclosure packs keep visible skill metadata under the 1,200-token budget; current use is 2,262 chars (~566 tokens).
-- The canonical check and seven structural validators are dependency-free and run on plain Node.
+- The canonical check and 8 structural validators are dependency-free and run on plain Node.
 
 ### Product
 

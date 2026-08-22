@@ -6,13 +6,13 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 - **Goal:** Give a developer a clonable, dependency-free Pi coding-agent workspace with ready-to-use prompts, skills, templates, settings, and a mutation guard, so a new Pi project starts without setup work.
 - **Status:** Polish. The baseline is functional; work is incremental refinement of skills, prompts, and rules.
-- **Milestone:** Baseline with 9 slash commands, 102 skill files (92 leaves in 10 packs), 12 format templates, and the Schema guard. Evidence: validator output 2026-08-12 (packs=10, leaves=92, routers=10, visible=14).
+- **Milestone:** Baseline with 9 slash commands, 127 skill files (116 leaves in 11 packs), 12 format templates, and the Schema guard. Evidence: validator output 2026-08-22 (packs=11, leaves=116, routers=11, visible=15).
 - **Next Milestone:** None planned. Direction comes from .pi/roadmap.md, which the user owns.
 
 ## Success Criteria
 
 1. A developer clones the repository, trusts it in Pi, reloads, and runs /init to get a complete context artifact set. (Verifiable by following README.md:9-17.)
-2. The canonical `node scripts/check.mjs` command exits 0. It runs all seven structural validators, a commit-convention gate, and `git diff --check`; GitHub CI runs the same command. (Verifiable locally and in `.github/workflows/check.yml`.)
+2. The canonical `node scripts/check.mjs` command exits 0. It runs all 8 structural validators, a commit-convention gate, and `git diff --check`; GitHub CI runs the same command. (Verifiable locally and in `.github/workflows/check.yml`.)
 3. Mutating commands defer to the Schema guard and never touch unrelated working-tree changes. (Verifiable by command behavior and scope checks.)
 4. The repository stays clonable with no package install, build, or runtime harness. (Verifiable by README.md:7,16 and the absence of manifests.)
 
@@ -41,10 +41,10 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 - **Architectural style:** Configuration and documentation template. No source tree, no build, no runtime harness. (README.md:7,16.)
 - **Component Responsibilities:**
   - Prompts (.pi/prompts/) - 9 slash commands; each is a self-contained workflow with a Schema boundary section.
-  - Skills (.pi/skills/) - 92 leaves in 10 packs (10 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
+  - Skills (.pi/skills/) - 116 leaves in 11 packs (11 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
   - Templates (.pi/templates/) - 12 format templates rendered by /init, /create, /plan, and /verify.
   - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Pi Fabric Schema configuration.
-  - Gates (scripts/) - one canonical check runner and 7 dependency-free Node validators owned by the template itself.
+  - Gates (scripts/) - one canonical check runner and 8 dependency-free Node validators owned by the template itself.
   - Context artifacts (AGENTS.md, .pi/*.md) - durable product and architecture records.
 - **Composition Roots:** No application composition. The Pi host and the /init command are the wiring points: Pi loads .pi/settings.json and .pi/prompts/; /init renders templates into artifacts.
 - **Dependency Rules:** Pi host reads .pi/settings.json and .pi/prompts/; Pi Fabric reads .pi/fabric.json; scripts read .pi/skills/packs.json and manifest.json; /init renders .pi/templates/*.md. No layer imports another; nothing depends on application code because none exists.
@@ -78,7 +78,7 @@ No application runtime exists. The operator entrypoints are the slash commands:
 - **Configuration sources:** .pi/settings.json (Pi runtime), .pi/fabric.json (Pi Fabric Schema: mode enforce or audit, trustedCommands), prompt frontmatter, and AGENTS.md rules. On conflict, AGENTS.md rule precedence applies (Rule 0).
 - **Secrets:** None in the template; AGENTS.md bans committed credentials and requires runtime env/config reads.
 - **Environments:** None; clone-and-start. The repository has no dev/staging/production split.
-- **Validation:** .pi/fabric.json and .pi/settings.json values are documented in README and validated by inspection; [NEEDS CLARIFICATION: a schema-level config validator is a Phase 2 roadmap candidate].
+- **Validation:** .pi/fabric.json and .pi/settings.json values are documented in README and validated by inspection; Roadmap Phase 2 (Contract Verification) adds prompt, config, and template validators (`.pi/roadmap.md`).
 
 ## Data Ownership
 
@@ -110,7 +110,7 @@ No external application API, database, deployment provider, or credential-bearin
 
 - **Unit, integration, contract, e2e seams:** None. The repository has no application test suite.
 - **Test locations:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Canonical gate:** `node scripts/check.mjs` runs the seven structural validators, a commit-convention gate (unpushed commit subjects and branch names), and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Pi Fabric and AGENTS contracts, work management, Notion workspace safety, and release hygiene.
+- **Canonical gate:** `node scripts/check.mjs` runs the eight structural validators, a commit-convention gate (unpushed commit subjects and branch names), and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Pi Fabric and AGENTS contracts, work management, Notion workspace safety, foundation depth, and release hygiene.
 - **CI:** `.github/workflows/check.yml` runs the canonical gate on pushes to `main` and pull requests.
 - **Coverage gaps:** The repository has no application test suite. Slash-command behavior still requires direct Pi probes when a prompt workflow changes.
 
@@ -149,7 +149,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Known Risks and Hotspots
 
 - Large uncommitted working-tree cleanup. Many tracked files are deleted or modified; a careless commit could sweep unrelated work.
-- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 92 leaves in 10 packs. Regenerate tech-stack.md when the catalog changes.
+- Stale generated counts. A previous tech-stack.md said 62 skills in 8 packs; the catalog now has 116 leaves in 11 packs. Regenerate tech-stack.md when the catalog changes.
 - CI covers structural contracts. It does not execute interactive Pi slash-command flows.
 - No application tests exist. Prompt regressions surface through validators, routing probes, and direct Pi workflow checks.
 
@@ -167,7 +167,7 @@ No external application API, database, deployment provider, or credential-bearin
 - README.md:9-17 install flow; README.md:18-39 layout and generated-state boundaries; README.md:41-58 command table; README.md:34-35 removed OpenCode wrappers.
 - AGENTS.md Mutation Authority, Skills, Constraints, Architecture sections.
 - .pi/settings.json and .pi/fabric.json configuration values.
-- `node scripts/check.mjs` is the canonical local and CI gate; it runs all seven validators, a commit-convention gate, and `git diff --check`.
+- `node scripts/check.mjs` is the canonical local and CI gate; it runs all eight validators, a commit-convention gate, and `git diff --check`.
 - git remote -v shows origin at github.com/ryan-brosas/pi-template.git.
 
 ---

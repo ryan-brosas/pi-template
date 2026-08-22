@@ -19,7 +19,6 @@
         "development-lifecycle",
         "fabric-native-execution",
         "incremental-implementation",
-        "jetbrains-ide-workflow",
         "planning-and-task-breakdown",
         "prototype",
         "shipping-and-launch",
@@ -101,28 +100,6 @@
       ]
     },
     {
-      "id": "pack-frontend",
-      "description": "Frontend and UI router: React web UI, components, styling, design systems, accessibility, browser testing, mockup conversion, redesign, UX review.",
-      "members": [
-        "accessibility-audit",
-        "browser-testing-with-devtools",
-        "browser-tools",
-        "chrome-devtools",
-        "design-system-audit",
-        "design-taste-frontend",
-        "figma",
-        "frontend-design",
-        "high-end-visual-design",
-        "industrial-brutalist-ui",
-        "minimalist-ui",
-        "mockup-to-code",
-        "playwright",
-        "react-best-practices",
-        "redesign-existing-projects",
-        "ux-review"
-      ]
-    },
-    {
       "id": "pack-platform",
       "description": "Platform and delivery-infrastructure router: CI/CD, Cloudflare, Vercel deployment, Git workflow, worktrees.",
       "members": [
@@ -134,25 +111,6 @@
       ]
     },
     {
-      "id": "pack-data",
-      "description": "Data and persistence router: Supabase, Postgres best practices, Core Data, Polar, Resend.",
-      "members": [
-        "core-data-expert",
-        "polar",
-        "resend",
-        "supabase",
-        "supabase-postgres-best-practices"
-      ]
-    },
-    {
-      "id": "pack-apple",
-      "description": "Apple platform router: Swift concurrency and SwiftUI development.",
-      "members": [
-        "swift-concurrency",
-        "swiftui-expert-skill"
-      ]
-    },
-    {
       "id": "pack-authoring",
       "description": "Authoring and documentation router: writing or editing skills, documentation, ADRs, API and interface design.",
       "members": [
@@ -161,42 +119,11 @@
         "upwork-proposals",
         "writing-skills"
       ]
-    },
-    {
-      "id": "pack-backend",
-      "description": "Backend and service router: server architecture, API implementation, Python web frameworks, background jobs, observability, and distributed-system patterns.",
-      "members": [
-        "backend-architecture",
-        "api-implementation",
-        "flask-development",
-        "fastapi-development",
-        "django-development",
-        "background-jobs",
-        "service-observability",
-        "distributed-systems-patterns"
-      ]
-    },
-    {
-      "id": "pack-toolchains",
-      "description": "Language and runtime router: Python, Go, Rust, Java, .NET, Ruby, PHP, Elixir, defensive shell scripting, and container development conventions.",
-      "members": [
-        "python-development",
-        "go-development",
-        "rust-development",
-        "java-development",
-        "dotnet-development",
-        "ruby-development",
-        "php-development",
-        "elixir-development",
-        "shell-development",
-        "container-development"
-      ]
     }
   ],
   "_descriptions": {
     "development-lifecycle": "Use when planning a project lifecycle, milestones, or development phases.",
     "incremental-implementation": "Use when implementing any feature or refactor touching more than one file.",
-    "jetbrains-ide-workflow": "Use when a JetBrains IDE is connected for project-aware development operations.",
     "planning-and-task-breakdown": "Use when breaking a goal into tasks, estimating, or sequencing work.",
     "prototype": "Use when building a throwaway prototype or validating an idea.",
     "shipping-and-launch": "Use when shipping, releasing, launching, or productionizing.",
@@ -238,55 +165,15 @@
     "codebase-memory": "Use when navigating or comparing repositories through the Codebase Memory MCP graph.",
     "evidence-router": "Use when choosing bounded research routes: Codebase Memory, JetBrains, Fovea, DeepWiki, Context7, or web search.",
     "zoom-out": "Use to step back from details to the bigger picture.",
-    "accessibility-audit": "Use when auditing or fixing accessibility.",
-    "browser-testing-with-devtools": "Use for browser tests and UI verification.",
-    "browser-tools": "Use for browser automation and interaction.",
-    "chrome-devtools": "Use when debugging with Chrome DevTools.",
-    "design-system-audit": "Use when auditing or building a design system.",
-    "design-taste-frontend": "Use for frontend visual quality and taste.",
-    "figma": "Use when working with Figma design files.",
-    "frontend-design": "Use when building React-based web UI.",
-    "high-end-visual-design": "Use for premium, agency-quality visual design.",
-    "industrial-brutalist-ui": "Use for industrial or brutalist styling.",
-    "minimalist-ui": "Use for minimalist visual styling.",
-    "mockup-to-code": "Use when converting mockups or designs to code.",
-    "playwright": "Use when running automated browser tests.",
-    "react-best-practices": "Use when building or reviewing React components.",
-    "redesign-existing-projects": "Use when redesigning an existing project.",
     "ci-cd-and-automation": "Use when setting up CI/CD or automation.",
     "cloudflare": "Use when working with Cloudflare products.",
     "git-workflow-and-versioning": "Use for git workflow, branching, or versioning decisions.",
     "using-git-worktrees": "Use when working with git worktrees.",
     "vercel-deploy-claimable": "Use when deploying to Vercel or requesting a preview link.",
-    "core-data-expert": "Use when working with Apple Core Data.",
-    "polar": "Use when working with Polar payments or subscriptions.",
-    "resend": "Use when sending email with Resend.",
-    "supabase": "Use when working with Supabase projects.",
-    "supabase-postgres-best-practices": "Use for Postgres/Supabase schema and query best practices.",
-    "swift-concurrency": "Use when writing Swift concurrency code.",
-    "swiftui-expert-skill": "Use when building or reviewing SwiftUI.",
     "documentation-and-adrs": "Use when writing documentation or ADRs.",
     "writing-skills": "Use when creating or editing skills.",
     "notion-workspace": "Use when managing Notion pages, databases, or a central Notion workspace.",
     "upwork-proposals": "Use when writing an Upwork application or job proposal.",
-    "backend-architecture": "Use when designing backend service structure, layering, or boundaries.",
-    "api-implementation": "Use when designing or implementing HTTP APIs and error contracts.",
-    "flask-development": "Use when building Flask web apps or APIs.",
-    "fastapi-development": "Use when building FastAPI services with Pydantic and OpenAPI.",
-    "django-development": "Use when building Django apps or DRF APIs.",
-    "background-jobs": "Use when adding queues, workers, or scheduled jobs.",
-    "service-observability": "Use when adding logs, metrics, traces, or health checks.",
-    "distributed-systems-patterns": "Use when designing multi-service reliability patterns.",
-    "python-development": "Use when writing or reviewing Python code.",
-    "go-development": "Use when writing or reviewing Go code.",
-    "rust-development": "Use when writing or reviewing Rust code.",
-    "java-development": "Use when writing or reviewing Java or Spring Boot.",
-    "dotnet-development": "Use when writing or reviewing C# and .NET.",
-    "ruby-development": "Use when writing or reviewing Ruby or Rails.",
-    "php-development": "Use when writing or reviewing PHP.",
-    "elixir-development": "Use when writing or reviewing Elixir or Phoenix.",
-    "shell-development": "Use when writing or reviewing shell scripts.",
-    "container-development": "Use when writing Dockerfiles or Compose files.",
     "task-scoped-execution": "Use when executing an ordered plan where each task needs acceptance review and bounded correction.",
     "github-contribution-opportunities": "Use when finding and qualifying legitimate GitHub pull-request contribution opportunities.",
     "codex-websearch": "Use when you need current web facts, documentation discovery, or cited search results through the Codex web-search extension.",

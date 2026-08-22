@@ -39,7 +39,7 @@ There is no `src/`, `lib/`, or `app/` source tree and no indexed application cod
 
 ## Project Dependencies vs Host Tools
 
-- **Project dependencies:** None. The repository requires only the Pi host and Pi Fabric; the seven validation scripts run on plain Node with no imports beyond Node built-ins.
+- **Project dependencies:** None. The repository requires only the Pi host and Pi Fabric; the 8 validation scripts run on plain Node with no imports beyond Node built-ins.
 - **Host tools (installed, not project dependencies):** these programs are available in the local environment. They become stack entries only when a project file uses them. Veda and AGY are now used by README's Optional Veda lane; the rest are installed but not project-used.
 
 | Tool        | Version | Evidence                        | Used by the project?                                                                              |
@@ -89,6 +89,7 @@ Do not add commands based only on this host inventory. A project command require
 | `node scripts/probe-skill-routing.mjs`                   | works  | Router dispatch probes                                                                           | 2026-08-09, exit 0 |
 | `node scripts/validate-pi-fabric.mjs`                    | works  | Schema dispositions, mode config (enforce or audit), skill paths                                 | 2026-08-09, exit 0 |
 | `node scripts/validate-work-management.mjs`              | works  | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety             | 2026-08-09, exit 0 |
+| `node scripts/validate-foundation-depth.mjs`           | works  | Foundation depth: debt ledger, clearance bar                              | 2026-08-22, exit 0 |
 | `node scripts/validate-notion-workspace-skill.mjs`       | works  | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
 | `node scripts/check.mjs`                                 | works  | Canonical gate: all validators + commit-convention gate + `git diff --check`                     | 2026-08-16, exit 0 |
 | `node scripts/validate-release-hygiene.mjs`              | works  | Release hygiene: machine paths, secrets, runtime state, documented counts                        | 2026-08-11, exit 0 |
@@ -109,9 +110,9 @@ Do not add commands based only on this host inventory. A project command require
 ## Testing
 
 - **Unit / integration / contract / e2e tests:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** the seven Node scripts above, run before completion claims.
+- **Structural gates:** the 8 Node scripts above, run before completion claims.
  - **CI static analysis:** Qodana (JetBrains engine) scans via `.github/workflows/qodana.yml` with the per-project `qodana.yaml`; needs a `QODANA_TOKEN` secret (skips without it); SARIF uploads to code scanning.
-- **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. [NEEDS CLARIFICATION: roadmap Phase 2 decides whether template validators are added].
+- **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. Roadmap Phase 2 (Contract Verification) lays out prompt, config, and template validators (.pi/roadmap.md).
 
 ## Active Integrations
 
@@ -145,7 +146,7 @@ No external application API, database, deployment provider, or credential-bearin
 ## Unknowns
 
 - Pi Fabric 0.48.0 requires Node.js 24+ and Pi 0.80.6+; a formal supported-version policy remains [NEEDS CLARIFICATION: roadmap Phase 4]
-- Whether a config-schema validator is added: [NEEDS CLARIFICATION: roadmap Phase 2 design question]
+- Whether a config-schema validator is added: scoped in roadmap Phase 2 (Contract Verification, `.pi/roadmap.md`).
 - Branch protection on the GitHub remote: [NEEDS CLARIFICATION: no git config or remote-settings evidence]
 
 ## Context Budget Guidelines

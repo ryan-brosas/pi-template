@@ -71,10 +71,9 @@ open source). Without the secret the workflow skips and CI stays green.
 ## Skills and Templates
 
 
-- Skills: 131 skill files — 11 pack routers, 116 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
-  Eleven visible pack routers (pack-delivery, pack-foundations, pack-quality, pack-research,
-  pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
-  pack-backend, pack-toolchains) route by
+- Skills: 85 skill files — 6 pack routers, 75 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
+  Six visible pack routers (pack-delivery, pack-foundations, pack-quality, pack-research,
+  pack-platform, pack-authoring) route by
   task; four core safety skills stay visible; all other leaves are hidden from
   automatic model invocation (`disable-model-invocation: true`) but stay
   invocable via `/skill:<name>`. Membership is owned by `.pi/skills/packs.json`;

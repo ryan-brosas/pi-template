@@ -88,6 +88,10 @@ then `schema.commit` with declared operations and nonempty postconditions.
   `/verify`.
 - `.pi/work/`: tracked durable work records; local pointers and progress logs
   stay ignored.
+- `.pi/essentials/`: the operating philosophy (mentor Tom) — code is ground
+  truth, steer outcomes not behavior, stack your leverage. Read these when
+  deciding how to approach work; they guide *how* we work without over-
+  restricting behavior. See `operating-philosophy.md` for the synthesis.
 ## Conventions
 
 - Branch names: at most three hyphen-separated lowercase words, no slashes,

@@ -21,15 +21,177 @@
     {
       "name": "webclaw",
       "reason": "no webclaw CLI, MCP server, or extension on the host; disconnected 2026-08-12; browser fallbacks now use plain fetch/curl"
+    },
+    {
+      "name": "accessibility-audit",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "api-implementation",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "backend-architecture",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "background-jobs",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "browser-testing-with-devtools",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "browser-tools",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "chrome-devtools",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "container-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "core-data-expert",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "design-system-audit",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "design-taste-frontend",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "distributed-systems-patterns",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "django-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "dotnet-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "elixir-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "fastapi-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "figma",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "flask-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "frontend-design",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "go-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "high-end-visual-design",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "industrial-brutalist-ui",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "java-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "minimalist-ui",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "mockup-to-code",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "php-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "playwright",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "polar",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "python-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "react-best-practices",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "redesign-existing-projects",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "resend",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "ruby-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "rust-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "service-observability",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "shell-development",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "supabase",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "supabase-postgres-best-practices",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "swift-concurrency",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "swiftui-expert-skill",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "ux-review",
+      "reason": "app-stack cruft removed for pi.dev+fovea+fabric template focus"
+    },
+    {
+      "name": "jetbrains-ide-workflow",
+      "reason": "conflicts with fovea (IDE/ACP layer)"
     }
   ],
   "retained": [
-    {
-      "name": "accessibility-audit",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
     {
       "name": "agent-code-quality-gate",
       "status": "retained",
@@ -55,27 +217,9 @@
       "modelVisible": false
     },
     {
-      "name": "api-implementation",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
       "name": "app-experience-mapping",
       "status": "retained",
       "pack": "pack-delivery",
-      "modelVisible": false
-    },
-    {
-      "name": "backend-architecture",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
-      "name": "background-jobs",
-      "status": "retained",
-      "pack": "pack-backend",
       "modelVisible": false
     },
     {
@@ -109,27 +253,9 @@
       "modelVisible": false
     },
     {
-      "name": "browser-testing-with-devtools",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "browser-tools",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
       "name": "browser-use-foundation",
       "status": "retained",
       "pack": "pack-foundations",
-      "modelVisible": false
-    },
-    {
-      "name": "chrome-devtools",
-      "status": "retained",
-      "pack": "pack-frontend",
       "modelVisible": false
     },
     {
@@ -181,21 +307,9 @@
       "modelVisible": false
     },
     {
-      "name": "container-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
       "name": "continue-foundation",
       "status": "retained",
       "pack": "pack-foundations",
-      "modelVisible": false
-    },
-    {
-      "name": "core-data-expert",
-      "status": "retained",
-      "pack": "pack-data",
       "modelVisible": false
     },
     {
@@ -223,51 +337,15 @@
       "modelVisible": false
     },
     {
-      "name": "design-system-audit",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "design-taste-frontend",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
       "name": "development-lifecycle",
       "status": "retained",
       "pack": "pack-delivery",
       "modelVisible": false
     },
     {
-      "name": "distributed-systems-patterns",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
-      "name": "django-development",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
       "name": "documentation-and-adrs",
       "status": "retained",
       "pack": "pack-authoring",
-      "modelVisible": false
-    },
-    {
-      "name": "dotnet-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
-      "name": "elixir-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
       "modelVisible": false
     },
     {
@@ -295,33 +373,9 @@
       "modelVisible": false
     },
     {
-      "name": "fastapi-development",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
-      "name": "figma",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "flask-development",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
       "name": "foundations-workflow",
       "status": "retained",
       "pack": "pack-foundations",
-      "modelVisible": false
-    },
-    {
-      "name": "frontend-design",
-      "status": "retained",
-      "pack": "pack-frontend",
       "modelVisible": false
     },
     {
@@ -340,12 +394,6 @@
       "name": "github-contribution-opportunities",
       "status": "retained",
       "pack": "pack-research",
-      "modelVisible": false
-    },
-    {
-      "name": "go-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
       "modelVisible": false
     },
     {
@@ -373,12 +421,6 @@
       "modelVisible": false
     },
     {
-      "name": "high-end-visual-design",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
       "name": "improve-codebase-architecture",
       "status": "retained",
       "pack": "pack-quality",
@@ -386,24 +428,6 @@
     },
     {
       "name": "incremental-implementation",
-      "status": "retained",
-      "pack": "pack-delivery",
-      "modelVisible": false
-    },
-    {
-      "name": "industrial-brutalist-ui",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "java-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
-      "name": "jetbrains-ide-workflow",
       "status": "retained",
       "pack": "pack-delivery",
       "modelVisible": false
@@ -442,18 +466,6 @@
       "name": "mem0-foundation",
       "status": "retained",
       "pack": "pack-foundations",
-      "modelVisible": false
-    },
-    {
-      "name": "minimalist-ui",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "mockup-to-code",
-      "status": "retained",
-      "pack": "pack-frontend",
       "modelVisible": false
     },
     {
@@ -499,12 +511,6 @@
       "modelVisible": false
     },
     {
-      "name": "php-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
       "name": "pi-fabric-foundation",
       "status": "retained",
       "pack": "pack-foundations",
@@ -520,18 +526,6 @@
       "name": "planning-and-task-breakdown",
       "status": "retained",
       "pack": "pack-delivery",
-      "modelVisible": false
-    },
-    {
-      "name": "playwright",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "polar",
-      "status": "retained",
-      "pack": "pack-data",
       "modelVisible": false
     },
     {
@@ -559,30 +553,6 @@
       "modelVisible": false
     },
     {
-      "name": "python-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
-      "name": "react-best-practices",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "redesign-existing-projects",
-      "status": "retained",
-      "pack": "pack-frontend",
-      "modelVisible": false
-    },
-    {
-      "name": "resend",
-      "status": "retained",
-      "pack": "pack-data",
-      "modelVisible": false
-    },
-    {
       "name": "roo-foundation",
       "status": "retained",
       "pack": "pack-foundations",
@@ -595,34 +565,10 @@
       "modelVisible": false
     },
     {
-      "name": "ruby-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
-      "name": "rust-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
-    },
-    {
       "name": "security-and-hardening",
       "status": "retained",
       "pack": "core",
       "modelVisible": true
-    },
-    {
-      "name": "service-observability",
-      "status": "retained",
-      "pack": "pack-backend",
-      "modelVisible": false
-    },
-    {
-      "name": "shell-development",
-      "status": "retained",
-      "pack": "pack-toolchains",
-      "modelVisible": false
     },
     {
       "name": "shipping-and-launch",
@@ -640,30 +586,6 @@
       "name": "spec-driven-development",
       "status": "retained",
       "pack": "pack-delivery",
-      "modelVisible": false
-    },
-    {
-      "name": "supabase",
-      "status": "retained",
-      "pack": "pack-data",
-      "modelVisible": false
-    },
-    {
-      "name": "supabase-postgres-best-practices",
-      "status": "retained",
-      "pack": "pack-data",
-      "modelVisible": false
-    },
-    {
-      "name": "swift-concurrency",
-      "status": "retained",
-      "pack": "pack-apple",
-      "modelVisible": false
-    },
-    {
-      "name": "swiftui-expert-skill",
-      "status": "retained",
-      "pack": "pack-apple",
       "modelVisible": false
     },
     {
@@ -706,12 +628,6 @@
       "name": "using-git-worktrees",
       "status": "retained",
       "pack": "pack-platform",
-      "modelVisible": false
-    },
-    {
-      "name": "ux-review",
-      "status": "retained",
-      "pack": "pack-frontend",
       "modelVisible": false
     },
     {

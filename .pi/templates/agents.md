@@ -90,6 +90,10 @@ Omit this section when no verified trap exists.
 
 - `[path]`: [responsibility]
 - `[path]`: [responsibility]
+- `.pi/essentials/`: the operating philosophy (mentor Tom) — code is ground
+  truth, steer outcomes not behavior, stack your leverage. Read these when
+  deciding how to approach work; they guide *how* we work without over-
+  restricting behavior. See `operating-philosophy.md` for the synthesis.
 
 Keep this map compact. Link to `.pi/project.md` for architecture details.
 
