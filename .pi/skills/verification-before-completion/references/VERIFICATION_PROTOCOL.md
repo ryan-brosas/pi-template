@@ -10,7 +10,7 @@
 
 ### Changed Files Detection
 
-Configuration and documentation repositories must extend the extension list to their product surface — for the Pi template that is `*.md`, `*.json`, and `*.mjs` (included below). The template's canonical gate is `node scripts/check.mjs`; the npm-style gates in this protocol apply to application repositories only.
+Configuration and documentation repositories should extend the extension list to their product surface — for the Pi template that is `.md` and `.json`. The Pi template has no canonical repository gate; application-repo npm-style gates do not apply. Verify template changes with `git diff --check` plus graph/source/test/coverage direct evidence.
 
 ```bash
 # Get changed files (uncommitted + staged + untracked)

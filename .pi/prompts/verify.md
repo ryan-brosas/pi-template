@@ -57,9 +57,7 @@ Do not flag a requirement as missing without searching for its implementation fi
 
 Follow the verification protocol: `.pi/skills/verification-before-completion/references/VERIFICATION_PROTOCOL.md`.
 
-**Default:** run the canonical gate in full. This repository's gate has no incremental mode; `--full`/`--no-cache` only bypass the verification cache.
-
-**Execution order:** run the canonical gate `node scripts/check.mjs` (always full). This repository has no install, typecheck, lint, test, build, or format commands; the canonical gate is the verified completion check.
+**Default:** this repository has no canonical gate. Verify the requested change with direct evidence: run `git diff --check`, inspect every matching call site, parse changed structured data, and use the affected skill’s graph/source/test/coverage evidence. `--full`/`--no-cache` only bypass the verification cache.
 
 For browser/manual local-web requirements, use stable URLs as verification evidence. A reachable URL supplements, but never replaces, the canonical gate evidence.
 

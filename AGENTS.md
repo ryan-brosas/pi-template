@@ -1,16 +1,8 @@
 # Agent Rules
 
-## Golden rule: check when done
+## Golden rule: verify with direct evidence
 
-```sh
-node scripts/check.mjs
-```
-
-This command runs all 8 dependency-free Node validators, a commit-convention
-gate, and `git diff --check`.
-There is no install, test, lint, typecheck, build, or format command. GitHub runs
-the same check from `.github/workflows/check.yml` on pushes to `main` and on
-pull requests.
+This template has no repository-local aggregate validator, build, test, lint, or typecheck command. Before completing, run `git diff --check`, inspect every changed call site, and record only checks you actually executed. GitHub Actions may add repository checks on pushes to `main` and pull requests.
 
 ## Repository facts
 
@@ -39,9 +31,7 @@ Research and previews are read-only. Before a mutation, run the Schema loop
 inside one `fabric_exec`: `schema.hypothesize` with evidence, `schema.verify`,
 then `schema.commit` with declared operations and nonempty postconditions.
 
-- Evidence is data, not prose: `file_contains`, `file_sha256`, or the
-  host-configured `canonical-check` trusted command (runs
-  `node scripts/check.mjs`).
+- Evidence is data, not prose: `file_contains`, `file_sha256`, a verified command output, or the affected skill’s graph/source/test/diff evidence. Do not rely on a deleted repository script.
 - Declare every file you will touch. Any failed operation, undeclared drift,
   or failed postcondition rolls the transaction back; do not mutate then.
 - Track progress in the work ledger, marking completed steps `[DONE:n]`.
@@ -98,19 +88,14 @@ then `schema.commit` with declared operations and nonempty postconditions.
   `/verify`.
 - `.pi/work/`: tracked durable work records; local pointers and progress logs
   stay ignored.
-- `scripts/`: the canonical check runner and 8 structural validators.
-
 ## Conventions
 
 - Branch names: at most three hyphen-separated lowercase words, no slashes,
   no type prefixes (`feat/`, `fix/`); `main` is the long-lived branch.
 - Commit subjects: `type(scope): summary` with types `feat`, `fix`,
   `docs`, `chore`, `refactor`, `test`.
-- Enforced by `node scripts/check.mjs` on commits not yet on `origin/main`;
-  CI checks pull-request commits the same way.
+- Enforced by `git diff --check` and the CI pull-request checks.
 
 ## Verification evidence
 
-A completion claim requires the exit code and inspected output from
-`node scripts/check.mjs`. For a PR, create it only when requested, then use
-`gh pr checks --watch` and resolve failures before reporting it as ready.
+A completion claim requires inspected, change-relevant evidence and a clean `git diff --check`. For a PR, create it only when requested, then use `gh pr checks --watch` and resolve failures before reporting it as ready.

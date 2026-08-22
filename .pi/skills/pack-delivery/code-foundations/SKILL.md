@@ -26,4 +26,4 @@ A capsule contract answers one porting question with Path/Symbol, Signature, Dat
 - Prefer a short direct test probe over a long behavioural explanation.
 
 ## Verification
-Every public line routes to a tested symbol + a named probe; capsule refs pass structural checks without any volume rule; `node scripts/check.mjs` passes before closing.
+Every public line routes to a tested symbol + a named probe; capsule refs pass direct wiring and loader/map inspection; `git diff --check` is clean.

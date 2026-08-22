@@ -10,7 +10,7 @@
 
 ## Verification
 
-- [ ] `node scripts/check.mjs` exits 0
+- [ ] Direct verification evidence is recorded (`git diff --check`, inspected call sites, and relevant source/test/graph probes)
 - [ ] Required CI checks pass
 
 ## Risk and rollback

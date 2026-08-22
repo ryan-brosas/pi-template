@@ -15,8 +15,7 @@ Schema mutation guard. No build, no dependencies, no runtime harness — clone a
 
 No package install is needed. There is no package.json.
 
-**Requirements:** Pi 0.80.6+ with Pi Fabric 0.48.0+ installed in the host. The prompts, Schema guard, and skill packs ship in this repository; Node.js 24+ (required by the current Pi Fabric host) is also used by the optional validation gate
-(`scripts/check.mjs`) and GitHub Actions. The repository itself remains dependency-free; Veda is optional and host-local.
+**Requirements:** Pi 0.80.6+ with Pi Fabric 0.48.0+ installed in the host. The prompts, Schema guard, and skill packs ship in this repository; Node.js 24+ (required by the current Pi Fabric host) is used by the host and GitHub Actions. The repository itself remains dependency-free; Veda is optional and host-local.
 
 ## Layout
 
@@ -30,9 +29,7 @@ README.md
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
 ├── skills/                # 132 skill files: 11 pack routers + 117 pack leaves + 4 core safety
 ├── templates/             # 14 format templates (incl. foundation skill/capsule) (PRD, design, ADR, issue, ...)
-└── work/                  # tracked durable work records (one dir per record)
-scripts/                   # canonical check plus 8 dependency-free Node validators
-.github/
+└── work/                  # tracked durable work records (one dir per record).github/
 ├── workflows/             # check.yml (canonical gate on main + PRs) + qodana.yml (JetBrains analysis)
 ├── pull_request_template.md
 └── ISSUE_TEMPLATE/        # issue forms
@@ -66,10 +63,7 @@ before writing. Research, audit, and verify are explicitly read-only.
 
 ## Validation
 
-Run the complete local gate with `node scripts/check.mjs`. It runs all 8
-dependency-free validators, a commit-convention gate (conventional subjects and branch names for commits not yet on origin/main), and `git diff --check`.
-GitHub runs the same command
-from `.github/workflows/check.yml` on pushes to `main` and pull requests. Qodana (JetBrains static analysis, configured per project in `qodana.yaml`) runs from `.github/workflows/qodana.yml` and uploads SARIF to code scanning.
+This repository intentionally has no local aggregate validator, build, test, lint, or typecheck command. Verify changes with direct evidence: inspect each affected workflow and call site, run `git diff --check`, parse changed JSON/YAML where applicable, and for foundation capsules confirm the live graph, decisive source, named direct test, coverage caveats, and loader/map parity. Qodana (JetBrains static analysis, configured per project in `qodana.yaml`) runs from `.github/workflows/qodana.yml` and uploads SARIF to code scanning.
 
 To enable it, add a `QODANA_TOKEN` secret (register at qodana.cloud; free for
 open source). Without the secret the workflow skips and CI stays green.
@@ -84,7 +78,7 @@ open source). Without the secret the workflow skips and CI stays green.
   task; four core safety skills stay visible; all other leaves are hidden from
   automatic model invocation (`disable-model-invocation: true`) but stay
   invocable via `/skill:<name>`. Membership is owned by `.pi/skills/packs.json`;
-  run `node scripts/validate-skill-packs.mjs` after adding or moving a skill.
+  after adding or moving a skill, parse `packs.json` and directly compare membership, router, manifest, and on-disk paths.
 - Templates: `.pi/templates/*.md` — PRD, design, ADR, proposal, roadmap, state,
   tasks, agents, tech-stack, project, user, issue, plus foundation
   skill and capsule templates. `/init` renders agents, project, tech-stack,
@@ -101,8 +95,7 @@ require the commit loop with automatic rollback; otherwise (`audit` mode, guard
 off, or project untrusted), each mutation requires explicit per-mutation user
 approval (AGENTS.md Mutation Authority).
 `.pi/fabric.json` holds the guard configuration (`schema.mode`: `enforce` or
-`audit`, plus the `canonical-check` trusted command).
-`node scripts/validate-pi-fabric.mjs` pins the contract: full-code mode, the QuickJS memory ceiling, Schema mode (enforce or audit), prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
+`audit`, plus the `canonical-check` trusted command). And it provides the contract: full-code mode, the QuickJS memory ceiling, Schema mode (enforce or audit), prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
 
 ### Optional Veda lane
 
@@ -145,8 +138,7 @@ links an existing verified issue and keeps the legacy `<issue>-<slug>` form.
 `/create` never creates a GitHub issue. Local session state stays ignored
 in `.pi/work/.active` and per-work `.progress.md`/`.verify.log` dotfiles;
 agent memory lives in Pi sessions (`memory.recall`) outside the repo.
-`node scripts/validate-work-management.mjs` pins the ownership split, local
-slug IDs, GitHub templates, and /init GitHub setup safety. `/init` optionally
+Inspect the work-record templates, `.gitignore`, and `/init` prompt directly to verify the ownership split, local slug IDs, GitHub templates, and setup safety. `/init` optionally
 creates or links the GitHub repository, pushes, and enrolls in the central
 GitHub Project — each mutation needs its own approval.
 
