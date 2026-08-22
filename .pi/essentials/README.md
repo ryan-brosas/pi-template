@@ -14,6 +14,8 @@ guide *how* we approach work without over-restricting behavior.
   convert patterns into CI checks, let it rampage, verify outcomes.
 - `stack-your-leverage.md` — Pillar 3: code is your asset; stack good code into
   skills; the compounding effect; skill-capture after sessions.
+- `enforce-code-quality-mechanically.md` — Pillar 4: enforce code quality with
+  tests/gates/CI, not prompting. Remove responsibility from the LLM.
 
 ## How to use
 - Read `operating-philosophy.md` when deciding how to approach a task.
