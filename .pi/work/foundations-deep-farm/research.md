@@ -90,3 +90,5 @@ Deliberately NOT mined (boundaries): Aider CLI/prompt wording, GUI/analytics, vo
 On-disk verification: `mkcs — no flat `## Path/Symbol` headings remain in any reference; every capsule carries Source/Decisive source/Flow/Invariant/Probe/Retrieve/Verdict.
 
 - [aider full module screen (complete)] 2026 — swept all 142 non-website production paths; existing capsules cover context/coder-format/Git/diagnostics/collab/consent/model-policy; added the run-shell seam (explicit execution + separate chat-admission consent). Omitted CLI, prompts, GUI, analytics, voice, scraping, site assets, spinner, query grammars, provider transport.
+
+- [DONE:16] 2026-08-22 — summary-fallback seam: source-tested `ChatSummary.summarize_all` continues through ordered summarizer models after exception or `None`, normalizes only the first success into a prefixed synthetic history message, and fails loudly after exhaustion. Added `references/summary-fallback.md`; direct probe `TestChatSummary.test_fallback_to_second_model` (`tests/basic/test_history.py:83-120`).

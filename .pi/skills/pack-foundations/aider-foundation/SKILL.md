@@ -11,6 +11,7 @@ Build or harden an AI coding harness that selects repository context under a tok
 ## Load the matching source dump
 - `references/repomap.md` — PageRank-ranked tags, chat-file exclusion, and token-budget fitting.
 - `references/context-orchestration.md` — fixed prompt ordering and tail-preserving history reduction.
+- `references/summary-fallback.md` — ordered summarizer fallback with a normalized history result.
 - `references/edit-formats.md` — SEARCH/REPLACE matching ladder and loud repair failure loop.
 - `references/edit-admission.md` — registered format dispatch, transcript sanitation on a mode switch, and per-target edit consent.
 - `references/git-safety.md` — dirty baselines and edited-path-only commits.
@@ -25,7 +26,7 @@ Build or harden an AI coding harness that selects repository context under a tok
 ## Capsule map
 Each capsule pairs decisive evidence, a preserved invariant, a direct-test probe, and a live `search_graph` retrieval. The map records portable seams, not a source census.
 
-- **Context selection and assembly** — `references/repomap.md`, `references/context-orchestration.md`: budget repository context and preserve the active turn while compressing archival history.
+- **Context selection and assembly** — `references/repomap.md`, `references/context-orchestration.md`, `references/summary-fallback.md`: budget repository context, preserve the active turn while compressing archival history, and recover summarization through ordered model fallback without admitting a partial result.
 - **Edit protocol and mutation boundary** — `references/edit-formats.md`, `references/edit-admission.md`, `references/git-safety.md`, `references/undo.md`, `references/diagnostic-feedback.md`: select a compatible format, ask before expanding scope, reject unsafe matches, keep a reversible baseline, revert only the last aider-owned unpushed commit, and feed compact diagnostics back to the model.
 - **Collaboration and consent** — `references/collab.md`, `references/architect-handoff.md`, `references/ux.md`: bound reflection, turn a reviewed plan into a separate edit pass, and never weaken explicit consent.
 - **Provider policy and recovery** — `references/model-policy.md`: exact policy wins; user overrides merge deliberately; retry terminates at its time bound.
