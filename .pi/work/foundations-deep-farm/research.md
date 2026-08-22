@@ -769,3 +769,18 @@ Mined the graphiti utils/ and llm_client/ seams I missed in the first pass:
   capping (defend against schema-description bleed), community-detection
   (label-propagation clustering), datetime-text-utils (UTC, sentence truncation).
 - SKILL.md capsule map regrown (12 capsules total). Checks green.
+
+### [DONE:23] 2026-08-23 — graphiti full squeeze (12 → 22 capsules)
+Piece-by-piece pass over the whole 36,684-line repo:
+- search layer: search-rerankers (RRF/MMR/distance/mentions), search-primitives
+  (fulltext/similarity/BFS matrix with provider fallbacks), retrieval-for-update
+  (invalidation candidates).
+- orchestrator: add-episode-contract (typed schemas, exclusions, edge_type_map,
+  custom instructions, saga chaining).
+- models: node-model-namespaces (provider-matched deletes, Kuzu edge-as-node trap,
+  namespace repositories).
+- maintenance: bulk-dedup (UnionFind canonicalization + pointer rewrite),
+  node-resolution-summaries (LLM-confirmed merges, flight-batched summaries).
+- infra: cross-encoder-embedder (logit-bias LLM-as-judge reranking), prompt-library
+  (versioned prompts-as-code, group fan-out), tracing (NoOp/OTel spans).
+SKILL.md map regrouped into 4 subsystems. Checks green (93 skills).
