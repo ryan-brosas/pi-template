@@ -4,29 +4,38 @@ description: "Foundations router: reusable proven code from indexed inspiration 
 ---
 # Pack: Foundations
 
-Each leaf encodes an indexed repo: what it solves, reusable primitives, graph anchors, and the reuse skill-line. Pick 2 members max; read fully; load `references/` when porting.
+Each leaf encodes an indexed repo. Pick 2 members max; read fully; load `references/` when porting.
+
+## Primary foundation process
+Load `foundations-workflow` first. One repo at a time: prewalk, trace source/tests, prove each capsule RED/GREEN + probe; log gaps in the work record.
+
+## Capability/source-map quality bar
+Follow the Oh My Pi pattern: capsule catalog, **Capsule map** by capability, **Extending the foundation** recipe. One capsule per seam — source, invariant, retrieval, Probe; finish with `node scripts/check.mjs`.
+
+### Extend a foundation
+Load the leaf's map group, then add one evidence-backed capsule when the seam is uncovered.
 
 - foundations-workflow: author foundation skills from memory-graph repos
-- aider-foundation: AI pair programming — repo maps, SEARCH/REPLACE edits, lint reflection
+- aider-foundation: AI pair programming — repo maps, SEARCH/REPLACE
 - opencode-foundation: client/server agents — shadow-git undo, permission gates
-- mcp-ts-sdk-foundation: MCP protocol SDK — dual-era serving, JSON-RPC correlation
-- openai-agents-foundation: multi-agent framework — guardrails, typed handoffs
-- graphiti-foundation: temporal knowledge graphs — bi-temporal edges, contradiction arithmetic
-- turso-foundation: storage engine — MVCC, WAL framing, b-tree durability
+- mcp-ts-sdk-foundation: MCP SDK — dual-era, JSON-RPC
+- openai-agents-foundation: multi-agent — guardrails, handoffs
+- graphiti-foundation: temporal knowledge graphs — bi-temporal edges
+- turso-foundation: storage — MVCC, WAL framing, b-tree durability
 - biome-foundation: lossless CST, formatter IR, rule engine
-- roo-foundation: IDE agent modes, mistake breakers, approval classifier
-- continue-foundation: FIM autocomplete, generator reuse, stream filters
-- eslint-foundation: flat-config lint pipeline, RuleTester, AST primitives
-- ai-sdk-foundation: LLM streaming, stop predicates, tool-call repair
-- graphrag-foundation: GraphRAG search — Map-Reduce, local context, DRIFT
+- roo-foundation: IDE modes, mistake breakers, approval classifier
+- continue-foundation: FIM autocomplete, stream filters
+- eslint-foundation: flat-config lint pipeline, RuleTester, AST
+- ai-sdk-foundation: LLM streaming, tool-call repair
+- graphrag-foundation: Map-Reduce, local context, DRIFT
 - billion-context-pi-foundation: long-context delegation, compress/decompress
-- browser-harness-foundation: CDP daemon, page helpers, action recorder
-- browser-use-foundation: LLM browser agent — step loop, DOM serialization
+- browser-harness-foundation: CDP daemon, page helpers, recorder
+- browser-use-foundation: LLM browser agent — browser loop, DOM
 - localterm-foundation: terminal rendering, secret-scrubbed bash
-- pi-fabric-foundation: Schema mutation guard, budget ledger, compaction bounds
+- pi-fabric-foundation: Schema mutation guard, budget ledger
 - pi-upstream-foundation: agent loop, branch-summary compaction
-- oh-my-pi-foundation: harness loop, compaction, memory, patch editing, telemetry, plan handoff, durable workers, fanout, experiments, advisor
-- pydantic-ai-harness-foundation: toolset abstractions, compaction strategies
-- mem0-foundation: agent memory — add/search pipeline, metadata filters
-- jobspy-foundation: multi-site job scraping (8 sites)
-- linkedin-mcp-foundation: LinkedIn MCP server — session state, daemon locks
+- oh-my-pi-foundation: harness loop, compaction, memory, patch editing, telemetry, workers, fanout, advisor
+- pydantic-ai-harness-foundation: toolset abstractions, compaction
+- mem0-foundation: agent memory — add/search, metadata filters
+- jobspy-foundation: job scraping (8 sites)
+- linkedin-mcp-foundation: LinkedIn MCP — session, daemon

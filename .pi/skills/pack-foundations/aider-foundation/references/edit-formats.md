@@ -51,3 +51,10 @@ Shell commands (`None`-path edits) are extracted SEPARATELY from file edits (:30
 ## The sibling formats
 
 The SEARCH/REPLACE format is one of a family dispatched from a shared coder base: `aider/coders/wholefile_coder.py` (full-file rewrite), `aider/coders/udiff_coder.py` (unified diff), and `aider/coders/patch_coder.py` (raw patch application using the flexible ladder in `aider/coders/search_replace.py`). All four share the failure-feedback discipline documented above.
+
+## Capsule evidence (current source)
+- **Path/Symbol:** `aider/coders/editblock_coder.py` — `replace_most_similar_chunk(whole, part, replace)`, `EditBlockCoder.apply_edits(edits, dry_run=False)`.
+- **Flow:** exact/whitespace, dropped-leading-blank, and paired-elision strategies precede an unconditional `return`; failed blocks get a structured repair message and a nearest-text hint.
+- **Invariant:** `replace_closest_edit_distance` remains below that `return`, so it cannot silently apply a fuzzy edit.
+- **Probe:** `tests/basic/test_editblock.py` covers indentation recovery, a spurious blank line, and first-match behavior.
+- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "replace_most_similar_chunk apply_edits"})`.

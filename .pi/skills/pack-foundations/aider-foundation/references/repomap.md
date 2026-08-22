@@ -36,3 +36,10 @@ Resilience details worth porting: map cache has FOUR refresh policies (`manual/a
 
 ## The lesson
 A repo map is a RANKING problem, not an indexing problem: personalization from conversation context (mentioned names/idents/paths) + edge-weight heuristics encoding "what makes an identifier distinctive" + a hard token budget fitted by binary search. Cache aggressively but only what's expensive.
+
+## Capsule evidence (current source)
+- **Path/Symbol:** `aider/repomap.py` — `RepoMap.get_ranked_tags(chat_fnames, other_fnames, mentioned_fnames, mentioned_idents, progress=None)`.
+- **Flow:** tags form a weighted graph; personalization and identifier heuristics feed PageRank; ranked definitions become the map.
+- **Invariant:** chat files contribute rank through references but are not emitted.
+- **Probe:** rank a mentioned identifier and verify its target appears while the chat file does not.
+- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "RepoMap get_ranked_tags"})`.

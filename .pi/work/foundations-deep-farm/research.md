@@ -12,6 +12,7 @@ Turn indexed inspiration repositories into small, reusable code shortcuts. Codeb
 |---|------|---------------|------:|--------|
 | 1 | oh-my-pi | oh-my-pi | 84,012 | repair in progress |
 | 2 | eslint | eslint | 14,207 | queued after pilot |
+| A1 | aider | aider | 7,507 | mined |
 | 3 | vitest | vitest | queued |
 | 4 | rsbuild | rsbuild | queued |
 | 5 | nest | nest | queued |
@@ -44,3 +45,4 @@ The user approved editing the workflow and three retained references, deleting s
 - [DONE:8] Oh My Pi farm committed a72b7f9. Serial lane moved to eslint (`dc1e7a84`): crowned Linter.verify, ESLint.lintFiles, config-loader/FlatConfigArray, RuleTester, ast-utils; wrote two source-dump references.
 - [DONE:9] eslint-foundation committed 2aba6ba (verify pipeline + RuleTester/AST refs); catalog wired, probes pass, canonical green. Deep OMP farm approved earlier: prewalk/vibe/task/autoresearch/advisor leaves live at a72b7f9.: retain and source-dump the agent harness; add prewalk, vibe, task orchestration, autoresearch, and advisor leaves. All five have graph anchors plus direct source/test proof; checkpoint/rewind, memory, cleanse, and autolearn remain explicitly unmined.
 - [DONE:10] The shared foundation workflow now keeps module coverage and wave timing in this durable work record; foundation leaves are stable capability/source maps with an extension recipe. The change began with a failing deterministic workflow probe.
+- [DONE:11] Aider promoted to the capsule/source-map quality bar (package router first loads `foundations-workflow`). Live index `main@5dc9490`, 7,507 nodes / 19,923 edges; core edits, repomap, and collaboration sources fresh. Added a **Capsule map** (token-bounded context, repairable edit application, bounded collaboration loops) and an **Extending the foundation** recipe; three references each gained a **Capsule evidence (current source)** block with Path/Symbol, Flow, Invariant, Probe, Retrieve. Canonical check green.

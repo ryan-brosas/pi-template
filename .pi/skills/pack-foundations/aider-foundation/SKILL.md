@@ -20,6 +20,34 @@ Building AI coding agents, repo-map-style context selection, structured edit for
 - Reviewability -> commit-per-edit with a WEAK model writing commit messages from diffs.
 - Terminal UX -> delayed spinner with probed unicode support, streaming markdown with no-inset code blocks.
 
+## Capsule map
+
+### Token-bounded context
+- **Path/Symbol:** `aider/repomap.py` — `RepoMap.get_ranked_tags(chat_fnames, other_fnames, mentioned_fnames, mentioned_idents, progress=None)`.
+- **Flow:** tree-sitter tags → weighted MultiDiGraph → personalized PageRank → ranked definitions; rendering fits the token budget.
+- **Invariant:** conversation files steer rank but are excluded from emitted map text.
+- **Probe:** mention a file/identifier and assert its connected definitions rise while the chat file itself is absent.
+- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "RepoMap get_ranked_tags"})`; load `references/repomap.md`.
+
+### Repairable edit application
+- **Path/Symbol:** `aider/coders/editblock_coder.py` — `replace_most_similar_chunk(whole, part, replace)` and `EditBlockCoder.apply_edits(edits, dry_run=False)`.
+- **Data/Flow:** `(path, SEARCH, REPLACE)` blocks accept exact/uniform-indent/leading-blank/elision forms; an unmatched block raises a repair prompt containing current text and passed-block state.
+- **Invariant:** nearest-edit-distance code is unreachable after an unconditional `return`; do not silently fuzzy-apply.
+- **Probe:** a near miss returns no replacement; an indentation-only mismatch preserves the file's indentation.
+- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "replace_most_similar_chunk apply_edits"})`; load `references/edit-formats.md`.
+
+### Bounded collaboration loops
+- **Path/Symbol:** `aider/coders/base_coder.py` — `Coder.run_one(user_message, preproc)`; `aider/watch.py` — `FileWatcher.get_ai_comments(filepath)`.
+- **Flow:** a reflected lint/edit message becomes the next model input until `max_reflections`; watched comments classify `ai!` as change and `ai?` as question.
+- **Invariant:** loop termination is explicit, and watcher input preserves the author's comment text.
+- **Probe:** set a reflection at the cap and assert no extra send; classify `// ai? explain` as question.
+- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "run_one reflected_message get_ai_comments"})`; load `references/collab.md`.
+
+## Extending the foundation
+1. Choose one uncovered porting seam, then prewalk it and its direct test with Codebase Memory.
+2. Add a map entry with Path/Symbol, Flow, Invariant, Probe, and Retrieve; put detailed source notes in the matching reference.
+3. Record module coverage and open gaps in the work record, then run `node scripts/check.mjs`.
+
 ## Full view (memory graph)
 
 Indexed in Codebase Memory as **`aider`** (`/mnt/hdd/utopia/inspo/aider`, branch default). Pull the full view before porting:

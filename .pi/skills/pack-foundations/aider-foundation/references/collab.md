@@ -33,3 +33,10 @@ Double-^C exits (2s window, :994-999); a single ^C warns "^C again to exit"; an 
 ## Verification
 
 `tests/basic/test_io.py` (612 lines) pins the IO layer behaviors enumerated above; watch-mode AI-comment extraction is exercised through `get_ai_comments` unit paths in the same harness (`test_watch.py`); `mdstream` behavior surfaces via rich rendering smoke tests.
+
+## Capsule evidence (current source)
+- **Path/Symbol:** `aider/coders/base_coder.py` — `Coder.run_one(user_message, preproc)`; `aider/watch.py` — `FileWatcher.get_ai_comments(filepath)`.
+- **Flow:** `reflected_message` drives a new turn until `max_reflections`; watched comments return line numbers, verbatim text, and action classification.
+- **Invariant:** capped reflection exits loudly; `ai!` and `ai?` retain distinct actions.
+- **Probe:** at the cap, no extra model turn occurs; classify both action suffixes.
+- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "run_one reflected_message get_ai_comments"})`.
