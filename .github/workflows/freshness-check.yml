@@ -28,5 +28,7 @@ jobs:
         run: python3 scripts/quality-gate.py
       - name: Repo hygiene
         run: python3 scripts/repo-hygiene.py
+      - name: Dead code
+        run: python3 scripts/dead-code.py
       - name: Report
         run: echo "::notice::All checks pass — template is fresh and consistent."

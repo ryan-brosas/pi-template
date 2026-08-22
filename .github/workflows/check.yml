@@ -43,6 +43,10 @@ jobs:
         id: hygiene
         run: |
           python3 scripts/repo-hygiene.py 2>&1 | tee /tmp/repo-hygiene.log
+      - name: Dead code
+        id: deadcode
+        run: |
+          python3 scripts/dead-code.py 2>&1 | tee /tmp/dead-code.log
       - name: Upload check log on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -51,4 +55,5 @@ jobs:
           path: |
             /tmp/check-integrity.log
             /tmp/repo-hygiene.log
+            /tmp/dead-code.log
           retention-days: 2

@@ -52,6 +52,8 @@ From the pre-commit configs of high-quality repos:
 - `repo-hygiene.py` — trailing whitespace, EOF newline, smart quotes, large
   files, mixed line endings, YAML/JSON/TOML validity, typos, secrets scan,
   forbid-submodules
+- `dead-code.py` — finds unused scripts and unreferenced skill files (farmed
+  from vitest's knip dead-code practice)
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene
