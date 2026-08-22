@@ -1,59 +1,76 @@
-# Aider — Repo Map Reference
+<!-- capsule-v2 -->
+# Repo map — whole-repo outline ranked by PageRank into a token budget
 
-Read in full: `aider/repomap.py` (867 lines). Ranking in get_ranked_tags with networkx pagerank weight/personalization args; tolerant tag parsing via get_tags + the sqlite TAGS_CACHE in `aider/repomap.py:217-224`; rendering by to_tree over TreeContext (the `aider/grep_ast` wrapper); token counting sampled in token_count:97-101; map caching under the `refresh` modes at :576-628. Token budget fitting: middle = max_map_tokens//25 binary search at :652-691 plus token_count sampling. Security: `aider/ignore.py` (gitignore-aware path filtering).
+**Source:** Aider MIT `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c`; Codebase Memory project `aider` (full index). **Question:** How does a harness show an LLM a whole repository inside a token budget, pointed at the identifiers the conversation just mentioned?
 
-Source-grounded reference for `aider/repomap.py` (867 lines, read in full). Graph: 7,507 nodes / 19,923 edges; entry points include `aider.repomap.main`.
+## Path/Symbol
+`aider/repomap.py`: `RepoMap.get_repo_map(chat_files, other_files, mentioned_fnames, mentioned_idents, force_refresh)` (:103), `get_ranked_tags(...)` (:365), `get_ranked_tags_map` (:576), `render_tree` (:710), `to_tree` (:748).
 
-## WHAT: a PageRank-ranked, token-budgeted repository outline
+## Signature & Data Shape
+`get_repo_map` returns a Markdown outline string (or None when `no other_files` / `max_map_tokens<=0`). `get_ranked_tags` returns a list of `(fname,)` or `(fname, ident, tag)` tuples ranked by personalized PageRank over a file-to-file reference graph.
 
-The repo map shows an LLM the shape of the repo — files as tree-sitter outlines of the IMPORTANT code — inside a strict token budget. It is the answer to "how does the model know about code it hasn't opened?"
+## Decisive source — personalization steer and chat-file exclusion (:506-518, :529-533)
+```python
+# mentioned identifiers and naming style multiply rank; snake/kebab/camel names win
+if ident in mentioned_idents:
+    mul *= 10
+if (is_snake or is_kebab or is_camel) and len(ident) >= 8:
+    mul *= 10
+if ident.startswith("_"):
+    mul *= 0.1
+if len(defines[ident]) > 5:
+    mul *= 0.1
+# a chat file referencing an ident steeply boosts that definition's rank
+if referencer in chat_rel_fnames:
+    use_mul *= 50
+```
+The conversation's own files never appear in the outline:
+```python
+for (fname, ident), rank in ranked_definitions:
+    if fname in chat_rel_fnames:
+        continue  # chat files steer rank but are never emitted
+```
 
-## WHERE
-- Tag extraction :233-363 (tree-sitter via grep_ast; sqlite TAGS_CACHE versioned by tree-sitter pack, CACHE_VERSION 3/4)
-- Ranking :365-573 (`get_ranked_tags` — networkx MultiDiGraph + personalized PageRank)
-- Map cache + refresh policies :576-628
-- Binary-search fitting :629-707
-- Tree rendering :710-785
+## Decisive source — budget fit with no-chat widening (:103-168)
+```python
+if not chat_files and self.max_context_window and target > 0:
+    max_map_tokens = target  # empty chat sees the whole repo at map_mul_no_files
+try:
+    files_listing = self.get_ranked_tags_map(
+        chat_files, other_files, max_map_tokens,
+        mentioned_fnames, mentioned_idents, force_refresh,
+    )
+except RecursionError:
+    self.io.tool_error("Disabling repo map, git repo too large?")
+    self.max_map_tokens = 0
+    return
+```
+The map is fitted by iteratively adding ranked definitions until the token budget is consumed (binary-search fit inside `get_ranked_tags_map`). A `RecursionError` disables the map rather than failing the session.
 
-## WHY each ranking decision
+## Flow
+1. build `defines`/`references` from tree-sitter tags per file (kind `def` vs `ref`);
+2. add a low-weight self-edge (0.1) for definitions no other node references;
+3. add weighted `referencer→definer` edges scaled by referenced-in-chat (×50), naming style, and mentions;
+4. run `nx.pagerank` over a `MultiDiGraph` with the file personalization vector;
+5. distribute each source node's rank over its out-edges and aggregate per definition;
+6. sort, skip chat files, then fit into `max_map_tokens`.
 
-Edges are file→file, weight = ident references. On top:
+## Invariant
+- Chat files steer PageRank via their references but are emitted into the outline (`test_get_repo_map_excludes_added_files` :246).
+- Mentioned idents / naming conventions and in-chat references raise the target definition's rank.
+- The map is always bounded by `max_map_tokens`; pathological repos are disabled, not crashed.
 
-- **Personalization**: chat files, mentioned fnames, and mentioned IDENTIFIERS matching any PATH COMPONENT get boosted starting rank (:398-431) — mentioning `auth_user.py` or the identifier `AuthUser` tilts the whole map toward that area.
-- **×10 for distinctive identifiers**: snake/kebab/camelCase names ≥8 chars multiply edge weight ×10 (:498-501). A long camelCase name is almost certainly project-specific; short generic names are noise.
-- **×0.1 for `_private` and ×0.1 when >5 definers** (:502-504): private helpers and widely-defined names carry little navigational value.
-- **×50 when the REFERENCER is in chat** (:511-512): what your open files reference matters most.
-- **sqrt(num_refs)** (:514): high-frequency mentions scale down so ubiquitous idents don't dominate every edge.
-- **Self-edges for defs without refs** (:472-478): documented tree-sitter quirk (ruby 0.23.2 counts a def as only a def); weight 0.1 keeps them discoverable.
-- **Chat files are EXCLUDED from output** but their rank FLOWS through out-edges (:559-562): the map spends its budget on what chat files POINT TO, not on repeating what the model already has.
-- **Special files force-included** ahead of ranking (`filter_important_files`: README, configs).
+## Probe (direct test)
+`tests/basic/test_repomap.py`:
+- `test_get_repo_map_with_identifiers` (:163) — imported identifiers (`MyClass`, `my_method`, `my_function`) appear fresh in an empty-chat outline;
+- `test_get_repo_map_excludes_added_files` (:246) — files in chat (`test_file1/2.py`) are absent while other/included remain;
+- `test_get_repo_map` (:21) and `test_repo_map_refresh_*` (:49, :106) cover cache refresh and token gating.
+Run `python -m pytest tests/basic/test_repomap.py -k "repo_map"`.
 
-## HOW the budget is hit
+## Retrieve (graph)
+```ts
+await mcp.codebase_memory.search_graph({ project: "aider", query: "get_ranked_tags get_repo_map search taxes", limit: 10, fields: ["signature", "name", "file"] });
+```
 
-Binary search over tag count (:652-691): start `middle = max_tokens // 25`, render `to_tree(ranked_tags[:middle])`, count tokens (SAMPLED above 200 chars — every Nth line scaled), accept within 15% error, keep best-seen. Rendering caches per `(rel_fname, sorted-lois, mtime)` and truncates lines at 100 chars against minified JS.
-
-Resilience details worth porting: map cache has FOUR refresh policies (`manual/always/files/auto`) where **auto caches only when generation took >1s** — cheap maps stay fresh, expensive ones get cached; `RecursionError` on huge repos DISABLES the map with a message rather than crashing; sqlite cache errors degrade to in-memory; initial scans >100 uncached files show a progress bar with the honest message "Initial repo scan can be slow in larger repos, but only happens once."
-
-## The lesson
-A repo map is a RANKING problem, not an indexing problem: personalization from conversation context (mentioned names/idents/paths) + edge-weight heuristics encoding "what makes an identifier distinctive" + a hard token budget fitted by binary search. Cache aggressively but only what's expensive.
-
-## Capsule evidence (current source)
-- **Path/Symbol:** `aider/repomap.py` — `RepoMap.get_ranked_tags(chat_fnames, other_fnames, mentioned_fnames, mentioned_idents, progress=None)`.
-- **Flow:** tags form a weighted graph; personalization and identifier heuristics feed PageRank; ranked definitions become the map.
-- **Invariant:** chat files contribute rank through references but are not emitted.
-- **Probe:** rank a mentioned identifier and verify its target appears while the chat file does not.
-- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "RepoMap get_ranked_tags"})`.
-
----
-
-<!-- capsule-v1 -->
-
-## Retrieval capsule
-
-- **Path/Symbol:** `aider/repomap.py::RepoMap.get_ranked_tags(chat_fnames, other_fnames, mentioned_fnames, mentioned_idents)`.
-- **Signature:** filename/identifier collections produce the ranked repository-map text.
-- **Data Shape:** tags become weighted file-to-file identifier edges; chat/mentioned paths and identifiers become the PageRank personalization vector.
-- **Flow:** tag extraction -> weighted graph -> personalized PageRank -> ranked definitions -> binary-search fit into the token budget.
-- **Invariant:** chat files steer rank via references but are never emitted in the map.
-- **Probe:** mention one ident and assert its target ranks while the chat file stays out; see `tests/basic/test_repomap.py`.
-- **Retrieve:** `search_graph({ project: "aider" })`; inspect `aider/repomap.py:365-707`.
+## Verdict
+Adopt the personalized-PageRank + token-budget fit as the reproducible context engine; keep chat-exclusion and the rank multipliers as the behavioral contract.

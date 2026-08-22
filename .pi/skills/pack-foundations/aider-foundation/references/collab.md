@@ -1,56 +1,68 @@
-# Aider — Human-Collaboration Layer Reference (UX)
+<!-- capsule-v2 -->
+# Collaboration loop — watch-mode AI comments + bounded reflection
 
-Source-grounded reference for how aider treats its human as a collaborator rather than an operator. Files: `aider/watch.py` (318 lines, read in full), `aider/base_coder.py` reflection regions (~:924-1000, ~:1560-1615), `aider/waiting.py` (221 lines, full), `aider/mdstream.py` (:1-90).
+**Source:** Aider MIT `main@5dc9490bb35f9729e06ee5d00a19ccd70c26339c`; Codebase Memory project `aider` (full index). **Question:** How does a harness let a human drive the model from their own editor and terminate self-correction loops instead of spinning forever?
 
-## Watch mode: AI comments in your own editor
+## Path/Symbol
+`aider/watch.py`: `FileWatcher.get_ai_comments(filepath)` (:257), `ai_comment_pattern` (:69), `FileWatcher.handle_changes` action dispatch (:185-215). `aider/coders/base_coder.py`: `Coder.run_one(user_message, preproc)` (:924), `max_reflections = 3` (:101), `num_reflections = 0` (:100).
 
-A `FileWatcher` (watch.py) watches the workspace for source files containing AI comments — a regex covering `# // -- ;` comment prefixes case-insensitively, with an ACTION SUFFIX determining what happens (:62-64): `ai!` requests code changes via `watch_code_prompt`, `ai?` asks a question via `watch_ask_prompt`, and a bare `ai` comment merely ADDS the file to the chat with a confirmation ("Added {rel_fname} to the chat", :196-199). Changed files pause whatever the user was typing (`io.interrupt_input()`, :146-147): the filesystem IS the input queue.
+## Signature & Data Shape
+`get_ai_comments` returns `(line_nums, comments, has_action)` where `has_action` is `None` (just add), `"!"` (change), or `"?"` (question). `run_one` drives a `while message:` loop where a set `self.reflected_message` becomes the next user message.
 
-Two teaching details deserve porting: near-miss comments (no action suffix) get "End your comment with AI! to request changes or AI? to ask questions" (:196-199) — the UI corrects instead of ignoring. And commented regions render through TreeContext with `mark_lois=True, loi_pad=3` so the model sees the enclosing scope, with a bare `Line N: comment` fallback on ValueError (:186-236). Noise discipline: a hardcoded ignore list (editor backups, caches, IDE dirs, binaries, `.env`) merges with gitignores, and a 1MB size check gates reading (:84-115).
+## Decisive source — the AI-comment regex and action classification (:69-82, :266-284)
+```python
+ai_comment_pattern = re.compile(
+    r"(?:#|//|--|;+) *(?:ai\\b.*|.*\\bai[?!]?) *$", re.IGNORECASE
+)
 
-COMMENT FIDELITY: the watcher captures the comment text verbatim — the model parses the AUTHOR's words, not a paraphrase.
+for i, line in enumerate(content.splitlines(), 1):
+    if match := self.ai_comment_pattern.search(line):
+        comment = match.group(0).strip()
+        comment = comment.lower().lstrip("/#-;").strip()
+        if comment.startswith("ai!") or comment.endswith("ai!"):
+            has_action = "!"
+        elif comment.startswith("ai?") or comment.endswith("ai?"):
+            has_action = "?"
+```
+The watcher preserves the author's comment text verbatim; it classifies the action suffix but never paraphrases the request.
 
-## Lint reflection: quality failures as the model's next turn
+## Decisive source — the reflection loop is explicitly bounded (:924-944)
+```python
+while message:
+    self.reflected_message = None
+    list(self.send_message(message))
+    if not self.reflected_message:
+        break
+    if self.num_reflections >= self.max_reflections:
+        self.io.tool_warning(f"Only {self.max_reflections} reflections allowed, stopping.")
+        return
+    self.num_reflections += 1
+    message = self.reflected_message
+```
+The cap is checked before re-entering the loop, so it can never run more than `max_reflections` turns; reaching it warns and returns. `run_one` resets `num_reflections` per call, so termination binds per interaction.
 
-Applied edits auto-lint (`auto_lint=True`), and lint errors become the model's NEXT USER MESSAGE via the reflection loop (`base_coder.py:1603-1610`). Errors are conversation fuel, capped by max_reflections so loops terminate loudly ("Only N reflections allowed, stopping."). The user confirms first ("Attempt to fix lint errors?"), the fix round auto-commits with context="Ran the linter" (:1606), and `run_one` drives the while-message loop where reflected_message replaces the next input (:924-939).
+## Flow
+1. `run_one` sends the message, reads `reflected_message`, and reruns until it is None or the cap is hit.
+2. A `FileWatcher` watches the workspace; on a changed file carrying an AI comment it adds the file to chat and, when the action suffix is `!`/`?`, pauses user input (`io.interrupt_input()`) — the filesystem is the input queue.
+3. `!` routes to `watch_code_prompt`, `?` to `watch_ask_prompt`; a bare `ai` comment only auto-adds the file.
+4. Applied edits auto-lint; lint failures become `reflected_message`, fed back as the next user message until the cap.
 
-## Commit-per-edit with a weak-model scribe
+## Flow
+See the wavelength above: watch classify → add/route → run_one reflection loop → lint reflects → capped termination.
 
-Every successful edit round auto-commits with an LLM-generated message from the DIFF, using a dedicated cheap model (`commit_message_models()`, :441). The rationale: atomic commits make each AI change independently reviewable/revertable, and summarizing diffs must never spend frontier tokens. Message-generation failure falls back to prompt-level text (`files_content_gpt_edits_no_repo`).
+## Invariant
+- The reflection loop can never exceed `max_reflections` turns; the cap warns and returns rather than recursing.
+- The watcher passes author comment text verbatim, never a paraphrase.
+- Only suffix-classified comments (`ai!`, `ai?`) dispatch action; bare `ai` merely adds the file.
 
-## The spinner: delayed, honest, ASCII-first
+## Probe (direct test)
+`tests/basic/test_watch.py`: `test_ai_comment_pattern` (:115) runs fixtures `watch.py`, `watch.js`, `watch_question.js`, `watch.lisp` asserting exact unique comment counts (10, 10/16, 6, 7) and that `get_ai_comments` returns the expected action (`!` vs `?`). `test_gitignore_patterns` (:18) and `test_handle_changes` (:99) cover noise discipline and auto-add.
+Run `python -m pytest tests/basic/test_watch.py -k "ai_comment or gitignore or handle_changes"`.
 
-The WaitingSpinner (waiting.py) shows only after 0.25s of work (:96-100) — fast operations never flash. Frames are pre-rendered ASCII (`#=`), upgraded to a unicode palette only after a LIVE terminal probe that catches UnicodeEncodeError (:85-94); `last_frame_idx` is a class variable so successive spinners continue the animation rather than restarting (:27). Line hygiene: every tick pads to clear longer previous text and backspaces the cursor to the scan character; end() clears and restores. Progress text updates live (spin.step) so the waiting indicator doubles as a progress report.
+## Retrieve (graph)
+```ts
+await mcp.codebase_memory.search_graph({ project: "aider", query: "get_ai_comments run_one reflected_message watch", limit: 12, fields: ["signature", "name", "file"] });
+```
 
-## Streaming markdown (mdstream.py)
-
-Rich Live rendering with two template overrides: code blocks drop rich padding (`NoInsetCodeBlock` — terminals already indent), and headings force LEFT justification with a heavy-border panel only on h1 (`LeftHeading`, :18-44).
-
-## Interrupt etiquette
-
-Double-^C exits (2s window, :994-999); a single ^C warns "^C again to exit"; an interrupt mid-reply is RECORDED into the transcript as `^C KeyboardInterrupt` plus an assistant acknowledgment (:1580-1590) so the model knows its reply was cut. URLs in user input trigger an offer-to-scrape confirm GROUP with allow_never semantics (:967-984).
-
-## Verification
-
-`tests/basic/test_io.py` (612 lines) pins the IO layer behaviors enumerated above; watch-mode AI-comment extraction is exercised through `get_ai_comments` unit paths in the same harness (`test_watch.py`); `mdstream` behavior surfaces via rich rendering smoke tests.
-
-## Capsule evidence (current source)
-- **Path/Symbol:** `aider/coders/base_coder.py` — `Coder.run_one(user_message, preproc)`; `aider/watch.py` — `FileWatcher.get_ai_comments(filepath)`.
-- **Flow:** `reflected_message` drives a new turn until `max_reflections`; watched comments return line numbers, verbatim text, and action classification.
-- **Invariant:** capped reflection exits loudly; `ai!` and `ai?` retain distinct actions.
-- **Probe:** at the cap, no extra model turn occurs; classify both action suffixes.
-- **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "run_one reflected_message get_ai_comments"})`.
-
----
-
-<!-- capsule-v1 -->
-
-## Retrieval capsule
-
-- **Path/Symbol:** `aider/coders/base_coder.py` — `Coder.run_one(user_message, preproc)`; `aider/watch.py` — `FileWatcher.get_ai_comments(filepath)`.
-- **Signature:** a user message drives a bounded model/edit cycle; a changed file yields classified AI-comment requests.
-- **Data Shape:** `reflected_message` is the next-turn payload; `max_reflections` the cap; watcher records carry line, verbatim comment, action.
-- **Flow:** unresolved edit/lint failures become the next user message until the reflection cap; watch comments classify bare add, `ai!` change, `ai?` question.
-- **Invariant:** the cap ends the loop loudly; watcher input preserves author text rather than a paraphrase.
-- **Probe:** assert no extra turn after the cap; classify `// ai? explain` as question and `// ai! change` as change.
-- **Retrieve:** inspect `aider/coders/base_coder.py:924-944,1560-1615` and `aider/watch.py`.
+## Verdict
+Adopt watch-mode as the primary I/O and the capped reflection loop as the safety valve; port verbatim-comment fidelity and the per-interaction counter. Provide-edits "you're the user" — the model's turn ends when the human edits the file.
