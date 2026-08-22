@@ -349,6 +349,12 @@
       "modelVisible": false
     },
     {
+      "name": "dsh-template-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "eslint-foundation",
       "status": "retained",
       "pack": "pack-foundations",

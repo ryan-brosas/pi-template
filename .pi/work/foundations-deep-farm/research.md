@@ -460,3 +460,137 @@ transport, and the extension-root migration unless a target needs them.
   host-specific Pi extension surfaces rather than portable reusable contracts.
 
 
+## 2026-08-23 dsh-template squeezed (autonomous drain)
+
+Squeezed `dsh-template` (user's own DeepSeek Harness coding-agent template) into
+a canonical foundation leaf `dsh-template-foundation` with **14 capsule-v2**
+references.
+
+**Live graph (gate 1):** project `dsh-template`, root
+`/mnt/ssd/work/project/dsh-template`, branch `pi-fovea-foundation`, HEAD
+`ffb36822ffbcbba509deebaf3ea9412a9ea8b2c4`, `fast` index mode, 8,735 nodes /
+8,793 edges, indexed 2026-08-21. Excluded by design: `.dsh/skills/pack-platform/
+vercel-deploy-claimable/scripts`, `.git`, `.idea`, `.pi`, `scripts`. 0
+parse_partial / 0 skipped. `check_index_coverage` on the 8 browser-tools JS
+files + `.github/workflows/check.yml` reports `no_recorded_issue` +
+`metadata_match`; `scripts/check.mjs` is in the excluded `scripts/` dir (read
+directly from source); the plugin `index.js` is indexed (`no_recorded_issue`)
+but its symbols are not surfaced as graph nodes (read directly from source).
+
+**Graph-led seams (gate 2):** architecture shows a skill-template repo (8 JS
+files, 5 YAML, 1 Bash, 759 Modules) — the code surface is `scripts/check.mjs`,
+`.dsh/plugins/project-prompts/src/index.js`, and the 8 `browser-tools/*.js`
+files. Crowned 14 reusable seams across the validation gate, the command
+plugin, the browser-automation toolset, the profile/home wiring, and the
+workflow/template surfaces.
+
+**Source/test confirmation (gate 3):** read decisive ranges in every cited
+module (see capsule Path/Symbol + line ranges): `scripts/check.mjs` (whole,
+180 lines), `.dsh/plugins/project-prompts/src/index.js` (whole, 93 lines),
+`browser-start.js` (SCRAPING_DIR 16, connect-check 19–29, profile rsync 42–57,
+spawn 59–68, readiness poll 71–89), `browser-nav.js` (arg parse 6–9, connect
+race 20–30, new-tab 32–35, current-tab 36–43), `browser-content.js` (TIMEOUT
+11–15, CDP DOM 51–55, htmlToMarkdown 64–79, Readability 59–61, fallback 84–100),
+`browser-eval.js` (AsyncFunction eval 34–37, result formatting 39–52),
+`browser-pick.js` (window.pick 34–143, buildElementInfo 82–103, onMove/onClick/
+onKey 75–140), `browser-hn-scraper.js` (scrapeHackerNews 18–75, CLI guard
+78–96), `browser-cookies.js` (last-tab guard 18–23, cookie dump 25–34),
+`browser-screenshot.js` (timestamped filename 27–29, screenshot 31),
+`.dsh/profile/package.json` (dsh.profile.bundles 8–16), `.dsh/profile/
+cordis.patch.yml` (whole, 30 lines), `.dsh/home/settings.yaml` (agent-presets
+13–14), `.dsh/home/mcp.yaml` (mcp.servers 19–45), `.dsh/workflows/README.md`
+(workflow shape + fan-out), `.dsh/templates/README.md` (mapping table).
+**No direct test files exist in the repo** — every capsule carries an explicit
+no-test coverage caveat; all claims are source-grounded.
+
+**Capsules (gate 4):** fourteen `<!-- capsule-v2 -->` references in
+`pack-foundations/dsh-template-foundation/references/`:
+- `canonical-check.md` — dependency-free `check.mjs` gate (no Pi remnants,
+  AGENTS.md, skill frontmatter + packs.json membership, foundation depth,
+  profile layer, home templates, workflows, `git diff --check`, commit
+  conventions).
+- `command-plugin.md` — `project-prompts` plugin `apply`/`Config`/
+  `resolveCommands`, `ctx.commands.register` handler that feeds the prompt
+  body back to the agent via `invocation.agent.followup(createUserMessage(...))`
+  (no model round-trip).
+- `browser-launch.md` — idempotent Chrome launch on :9222 (connect-or-reuse,
+  singleton-lock clearing, detached spawn, bounded readiness poll, optional
+  `--profile` rsync).
+- `browser-navigation.md` — navigate last tab / new tab with `--reload`, behind
+  a 5s connect race, `waitUntil: "domcontentloaded"`.
+- `browser-content-extraction.md` — CDP DOM fetch (TrustedScriptURL-safe) →
+  Readability → Turndown markdown, with a boilerplate-stripping fallback.
+- `browser-eval.md` — `AsyncFunction`-wrapped `page.evaluate` (async-capable)
+  + array/object/scalar result formatter.
+- `browser-picker.md` — injected `window.pick()` overlay/highlight/banner
+  interactive selector with Cmd/Ctrl multi-select, Escape-cancel/Enter-confirm,
+  and a `parents` CSS-chain selector.
+- `browser-hn-scraper.md` — cheerio `.athing` + next-sibling `.subtext` HN
+  scraper, importable + CLI.
+- `browser-cookies.md` — dump the active tab's cookies (name/value/domain/path/
+  httpOnly/secure).
+- `browser-screenshot.md` — timestamped tmpdir PNG + printed path.
+- `profile-patch-layer.md` — `cordis.patch.yml` top-level YAML-array loader
+  patch entries + `package.json` `dsh.profile.bundles`.
+- `home-config-templates.md` — `$DSH_HOME` `settings.yaml` (agent presets) +
+  `mcp.yaml` (MCP servers), env-var-only secrets.
+- `workflow-orchestration.md` — DSH `workflow` tool `meta`/`script`/`args`
+  shape + `Promise.all` parallel fan-out + reconcile-against-durable-state.
+- `template-surface.md` — DSH-native format templates mapped to
+  `schema_*`/`fabric_mesh`/`fovea_*`/`goals`/prompt surfaces.
+
+**Pressure test (gate 5):** no test runner exists in the repo (no direct test
+files; the browser scripts need a live Chrome + puppeteer-core deps that are not
+installed in this clone). No agent-runner RED/GREEN was executed. Ran
+deterministic retrieval/probe checks instead: every cited seam symbol resolves
+in `search_graph` with exact qn/file/line (scrapeHackerNews 18-75,
+buildElementInfo 82-103, htmlToMarkdown 64-79, cleanup 64-73, updateBanner
+57-59, onMove 75-80, onClick 105-124, onKey 126-136); all 8 browser-tools JS
+files resolve as File nodes in `query_graph`; the canonical gate
+`node scripts/check.mjs` exits 0 with `repository check: ok` (verified live on
+the dsh-template clone, `pi-fovea-foundation`). No fabricated pass.
+
+**Wiring (gate 6, NEW membership):** added `dsh-template-foundation` to
+`packs.json` pack-foundations members (29), router `pack-foundations/SKILL.md`
+(29 lines), `manifest.json` (retained, pack-foundations, alphabetical), and
+`_descriptions`. JSON parses; member + manifest parity confirmed 29/29; router
+line count 29 matches members. README skill-file counts corrected to 132 (117
+pack leaves + 11 routers + 4 core safety).
+
+**Verify (gate 7):** loader/map parity 14/14 (all 14 references once in loader
+and map, all resolve to on-disk files, all capsule-v2); leaf matches canonical
+template (all 7 headings in fixed order: Use this for / Load the matching
+source dump / Capsule map / Extending the foundation / Provenance / Full view
+(memory graph) / Boundaries). `python3 scripts/check-integrity.py` exits 0
+(`OK: 6 packs, all consistent`). Diff touches only the new foundation dir,
+packs.json, router, manifest.json, README, and the work record. Pre-existing
+untracked `.bak` files (packs.json.bak, manifest.json.bak, dated 2026-08-23
+00:50, before this session) and other pre-existing dirty files left uncommitted
+(unrelated).
+
+**Verdicts:** adopt the dependency-free canonical check gate, the
+`ctx.commands.register` command-plugin contract, the CDP browser-automation
+scripts, the profile patch layer, the `$DSH_HOME` config templates, and the
+workflow/template surfaces; adapt the browser binary path, profile source dir,
+MCP server list, model/provider config, and prompt command set to the host;
+omit the DSH agent-preset internals, the `fabric_mesh`/`schema_*`/`fovea_*`
+runtime behaviors (they live in the DSH harness, not this template), and the
+`vercel-deploy-claimable`/`find-polluter` scripts unless a target needs them.
+
+### dsh-template module disposition
+- **Mined (portable harness contracts):** `scripts/check.mjs` (canonical gate),
+  `.dsh/plugins/project-prompts/src/index.js` (command plugin), all 8
+  `browser-tools/*.js` scripts, `.dsh/profile/package.json` +
+  `cordis.patch.yml` (profile patch layer), `.dsh/home/settings.yaml` +
+  `mcp.yaml` (home config), `.dsh/workflows/README.md` (workflow
+  orchestration), `.dsh/templates/` (template surface) — represented by the 14
+  capsules above.
+- **Omitted with reason:** DSH agent-preset internals, `fabric_mesh`/
+  `schema_*`/`fovea_*` runtime behaviors (live in the DSH harness, not this
+  template), the `.dsh/skills/pack-platform/vercel-deploy-claimable/scripts/
+  deploy.sh`, `.dsh/skills/pack-quality/root-cause-tracing/find-polluter.sh`,
+  and the `.dsh/skills/` pack content (a separate skill catalog, not the
+  template's reusable code contracts) unless a target needs them.
+
+
+
