@@ -17,6 +17,7 @@ const description = (name) => {
   return (line || "").slice("description:".length).trim().replace(/^["']|["']$/g, "");
 };
 const cases = [
+  { task: "build a lint rule engine with a flat-config pipeline and RuleTester harness", expect: ["eslint-foundation"], keywords: ["rule"], max: 1 },
   { task: "Flask API task", expect: ["python-development", "flask-development"], keywords: ["python", "flask"], max: 2 },
   { task: "Go service task", expect: ["go-development"], keywords: ["go"], max: 1 },
   { task: "Rust CLI task", expect: ["rust-development"], keywords: ["rust"], max: 1 },

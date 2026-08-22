@@ -45,6 +45,7 @@
         "biome-foundation",
         "roo-foundation",
         "continue-foundation",
+        "eslint-foundation",
         "ai-sdk-foundation",
         "graphrag-foundation",
         "billion-context-pi-foundation",
@@ -294,6 +295,7 @@
     "oh-my-pi-vibe-foundation": "Use when building durable agent workers: parent-scoped session ownership, journal rehydration, interrupt-or-queue delivery, and teardown-safe lifecycle records.",
     "oh-my-pi-task-orchestration-foundation": "Use when building a multi-agent task executor: ordered fanout, cancellation-safe concurrency, narrow provider permits, worktree isolation, and soft-to-hard execution budgets.",
     "oh-my-pi-autoresearch-foundation": "Use when building experiment automation: clean-baseline branch isolation, branch-bound session resume, durable run ledgers, and metric-driven keep/discard loops.",
-    "oh-my-pi-advisor-foundation": "Use when delivering automated review or advisor findings to a live agent: severity-based steer/aside/preserve routing, interruption cooldowns, and no unwanted auto-resume."
+    "oh-my-pi-advisor-foundation": "Use when delivering automated review or advisor findings to a live agent: severity-based steer/aside/preserve routing, interruption cooldowns, and no unwanted auto-resume.",
+    "eslint-foundation": "Use when building a lint rule engine or flat-config linter: the verify pipeline, config loading/validation, RuleTester harness, and AST rule primitives."
   }
 }

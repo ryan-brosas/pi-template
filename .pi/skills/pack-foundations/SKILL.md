@@ -16,6 +16,7 @@ Each leaf encodes an indexed repo: what it solves, reusable primitives, graph an
 - biome-foundation: lossless CST, formatter IR, rule engine
 - roo-foundation: IDE agent modes, mistake breakers, approval classifier
 - continue-foundation: FIM autocomplete, generator reuse, stream filters
+- eslint-foundation: flat-config lint pipeline, RuleTester, AST primitives
 - ai-sdk-foundation: LLM streaming, stop predicates, tool-call repair
 - graphrag-foundation: GraphRAG search — Map-Reduce, local context, DRIFT
 - billion-context-pi-foundation: long-context delegation, compress/decompress
