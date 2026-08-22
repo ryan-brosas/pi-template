@@ -4,7 +4,7 @@ A **squeeze** is the serial, wave-based mining of one indexed inspiration repo i
 
 ## Entry gate
 
-Load `foundations-workflow` and the packed router before touching an indexed repo. The router description and the squeeze routing probe decide the entry: mining/re-squeezing/migrating a repo routes to the workflow first; porting a known primitive routes to the matching leaf — never the workflow. When the intent is any foundation-authoring step, a `/skill:pack-foundations squeeze <repo>` invocation is the hard entry.
+Load `foundations-workflow` and the packed router before touching an indexed repo. The router description decides the entry: mining/re-squeezing/migrating a repo routes to the workflow first; porting a known primitive routes to the matching leaf — never the workflow. When the intent is any foundation-authoring step, a `/skill:pack-foundations squeeze <repo>` invocation is the hard entry.
 
 ## Preconditions
 - One canonical, ready Codebase Memory project: `list_projects`, then `index_status({ project, verbose: true })` and record project/root/branch/HEAD/mode/node+edge counts/exclusions/freshness in the durable work record.
@@ -15,11 +15,11 @@ Load `foundations-workflow` and the packed router before touching an indexed rep
 Waves are an execution convenience, never a quota. One source repo at a time; within a wave, mine seam-by-seam:
 
 ```text
-crown seam -> capsule-vN reference -> update Capsule map -> node scripts/check.mjs -> commit
+crown seam -> capsule-v2 reference -> update Capsule map -> record direct evidence -> commit
 ```
 
 - Crown a seam when it is reusable and its relationships explain why it matters (fan-in is evidence, not the decision). Sweep a module until no new reusable seam remains, then move to the next module.
-- Author one `<!-- capsule-v1 -->` reference per distinct porting question: Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve. No line/reference/citation min or max.
+- Author one `<!-- capsule-v2 -->` reference per distinct porting question: Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve. No line/reference/citation min or max.
 - Group capsules in the leaf's **Capsule map** by subsystem; keep the leaf a lean routing surface, never a project ledger.
 - Wave/module status, unresolved modules, adopt/adapt/omit verdicts, and RED/GREEN evidence live only in the durable work record, never the leaf.
 
@@ -30,4 +30,4 @@ The repo is squeezed when the work record rows every module as `mined`, `skipped
 Score 5 bars (right foundation, relevant primitive, exact retrieval target/coverage, preserved invariant/probe, no irrelevant loading). RED without the capsule must expose a real miss; WITH it, GREEN passes 4/5 twice incl. adversarial. If no runner is available, record the block and run deterministic retrieval/content probes; **never** a fabricated pass. Record tool-call counts, cost, and exact copied invariants/symbols.
 
 ## Close
-`probe-foundation-squeeze.mjs` enforces the structural contract (Capsule map, extension recipe, graph provenance, capsule-vN markers, map-to-reference parity); `node scripts/check.mjs` enforces everything else. Both must be green before the ledger row closes and the next repo opens.
+Before the ledger row closes, directly inspect capsule/map parity, provenance, the extension recipe, every cited graph/source/test path, and the final diff. Record the observed evidence and any blocked runner; do not substitute a fabricated pass.

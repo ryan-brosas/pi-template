@@ -17,7 +17,7 @@ pack-foundations/<repo>-foundation/
 Work one source repo at a time; count and length are set by reusable contracts.
 
 ## Leaf placement
-The fixed `SKILL.md` order is `Use this for` → `Load the matching source dump` → `Capsule map` → `Extending the foundation` → `Provenance` → `Boundaries`.
+The fixed `SKILL.md` order is `Use this for` → `Load the matching source dump` → `Capsule map` → `Extending the foundation` → `Provenance` → `Full view (memory graph)` → `Boundaries`.
 The leaf routes, catalogs each capsule once, groups by capability, records graph identity/freshness, and bounds adoption. It never repeats decisive excerpts, test mechanics, module status, wave timing, or an exhaustive repository census; those live in capsules or the durable work record.
 
 ## Reference placement
@@ -26,4 +26,4 @@ Every new or substantively rewritten normal reference starts with `<!-- capsule-
 The graph selects the seam, but source overrides it. If a direct test is absent or excluded, record the caveat in the verdict—never invent coverage. Each capsule answers one porting question and carries only the excerpt needed to prevent a likely wrong port.
 
 ## Mechanical checks
-The validators enforce capsule evidence, leaf↔reference parity, provenance, and scaffold/padding exclusions. Prove the authoring change RED first, then run `node scripts/check.mjs`.
+Direct inspection establishes capsule evidence, leaf↔reference parity, provenance, and scaffold/padding exclusions. Prove the authoring change RED first, then record source/test, graph coverage, retrieval, and final-diff evidence.

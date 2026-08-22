@@ -10,7 +10,7 @@ Each leaf encodes an indexed repo. Pick 2 members max; read fully; load `referen
 Load `foundations-workflow` first (the squeeze process). One repo at a time: prewalk, trace source/tests, prove each capsule RED/GREEN; log gaps in the work record.
 
 ## Capability/source-map quality bar
-Follow the Oh My Pi capsule pattern: **Capsule map** by capability, **Extending the foundation** recipe, one capsule per seam; finish with `node scripts/check.mjs`.
+Follow the Oh My Pi capsule pattern: **Capsule map** by capability, **Extending the foundation** recipe, one capsule per seam; close only with recorded graph, source, test, coverage, and diff evidence.
 
 ### Extend a foundation
 Load the leaf's map group, then add one evidence-backed capsule when the seam is uncovered.

@@ -1,73 +1,39 @@
 # Foundations Workflow — Wiring & Verification
 
-The exact edits to register a foundation skill, the gates that must pass, and the failures to expect.
+## Wiring
 
-## Wiring (four edits + one regeneration)
+**Rewrites with unchanged membership:** leave `packs.json`, the router, and the manifest untouched; update only the leaf `SKILL.md`, its references, and the durable work record.
 
-**Rewrites with unchanged membership skip sections 1–3:** leave packs.json, the router, and the manifest untouched; update only the leaf SKILL.md and its references. Catalog edits are for membership changes only.
+### New membership
+1. Add the member and trigger-first description to `.pi/skills/packs.json`.
+2. Add the matching router line to `.pi/skills/pack-foundations/SKILL.md`.
+3. Update `.pi/skills/manifest.json` to match the on-disk skill and `packs.json` membership.
+4. Update `README.md` counts only when membership changes.
 
-### 1. `.pi/skills/packs.json`
-- Add the member to `pack-foundations.members` (alphabetical is conventional).
-- Add a `_descriptions["<name>"]` entry mirroring the frontmatter description (human-maintained routing hint; not validator-enforced but kept in sync).
-- Careful: JSON comma slips here break `sync-skill-manifest.mjs` with `Expected ',' or '}'`.
+Check JSON syntax, exact membership parity, router wording, and manifest entries directly before closing. Record the inspected paths and outcome in the work record.
 
-### 2. `.pi/skills/pack-foundations/SKILL.md` (the router)
-- Add the member line: `- <name>: <short description>`.
-- The router's member list must equal packs.json members exactly (validator checks both directions).
-- Total router text must stay under 190 words — compact other lines if needed.
+## Evidence gates
 
-### 3. Manifest
-- `node scripts/sync-skill-manifest.mjs` regenerates `.pi/skills/manifest.json` from packs.json + disk.
-- CI runs it with `--check`; drift fails.
+For every rewritten foundation:
+1. Confirm the live graph project's root, branch, commit, mode, counts, freshness, and coverage caveats.
+2. For each capsule, trace its symbol, read decisive source and its named direct test, and check coverage for every cited path.
+3. Confirm each loader entry and Capsule map reference resolves to exactly one existing `capsule-v2` file.
+4. Review the diff for accidental catalog or unrelated-file changes.
+5. Record the exact commands/tool calls and results in the durable work record; a blocked test runner is a caveat, never a pass.
 
-### 4. `README.md` counts (three places + wording)
-- Line ~5: `9 prompt commands, N skill files`.
-- Line ~6: `(L leaves in P packs: L-4 pack leaves + 4 core safety), n format templates` where n matches the count of `.pi`/templates format files PLUS the documented template-only foundation library assets in `.pi`/templates/ (currently 14).
-- Line ~31 tree comment: `N skill files: P pack routers + (L-4) pack leaves + 4 core safety`.
-- Line ~80: `N skill files — P pack routers, (L-4) hidden pack leaves, and 4 core safety skills` + the spelled-out router-count sentence (`Ten/Eleven visible pack routers (...)`).
-- Math: skill files = routers + leaves; leaves = pack leaves + 4 core. Verify against `validate-release-hygiene.mjs` output (`tracked=... skills=N (leaves=L, packs=P)`).
-
-#### 5. Backlog
-- For a rewrite with unchanged membership, leave packs/router/manifest untouched. Record the repo status and next batch in the durable work record (`.pi/work/foundations-deep-farm/research.md`), not a `.pi/foundations.md` file.
-
-## The gates
-
-`node scripts/check.mjs` runs, in order:
-1. `validate-skill-packs.mjs` — membership, visibility, trigger-first/budget, parity, manifest drift, router budget. Prints `[ok] packs=P members=M core=4 leaves=L routers=R visible=V ...`.
-2. `sync-skill-manifest.mjs --check` — manifest currency.
-3. `probe-skill-routing.mjs` — routing cases (add one for new foundation skills: task -> expected leaf, keyword present in its description).
-4. `validate-pi-fabric.mjs` — fabric.json config, AGENTS.md contract, prompt Schema tokens, ship.md skill refs.
-5. `validate-work-management.mjs` — work-record contract, prompt path ownership.
-6. `validate-foundation-depth.mjs` — reference-level evidence bar (capsule/provenance/probe, tracked debt).
-7. `probe-foundation-squeeze.mjs` — leaf-shape contract on every foundation: Capsule map, Extending recipe, graph provenance, map-to-reference parity.
-8. `validate-notion-workspace-skill.mjs`, `validate-release-hygiene.mjs` — README/tree counts, secrets scan.
-9. `git diff --check` + commit-convention gate.
-
-## Common failures -> fixes
+## Common failures → fixes
 
 | Failure | Fix |
 |---|---|
-| `Expected ',' or '}' after property value` in packs.json | missing comma after the previous `_descriptions` entry |
-| `router "pack-foundations" omits catalog members` | add the member line to the router |
-| `README skill files mismatch (README: N; tree: M)` | recount: files = routers + leaves; bump all README spots |
-| `description must be trigger-first` / over budget | rewrite to `Use when ...`, <= 240 chars |
-| `manifest drift` | run sync-skill-manifest.mjs |
-| `unsafe description frontmatter: unquoted ": "` | wrap the description in double quotes |
-| word-count warn on a foundation leaf | expected for deep leaves; move nothing — depth lives in references/, warnings on other leaves mean their SKILL.md grew |
-
-## Adding a routing probe (optional but recommended)
-
-In `scripts/probe-skill-routing.mjs`, add:
-
-```js
-{ task: "<one-session phrasing of the need>", expect: ["<leaf>"], keywords: ["<word from its description>"], max: 1 },
-```
-
-The probe lowercases the description and requires the keyword; keep one keyword per expected leaf.
+| Invalid JSON in `packs.json` | Restore valid commas and quoting, then parse and inspect the edited object. |
+| Router omits a catalog member | Add the matching member line and re-check both lists. |
+| Manifest is stale | Update the entry manually from `packs.json` and the leaf frontmatter, then compare both surfaces. |
+| Unsafe description frontmatter | Wrap descriptions containing `: ` in double quotes. |
+| Leaf has grown into a ledger | Move module status and wave evidence to `.pi/work/`; keep only routing, map, provenance, full graph view, and boundaries. |
 
 ## Red flags
 
-- Editing packs.json by hand without regenerating the manifest.
-- A router line whose description diverges from the leaf's purpose.
-- Forgetting the README router-count wording (only the numbers get caught).
-- Committing before check.mjs exits 0.
+- Editing catalog files for a rewrite with unchanged membership.
+- Leaving a loader or map reference without a matching capsule.
+- Treating a graph result or a missing runner as proof of behavior.
+- Closing a work record without inspected source, test, coverage, and diff evidence.

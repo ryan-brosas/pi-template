@@ -18,5 +18,8 @@ Add one `references/<seam>.md` capsule for one graph-selected, source-confirmed 
 ## Provenance
 <Repository> (<license>), `<branch>@<commit>`; Codebase Memory project `<project>` (<index coverage/freshness and caveat>).
 
+## Full view (memory graph)
+Revalidate `<project>` before porting: run `index_status`, `check_index_coverage`, `search_graph`, `trace_path`, and `get_code_snippet`. Record the graph root, branch, commit, mode, node/edge counts, freshness, and any coverage caveats; source and direct tests decide shipped claims.
+
 ## Boundaries
 Adopt <pure contract>; adapt <host-specific integration>; omit <source-specific transport/product behavior>.
