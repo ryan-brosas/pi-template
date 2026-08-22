@@ -27,8 +27,8 @@ The exact edits to register a foundation skill, the gates that must pass, and th
 - Line ~80: `N skill files — P pack routers, (L-4) hidden pack leaves, and 4 core safety skills` + the spelled-out router-count sentence (`Ten/Eleven visible pack routers (...)`).
 - Math: skill files = routers + leaves; leaves = pack leaves + 4 core. Verify against `validate-release-hygiene.mjs` output (`tracked=... skills=N (leaves=L, packs=P)`).
 
-### 5. Backlog
-- Mark the repo done in `.pi/foundations.md` (batch tables: pending -> done) and queue the next batch.
+#### 5. Backlog
+- For a rewrite with unchanged membership, leave packs/router/manifest untouched. Record the repo status and next batch in the durable work record (`.pi/work/foundations-deep-farm/research.md`), not a `.pi/foundations.md` file.
 
 ## The gates
 
@@ -38,8 +38,10 @@ The exact edits to register a foundation skill, the gates that must pass, and th
 3. `probe-skill-routing.mjs` — routing cases (add one for new foundation skills: task -> expected leaf, keyword present in its description).
 4. `validate-pi-fabric.mjs` — fabric.json config, AGENTS.md contract, prompt Schema tokens, ship.md skill refs.
 5. `validate-work-management.mjs` — work-record contract, prompt path ownership.
-6. `validate-notion-workspace-skill.mjs`, `validate-release-hygiene.mjs` — README/tree counts, secrets scan.
-7. `git diff --check` + commit-convention gate.
+6. `validate-foundation-depth.mjs` — reference-level evidence bar (capsule/provenance/probe, tracked debt).
+7. `probe-foundation-squeeze.mjs` — leaf-shape contract on every foundation: Capsule map, Extending recipe, graph provenance, map-to-reference parity.
+8. `validate-notion-workspace-skill.mjs`, `validate-release-hygiene.mjs` — README/tree counts, secrets scan.
+9. `git diff --check` + commit-convention gate.
 
 ## Common failures -> fixes
 

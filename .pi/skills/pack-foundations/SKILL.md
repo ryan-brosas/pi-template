@@ -7,10 +7,10 @@ description: "Foundations router: reusable proven code from indexed inspiration 
 Each leaf encodes an indexed repo. Pick 2 members max; read fully; load `references/` when porting.
 
 ## Primary foundation process
-Load `foundations-workflow` first. One repo at a time: prewalk, trace source/tests, prove each capsule RED/GREEN + probe; log gaps in the work record.
+Load `foundations-workflow` first (the squeeze process). One repo at a time: prewalk, trace source/tests, prove each capsule RED/GREEN; log gaps in the work record.
 
 ## Capability/source-map quality bar
-Follow the Oh My Pi pattern: capsule catalog, **Capsule map** by capability, **Extending the foundation** recipe. One capsule per seam — source, invariant, retrieval, Probe; finish with `node scripts/check.mjs`.
+Follow the Oh My Pi capsule pattern: **Capsule map** by capability, **Extending the foundation** recipe, one capsule per seam; finish with `node scripts/check.mjs`.
 
 ### Extend a foundation
 Load the leaf's map group, then add one evidence-backed capsule when the seam is uncovered.
