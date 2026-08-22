@@ -421,6 +421,12 @@
       "modelVisible": false
     },
     {
+      "name": "maximo3k-sales-nav-scraper-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "localterm-foundation",
       "status": "retained",
       "pack": "pack-foundations",

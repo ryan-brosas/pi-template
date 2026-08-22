@@ -39,3 +39,4 @@ Load the leaf's map group, then add one evidence-backed capsule when the seam is
 - mem0-foundation: agent memory — add/search, metadata filters
 - jobspy-foundation: job scraping (8 sites)
 - linkedin-mcp-foundation: LinkedIn MCP — session, daemon
+- maximo3k-sales-nav-scraper-foundation: LinkedIn Sales Navigator CSV scrape — pagination, data-anonymize extraction, CSV output

@@ -92,3 +92,84 @@ On-disk verification: `mkcs — no flat `## Path/Symbol` headings remain in any 
 - [aider full module screen (complete)] 2026 — swept all 142 non-website production paths; existing capsules cover context/coder-format/Git/diagnostics/collab/consent/model-policy; added the run-shell seam (explicit execution + separate chat-admission consent). Omitted CLI, prompts, GUI, analytics, voice, scraping, site assets, spinner, query grammars, provider transport.
 
 - [DONE:16] 2026-08-22 — summary-fallback seam: source-tested `ChatSummary.summarize_all` continues through ordered summarizer models after exception or `None`, normalizes only the first success into a prefixed synthetic history message, and fails loudly after exhaustion. Added `references/summary-fallback.md`; direct probe `TestChatSummary.test_fallback_to_second_model` (`tests/basic/test_history.py:83-120`).
+
+## 2026-08-22 autonomous drain (queue-based)
+
+Automated daily drain set up to squeeze every indexed repo into a canonical
+foundation, lifting the small model. Resume mechanism: the queue file
+`/home/utopia/foundation_queue.json` is the single source of truth — each repo
+is `squeezed` / `queued` / `in_progress`. Any run claims the next `queued` repo
+and releases it as `squeezed` (ok) or back to `queued` (fail), so progress
+survives credit exhaustion, interruption, or gateway restart. Manager:
+`python3 /home/utopia/foundation_queue.py {claim,release,status,list}`.
+Operation notes: `/home/utopia/FOUNDATION_DRAIN.md`. Cron timeout raised to
+`HERMES_CRON_TIMEOUT=3600` in `~/.hermes/.env`. Queue currently: 24 squeezed /
+74 queued across 98 indexed repos.
+
+## 2026-08-22 maximo3k-sales-nav-scraper squeeze (autonomous drain)
+
+Claimed from queue (in_progress), squeezed, released `ok`.
+
+**Live graph (gate 1):** project `maximo3k-sales-nav-scraper`, root
+`/mnt/hdd/utopia/inspo/maximo3k-sales-nav-scraper`, branch `main`, HEAD
+`bdcd2e5197929f78631ab127d2fd10cee18807ca`, `full` index mode, 30 nodes / 42
+edges, indexed 2026-08-18, `no_recorded_issue` + `metadata_match` on the single
+production file `prospect_scraper_sales_navigator.py`; only `.git` excluded by
+design; 0 parse_partial / 0 skipped.
+
+**Graph-led seams (gate 2):** architecture shows one Python file with 4
+functions; trace confirms `scrape_results_page -> scroll_extract ->
+write_results_to_csv`. Crowned three reusable seams: pagination, per-card
+extraction, CSV output.
+
+**Source/test confirmation (gate 3):** read the full source file
+(163 lines). **No test files exist in the repo** — every capsule carries an
+explicit no-test coverage caveat; all claims are source-grounded only.
+
+**Capsules (gate 4):** three `<!-- capsule-v2 -->` references in
+`pack-foundations/maximo3k-sales-nav-scraper-foundation/references/`:
+- `pagination.md` — page loop on the enabled `artdeco-pagination__button--next`, break on disabled/absent.
+- `extraction.md` — scroll-into-view + re-locate-by-index + `data-anonymize` field extraction with NA defaults and per-card exception tolerance.
+- `csv-output.md` — append-mode CSV writer with `file.tell()==0` header-on-first-write guard.
+
+**Pressure test (gate 5):** no agent runner used in this cron pass; ran
+deterministic retrieval/probe checks instead (search_graph resolves each symbol,
+coverage check clean). No fabricated pass.
+
+**Wiring (gate 6, NEW membership):** added `maximo3k-sales-nav-scraper-foundation`
+to `packs.json` pack-foundations members (25), router `pack-foundations/SKILL.md`,
+and `manifest.json` retained (25/25 parity, JSON parses). README count corrected
+to 129 skill files (was stale at 132; disk had 128).
+
+**Verify (gate 7):** loader/map parity 3/3; every capsule is `capsule-v2`;
+provenance + Full view (memory graph) + Boundaries present in leaf. Diff touches
+only the new foundation dir, packs.json, router, manifest.json, README, and the
+work record.
+
+**Verdicts:** adopt pagination loop, scroll+`data-anonymize` extraction, and
+header-on-first-write CSV append; adapt selectors/login/timing and output path
+to host; omit manual login/captcha handoff and hard-coded `prospects_1.csv`
+path. Coverage caveat: no direct tests in the repo.
+
+## 2026-08-22 autonomous drain — NO scripts (revised)
+
+Correction to the earlier queue-based note: the drain does NOT use any helper
+script to claim/release repos. The model must STUDY the graph itself and decide
+what to squeeze, then author detailed canonical foundation skills — this is how
+the small model learns the code. Resume is tracked in THIS durable work record
+(what's squeezed vs. remaining), not in a script or queue file. Each run reads
+this record, picks one unsqueezed repo, squeezes it into pack-foundations
+following the 7 gates, and records evidence here. Operation notes:
+`/home/utopia/FOUNDATION_DRAIN.md`. Cron timeout `HERMES_CRON_TIMEOUT=3600` in
+`~/.hermes/.env`. 4 cron jobs/day (06/12/18/22), one repo each.
+
+## 2026-08-22 maximo3k-sales-nav-scraper squeezed (first drain run)
+
+Squeezed `maximo3k-sales-nav-scraper` (30 nodes / 42 edges, full index,
+`main@bdcd2e5197929f78631ab127d2fd10cee18807ca`) into a canonical foundation
+leaf `maximo3k-sales-nav-scraper-foundation` with 3 capsule-v2 references:
+pagination (enabled-button-gated loop), extraction (scroll + data-anonymize
+fields with NA defaults), csv-output (header-on-first-write). No test files in
+the repo — all claims source-grounded (coverage caveat recorded in each
+capsule). Wired into packs.json, router, manifest. Loader/map parity verified
+(3 refs, all resolve). This was the first autonomous drain run.

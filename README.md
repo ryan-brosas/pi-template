@@ -71,7 +71,7 @@ open source). Without the secret the workflow skips and CI stays green.
 ## Skills and Templates
 
 
-- Skills: 132 skill files — 11 pack routers, 118 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
+- Skills: 129 skill files — 11 pack routers, 114 hidden pack leaves, and 4 core safety skills (brainstorming, debugging-and-error-recovery, security-and-hardening, verification-before-completion) under `.pi/skills/`.
   Eleven visible pack routers (pack-delivery, pack-foundations, pack-quality, pack-research,
   pack-frontend, pack-platform, pack-data, pack-apple, pack-authoring,
   pack-backend, pack-toolchains) route by
