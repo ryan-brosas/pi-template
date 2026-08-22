@@ -129,3 +129,9 @@ async def _cleanup_background_evaluations():
     except ImportError:
         return
     await wait_for_evaluations()
+
+
+# Conditional collection: ignore test modules when an optional dependency is
+# missing, so slim CI runs don't fail on import. Add to this list as needed.
+#   collect_ignore = ['test_x.py'] if importlib.util.find_spec('dep') is None else []
+import importlib.util  # noqa: E402

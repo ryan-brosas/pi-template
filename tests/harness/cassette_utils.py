@@ -25,6 +25,34 @@ def is_str_dict(value: Any) -> bool:
         isinstance(k, str) and isinstance(v, str) for k, v in value.items()
     )
 
+
+def sanitize_cassette(
+    cassette: dict[str, Any],
+    host_placeholders: dict[str, str] | None = None,
+    drop_headers: tuple[str, ...] = ("authorization", "cookie"),
+) -> None:
+    """Sanitize a recorded VCR cassette in place so committed cassettes don't
+    leak secrets or real hostnames.
+
+    - Replaces real host subdomains/buckets with fixed placeholders.
+    - Drops sensitive headers (authorization, cookie, etc.).
+    Use this when recording cassettes that will be committed to the repo.
+    """
+    host_place = host_placeholders or {}
+    for interaction in cassette.get("interactions", []):
+        if not is_str_dict(interaction):
+            continue
+        req = interaction.get("request")
+        if is_str_dict(req):
+            uri = req.get("uri", "")
+            for real, placeholder in host_place.items():
+                uri = uri.replace(real, placeholder)
+            req["uri"] = uri
+            headers = req.get("headers")
+            if is_str_dict(headers):
+                for h in drop_headers:
+                    headers.pop(h, None)
+
 try:
     from yaml import CSafeLoader as SafeLoader
 except ImportError:  # pragma: no cover
