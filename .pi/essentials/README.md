@@ -16,6 +16,9 @@ guide *how* we approach work without over-restricting behavior.
   skills; the compounding effect; skill-capture after sessions.
 - `enforce-code-quality-mechanically.md` — Pillar 4: enforce code quality with
   tests/gates/CI, not prompting. Remove responsibility from the LLM.
+- `how-to-build-good-tests.md` — the test/gate methodology: a test is only good
+  if it catches (test un-fixed + fixed); broad tests, expand don't duplicate,
+  maintain a test list, turn manual catches into workflows.
 
 ## How to use
 - Read `operating-philosophy.md` when deciding how to approach a task.
