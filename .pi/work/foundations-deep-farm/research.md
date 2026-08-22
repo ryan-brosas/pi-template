@@ -173,3 +173,71 @@ fields with NA defaults), csv-output (header-on-first-write). No test files in
 the repo — all claims source-grounded (coverage caveat recorded in each
 capsule). Wired into packs.json, router, manifest. Loader/map parity verified
 (3 refs, all resolve). This was the first autonomous drain run.
+
+## 2026-08-22 veda squeezed (autonomous drain)
+
+Squeezed `veda` (veda-ts, MIT) into a canonical foundation leaf
+`veda-foundation` with 4 capsule-v2 references. Commit `badac4a`.
+
+**Live graph (gate 1):** project `veda`, root `/mnt/hdd/utopia/inspo/veda`,
+branch `master`, HEAD `f050518c99fa54a5a0af4a04918aaf01d1ed94e1`, `fast` index
+mode, 1,194 nodes / 3,690 edges, indexed 2026-08-15. Excluded by design:
+`.git`, `bin`, `docs`, `scripts`, `src/pipelines/prompts`, and all `tests/`
+(69 files, `fast-pattern` skip-list). 0 parse_partial / 0 skipped.
+
+**Graph-led seams (gate 2):** architecture shows packages core/util/agent/
+backend/stats/cli/commands/context/pipelines/checkpoint/conversation. Crowned
+four reusable seams: factored verification, model resolution, ensemble retry,
+checkpoint persistence.
+
+**Source/test confirmation (gate 3):** read decisive ranges in
+`src/core/verify.ts` (runVerification 643-743, runGenerateChecks 405-429,
+runAnswerCheck 465-494, runAnswerChecks 540-626, runRevision 749-782),
+`src/agent/config-extract.ts` (resolveBackendModelExtracted 213-285, determine
+Backend 123-147, inferBackendFromModel 27-35), `src/core/ensemble.ts`
+(runEnsemble 34-102), `src/checkpoint/store.ts` (CheckpointStore 23-139), and
+`src/agent/config.ts` (resolveModelWithSource 294-318, resolveBackendModel
+403-410). Direct tests read on disk: `tests/core/verify-primitives.test.ts`,
+`tests/core/ensemble-retry.test.ts`, `tests/checkpoint/store.test.ts`,
+`tests/agent/config-extract.test.ts`. Coverage caveat: `tests/` is excluded
+from the graph index by design, so probes are source-grounded from the on-disk
+test files, not graph-covered. Cited source files report `no_recorded_issue` +
+`metadata_match` (best-effort) on `check_index_coverage`.
+
+**Capsules (gate 4):** four `<!-- capsule-v2 -->` references in
+`pack-foundations/veda-foundation/references/`:
+- `factored-verification.md` — generate checks, answer each in isolation
+  (factored, prevents copying hallucinations), revise from contradictions;
+  difficulty→reasoning map; lenient XML parse; resume via checksOverride/
+  completedResults.
+- `model-resolution.md` — backend+model precedence (explicit > alias > prefix
+  > fallback > default) with source tagging and alias-application rules.
+- `ensemble-retry.md` — parallel members, retry-once-on-empty, fail-fast on
+  errors, usage accumulation across attempts.
+- `checkpoint-store.md` — versioned YAML save/load/clear under `withLock`,
+  validate-or-treat-as-absent load contract.
+
+**Pressure test (gate 5):** no bun runner on this host (which bun → none), so
+no agent-runner RED/GREEN was executed. Ran deterministic retrieval/probe
+checks instead: every cited symbol resolves in `search_graph` (runVerification,
+runAnswerChecks, parseChecks, runEnsemble, CheckpointStore.save/load all
+return exact qn/file/lines). No fabricated pass.
+
+**Wiring (gate 6, NEW membership):** added `veda-foundation` to `packs.json`
+pack-foundations members (26), router `pack-foundations/SKILL.md`, `manifest.json`
+(retained, pack-foundations), and `_descriptions`. JSON parses; member + manifest
+parity confirmed.
+
+**Verify (gate 7):** loader/map parity 4/4 (all four references once in loader
+and map, all resolve to on-disk files, all capsule-v2); leaf matches canonical
+template (all 7 headings in fixed order: Use this for / Load the matching
+source dump / Capsule map / Extending the foundation / Provenance / Full view
+(memory graph) / Boundaries). Commit `badac4a` touches only the new foundation
+dir, packs.json, router, manifest.json, and the work record. Pre-existing dirty
+files (.pi/fabric.json, project.md, roadmap.md, state.md, tech-stack.md) left
+uncommitted (unrelated).
+
+**Verdicts:** adopt factored verification, alias/prefix model resolution,
+ensemble retry-on-empty, and locked YAML checkpoint store; adapt backend names/
+alias tables/defaults and file I/O to host; omit CLI/commands, judge/winner-
+rationale internals, and Glicko-2 rating logic.
