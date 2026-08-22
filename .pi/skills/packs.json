@@ -27,7 +27,8 @@
         "test-driven-development",
         "testing-anti-patterns",
         "task-scoped-execution",
-        "veda-lane"
+        "veda-lane",
+        "code-discipline"
       ]
     },
     {
@@ -186,6 +187,7 @@
     "pi-hermes-memory-foundation": "Use when building agent persistent memory: SQLite FTS5 memory/session search, atomic Markdown memory with metadata comments, a corruption-recovering SQLite manager, a cross-process atomic lock coordinator, a procedural skill store, standing instructions, and content/secret scanning.",
     "dsh-template-foundation": "Use when building a DeepSeek Harness (DSH) coding-agent template or harness: a dependency-free canonical check gate, a command-plugin that turns prompt files into slash-commands, a CDP browser-automation toolset, a profile patch layer, home config templates, and DSH workflow orchestration.",
     "quality-gate-methodology": "Use when writing/reviewing tests or quality gates: test un-fixed+fixed, broad tests, expand don't duplicate, maintain test list, turn manual catches into workflows.",
-    "farmed-test-harness": "Use when writing tests for HTTP/LLM/external-service code: reuse the farmed harness (cassette recording/replay, client error handling, pytest fixtures)."
+    "farmed-test-harness": "Use when writing tests for HTTP/LLM/external-service code: reuse the farmed harness (cassette recording/replay, client error handling, pytest fixtures).",
+    "code-discipline": "Use when implementing/reviewing/committing code: general code-discipline (scope, verification, type-safety, tests, context-gathering, one source of truth)."
   }
 }

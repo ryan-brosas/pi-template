@@ -683,6 +683,12 @@
       "status": "retained",
       "pack": "pack-quality",
       "modelVisible": false
+    },
+    {
+      "name": "code-discipline",
+      "status": "retained",
+      "pack": "pack-delivery",
+      "modelVisible": false
     }
   ]
 }

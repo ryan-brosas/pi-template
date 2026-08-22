@@ -11,6 +11,7 @@ Pick at most 2 members below matching the task, most specific first; read each f
 
 - codebase-driven-development: default: code is ground truth; one-shot with examples
 - code-foundations: turn proven code into reusable skills
+- code-discipline: general code-discipline (scope, verification, type-safety, tests, one source of truth)
 - app-experience-mapping: map journeys, touchpoints, and service seams
 - development-lifecycle: plan project lifecycle and phases
 - fabric-native-execution: use Pi Fabric native providers (memory/state/mesh/compact)
