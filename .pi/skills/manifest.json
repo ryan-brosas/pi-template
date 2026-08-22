@@ -703,6 +703,12 @@
       "modelVisible": false
     },
     {
+      "name": "veda-foundation",
+      "status": "retained",
+      "pack": "pack-foundations",
+      "modelVisible": false
+    },
+    {
       "name": "veda-lane",
       "status": "retained",
       "pack": "pack-delivery",
