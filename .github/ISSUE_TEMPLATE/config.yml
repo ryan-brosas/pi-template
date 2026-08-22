@@ -1,1 +1,5 @@
 blank_issues_enabled: true
+contact_links:
+  - name: pi-template Documentation
+    url: https://github.com/ryan-brosas/pi-template
+    about: Read the README and docs for how to use the template

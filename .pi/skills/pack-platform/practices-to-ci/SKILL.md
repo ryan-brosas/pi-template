@@ -55,6 +55,10 @@ From the pre-commit configs of high-quality repos:
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene
+- `.github/ISSUE_TEMPLATE/` — bug/feature/question issue templates (farmed)
+- `.github/pull_request_template.md` — What/Why/Testing + verification checklist
+- `.github/workflows/branch-protection.yml` — no direct PRs to main
+- `SECURITY.md`, `CODEOWNERS`, `.github/dependabot.yml` — repo-level practices
 
 ## When to use
 

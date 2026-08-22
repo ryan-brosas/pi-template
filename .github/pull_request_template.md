@@ -1,25 +1,19 @@
-## Work link
+## What
 
-- **Issue:** #<issue> (optional — local-first work uses a slug)
-- **Work records:** `.pi/work/<slug>/` (or `<issue>-<slug>` when linked)
-- **Branch:** `<slug>` or `<issue>-<slug>` (at most three hyphen-separated lowercase words, no slashes, no type prefixes)
+<!-- Brief description of the change -->
 
-## Change summary
+## Why
 
-[What changed and why; one paragraph]
+<!-- Motivation, context, or link to issue (fixes #N) -->
 
-## Verification
+## Testing
 
-- [ ] Direct verification evidence is recorded (`git diff --check`, inspected call sites, and relevant source/test/graph probes)
-- [ ] Required CI checks pass
+<!-- How was this tested? -->
 
-## Risk and rollback
+---
 
-- **Risk:** [none | description]
-- **Rollback:** [revert commit | migration step]
-
-## Checklist
-
-- [ ] If an issue is linked, the number is verified, not guessed
-- [ ] Acceptance criteria from the issue are met
-- [ ] No unrelated changes are in the diff
+- [ ] `scripts/check-integrity.py` passes
+- [ ] `scripts/quality-gate.py` passes
+- [ ] `scripts/repo-hygiene.py` passes
+- [ ] Tested locally
+- [ ] CHANGELOG / docs updated (if user-facing)
