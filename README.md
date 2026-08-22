@@ -2,8 +2,8 @@
 
 A clonable Pi coding template, originally ported from
 [opencode-template](https://github.com/opencode-ai/opencode-template) and now
- tailored to Pi + Pi Fabric: 9 prompt commands, 133 skill files
- (122 leaves in 11 packs: 118 pack leaves + 4 core safety), 12 format templates, Pi-native settings, and the
+ tailored to Pi + Pi Fabric: 9 prompt commands, 128 skill files
+ (117 leaves in 11 packs: 113 pack leaves + 4 core safety), 12 format templates, Pi-native settings, and the
 Schema mutation guard. No build, no dependencies, no runtime harness — clone and start.
 
 ## Installation

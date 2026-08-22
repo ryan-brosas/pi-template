@@ -56,11 +56,6 @@
         "pi-fabric-foundation",
         "pi-upstream-foundation",
         "oh-my-pi-foundation",
-        "oh-my-pi-prewalk-foundation",
-        "oh-my-pi-vibe-foundation",
-        "oh-my-pi-task-orchestration-foundation",
-        "oh-my-pi-autoresearch-foundation",
-        "oh-my-pi-advisor-foundation",
         "pydantic-ai-harness-foundation",
         "jobspy-foundation",
         "linkedin-mcp-foundation"
@@ -208,7 +203,7 @@
     "localterm-foundation": "Use when building terminal UIs, terminal rendering, or pi bash-tool security: streaming secret redaction, spawn-side env scrub, and the localterm terminal stack.",
     "pi-fabric-foundation": "Use when building on Pi Fabric internals: Schema mutation guard, cross-process budget ledger, compaction bounds, actors, or provider patterns.",
     "pi-upstream-foundation": "Use when building a coding-agent harness: the agent loop, branch-summarization compaction, settings manager, or model catalog.",
-    "oh-my-pi-foundation": "Use when building or hardening an LLM agent harness: live steering, interruptible tool batches, result pairing, queue ownership, compaction cuts, and cache-aware context reduction.",
+    "oh-my-pi-foundation": "Use when building or hardening an LLM agent harness: steering, compaction cuts, and context reduction; plan handoff, durable workers, fanout, experiments, or advisor delivery.",
     "jobspy-foundation": "Use when scraping job listings across sites (LinkedIn, Glassdoor, Naukri, Bayt, BdJobs): the JobSpy unified scraper, proxy rotation, and markdown conversion.",
     "linkedin-mcp-foundation": "Use when building LinkedIn automation: the linkedin-mcp-server session state, cookie bridge, daemon lock/descriptor, and config validation.",
     "billion-context-pi-foundation": "Use when building long-context agent delegation: subagent spawning, context compress/decompress, tool guardrails, delegate watchdogs, and fleet status widgets.",
@@ -291,11 +286,6 @@
     "task-scoped-execution": "Use when executing an ordered plan where each task needs acceptance review and bounded correction.",
     "github-contribution-opportunities": "Use when finding and qualifying legitimate GitHub pull-request contribution opportunities.",
     "codex-websearch": "Use when you need current web facts, documentation discovery, or cited search results through the Codex web-search extension.",
-    "oh-my-pi-prewalk-foundation": "Use when designing a plan-to-implementation model handoff: inject planning guidance, gate on a durable mutation, and switch models at a safe turn boundary.",
-    "oh-my-pi-vibe-foundation": "Use when building durable agent workers: parent-scoped session ownership, journal rehydration, interrupt-or-queue delivery, and teardown-safe lifecycle records.",
-    "oh-my-pi-task-orchestration-foundation": "Use when building a multi-agent task executor: ordered fanout, cancellation-safe concurrency, narrow provider permits, worktree isolation, and soft-to-hard execution budgets.",
-    "oh-my-pi-autoresearch-foundation": "Use when building experiment automation: clean-baseline branch isolation, branch-bound session resume, durable run ledgers, and metric-driven keep/discard loops.",
-    "oh-my-pi-advisor-foundation": "Use when delivering automated review or advisor findings to a live agent: severity-based steer/aside/preserve routing, interruption cooldowns, and no unwanted auto-resume.",
     "eslint-foundation": "Use when building a lint rule engine or flat-config linter: the verify pipeline, config loading/validation, RuleTester harness, and AST rule primitives."
   }
 }
