@@ -577,20 +577,127 @@ omit the DSH agent-preset internals, the `fabric_mesh`/`schema_*`/`fovea_*`
 runtime behaviors (they live in the DSH harness, not this template), and the
 `vercel-deploy-claimable`/`find-polluter` scripts unless a target needs them.
 
-### dsh-template module disposition
-- **Mined (portable harness contracts):** `scripts/check.mjs` (canonical gate),
-  `.dsh/plugins/project-prompts/src/index.js` (command plugin), all 8
-  `browser-tools/*.js` scripts, `.dsh/profile/package.json` +
-  `cordis.patch.yml` (profile patch layer), `.dsh/home/settings.yaml` +
-  `mcp.yaml` (home config), `.dsh/workflows/README.md` (workflow
-  orchestration), `.dsh/templates/` (template surface) — represented by the 14
-  capsules above.
-- **Omitted with reason:** DSH agent-preset internals, `fabric_mesh`/
-  `schema_*`/`fovea_*` runtime behaviors (live in the DSH harness, not this
-  template), the `.dsh/skills/pack-platform/vercel-deploy-claimable/scripts/
-  deploy.sh`, `.dsh/skills/pack-quality/root-cause-tracing/find-polluter.sh`,
-  and the `.dsh/skills/` pack content (a separate skill catalog, not the
-  template's reusable code contracts) unless a target needs them.
+## 2026-08-23 pi-memory squeezed (autonomous drain)
+
+Squeezed `pi-memory` (user's own Pi coding-agent memory extension, MIT) into a
+canonical foundation leaf `pi-memory-foundation` with **11 capsule-v2**
+references.
+
+**Live graph (gate 1):** project `pi-memory`, root
+`/mnt/hdd/utopia/inspo/pi-memory`, branch `main`, HEAD
+`39e6b998a2279c8fad4a2c6c64e26828c1d6023e`, `fast` index mode, 334 nodes / 765
+edges, indexed 2026-08-15. Excluded by design: `.git`, `scripts`,
+`CHANGELOG.md`, `LICENSE`, `package-lock.json`, and `test/unit.test.ts`
+(`fast-pattern` skip-list). 0 parse_partial / 0 skipped. `check_index_coverage`
+on `index.ts` reports `no_recorded_issue` with `freshness: missing`
+(best-effort — read source to confirm shipped claims).
+
+**Graph-led seams (gate 2):** the entire source is a single `index.ts` (2431
+lines) — a plain-Markdown memory system (MEMORY.md + SCRATCHPAD.md +
+daily/YYYY-MM-DD.md) with qmd-powered semantic search. Architecture shows 130
+Functions / 91 Variables / 53 Sections / 13 Files across one module. Crowned
+11 reusable seams across the path/date core, preview/truncation, scratchpad,
+forget/restore, context building, exit summarization, qmd transport/search/
+lifecycle, the KV-cache snapshot, and the tool/hook surface.
+
+**Source/test confirmation (gate 3):** read the full `index.ts` (2431 lines)
+and the decisive ranges in every cited module (see capsule Path/Symbol + line
+ranges): `resolveMemoryDir` 50-58, `buildPreview` 231-267, `parseScratchpad`
+563-582, `scratchpadToggle` 627-643, `scratchpadClearDone` 645-662,
+`forgetBlocks` 675-725, `writeRecoveryRecord` 747-760, `buildMemoryContext`
+780-869, `generateExitSummary` 419-487, `isExitSummaryEmpty` 518-525,
+`resolveQmdJsPath` 894-911, `buildQmdSpawn` 918-928, `parseQmdJson` 1271-1289,
+`runQmdSearch` 1291-1325, `clampSearchLimit` 1239-1242, `detectQmd` 1074-1090,
+`ensureQmdEmbed` 1145-1161, `refreshMemorySnapshot` 1400-1406, and the default
+export tool/hook surface 1426-2431. Direct tests read on disk
+(`test/unit.test.ts`, 2400 lines) for every seam — see each capsule's Probe.
+Coverage caveat: `test/` is excluded from the graph index by design, so probes
+are source-grounded from the on-disk test files, not graph-covered.
+
+**Capsules (gate 4):** eleven `<!-- capsule-v2 -->` references in
+`pack-foundations/pi-memory-foundation/references/`:
+- `paths-and-dates.md` — `PI_MEMORY_DIR` override, cross-platform home
+  resolution, LOCAL-calendar date helpers, strict daily-date validation,
+  `_setBaseDir` test seam.
+- `preview-truncation.md` — start/end/middle line+char truncation,
+  `buildPreview`/`formatPreviewBlock`/`formatContextSection`, empty-section
+  suppression, honest `[truncated]` notes.
+- `scratchpad.md` — line-preserving `- [ ]` checklist mutations that never
+  delete hand-written notes, timestamp-meta comments, substring toggle.
+- `forget-restore.md` — block-aware forget (stamped units + paragraph
+  fallback), durable UUIDv4 recovery record written BEFORE mutation,
+  idempotent append-only restore.
+- `context-builder.md` — scratchpad > today > search > MEMORY.md > yesterday
+  priority, per-section caps, 16K overall cap.
+- `exit-summary.md` — ≥4-message gate, strict four-heading prompt,
+  `isExitSummaryEmpty` boilerplate filter, self-imposed timeout,
+  lifecycle-transition skip.
+- `qmd-transport.md` — Windows shim bypass via `resolveQmdJsPath`,
+  `NO_COLOR` env forcing, ANSI-stripping JSON parser, idempotent collection
+  setup, swappable `execFileFn` seam.
+- `qmd-search.md` — mode→subcommand map, tolerant result-shape parsing,
+  `clampSearchLimit`, sanitized+raced auto-retrieval, embedding self-heal.
+- `qmd-lifecycle.md` — TTL-cached detect/checkCollection (positive 5m,
+  negative 5s), in-flight-dedup embed with pending queue, 500ms-debounced
+  update, background/manual/off mode gate.
+- `snapshot.md` — stable/per-turn split, checkpoint-triggered refresh,
+  long-term-write dirty flag, always-refresh-on-compact, byte-stable
+  systemPrompt for KV-cache reuse.
+- `tool-surface.md` — six memory tools + status doctor, seven lifecycle
+  hooks, stamp-then-schedule write pattern, recovery-before-mutation forget,
+  before-every-turn injection.
+
+**Pressure test (gate 5):** the upstream test runner is BLOCKED in this clone
+— no `node_modules`, no `bun`, and the `package.json` has no test script (the
+`postinstall` script is the only one). No test pass is claimed. Ran
+deterministic retrieval/probe checks instead: all 11 cited seam symbols resolve
+in `search_graph` with exact qn/file/line (buildMemoryContext 780-869,
+forgetBlocks 675-725, scratchpadToggle 627-643, scratchpadClearDone 645-662,
+buildQmdSpawn 918-928, resolveQmdJsPath 894-911, runQmdSearch 1291-1325,
+ensureQmdEmbed 1145-1161, searchRelevantMemories 1193-1235, getMemoryInventory
+1354-1382, clampSearchLimit 1239-1242, isExitSummaryEmpty 518-525,
+getExitSummaryTimeoutMs 535-538, shouldSkipExitSummaryForReason 540-544,
+probeEmbeddings 1334-1351, resolveMemoryDir 50-58, dailyPath 137-142,
+isValidDailyDate 130-135). No fabricated pass.
+
+**Wiring (gate 6, NEW membership):** added `pi-memory-foundation` to
+`packs.json` pack-foundations members (30), router `pack-foundations/SKILL.md`,
+`manifest.json` (retained, pack-foundations), and `_descriptions`. JSON parses;
+member + manifest parity confirmed 30/30. Note: `packs.json` already carried
+the member in HEAD (a prior partial run committed it but left router/manifest
+unwired); this run made all three consistent.
+
+**Verify (gate 7):** loader/map parity 11/11 (all 11 references once in loader
+and map, all resolve to on-disk files, all capsule-v2); leaf matches canonical
+template (all 7 headings in fixed order: Use this for / Load the matching source
+dump / Capsule map / Extending the foundation / Provenance / Full view (memory
+graph) / Boundaries). `python3 scripts/check-integrity.py` exits 0 (`OK: 6
+packs, all consistent`). Diff touches only the new foundation dir, packs.json,
+router, manifest.json, and the work record. Pre-existing untracked `.bak` files
+(packs.json.bak, manifest.json.bak) and the pre-existing modified
+`practices-to-ci/SKILL.md` left uncommitted (unrelated).
+
+**Verdicts:** adopt the plain-Markdown memory contract, the local-calendar date
+helpers, the line-preserving scratchpad mutations, the block-aware forget with
+durable recovery records, the byte-stable KV-cache snapshot, and the qmd
+keyword/semantic/deep search lifecycle; adapt the memory directory layout,
+char/line caps, env-var names, qmd collection name, and timestamp-comment regex
+to host; omit the Pi extension wiring (default export, `pi.on` hooks,
+`pi.registerTool` calls) and the qmd vendor integration unless a target needs
+them.
+
+### pi-memory module disposition
+- **Mined (portable harness contracts):** the single `index.ts` module —
+  paths/dates, preview/truncation, scratchpad, forget/restore, context builder,
+  exit summary, qmd transport/search/lifecycle, snapshot, and tool/hook
+  surface — represented by the 11 capsules above.
+- **Omitted with reason:** the Pi extension wiring (the default-export
+  `pi.on`/`pi.registerTool`/`ctx.ui` integration — host-specific), the qmd
+  vendor internals (not this repo's code), and the `test/`/`scripts`/
+  `CHANGELOG.md`/`LICENSE`/`package-lock.json` assets (excluded from the index
+  by design). The `getMemoryInventory`/`probeEmbeddings`/`memory_status`
+  doctor surface is represented by the `qmd-search`/`tool-surface` capsules.
+
 
 
 

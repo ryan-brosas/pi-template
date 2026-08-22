@@ -44,3 +44,4 @@ Load the leaf's map group, then add one evidence-backed capsule when the seam is
 - pi-better-openai-foundation: pi/OpenAI extension — layered config + clamping, fast-mode injection, Codex auth, usage snapshot, diagnostic redaction
 - pi-hermes-memory-foundation: agent persistent memory — SQLite FTS5 memory/session search, atomic Markdown memory, corruption-recovering SQLite manager, cross-process locks, skill store, standing instructions, content scanning
 - dsh-template-foundation: DeepSeek Harness coding-agent template — dependency-free canonical check, prompt-file command plugin, CDP browser toolset, profile patch layer, home config templates, workflow orchestration
+- pi-memory-foundation: Pi coding-agent memory extension — plain-Markdown memory with timestamp comments, line-preserving scratchpad, forget/restore with recovery records, KV-cache-stable snapshot, qmd keyword/semantic/deep search
