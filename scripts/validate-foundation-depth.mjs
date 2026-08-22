@@ -2,7 +2,7 @@
 // Foundation evidence enforcement.
 // References are optional and code stays ground truth. Existing files
 // keep their evidence: anchors, provenance, probes, and no authoring-floor padding.
-// A reference marked <!-- capsule-v1 --> also carries a retrieval contract.
+// v1 is legacy retrieval metadata; new or substantively rewritten v2 capsules carry decisive source/test proof.
 // See .pi/skills/pack-foundations/foundations-workflow/references/quality-bar.md.
 import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -22,7 +22,8 @@ const cite = (t) => (t.match(/`[^`]+`/g) ?? [])
   .map((s) => s.slice(1, -1))
   .filter((s) => EXT_RE.test(s) || /^[\w./-]+:\d/.test(s));
 const MIN_CITES = 0;
-const CAPSULE_MARKER = "<!-- capsule-v1 -->";
+const CAPSULE_V1_MARKER = "<!-- capsule-v1 -->";
+const CAPSULE_V2_MARKER = "<!-- capsule-v2 -->";
 const CAP_NAMES = ["Path/Symbol", "Signature", "Data Shape", "Flow", "Invariant", "Probe", "Retrieve"];
 const CAP_FIELDS = CAP_NAMES.map((n) => new RegExp("\\b" + n.replace(/\//g, "\\/") + "\\b", "i"));
 const DEPTH_RES = [/^##\s+Verif/m, /(\.test\.|tests?\/|test-driven)/i, /^> /m, /(the lesson|\*\*Probe:)/i];
@@ -31,10 +32,18 @@ const SCAFFOLD_RE = /\*\*(WHO|WHAT|WHEN|WHERE|WHY|HOW)\*\*/;
 const PADDING_RE = /cross(?:es|ed|ing)? (?:the )?(?:standing )?(?:authoring )?floor|floor confirm(?:ation)?|(?:700[- ]line|10[- ]reference|ten reference).*(?:floor|minimum)|minimums, not caps/i;
 
 function metric(text) {
-  const hasMarker = text.includes(CAPSULE_MARKER);
+  const isV2 = text.includes(CAPSULE_V2_MARKER);
+  const hasMarker = isV2 || text.includes(CAPSULE_V1_MARKER);
   const capsuleMissing = hasMarker
     ? CAP_FIELDS.map((re, i) => ({re, i})).filter((o) => !o.re.test(text)).map((o) => String(o.i))
     : [];
+  const v2Missing = !isV2 ? [] : [
+    ["source", /\*\*Source:\*\*/i],
+    ["decisive-source", /Decisive source/i],
+    ["code-or-pseudocode", /```/],
+    ["direct-test", /(\.test\.|tests?\/)/i],
+    ["graph-retrieve", /search_graph/],
+  ].filter(([, re]) => !re.test(text)).map(([name]) => name);
   return {
     cites: cite(text).length,
     depth: DEPTH_RES.some((re) => re.test(text)) ? 1 : 0,
@@ -42,12 +51,14 @@ function metric(text) {
     scaffold: SCAFFOLD_RE.test(text) ? 1 : 0,
     padding: PADDING_RE.test(text) ? 1 : 0,
     capsuleMissing,
+    v2Missing,
   };
 }
 function deficits(m) {
   const d = [];
   if (m.cites < MIN_CITES) d.push("cites:" + m.cites);
   if (m.capsuleMissing && m.capsuleMissing.length) d.push("capsule:" + m.capsuleMissing.join("+"));
+  if (m.v2Missing && m.v2Missing.length) d.push("v2:" + m.v2Missing.join("+"));
   if (!m.depth) d.push("depth");
   if (!m.prov) d.push("prov");
   if (m.scaffold) d.push("scaffold");
