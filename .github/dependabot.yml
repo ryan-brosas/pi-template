@@ -1,0 +1,10 @@
+# Dependabot — automated dependency updates.
+# This template has no runtime dependencies, but keep this config for when a
+# project is scaffolded from it. Enable per ecosystem as needed.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5

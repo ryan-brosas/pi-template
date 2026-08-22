@@ -1,0 +1,30 @@
+name: branch-protection
+
+# Enforces "no direct commits/PRs to main" (no-commit-to-branch practice).
+# All changes must go through a feature branch and pass the required checks
+# before merging to main. This is the CI-side enforcement of branch protection.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  check-base:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Reject direct PRs to main
+        run: |
+          base="${{ github.event.pull_request.base.ref }}"
+          head="${{ github.event.pull_request.head.ref }}"
+          if [ "$base" = "main" ] && [ "$head" = "main" ]; then
+            echo "::error::Direct PR to main is not allowed. Create a feature branch."
+            exit 1
+          fi
+          echo "PR from '$head' -> '$base' is valid."
