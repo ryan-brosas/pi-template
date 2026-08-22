@@ -671,6 +671,12 @@
       "status": "retained",
       "pack": "pack-research",
       "modelVisible": false
+    },
+    {
+      "name": "quality-gate-methodology",
+      "status": "retained",
+      "pack": "pack-quality",
+      "modelVisible": false
     }
   ]
 }
