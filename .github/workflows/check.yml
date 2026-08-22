@@ -12,11 +12,9 @@ on:
       - 'scripts/**'
       - '.github/**'
   pull_request:
-    paths:
-      - '.pi/**'
-      - 'scripts/**'
-      - '.github/**'
-      - '!.github/workflows/check.yml'
+    paths-ignore:
+      - '**/*.md'
+      - 'README.md'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
