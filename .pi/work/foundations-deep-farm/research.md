@@ -713,3 +713,18 @@ Refactored the flagged depth-debt references into the capsule-v2 contract:
   surface + supporting UI checklist) — same capsule-v2 contract.
 Cleared foundation-depth-debt.json (opencode + pi-fabric now resolved).
 Checks green: check-integrity OK, quality-gate OK (92 skills), repo-hygiene OK.
+
+### [DONE:18] 2026-08-23 — opencode deep re-squeeze (4 → 16 capsules)
+Went deep on opencode, expanding the foundation from 4 references to 16
+capsule-v2 references covering the full tool write-path:
+- Core: write-tool (permission-gated write, BOM, LSP feedback), read-tool
+  (offset/limit pagaged reads), grep-glob-tools (ripgrep search), apply-patch-tool
+  (parse-verify-apply hunks), shell-tool (bounded cross-platform exec),
+  truncate-tool (spill-to-file), task-tool (subagent delegation), skill-tool,
+  question-tool, tool-schema (Effect→JSON Schema), lsp-tool (diagnostics
+  feedback), web-tools (webfetch/websearch).
+- Each capsule: `<!-- capsule-v2 -->`, Path/Symbol/Signature/Data Shape,
+  decisive source excerpt, Flow/Invariant, direct-test Probe, graph Retrieve,
+  Verdict.
+- SKILL.md capsule map regrown to grouped by subsystem (write path, execution,
+  model-facing helpers). Checks green (92 skills, 7 essentials).
