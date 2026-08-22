@@ -47,6 +47,10 @@ jobs:
         id: deadcode
         run: |
           python3 scripts/dead-code.py 2>&1 | tee /tmp/dead-code.log
+      - name: Conventional commits
+        id: commits
+        run: |
+          python3 scripts/conventional-commit.py 2>&1 | tee /tmp/conventional-commit.log
       - name: Upload check log on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -56,4 +60,5 @@ jobs:
             /tmp/check-integrity.log
             /tmp/repo-hygiene.log
             /tmp/dead-code.log
+            /tmp/conventional-commit.log
           retention-days: 2

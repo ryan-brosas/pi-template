@@ -54,6 +54,9 @@ From the pre-commit configs of high-quality repos:
   forbid-submodules
 - `dead-code.py` — finds unused scripts and unreferenced skill files (farmed
   from vitest's knip dead-code practice)
+- `conventional-commit.py` — validates commit subjects follow conventional
+  commits; `pr-title.yml` validates PR titles (farmed from graphrag's semver
+  check)
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene

@@ -1,0 +1,35 @@
+name: pr-title
+
+# Validates PR titles follow conventional commits (farmed from graphrag's
+# semver-check pattern — a PR-title discipline check). PR titles feed the
+# changelog, so they must be conventional.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Validate PR title
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          echo "PR title: $title"
+          python3 - "$title" <<'EOF'
+          import re, sys
+          title = sys.argv[1]
+          ALLOWED = {"feat","fix","docs","style","refactor","perf","test","chore","ci","build","revert","release"}
+          pat = re.compile(r"^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert|release)(\([a-z0-9_\-]+\))?!?:\s*.+$")
+          if not pat.match(title):
+              print(f"::error::PR title '{title}' is not conventional. Use '<type>(<scope>): <desc>' with type in {sorted(ALLOWED)}.")
+              sys.exit(1)
+          print("PR title is conventional.")
+          EOF
