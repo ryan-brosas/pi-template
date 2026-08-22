@@ -65,8 +65,11 @@ Use one realistic scenario and a fixed rubric:
 
 Run RED without the new guidance. After authoring, run GREEN with the skill and an adversarial variant. If no agent runner is available, record the infrastructure block and run deterministic retrieval/content probes; do not invent a pass.
 
+## 5b. Squeeze to the reusable bar
+When the goal is promoting or re-engineering a foundation to the pack's capability/source-map quality bar, run the numbered squeeze, not a one-shot write. Load `references/squeeze-process.md`, prewalk the live index, crown seams module-by-module, author one capsule-vN reference per porting question, keep the leaf a lean routing surface, and record waves, module status, and RED/GREEN evidence only in the durable work record. `scripts/probe-foundation-squeeze.mjs` enforces the structural contract; verify with `node scripts/check.mjs`.
+
 ## 6. Write the minimum durable artifact per seam
-The leaf skill is a routing surface plus a capability/source map. Add a reference only for a distinct porting question that needs more than the surface can carry; group its catalogued capsules by subsystem, then end with a compact recipe for adding a new capsule. Reference length follows the contract's complexity; no document-count or line-count target exists. Mine in waves only when useful for execution: wave timing and module coverage belong in the durable work record, never the leaf skill.
+The leaf skill is a routing surface plus a capability/source map. Group its catalogued capsules by subsystem, then end with a compact recipe for adding a new capsule. Reference length follows the contract's complexity; no document-count or line-count target exists. Mine in waves only as an execution convenience: wave timing and module coverage belong in the durable work record, never the leaf skill.
 
 Stop when every skill line is actionable and evidenced. Put unresolved areas in the durable work record instead of expanding prose. A repo is finished when that record shows every module mined or skipped-with-reason — never at a token or document budget.
 

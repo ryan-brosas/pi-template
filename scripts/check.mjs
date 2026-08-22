@@ -8,6 +8,7 @@ const checks = [
   [process.execPath, ["scripts/validate-work-management.mjs"]],
   [process.execPath, ["scripts/validate-notion-workspace-skill.mjs"]],
   [process.execPath, ["scripts/validate-foundation-depth.mjs"]],
+  [process.execPath, ["scripts/probe-foundation-squeeze.mjs"]],
   [process.execPath, ["scripts/validate-release-hygiene.mjs"]],
   ["git", ["diff", "--check"]],
 ];
