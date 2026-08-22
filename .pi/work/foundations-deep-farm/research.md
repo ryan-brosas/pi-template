@@ -38,5 +38,5 @@ The user approved editing the workflow and three retained references, deleting s
 
 ## Serial code-grounded capsule pass
 
-- [IN PROGRESS:7] Oh My Pi is the only active source repository; eslint stays queued until this pilot closes.
+- [DONE:7] Oh My Pi pressure probe ran on the DeepSeek Flash lane: RED (no capsule) took 22 tool calls / ~$0.011 and reconstructed the invariant by walking the repo; GREEN (with capsule) completed in 1 turn for ~$0.0009 and named the exact legal-cut symbols, the never-aligned-tool-result invariant, and the probe. Gate S4 closed as a real test.
 - capsule-v1 is opt-in: Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve. No line/reference/citation quota.
