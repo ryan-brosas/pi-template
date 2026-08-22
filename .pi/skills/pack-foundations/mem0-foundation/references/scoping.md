@@ -1,28 +1,32 @@
-# Mem0 — Scoping Reference
+<!-- capsule-v2 -->
+# Identity scoping — re-built, never trusted
 
-(Read in full during the deep pass.) Files: `mem0/memory/main.py` ranges cited inline, with the sibling history layer in `mem0/memory/storage.py` (`get_last_messages`), scope-key helpers `_build_session_scope`/`_escape_scope_value` in `mem0/memory/main.py`.
+**Source:** mem0 MIT `<branch>@<commit>`; Codebase Memory `mem0`. **Question:** how does a memory system keep each memory scoped to the identity (user/agent/run) that owns it, even when callers pass freeform metadata?
 
-Source-grounded reference for identity scoping in the memory layer. File: `mem0/memory/main.py` (`_build_filters_and_metadata` :314-420, `_build_session_scope`, `_escape_scope_value`, read in full during the deep pass).
+## Connected graph-selected seam
+**Path/Symbol:** `mem0/memory/main.py`: `_build_filters_and_metadata` (:314-420), `_build_session_scope` (:412), `_escape_scope_value` (:407), `_strip_identity_keys` (:143).
+**Signature:** `_build_filters_and_metadata(...)` returns TWO dicts — `base_metadata_template` (what gets STORED) and `effective_query_filters` (what gets QUERIED).
+**Data Shape:** identity keys `user_id`/`agent_id`/`run_id`; scope values escaped via `_escape_scope_value`; session scope built via `_build_session_scope`.
 
-## Identity scope is re-built, never trusted
+### Decisive source
+```ts
+# base_metadata_template (stored): identity keys set ONLY from entity params,
+#   same keys STRIPPED from caller-supplied metadata first (issue #6655)
+#   — freeform metadata could otherwise place a memory into a scope the caller
+#   never passed, and "re-pinning after the fact" cannot prevent it for unset params
+# effective_query_filters (queried): adds the resolved actor —
+#   precedence explicit actor_id arg -> filters["actor_id"]
+```
 
-`_build_filters_and_metadata` returns TWO dicts:
+**Flow:** identity keys are set only from entity params and stripped from caller metadata (so freeform metadata can't scope-jack a memory); the effective query filters add the resolved actor (explicit arg precedence over filters); scope values are escaped and the session scope is built deterministically.
+**Invariant:** identity scope is re-built from entity params, never trusted from caller metadata; a memory can't be placed into a scope the caller never passed.
+**Probe:** `tests/memory/` scoping tests (metadata with identity keys stripped; scope enforced on store + query; actor precedence).
 
-- **base_metadata_template** (what gets STORED): identity keys (`user_id`/`agent_id`/`run_id`) are set ONLY from entity params. The same keys are STRIPPED from caller-supplied metadata first — issue #6655 records why: freeform metadata could otherwise place a memory into a scope the caller never passed, and "re-pinning after the fact" cannot prevent it for params left unset.
-- **effective_query_filters** (what gets QUERIED): adds the resolved actor — precedence explicit `actor_id` arg → `filters["actor_id"]` — but the actor is NOT stored from here; the storage actor derives from message content later.
+## Get live surrounding code
+**Retrieve:**
+```ts
+await mcp.codebase_memory.search_graph({ project: "mem0", query: "_build_filters_and_metadata scope identity user_id agent_id run_id", limit: 10, fields: ["signature", "name", "file"] });
+```
 
-At least one session id is REQUIRED everywhere; missing → `Mem0ValidationError(VALIDATION_001)`.
-
-## The asymmetry is deliberate
-
-`add()` takes top-level `user_id`/`agent_id`/`run_id`; `search()`/`get_all()` REJECT top-level entity params (raise) and require the `filters=` dict form. Rationale in the docstring: grep-auditable call sites can't accidentally search unscoped. Write paths stay ergonomic; read paths stay auditable.
-
-## Scope keys are escaped, deterministically
-
-`_build_session_scope` builds the SQLite history key as sorted-key `k=v` pairs joined by `&`, with structural delimiters escaped per `_escape_scope_value` (`%`→`%25`, `&`→`%26`, `=`→`%3D`). An id containing `&` therefore cannot forge scope boundaries in the flattened history key.
-
-**Lesson:** scope enforcement lives at a single chokepoint that strips identity from caller metadata, re-pins from entity params, escapes delimiters, and forces the read side through an auditable filter form.
-
-## Verification
-
-Issue-tracking anchors: #6655 (freeform metadata placing memories in unrequested scopes) motivates the strip-then-repin order; VALIDATION_001 enforces the at-least-one-id invariant; the escape table in `_escape_scope_value` (`mem0/memory/main.py`) is unit-pinned by scope-key round-trip tests. The add-vs-search asymmetry is enforced by `_reject_top_level_entity_params` raising on the read path.
+## Verdict
+Adopt the re-built identity scope (strip identity keys from caller metadata, set only from entity params); adapt the identity key set and scope vocabulary to host.

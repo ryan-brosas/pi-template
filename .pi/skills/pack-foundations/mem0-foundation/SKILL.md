@@ -12,10 +12,15 @@ Agent memory that adds and extracts facts on write and serves scoped, reranked r
 - `references/pipeline.md` — the V3 phased add pipeline: extract, add, update, delete on write.
 - `references/scoping.md` — identity-stripping metadata templates, deliberate add-vs-search asymmetry, escaped scope keys.
 - `references/search.md` — reject-don't-default validation, operator filter language, per-backend normalization.
+- `references/vector-store-base.md` — the VectorStoreBase ABC (create/insert/search/delete/list + keyword/search_batch).
+- `references/sqlite-storage.md` — SQLiteManager history/messages storage, idempotent schema migration, thread-locked.
+- `references/entity-store.md` — entity dedup (exact + semantic 0.95) and linked_memory_ids.
 
 ## Capsule map
 - **Add/search pipeline** — `references/pipeline.md`: LLM extract + add/update/delete on write; scoped retrieval with metadata filters and rerank.
-- **Scoping & search** — `references/scoping.md`, `references/search.md`: user/agent/run scoping, filter operators, vector-store backends, SQLite history.
+- **Scoping & search** — `references/scoping.md`, `references/search.md`: user/agent/run scoping, filter operators, reject-don't-default validation.
+- **Storage backends** — `references/vector-store-base.md`, `references/sqlite-storage.md`: the vector-store ABC + SQLite history storage.
+- **Entity linking** — `references/entity-store.md`: exact + semantic dedup, linked_memory_ids, remove-on-delete.
 
 ## Extending the foundation
 Add one references-fileshaped capsule per new seam: one loader line, one grouped map entry, decisive source with an invariant, a direct-test probe, and `search_graph` retrieval.
@@ -24,4 +29,4 @@ Add one references-fileshaped capsule per new seam: one loader line, one grouped
 Indexed in Codebase Memory as `mem0` (`/mnt/hdd/utopia/inspo/mem0`); source and its tests remain authoritative; the graph is a discovery index, not truth.
 
 ## Boundaries
-Adopt the write-time extraction pipeline, scoping, and reject-not-default validation; adapt vector-store and LLM backend; omit the hosted-api/cloud orchestration unless a target requires it.
+Adopt the write-time extraction pipeline, scoping, reject-not-default validation, vector-store ABC, and SQLite history; adapt vector-store and LLM backend; omit the hosted-api/cloud orchestration unless a target requires it.

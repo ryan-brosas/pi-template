@@ -740,3 +740,13 @@ capsule-v2 references:
 - Removed the superseded internals.md (overlapped with budget-ledger +
   compaction-bounds).
 - SKILL.md capsule map regrown grouped by subsystem. Checks green.
+
+### [DONE:20] 2026-08-23 — mem0 deep re-squeeze (3 → 6 capsules)
+Went deep on mem0, expanding the foundation from 3 references to 6 capsule-v2:
+- Refactored to capsule-v2: pipeline (V3 phased batch add/search), scoping
+  (re-built identity scope), search (reject-don't-default validation).
+- New: vector-store-base (the VectorStoreBase ABC contract), sqlite-storage
+  (SQLiteManager history/messages with idemp migration + thread lock),
+  entity-store (exact + semantic dedup, linked_memory_ids).
+- SKILL.md capsule map regrown grouped by subsystem (pipeline, scoping/search,
+  storage backends, entity linking). Checks green.
