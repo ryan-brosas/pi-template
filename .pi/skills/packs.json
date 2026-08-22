@@ -111,7 +111,8 @@
         "cloudflare",
         "git-workflow-and-versioning",
         "using-git-worktrees",
-        "vercel-deploy-claimable"
+        "vercel-deploy-claimable",
+        "ci-best-practices"
       ]
     },
     {
@@ -188,6 +189,7 @@
     "dsh-template-foundation": "Use when building a DeepSeek Harness (DSH) coding-agent template or harness: a dependency-free canonical check gate, a command-plugin that turns prompt files into slash-commands, a CDP browser-automation toolset, a profile patch layer, home config templates, and DSH workflow orchestration.",
     "quality-gate-methodology": "Use when writing/reviewing tests or quality gates: test un-fixed+fixed, broad tests, expand don't duplicate, maintain test list, turn manual catches into workflows.",
     "farmed-test-harness": "Use when writing tests for HTTP/LLM/external-service code: reuse the farmed harness (cassette recording/replay, client error handling, pytest fixtures).",
-    "code-discipline": "Use when implementing/reviewing/committing code: general code-discipline (scope, verification, type-safety, tests, context-gathering, one source of truth)."
+    "code-discipline": "Use when implementing/reviewing/committing code: general code-discipline (scope, verification, type-safety, tests, context-gathering, one source of truth).",
+    "ci-best-practices": "Use when writing/reviewing GitHub Actions/CI workflows: path filtering, concurrency, caching, aggregate gates, log artifacts, annotations."
   }
 }

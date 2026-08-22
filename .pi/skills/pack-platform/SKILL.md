@@ -10,6 +10,7 @@ Pick at most 2 members below matching the task, most specific first; read each f
 ## Members
 
 - ci-cd-and-automation: set up CI/CD and automation
+- ci-best-practices: CI best practices (path filtering, concurrency, caching, gates, log artifacts)
 - cloudflare: work with Cloudflare products
 - git-workflow-and-versioning: git workflow and versioning
 - using-git-worktrees: work with git worktrees

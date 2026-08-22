@@ -1,9 +1,22 @@
 name: check
 
+# Structural integrity + whitespace. Farmed best practices from high-quality
+# repos: path filtering (only run on relevant changes), concurrency
+# cancel-in-progress, upload failure logs as artifacts, workflow annotations.
+
 on:
   push:
     branches: [main]
+    paths:
+      - '.pi/**'
+      - 'scripts/**'
+      - '.github/**'
   pull_request:
+    paths:
+      - '.pi/**'
+      - 'scripts/**'
+      - '.github/**'
+      - '!.github/workflows/check.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,4 +36,13 @@ jobs:
       - name: Whitespace check
         run: git diff --check HEAD~1 || git diff --check
       - name: Structural integrity
-        run: python3 scripts/check-integrity.py
+        id: integrity
+        run: |
+          python3 scripts/check-integrity.py 2>&1 | tee /tmp/check-integrity.log
+      - name: Upload check log on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-logs
+          path: /tmp/check-integrity.log
+          retention-days: 2

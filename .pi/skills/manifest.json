@@ -689,6 +689,12 @@
       "status": "retained",
       "pack": "pack-delivery",
       "modelVisible": false
+    },
+    {
+      "name": "ci-best-practices",
+      "status": "retained",
+      "pack": "pack-platform",
+      "modelVisible": false
     }
   ]
 }

@@ -2,15 +2,21 @@ name: quality-gate
 
 # Applies the test/gate methodology (Pillar 4) to the agent infrastructure:
 # verifies skills/prompts/templates/essentials are well-formed — no duplicates,
-# no missing essentials, no broken structure. Runs on PRs touching .pi/.
+# no missing essentials, no broken structure. Runs on PRs + pushes touching .pi/.
 # Warnings (orphaned references, near-duplicate descriptions) are reported but
 # don't block; hard failures (duplicates, missing essentials, invalid JSON) do.
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.pi/**'
+      - 'scripts/**'
   pull_request:
     paths:
       - '.pi/**'
       - 'scripts/**'
+      - '!.github/workflows/quality-gate.yml'
 
 permissions:
   contents: read
@@ -24,4 +30,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run quality gate
-        run: python3 scripts/quality-gate.py
+        id: quality
+        run: |
+          python3 scripts/quality-gate.py 2>&1 | tee /tmp/quality-gate.log
+      - name: Upload quality log on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-gate-logs
+          path: /tmp/quality-gate.log
+          retention-days: 2
