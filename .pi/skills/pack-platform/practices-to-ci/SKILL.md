@@ -63,6 +63,8 @@ From the pre-commit configs of high-quality repos:
   zizmor hook) to catch insecure GitHub Actions patterns
 - `stale-pr-close.yml` — closes stale PRs with a dry-run default (farmed from
   opencode's close-prs pattern)
+- `stale.yml` — auto-closes stale issues/PRs via actions/stale (farmed from
+  graphrag's issues-autoresolve)
 - `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
   yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
   repo-hygiene
