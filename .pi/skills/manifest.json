@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-22",
-  "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: ten visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json; node scripts/validate-skill-packs.mjs is the structural gate.",
+  "note": "Skill ledger for the Pi-tailored template. Skills are organized into progressive-disclosure packs: ten visible pack routers, four always-visible core safety skills, and hidden leaves loaded on demand. Membership is owned by .pi/skills/packs.json.",
   "removed": [
     {
       "name": "brave-search",
