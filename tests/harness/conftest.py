@@ -102,8 +102,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
-    """Custom test summary (from Auto_job_applier conftest): failing tests first,
-    then counts (ran / passed / failed / skipped), then an overall verdict."""
+    """Custom test summary: failing tests first, then counts, then verdict."""
     tr = terminalreporter
     passed = tr.stats.get("passed", [])
     failed = tr.stats.get("failed", [])
@@ -116,3 +115,17 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
             tr.write_line(f"  FAIL  {test.nodeid}")
     tr.write_line(f"ran={ran} passed={len(passed)} failed={len(failed)} skipped={len(skipped)}")
     tr.write_line("VERDICT: " + ("PASS" if exitstatus == 0 else "FAIL"))
+
+
+@pytest.fixture(autouse=True)
+async def _cleanup_background_evaluations():
+    """Drain background evaluation tasks after each test.
+
+    Prevents leaked tasks from a failed test from affecting subsequent tests.
+    """
+    yield
+    try:
+        from pydantic_evals.online import wait_for_evaluations
+    except ImportError:
+        return
+    await wait_for_evaluations()

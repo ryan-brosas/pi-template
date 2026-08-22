@@ -57,6 +57,14 @@ def raise_if_exception(e: Any) -> None:
         raise e
 
 
+def sanitize_filename(name: str, max_len: int) -> str:
+    """Sanitize a string for safe use as a filename across platforms."""
+    import re
+
+    # Windows does not allow these characters in paths. Linux bans slashes only.
+    return re.sub('[' + re.escape('<>:"/\\|?*') + ']', '-', name)[:max_len]
+
+
 # Proxy isolation (from openai-agents-python conftest): keeps tests independent
 # from host proxy configuration so HTTP tests are hermetic/deterministic.
 _PROXY_ENVIRONMENT_VARIABLES = (
