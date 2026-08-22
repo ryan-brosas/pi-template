@@ -6,7 +6,7 @@ disable-model-invocation: true
 # Oh My Pi: Agent Harness Foundation
 
 ## Use this for
-Live provider/tool loops, queue-owning facades, context compaction, replay, plan handoff, durable workers, multi-agent task fanout, experiment automation, and advisor delivery. Code and direct tests are ground truth; the references carry bounded decisive excerpts plus live Codebase Memory retrieval calls.
+Agent-harness work: provider loops, queue-owning facades, compaction, replay, plan handoff, durable workers, task fanout, experiments, advisor delivery. Code and tests are ground truth; references carry decisive excerpts plus live Codebase Memory retrieval calls.
 
 ## Load the matching source dump
 - `references/agent-loop.md` — non-consuming steering, tool-result coercion, completed-pair retention.
@@ -38,14 +38,16 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - `references/stats-provider-client.md` — bounded abortable dashboard data client over typed API endpoints.
 - `references/advice-delivery.md` — severity-based steer/aside/preserve routing to a live agent.
 
-## Wave coverage ledger
-- [DONE: wave1] hashline (patch/apply seam), mnemopi (facade + orchestration), stats (usage windows + user metrics) — 3 capsules, check mjs green at wave close.
-- [DONE: wave2] hashline (filesystem seam + numbered streaming), mnemopi (beam recall/consolidate), stats (sync-worker + embedded-client) — 3 capsules, check green at wave close.
-- [DONE: wave3] hashline (parser/anchors/snapshots), mnemopi (embedding seam + model heal + host bridge), stats (WAL db + series + windows) — 3 capsules, check green at wave close.
-- [DONE: wave4] hashline (normalize/prefix strip), mnemopi (binary vectors + triples migration), stats (gain dashboard) — 3 capsules, check green at wave close.
-- [DONE: wave5] hashline (clipboard registers + syntax proof), mnemopi (query cache + cost log), stats (server + port safety) — 3 capsules, check green at wave close.
-- [DONE: wave6] hashline (format + recovery), mnemopi (temporal recall + feature gates), stats (provider projection + client view) — 3 capsules, check green at wave close.
-- Next queued repo: vitest on go
+## Capsule map
+Each capsule pairs a decisive excerpt, invariants, a live `mcp.codebase_memory.search_graph` call, and a probe at a real test. The map records seams, not history.
+
+- **Patch language** — grammar, parsing, addressing, replay, fs seams: `hashline`, `hashline-fs-stream`, `hashline-parser-seams`, `hashline-normalize-prefixes`, `hashline-clipboard-syntax`, `hashline-format-recovery`.
+- **Memory** — facade, recall, embeddings, binary vectors, cache, temporal gates: `mnemopi`, `mnemonic-beam`, `mnemonic-embeddings`, `mnemonic-binary-vectors`, `mnemonic-query-cache`, `mnemonic-temporal-gates`.
+- **Telemetry** — usage windows, sync worker, WAL series, gain dashboard, server/port, provider/client: `stats`, `stats-sync-worker`, `stats-db`, `stats-gain-dashboard`, `stats-server-port`, `stats-provider-client`.
+- **Harness seams** — steering, wrapper, compaction, replay, navigator, workers, fan-out, experiments, isolation: `agent-loop`, `agent-wrapper`, `compaction-suite`, `replay-and-occupancy`, `prewalk-and-plan-handoff`, `durable-workers`, `fanout-and-budgets`, `isolation-and-provider-permits`, `experiment-control`, `advice-delivery`.
+
+### Extending the foundation
+Add one `references/*.md` capsule per new seam: a catalog line, a decisive excerpt, an invariant, a `Probe`, a `search_graph` call. Reuse the pattern.
 
 ## Provenance
 oh-my-pi (MIT), `main@96f428097`; Codebase Memory project `oh-my-pi` (114,761 nodes / 595,806 edges, `full` index since 2026-08-22 — tests graph-covered; only `parse_partial` ranges read directly).
