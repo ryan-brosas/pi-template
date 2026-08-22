@@ -37,3 +37,20 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 # Exclude subdirectories from test collection when they have their own suites.
 # Add to this list as needed, e.g. collect_ignore_glob = ['subdir/*']
+
+
+def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    """Custom test summary (from Auto_job_applier conftest): failing tests first,
+    then counts (ran / passed / failed / skipped), then an overall verdict."""
+    tr = terminalreporter
+    passed = tr.stats.get("passed", [])
+    failed = tr.stats.get("failed", [])
+    skipped = tr.stats.get("skipped", [])
+    ran = len(passed) + len(failed)
+    tr.write_sep("=", "TEST SUMMARY")
+    if failed:
+        tr.write_line("FAILING TESTS:")
+        for test in failed:
+            tr.write_line(f"  FAIL  {test.nodeid}")
+    tr.write_line(f"ran={ran} passed={len(passed)} failed={len(failed)} skipped={len(skipped)}")
+    tr.write_line("VERDICT: " + ("PASS" if exitstatus == 0 else "FAIL"))

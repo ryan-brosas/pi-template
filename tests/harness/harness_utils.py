@@ -55,3 +55,34 @@ def raise_if_exception(e: Any) -> None:
     """Re-raise if the value is an Exception (used with mock results)."""
     if isinstance(e, Exception):
         raise e
+
+
+# Proxy isolation (from openai-agents-python conftest): keeps tests independent
+# from host proxy configuration so HTTP tests are hermetic/deterministic.
+_PROXY_ENVIRONMENT_VARIABLES = (
+    "ALL_PROXY",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "all_proxy",
+    "http_proxy",
+    "https_proxy",
+)
+_PROXY_OPT_IN_ENVIRONMENT_VARIABLE = "HERMES_TEST_USE_PROXY"
+
+
+def remove_ambient_proxy_environment() -> None:
+    """Remove ambient proxy env vars so unit tests don't depend on host proxy config.
+
+    Call in a conftest or fixture setup. An opt-in env var re-enables the proxy
+    when explicitly wanted.
+    """
+    import os
+
+    if os.environ.get(_PROXY_OPT_IN_ENVIRONMENT_VARIABLE, "").lower() in {
+        "1",
+        "true",
+        "yes",
+    }:
+        return
+    for var in _PROXY_ENVIRONMENT_VARIABLES:
+        os.environ.pop(var, None)

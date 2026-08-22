@@ -23,15 +23,17 @@ When writing tests for code that:
   VCR HTTP cassettes and XAI protobuf cassettes. Record real responses, replay
   them in tests, verify cassette contents. Use for any HTTP/LLM integration test.
   Adapted to be standalone (no pydantic-ai imports).
-- `harness_utils.py` — (from pydantic-ai conftest) portable utilities:
-  `try_import` (graceful optional-import handling), session-scoped `event_loop`
-  fixture, `raise_if_exception`.
+- `harness_utils.py` — (from pydantic-ai + openai-agents-python) portable
+  utilities: `try_import` (graceful optional-import handling), session-scoped
+  `event_loop` fixture, `raise_if_exception`, and `remove_ambient_proxy_environment`
+  (hermetic HTTP tests independent of host proxy config).
 - `mock_async_stream.py` — (from pydantic-ai) wraps a sync iterator as an async
   stream for testing async/await code. Adapted to be standalone.
-- `conftest.py` — (from graphrag + browser-harness) pytest options + fixtures:
-  `--run_slow` gating for slow tests, `fake_png` fixture for image/screenshot
-  tests, project-root `sys.path` setup, and `collect_ignore_glob` to exclude
-  subdirectories with their own suites.
+- `conftest.py` — (from graphrag + browser-harness + graphiti + Auto_job_applier)
+  pytest options + fixtures: `--run_slow` gating, `fake_png` fixture for
+  image/screenshot tests, project-root `sys.path` setup, `collect_ignore_glob`
+  to exclude subdirectories, and a custom `pytest_terminal_summary` (failing
+  tests first, then counts, then verdict).
 
 ## How to Use
 
