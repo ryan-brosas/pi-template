@@ -17,20 +17,24 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - `references/durable-workers.md` — parent-scoped worker session persistence and teardown-safe records.
 - `references/fanout-and-budgets.md` — ordered fanout, cancellation-safe concurrency, soft-to-hard execution budgets.
 - `references/isolation-and-provider-permits.md` — worktree isolation and narrow provider concurrency permits.
-- `references/experiment-control.md` — clean
+- `references/experiment-control.md` — baseline branch isolation, branch-bound resume, durable run ledgers.
 - `references/hashline.md` — line-anchored patch language and applier; pure materialize-then-syntax-veto apply pipeline.
 - `references/mnemopi.md` — bank/session-scoped persistent memory facade and linear-vs-polyphonic recall orchestration.
 - `references/stats.md` — honest usage windows and pure user-metric extraction that degrade instead of failing.
 - `references/hashline-fs-stream.md` — pluggable Filesystem seam, numbered-line streaming, fs-mediated snapshot/recovery keys.
 - `references/mnemonic-beam.md` — recall signal fusion, tier fallbacks, and consolidate/sleep compaction.
-- `references/stats-sync-worker.md` — single-writer ingestion lock, worker grabs, embedded dashboard archive magic.-baseline branch isolation, branch-bound resume, durable run ledgers.
+- `references/stats-sync-worker.md` — single-writer ingestion lock, worker grabs, embedded dashboard archive magic.
+- `references/hashline-parser-seams.md` — lexical section splitter, lenient ranges, strict anchors, snapshot cache.
+- `references/mnemonic-embeddings.md` — four-stage provider chain, guarded model heal, runtime install, host LLM bridge.
+- `references/stats-db.md` — WAL init + idempotent migrations, per-file offsets, bucketed series, usage windows.
 - `references/advice-delivery.md` — severity-based steer/aside/preserve routing to a live agent.
 
 
 ## Wave coverage ledger
 - [DONE: wave1] hashline (patch/apply seam), mnemopi (facade + orchestration), stats (usage windows + user metrics) — 3 capsules, check mjs green at wave close.
 - [DONE: wave2] hashline (filesystem seam + numbered streaming), mnemopi (beam recall/consolidate), stats (sync-worker + embedded-client) — 3 capsules, check green at wave close.
-- Pending waves: hashline input/parser/decimal seams; mnemopi embeddings/model runtime, db internals; stats db internals and usage-window time-range math.## Provenance
+- - [DONE: wave3] hashline (parser/anchors/snapshots), mnemopi (embedding seam + model heal + host bridge), stats (WAL db + series + windows) — 3 capsules, check green at wave close.
+- Pending waves: hashline input/syntax generalization; mnemoni migrations/vector internals + recall parity; stats gain-aggregator + server/provider faces; then the next queued repo.## Provenance
 oh-my-pi (MIT), `main@96f428097`; Codebase Memory project `oh-my-pi` (114,761 nodes / 595,806 edges, `full` index since 2026-08-22 — tests graph-covered; only `parse_partial` ranges read directly).
 
 ## Boundaries
