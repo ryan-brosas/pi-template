@@ -12,10 +12,10 @@ Turn indexed inspiration repositories into small, reusable code shortcuts. Codeb
 |---|------|---------------|------:|--------|
 | 1 | oh-my-pi | oh-my-pi | 84,012 | repair in progress |
 | 2 | eslint | eslint | 14,207 | queued after pilot |
-| 3 | vitest | vitest | 15,917 | queued |
-| 4 | rsbuild | rsbuild | 14,316 | queued |
-| 5 | nest | nest | 13,263 | queued |
-| 6 | grist-core | grist-core | 26,681 | queued |
+| 3 | vitest | vitest | queued |
+| 4 | rsbuild | rsbuild | queued |
+| 5 | nest | nest | queued |
+| 6 | grist-core | grist-core | queued |
 
 ## Oh My Pi pilot acceptance ledger
 
@@ -43,3 +43,4 @@ The user approved editing the workflow and three retained references, deleting s
 
 - [DONE:8] Oh My Pi farm committed a72b7f9. Serial lane moved to eslint (`dc1e7a84`): crowned Linter.verify, ESLint.lintFiles, config-loader/FlatConfigArray, RuleTester, ast-utils; wrote two source-dump references.
 - [DONE:9] eslint-foundation committed 2aba6ba (verify pipeline + RuleTester/AST refs); catalog wired, probes pass, canonical green. Deep OMP farm approved earlier: prewalk/vibe/task/autoresearch/advisor leaves live at a72b7f9.: retain and source-dump the agent harness; add prewalk, vibe, task orchestration, autoresearch, and advisor leaves. All five have graph anchors plus direct source/test proof; checkpoint/rewind, memory, cleanse, and autolearn remain explicitly unmined.
+- [DONE:10] The shared foundation workflow now keeps module coverage and wave timing in this durable work record; foundation leaves are stable capability/source maps with an extension recipe. The change began with a failing deterministic workflow probe.

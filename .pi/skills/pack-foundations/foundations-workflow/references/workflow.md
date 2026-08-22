@@ -66,9 +66,9 @@ Use one realistic scenario and a fixed rubric:
 Run RED without the new guidance. After authoring, run GREEN with the skill and an adversarial variant. If no agent runner is available, record the infrastructure block and run deterministic retrieval/content probes; do not invent a pass.
 
 ## 6. Write the minimum durable artifact per seam
-The leaf skill is a routing surface plus reuse map. Add a reference only for a distinct porting question that needs more than the surface can carry. Reference length follows the contract's complexity; no document-count or line-count target exists. Land capsules in waves: each wave covers a named module, updates the coverage ledger, and keeps `node scripts/check.mjs` green.
+The leaf skill is a routing surface plus a capability/source map. Add a reference only for a distinct porting question that needs more than the surface can carry; group its catalogued capsules by subsystem, then end with a compact recipe for adding a new capsule. Reference length follows the contract's complexity; no document-count or line-count target exists. Mine in waves only when useful for execution: wave timing and module coverage belong in the durable work record, never the leaf skill.
 
-Stop when every skill line is actionable and evidenced. Put unresolved areas in an unmined ledger instead of expanding prose. A repo is finished when the ledger shows every module mined or skipped-with-reason — never at a token or document budget.
+Stop when every skill line is actionable and evidenced. Put unresolved areas in the durable work record instead of expanding prose. A repo is finished when that record shows every module mined or skipped-with-reason — never at a token or document budget.
 
 ## 7. Wire and verify
 
