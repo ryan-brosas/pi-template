@@ -20,6 +20,7 @@ Build or harden an AI coding harness that selects repository context under a tok
 - `references/architect-handoff.md` — consent-gated plan-to-editor transfer in an isolated edit session.
 - `references/ux.md` — grouped confirmation preference, explicit-yes protection, and multiline restoration.
 - `references/model-policy.md` — exact-over-generic settings, deep overrides, and capped retry recovery.
+- `references/shell-output-consent.md` — explicit run approval and separate chat admission.
 
 ## Capsule map
 Each capsule pairs decisive evidence, a preserved invariant, a direct-test probe, and a live `search_graph` retrieval. The map records portable seams, not a source census.
@@ -28,6 +29,7 @@ Each capsule pairs decisive evidence, a preserved invariant, a direct-test probe
 - **Edit protocol and mutation boundary** — `references/edit-formats.md`, `references/edit-admission.md`, `references/git-safety.md`, `references/undo.md`, `references/diagnostic-feedback.md`: select a compatible format, ask before expanding scope, reject unsafe matches, keep a reversible baseline, revert only the last aider-owned unpushed commit, and feed compact diagnostics back to the model.
 - **Collaboration and consent** — `references/collab.md`, `references/architect-handoff.md`, `references/ux.md`: bound reflection, turn a reviewed plan into a separate edit pass, and never weaken explicit consent.
 - **Provider policy and recovery** — `references/model-policy.md`: exact policy wins; user overrides merge deliberately; retry terminates at its time bound.
+- **Command execution boundary** — `references/shell-output-consent.md`: require explicit consent before running model-suggested shell commands, and a separate consent before their output enters the chat context.
 
 ## Extending the foundation
 Add one graph-selected, source-confirmed capsule per new portable seam. Add exactly one loader line and one grouped map reference; retain decisive source, an invariant, a direct-test probe, and a `search_graph` retrieval in the capsule rather than expanding this leaf.

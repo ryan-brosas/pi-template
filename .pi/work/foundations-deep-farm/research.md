@@ -88,3 +88,5 @@ Work done:
 Deliberately NOT mined (boundaries): Aider CLI/prompt wording, GUI/analytics, voice, onboarding/scraping, commit-message generation, model-info cache tables, shell-command suggestion, and reasoning-tag stream transport stay outside the reusable contract. These are recorded here as omitted, not shipped.
 
 On-disk verification: `mkcs — no flat `## Path/Symbol` headings remain in any reference; every capsule carries Source/Decisive source/Flow/Invariant/Probe/Retrieve/Verdict.
+
+- [aider full module screen (complete)] 2026 — swept all 142 non-website production paths; existing capsules cover context/coder-format/Git/diagnostics/collab/consent/model-policy; added the run-shell seam (explicit execution + separate chat-admission consent). Omitted CLI, prompts, GUI, analytics, voice, scraping, site assets, spinner, query grammars, provider transport.
