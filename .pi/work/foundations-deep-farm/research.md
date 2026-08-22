@@ -750,3 +750,13 @@ Went deep on mem0, expanding the foundation from 3 references to 6 capsule-v2:
   entity-store (exact + semantic dedup, linked_memory_ids).
 - SKILL.md capsule map regrown grouped by subsystem (pipeline, scoping/search,
   storage backends, entity linking). Checks green.
+
+### [DONE:21] 2026-08-23 — graphiti deep re-squeeze (3 → 6 capsules)
+Went deep on graphiti, expanding the foundation from 3 references to 6 capsule-v2:
+- Refactored to capsule-v2: bitemporal (contradiction resolution), nodes
+  (batched extraction + dedup), search (embed-only-when-needed orchestrator).
+- New: graphiti-orchestrator (add_episode/bulk, saga summarization), driver
+  (GraphDriver ABC across Neo4j/FalkorDB/Kuzu/Neptune), edges (bi-temporal
+  fact-edge model).
+- SKILL.md capsule map regrown grouped by subsystem (bi-temporal facts,
+  retrieval, orchestration, drivers). Checks green.

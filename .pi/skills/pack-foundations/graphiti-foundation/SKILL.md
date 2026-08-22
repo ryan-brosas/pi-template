@@ -12,10 +12,15 @@ Agent memory over a knowledge graph where facts are bi-temporal, contradictions 
 - `references/bitemporal.md` — the four-clock edge model, resolution pipeline, contradiction arithmetic.
 - `references/search.md` — hybrid composition, rerankers, fail-closed fulltext construction, filter scaffolding, cost-tier recipes.
 - `references/nodes.md` — extraction batching, three-tier dedup with defensive LLM guardrails, summary flights, node taxonomy traps.
+- `references/graphiti-orchestrator.md` — add_episode, bulk, and saga summarization.
+- `references/driver.md` — the GraphDriver ABC (Cypher queries, sessions, transactions, node ops) across Neo4j/FalkorDB/Kuzu/Neptune.
+- `references/edges.md` — the bi-temporal fact-edge model (save, get_by_uuid, embedding).
 
 ## Capsule map
-- **Bi-temporal facts** — `references/bitemporal.md`: valid_at/invalid_at/expired_at edges with arithmetic contradiction invalidation.
-- **Retrieval & drivers** — `references/search.md`, `references/nodes.md`: named hybrid-search recipes over one GraphDriver across Neo4j/FalkorDB/Neptune/Kuzu.
+- **Bi-temporal facts** — `references/bitemporal.md`, `references/edges.md`: valid_at/invalid_at/expired_at edges, contradiction resolution, fact-edge model.
+- **Retrieval** — `references/search.md`, `references/nodes.md`: hybrid-search recipes, extraction batching, dedup.
+- **Orchestration** — `references/graphiti-orchestrator.md`: add_episode/bulk, saga summarization.
+- **Drivers** — `references/driver.md`: the GraphDriver ABC across Neo4j/FalkorDB/Kuzu/Neptune.
 
 ## Extending the foundation
 Add one references-fileshaped capsule per portable seam: one loader line, one grouped map entry, decisive source with an invariant, a direct-test probe, and a `search_graph` retrieval.
@@ -24,4 +29,4 @@ Add one references-fileshaped capsule per portable seam: one loader line, one gr
 Indexed in Codebase Memory as `graphiti` (`/mnt/hdd/utopia/inspo/graphiti`); 4,157 nodes / 20,368 edges. Confirm every claim against source — the graph is an index, not truth.
 
 ## Boundaries
-Adopt the bi-temporal edge model, contradiction arithmetic, and hybrid-search recipe; adapt driver dialects and embedding providers; omit Graphiti-specific pipelines and prompts unless a target requires them.
+Adopt the bi-temporal edge model, contradiction arithmetic, hybrid-search recipe, orchestrator, and driver abstraction; adapt driver dialects and embedding providers; omit Graphiti-specific pipelines and prompts unless a target requires them.
