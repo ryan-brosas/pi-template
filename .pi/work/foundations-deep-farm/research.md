@@ -326,3 +326,137 @@ stack, image generation (sharp), web search backend, Codex pets spritesheet
 rendering, footer layout, the `UsageController` polling lifecycle, and the
 settings-picker UI unless a target needs them.
 
+## 2026-08-23 pi-hermes-memory squeezed (autonomous drain)
+
+Squeezed `pi-hermes-memory` (user's own Pi/Hermes persistent-memory extension)
+into a canonical foundation leaf `pi-hermes-memory-foundation` with **14
+capsule-v2** references. Commit `6684fd0`.
+
+**Live graph (gate 1):** project `pi-hermes-memory`, root
+`/mnt/hdd/utopia/inspo/pi-hermes-memory`, branch `main`, HEAD
+`26f0acaa7741a81ea28eb992ab7ffcfdb7b50a0c`, `fast` index mode, 1,049 nodes /
+3,171 edges, indexed 2026-08-15. Excluded by design: `.git`, `docs`, `scripts`,
+`src/tools`, and all `tests/` (42 files, `fast-pattern` skip-list). 0
+parse_partial / 0 skipped. `check_index_coverage` on all 24 cited source files
+reports `no_recorded_issue` + `metadata_match` (best-effort).
+
+**Graph-led seams (gate 2):** architecture shows packages store/handlers/
+extension-root-migration/types/config/paths/project. The `store` package (367
+nodes) is the core. Crowned 14 reusable seams across the store layer and the
+LLM/handler transport.
+
+**Source/test confirmation (gate 3):** read decisive ranges in every cited
+module (see capsule Path/Symbol + line ranges): `sqlite-memory-store.ts`
+(syncMemoryEntry 341-422, reconcileMarkdownMemoryScope 429-484, replace/
+removeSyncedMemories 533-680, searchMemories 685-799), `sqlite-native.ts`
+(loadBetterSqlite3 183-241), `db.ts` (DatabaseManager 140-1032, recoverFrom-
+Corruption 228-241, rebuildDatabaseFromReadableRows 543-579), `atomic-lock-
+coordinator.ts` (tryAcquire 127-193, renew 221-240), `memory-store.ts`
+(MemoryStore 52-1068, applyMutationPlan 327-411, saveToDisk 791-890),
+`session-search.ts` (searchSessions 91-225), `session-anchor-search.ts`
+(searchSessionAnchors 72-122), `session-indexer.ts` (indexChangedSessions
+330-374), `session-parser.ts` (parseSessionFile 107-172), `content-scanner.ts`
+(scanContent 63-86), `skill-store.ts` (SkillStore 156-950), `standing-
+instructions.ts` (StandingInstructions 46-224), `correction-detector.ts`
+(isCorrection 80-122), `review-memory-ops.ts` (runDirectMemoryCompletion
+415-530), `config.ts` (loadConfig 73-171), `paths.ts`, `fts-query.ts`,
+`markdown-mutation-lock.ts`, `canonical-storage-path.ts`, `memory-lookup.ts`,
+`skill-utils.ts`, `schema.ts`. Direct tests read on disk (node:test) for every
+seam — see each capsule's Probe. Coverage caveat: `tests/` is excluded from the
+graph index by design, so probes are source-grounded from the on-disk test
+files, not graph-covered.
+
+**Capsules (gate 4):** fourteen `<!-- capsule-v2 -->` references in
+`pack-foundations/pi-hermes-memory-foundation/references/`:
+- `memory-store.md` — §-delimited Markdown memory with metadata comments, char
+  limits, FIFO eviction, atomic temp+link/rename conflict-safe writes, frozen
+  system-prompt snapshot.
+- `sqlite-mirror.md` — exact-identity upsert, scope-authoritative reconcile with
+  orphan pruning, LIKE-escaped substring replace/remove, exact-content remove.
+- `fts5-search.md` — FTS5 MATCH subquery, NL normalization, operator passthrough,
+  OR fallback, LIKE fallback for CJK, parse-error recovery.
+- `sqlite-native-loader.md` — lazy better-sqlite3 load, ABI/dlopen mismatch
+  detection, one npm rebuild, actionable error.
+- `database-manager.md` — WAL + busy_timeout + FK config, quick_check integrity,
+  legacy-schema migration, rebuild-or-recreate with row salvage + backup
+  retention + recovery circuit.
+- `atomic-lock-coordinator.md` — BEGIN IMMEDIATE lock rows, token fencing,
+  pid+incarnation liveness, stale takeover, heartbeat renew, dead-lock GC,
+  shared coordinator.
+- `content-scanner.md` — invisible-unicode, threat-pattern, and secret/credential
+  regex blocking; non-blocking scanSecrets variant.
+- `session-indexer.md` — JSONL parse (skip thinking/tool_use, extract tool
+  calls), incremental size/mtime backfill newest-first, live-session index.
+- `session-anchor-search.md` — markdown-request parse, file/line scan caps, term
+  scoring, adjacent-range merging.
+- `skill-store.md` — slugify + frontmatter, duplicate/similar/name-collision/
+  shadow guards, section patch with JSON-array coercion, legacy migration
+  sentinel.
+- `standing-instructions.md` — always-injected fenced block, hard entry+char
+  budget, loud in-block truncation, user-only provenance.
+- `correction-detector.md` — two-pass strong/weak/negative filter with directive-
+  word gating, rate-limited immediate save.
+- `review-transport.md` — direct in-process LLM completion with fresh-auth re-read,
+  auth-rejection retry-once-when-key-changed, structured operation parsing,
+  atomic-shrink application.
+- `config-paths.md` — defaults-override merge with per-field validation,
+  overflow-strategy/auto-consolidate reconciliation, agent-root + safe path
+  normalization.
+
+**Pressure test (gate 5):** the upstream test runner is BLOCKED in this clone —
+it is a published package tarball with no `node_modules` and no TypeScript
+devDependency (the repo's own `scripts/ensure-dev.mjs` guard confirms tests only
+run from a full source checkout; direct `node --test` fails with
+`ERR_MODULE_NOT_FOUND` on the un-compiled `.js`). No test pass is claimed. Ran
+deterministic retrieval/probe checks instead: all 15 cited seam symbols resolve
+in `search_graph` with exact qn/file/line (searchMemories 685-799,
+syncMemoryEntry 341-422, normalizeFts5Query 32-43, loadBetterSqlite3 183-241,
+DatabaseManager.recoverFromCorruption 228-241, AtomicLockCoordinator.tryAcquire
+127-193, scanContent 63-86, indexChangedSessions 330-374, searchSessionAnchors
+72-122, SkillStore.create 365-461, StandingInstructions.render 144-182,
+isCorrection 80-122, runDirectMemoryCompletion 415-530, loadConfig 73-171,
+canonicalStoragePathSync 14-50). No fabricated pass.
+
+**Wiring (gate 6, NEW membership):** added `pi-hermes-memory-foundation` to
+`packs.json` pack-foundations members (28), router `pack-foundations/SKILL.md`,
+`manifest.json` (retained, pack-foundations), and `_descriptions`. JSON parses;
+member + manifest parity confirmed 28/28; `_descriptions` entry present.
+
+**Verify (gate 7):** loader/map parity 14/14 (all 14 references once in loader
+and map, all resolve to on-disk files, all capsule-v2); leaf matches canonical
+template (all 7 headings in fixed order: Use this for / Load the matching source
+dump / Capsule map / Extending the foundation / Provenance / Full view (memory
+graph) / Boundaries). Diff touches only the new foundation dir, packs.json,
+router, manifest.json, and the work record. Pre-existing dirty files
+(.pi/fabric.json, project.md, roadmap.md, state.md, tech-stack.md) left
+uncommitted (unrelated). Commit `6684fd0`.
+
+**Verdicts:** adopt the Markdown memory contract, the SQLite mirror + FTS5
+search, the corruption-recovering DatabaseManager, the AtomicLockCoordinator,
+content/secret scanning, session indexing/anchor search, the SkillStore,
+StandingInstructions, correction detection, and the direct review transport;
+adapt config keys, default paths, threat/secret regex lists, correction pattern
+lists, and provider/model resolution to host; omit the Pi extension wiring
+(index.ts command registration, pi.on hooks), the child-process `pi -p` subprocess
+transport, and the extension-root migration unless a target needs them.
+
+### pi-hermes-memory module disposition
+- **Mined (portable harness contracts):** `store/{sqlite-memory-store, sqlite-
+  native, db, atomic-lock-coordinator, memory-store, session-search, session-
+  anchor-search, session-indexer, session-parser, content-scanner, skill-store,
+  standing-instructions, markdown-mutation-lock, fts-query, canonical-storage-
+  path, memory-lookup, skill-utils, schema}` and `handlers/{correction-detector,
+  review-memory-ops, auto-consolidate}` + `config.ts`/`paths.ts` — represented by
+  the 14 capsules above.
+- **Omitted with reason:** Pi extension wiring (`index.ts` command registration,
+  `pi.on` event hooks), the child-process `pi -p` subprocess transport
+  (`pi-child-process.ts`), the extension-root migration (`extension-root-
+  migration.ts`), project-context/prompt-context/message-parts helpers, the
+  tool/command handlers (memory-tool, session-search-tool, skill-tool,
+  shared-output-view, tool-result-views, skills-command, insights, interview,
+  learn-memory, standing-pin, preview-context, background-review, session-flush,
+  session-backfill, index-sessions, switch-project, child-process-watchdog), and
+  the `src/tools/` directory (excluded from the index by design) — these are
+  host-specific Pi extension surfaces rather than portable reusable contracts.
+
+
