@@ -29,13 +29,29 @@ When writing tests for code that:
   (hermetic HTTP tests independent of host proxy config).
 - `mock_async_stream.py` — (from pydantic-ai) wraps a sync iterator as an async
   stream for testing async/await code. Adapted to be standalone.
-- `conftest.py` — (from graphrag + browser-harness + graphiti + Auto_job_applier
-  + cuga-agent) pytest options + fixtures: `--run_slow` gating, `fake_png`
+- `conftest.py` — pytest options + fixtures: `--run_slow` gating, `fake_png`
   fixture for image/screenshot tests, project-root `sys.path` setup,
   `collect_ignore_glob` to exclude subdirectories, a custom
   `pytest_terminal_summary` (failing tests first, then counts, then verdict),
   and a `--stability-threshold` option that gates flaky/load tests on a minimum
   pass rate while keeping non-stability failures hard.
+- `inline_snapshot.py` — lightweight inline-snapshot wrapper (cheap stubs by
+  default, real library only with `--inline-snapshot`/`--snap`).
+- `fake_database.py` — in-memory fake database for hermetic, deterministic
+  database-dependent tests.
+- `retry_utils.py` — parse `Retry-After` headers (seconds or HTTP-date) and
+  extract status codes from exception cause chains.
+- `broad_assertions.py` — broad assertion helpers that target the TYPE of bug
+  (all-satisfy, no-duplicates, near-duplicate detection, no-unused). A test is
+  only good if it catches; make tests broad, not narrow.
+
+## Make tests BROAD (the methodology)
+
+- Target the TYPE of bug, not one instance. `assert_all_satisfy` catches any
+  item violating an invariant; `assert_no_duplicates` / `assert_all_distinct_enough`
+  catch any (near-)duplicate; `assert_no_unused` catches any dead code.
+- Expand existing tests, don't create new near-identical ones.
+- Test the un-fixed AND fixed versions (pre-fix fails, post-fix passes).
 
 ## How to Use
 
