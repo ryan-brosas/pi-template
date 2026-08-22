@@ -1,78 +1,68 @@
-# Foundations Workflow — Skill Anatomy
+# Foundation skill anatomy
 
-The target structure for a foundation skill: a lean surface plus focused topic references. Includes the validator constraints that shape it.
+A foundation is a lean retrieval surface backed by proven code. References are optional depth, not a completeness score.
 
-## Directory layout
+## Layout
 
-```
-.pi/skills/pack-foundations/<name>-foundation/
-├── SKILL.md              # LEAN surface (~230-280 words): what loads into context
-└── references/
-    ├── architecture.md   # solves, stack, full module map, data flow, graph signals
-    ├── <subsystem>.md    # one file per major subsystem (what it gives, e.g. secret-defense.md) — typically 8+
-    └── reuse-guide.md    # use cases, every reusable primitive, red flags, verification, provenance
+```text
+.pi/skills/pack-foundations/<repo>-foundation/
+├── SKILL.md
+└── references/                 # only when a distinct porting question needs depth
+    └── <question-or-subsystem>.md
 ```
 
-## Depth floors (minimums, never caps)
+One small repository may need no reference beyond the leaf. A large harness may need several. Count follows reusable contracts, never repository size.
 
-- **Reference files: ≥10 per repo.** Count every file under `references/` (architecture.md, each per-subsystem file, reuse-guide.md). Typical shape: 1 architecture + 8+ subsystem files + 1 reuse-guide.
-- **Reference file size: ≥700 lines each.** A floor, not a target and never a cap — large subsystems routinely exceed it.
-- **SKILL.md: no floor.** It stays lean (~230-280 words); the 600-word validator warning still stands. Depth never migrates into the surface.
-- **Floors are met by depth, not padding.** If a file falls under 700 lines, the study stage missed material: split subsystems finer, mine more tests for probes, quote more failure-mode comments verbatim, record more line anchors. Go past the floor whenever the repo warrants it.
-- **Why:** the floor forces full-file reading of crowned subsystems at authoring time and leaves the use-time model enough exact material (signatures, constants, line anchors) to port without re-indexing the repo.
+## Lean `SKILL.md`
 
-## Lean SKILL.md anatomy (in order)
+1. Trigger-first frontmatter and `disable-model-invocation: true`.
+2. **Solves** — the recurring problem.
+3. **Reuse map** — exact path/symbol, invariant, and named probe for each primitive.
+4. **Full view (memory graph)** — project/root/branch/commit/mode/counts, caveats, and live query loop.
+5. **References** — only the files that answer distinct porting questions.
+6. **Adopt/adapt/omit** — constraints that affect reuse.
+7. **Unmined** — honest queue of potentially valuable areas not studied.
+8. Result contract.
 
-1. **Frontmatter**:
-   - `name: <name>-foundation` — lowercase kebab, matches the directory.
-   - `description:` — **trigger-first** (`Use when ...`), <= 240 chars, wrap in double quotes if it contains `: ` (an unquoted colon-space reads as YAML mapping and fails hygiene).
-   - `disable-model-invocation: true` — leaves are hidden; loaded on demand via the pack router or `/skill:<name>`.
-2. **`# <Title>`**.
-3. **`## Solves`** — 1-2 lines. What the repo actually does.
-4. **`## When to use`** — the trigger situations.
-5. **`## Key skill-lines`** — the actionable reuse contract, one bullet each: *when you need X -> repo Y's Z at path P*. Exact paths, exact symbol names.
-6. **`## Full view (memory graph)`** — mandatory; see graph-rules.md for the template.
-7. **`## References (load on demand)`** — one bullet per reference file with what it holds.
-8. **`## Skill Result Contract`** — the xml block (status/evidence/artifacts/risks).
+Keep the leaf below the repository's warning threshold and remove any sentence that does not improve routing or reuse.
 
-## What goes where
+## Reference contract
 
-| Content | Surface (SKILL.md) | References |
-|---|---|---|
-| Trigger + solves | yes | expanded in architecture.md |
-| Reuse pointers (skill-lines) | yes, one line each | expanded with signatures in reuse-guide.md |
-| Architecture map | no | architecture.md |
-| Primitive deep-dives | no | per-subsystem files |
-| Constants/env vars/defaults | no | per-subsystem files |
-| Edge cases from source comments | no | per-subsystem files |
-| Red flags | no | reuse-guide.md |
-| Verification | no | reuse-guide.md (+ per-subsystem) |
-| Provenance | no | reuse-guide.md |
+A reference opens with provenance and coverage, then explains one porting question. It contains:
 
-Rationale: leaves are `disable-model-invocation: true` — zero context cost until loaded — but the load itself should still be cheap. The surface answers "is this the right skill and what's the shortcut?"; the references answer "how do I port it exactly?".
+- graph-selected symbols and traces;
+- source-confirmed invariants and failure boundaries;
+- exact anchors close to claims;
+- adopt/adapt/omit decisions;
+- named tests or executable probes;
+- known gaps.
 
-## Validator constraints (scripts/validate-skill-packs.mjs)
+Do not include worker output, study diaries, repeated glossaries, progress notes, or threshold commentary.
 
-- Description must be trigger-first (`^Use when `) and <= 240 chars (hidden leaves).
-- Description > 1024 chars fails; unquoted `": "` fails hygiene.
-- Name: lowercase/digits/hyphens, <= 64 chars, no leading/trailing/consecutive hyphens.
-- Every leaf in exactly one pack (`packs.json` members) or visibleCore; duplicate membership fails.
-- Leaves MUST have `disable-model-invocation: true`; routers MUST NOT.
-- Router SKILL.md word budget: 190 words total (compact member lines).
-- Router member list must equal packs.json members exactly (parity both ways).
-- Stale vocabulary regex fails the file: TaskCreate | TaskUpdate | ask_user_question | web_fetch | grepsearch | superpi.
-- Word threshold: SKILL.md > 600 words warns (references/ files are NOT counted — this is why depth lives there).
-- Manifest parity: retained ledger must match packs.json + disk; regenerate with `node scripts/sync-skill-manifest.mjs`.
-- Release hygiene: README skill/leaf/pack counts must match the tree exactly.
+## What belongs where
 
-## Naming conventions
+| Content | Leaf | Reference |
+|---|---:|---:|
+| Trigger and solve | yes | optional expansion |
+| Reuse symbol + invariant | yes | implementation detail |
+| Live graph identity/caveat | yes | scoped coverage detail |
+| Porting mechanics | summary | yes when non-trivial |
+| Probe name | yes | setup/assertion detail |
+| Constants and edge cases | only load-bearing | yes |
+| Unmined areas | yes | no invented coverage |
 
-- Leaf dir/skill: `<repo-name>-foundation` (e.g. `localterm-foundation`).
-- Reference files: lowercase kebab topic names matching the repo convention (cf. `swift-concurrency/references/actors.md`) — e.g. `architecture.md`, `secret-defense.md`, `reuse-guide.md`. Never one monolithic DEEP.md.
-- Graph project name: clean repo name (pass `name` to index_repository); never the path-derived form.
+## Provenance
 
-## Provenance requirements (every skill)
+Record owner, license, branch, commit/date, root, graph project, index mode/counts, and coverage state. Provenance can be centralized in the leaf and restated briefly in references so a loaded reference remains trustworthy.
 
-- Owner + license (from LICENSE head) + branch + commit + date (from `git log -1`).
-- Root path on disk + graph project name + node/edge counts.
-- Recorded in reuse-guide.md under Provenance.
+## Catalog constraints
+
+- Directory and frontmatter name match `<repo>-foundation`.
+- Description begins with `Use when` and stays within metadata budget.
+- Leaves stay hidden; routers remain visible.
+- Packs own membership; regenerate the manifest only when membership changes.
+- Router wording remains distinct from sibling leaves.
+
+## Mechanical quality checks
+
+The foundation validator checks evidence anchors, a verification/probe signal, provenance, scaffold leakage, and explicit padding language. It does not require a number of reference files or prose lines. Utility is established by the behavior pressure test, then `node scripts/check.mjs` guards repository structure.

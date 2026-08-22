@@ -1,62 +1,60 @@
-# The Quality Bar (localterm calibration)
+# Foundation quality bar: shortcut utility
 
-Every foundation reference is held to the standard of `localterm-foundation/references/secret-defense.md`. This file shows what that means concretely: one anti-pattern (a real first-draft failure from the turso farm) against its corrected rendering, plus the dissolution technique and probe-mining rules.
+A foundation succeeds when another agent can select and port a proven primitive without rediscovering the repository. Size is not evidence.
 
-## The anti-pattern (worker output transposed)
+## The failure pattern
 
-```markdown
-- **WHO** Serves every reader (read_frame/read_frames_batch verify integrity via decode path)...
-- **WHAT** A frame is 6 big-endian u32s (page_number, db_size, salt_1, salt_2, checksum_1, checksum_2 = 24 bytes)...
-- **WHY** The cumulative chain makes any torn/garbage tail detectable at exactly the first bad frame...
-- **LESSON** Chain integrity into the framing itself...
-```
+Volume targets create predictable artifacts: repeated summaries, invented section taxonomies, duplicated anchor lists, progress commentary embedded in documentation, and paragraphs whose only job is to cross a threshold. These make retrieval slower and hide the actual contract.
 
-Why this fails even though every fact is correct:
+Never reward reference count, line count, full-file reading, or prose mass by itself.
 
-- The 5W1H scaffold is MACHINERY made visible. The reader must reassemble prose from labeled fields — you shipped them a survey, not documentation.
-- `P1 -`, `P2 -` numbering communicates nothing; concept names communicate intent.
-- No narrative connective tissue: WHY a design exists should MOTIVATE the WHAT, not sit three bullets below it.
-- It reads identically at every point — no emphasis hierarchy, no crown-jewel framing, no orientation for someone about to port code.
+## The useful unit
 
-## The corrected rendering (same facts)
+Each skill line answers four questions:
 
-```markdown
-## Frame format: a checksum chain seeded per generation
+1. **When should I use this?** A precise trigger.
+2. **What do I reuse?** Exact path and symbol.
+3. **What must remain true?** The tested invariant or failure boundary.
+4. **How do I verify the port?** A named source test or direct behavioral probe.
 
-A frame is 24 bytes of header (six big-endian u32s: page_number, db_size,
-salt_1, salt_2, checksum_1, checksum_2) followed by the page body.
+A reference exists only when one distinct porting question needs deeper treatment. Its natural structure is:
 
-The integrity story is a cumulative Fibonacci-weighted checksum: each
-frame's checksum covers x[0..8] then the page body, seeded with the previous
-frame's value, forming one unbroken chain from the 32-byte header:
+- scope and provenance;
+- the graph-discovered flow;
+- source-confirmed contract and constraints;
+- adopt/adapt/omit guidance;
+- probes and known coverage gaps.
 
-> "s0 += x(i) + s1; s1 += x(i+1) + s0" -- and "The checksum values are always
-> stored in the frame header in a big-endian format regardless of which byte
-> order is used." (sqlite3_ondisk.rs:2190-2235)
-```
+## Evidence hierarchy
 
-What changed:
+1. Current source and tests.
+2. Fresh, covered graph symbols and high-confidence traces.
+3. Source comments explaining a non-obvious trade-off.
+4. Documentation or history for context.
 
-1. Section title states the CONCEPT and its payoff ("seeded per generation"), not an index.
-2. Mechanics flow as sentences; anchors ride inline in parentheses where they land naturally.
-3. Verbatim quotes become BLOCKQUOTES — the authors' own words carry authority.
-4. WHO/WHAT dissolve into subject positions of sentences. WHEN becomes "when this triggers" inside the flow. WHERE becomes inline anchors. HOW stays as the mechanics paragraphs. WHY becomes the motivation sentence BEFORE the mechanics. LESSON and PROBE survive as explicit codas (**Lesson:** / **Probe:**) because those two are meant to be scannable.
-5. One personality line per document is allowed (localterm: "the crown jewel"). Earn it; don't force it.
+The graph chooses what to inspect; it does not override source. A direct test read is mandatory when tests are excluded from the index.
 
-## Required per reference file
+## Behavior pressure test
 
-- Opening provenance line: files studied, line counts, how (full walk / sampled).
-- Concept-named `##` sections in dependency order.
-- Inline anchors (`file.rs:123-130`) on EVERY claim — verified, not estimated.
-- At least one VERBATIM author comment per section (the inline whys are the gold).
-- `**Lesson:**` coda per section: the portable principle in one sentence.
-- `**Probe:**` coda per section mined from the repo's OWN tests (graph TESTS edges point to them).
+Score a scenario out of five:
 
-## Required per SKILL.md
+- 1: routes to the right foundation;
+- 1: selects a relevant primitive rather than a large file;
+- 1: names path/symbol and coverage state;
+- 1: preserves a named probe/invariant;
+- 1: avoids irrelevant reference loading.
 
-- Solves / When to use / Key skill-lines (actionable recipes naming exact paths) / Full view memory-graph block with real node counts / References list with one-line summaries / Skill Result Contract.
-- An **unmined subsystems ledger**: large areas you did NOT study (e.g. mcp-ts-sdk's 2,376-line auth.ts), so future passes have a queue. Depth debt tracked, not hidden.
+RED must expose a real miss. GREEN passes at 4/5 twice, including one adversarial variant. Compress after passing; if compression breaks the behavior, restore only the load-bearing instruction.
 
-## Depth bar
+## Editorial checks
 
-A leaf meets the bar when its thinnest reference would not embarrass localterm's best. Practically: >=3 references for major repos (or 1 if single-primitive, written deep), every reference passing the checklist above, side-by-side comparison against localterm done BEFORE catalog wiring.
+- Concept names replace generic numbered studies.
+- Claims sit next to their anchors.
+- Quotes appear only when author intent changes the porting decision.
+- Scratch ledgers, worker scaffolding, and production-progress notes are absent.
+- No claim of completeness survives a truncated query or uncovered scope.
+- Unmined subsystems are named without pretending they were studied.
+
+## Reference acceptance
+
+A reference is done when its porting question, source anchors, verdicts, probes, provenance, and coverage caveats are all present. If removing a paragraph changes none of those, remove it.

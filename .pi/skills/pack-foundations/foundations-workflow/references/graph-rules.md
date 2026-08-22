@@ -1,59 +1,70 @@
-# Foundations Workflow — Graph Rules
-
-The two mandatory graph touchpoints: authoring-time double-checks and use-time full views. Plus the coverage semantics and the pitfalls.
-
-## Rule 1 — Authoring-time double-check (never skip)
-
-**Always** run the graph deep-pass (Step 2) + coverage check (Step 3) before or while writing a foundation skill.
-
-Why both directions:
-- Source alone misses the graph's shape: hotspots by fan-in (the reused symbols ARE the primitives), package boundaries (the dependency map), entry points (the reading order).
-- Graph alone is an index, not truth: it can be stale, partial, or exclude paths. Confirm every claim against real source.
-
-## Rule 2 — Use-time full view (every foundation skill carries it)
-
-The graph is not only for authoring. Every foundation skill ships a **Full view (memory graph)** section naming its indexed project, so *using* the skill routes back to the live graph. The inspo repo keeps evolving; the graph is how you get the full current view instead of trusting a frozen skill.
-
-### The section template (mandatory in every lean SKILL.md)
-
-```markdown
-## Full view (memory graph)
-
-Indexed in Codebase Memory as **`<project>`** (`<root_path>`, branch `<branch>`). Pull the full view before porting:
-
-- `codebase_memory_get_architecture({ project: "<project>", aspects: ["overview", "entry_points", "hotspots", "boundaries"] })` — shape, hotspots by fan-in, package boundaries.
-- `codebase_memory_search_graph({ project: "<project>", query: "<symbol>" })` — find a specific symbol.
-- `codebase_memory_trace_path({ project: "<project>", ... })` — call flows across packages.
-- `codebase_memory_check_index_coverage({ project: "<project>", paths: [...] })` — confirm a cited path is indexed.
-
-Confirm every claim against source — the graph is an index, not truth.
-```
-
-Place it between **Key skill-lines** and the References index.
-
-## Coverage semantics
-
-| Status | Meaning | Action |
-|---|---|---|
-| `no_recorded_issue` + `metadata_match` | indexed and fresh | safe to cite |
-| `no_recorded_issue` + `not_tracked` | indexed, freshness unknown | spot-check source |
-| `excluded` / `not_indexed` | gitignore or skip-list | read from source directly; note it |
-| `metadata_changed` | source moved since indexing | re-index before trusting |
-
-`index_status({ project, verbose: true })` also reports the repo's ignore posture: `not_indexed.dirs` and `not_indexed.files` with reasons (gitignore / skip-list). Cite that in the reuse-guide so future readers know what the graph deliberately does not cover.
-
-## Pitfalls (all hit in practice)
-
-1. **Duplicate indexes.** `index_repository` without `name` derives one from the path. Re-indexing with a `name` override creates a SECOND index; the old one stays. Delete the stale one with `delete_project` after verifying the canonical index is fresh (`index_status` node counts must match expectations).
-2. **Stale graph after edits.** The graph snapshots the committed tree; uncommitted working-tree changes are invisible (`search_graph` returns nothing for new symbols). Re-index after a batch of changes.
-3. **Symbol search is code-only.** `search_graph` (BM25) surfaces functions/classes, not markdown. Skill files live in the graph as nodes (coverage proves it) but never surface in symbol search — skills are discovered through the pack router, the graph navigates code.
-4. **Trusting coverage absence.** "No recorded issue does not prove completeness" — pair coverage with real reads.
+# Codebase Memory rules for foundations
 
 ## The canonical loop
 
-```
-author:  graph deep-pass + coverage check -> source confirm -> write skill (lean + split refs) -> wire -> check
-use:     skill's Full-view section -> live graph for the repo's current full view -> source confirm -> port
+```text
+index state -> bounded graph survey -> crown symbols -> trace -> coverage check
+-> selective source/test confirmation -> reuse verdict -> concise skill
 ```
 
-Both directions graph-grounded. The inspo is never frozen.
+Use the same loop at authoring time and when the skill is later applied. The live graph keeps a foundation from becoming a frozen summary.
+
+## Graph is the map; source is final
+
+Use Codebase Memory instead of manual repository walking for:
+
+- architecture and package orientation;
+- symbol discovery and qualified names;
+- inbound/outbound call paths and blast radius;
+- hotspot and cluster evidence;
+- coverage and freshness metadata.
+
+Use direct source for:
+
+- a clipped or partially parsed symbol;
+- excluded or unindexed files;
+- exact test behavior when tests are excluded;
+- reconciling a graph edge with the implementation.
+
+## Coverage decisions
+
+| Status/freshness | Meaning | Action |
+|---|---|---|
+| `no_recorded_issue` + `metadata_match` | indexed and metadata-current | use graph with its best-effort caveat; confirm shipped claims from the symbol source |
+| `parse_partial` | some ranges may be missing | inspect the flagged ranges directly |
+| `excluded` / `not_indexed` | absent by policy | direct-search/read the exact source; re-index only if graph relationships are needed |
+| `metadata_changed` / missing freshness | source and graph may diverge | re-index or qualify and confirm directly |
+
+Absence of a recorded issue is not proof of completeness.
+
+## Truncation rules
+
+- `search_graph`: honor `total` and `has_more`; page or narrow.
+- `trace_path`: honor `truncated` and resume with its cursor.
+- `search_code`: compare returned results with `total_results`/raw matches; narrow when needed.
+- `get_code_snippet`: honor `source_clipped` and read the omitted source range only if relevant.
+
+Negative or exhaustive claims require complete pagination plus coverage for the claimed scope.
+
+## Fast-index test caveat
+
+Fast indexes commonly exclude tests by pattern. Do not say a graph TESTS edge proves a behavior unless coverage confirms the test is indexed. Search the excluded test file directly, read the named test block, and label it as direct-source evidence.
+
+## Required use-time block
+
+Every foundation leaf includes a compact **Full view (memory graph)** section with:
+
+- graph project, root, branch, commit, mode, nodes/edges;
+- known exclusion/coverage caveats;
+- the calls to rerun before porting: `index_status`, `check_index_coverage`, `search_graph`, `trace_path`, and `get_code_snippet`.
+
+The section points back to the graph; it does not paste architecture output into the skill.
+
+## Failure modes
+
+- **Duplicate index:** verify canonical name/root before indexing.
+- **Stale snapshot:** compare graph HEAD and source HEAD.
+- **First-page certainty:** detect truncation.
+- **Degree worship:** high fan-in does not make a primitive reusable.
+- **Manual-first browsing:** do not read directories or large files before graph discovery names the uncertainty.
+- **Frozen skill:** rerun the live graph before reuse and re-confirm moved symbols.
