@@ -41,5 +41,5 @@ return replayRemappedAnchorsOnCurrent(...);
 
 **Retrieve:**
 ```ts
-await mcp.codebase_search.search_graph({ project: "oh-my-pi", name_pattern: "^(computeFileHash|Recovery|recover|buildLineMap)$", limit: 5, fields: ["signature"] });
+await mcp.codebase_memory.search_graph({ project: "oh-my-pi", name_pattern: "^(computeFileHash|Recovery|recover|buildLineMap)$", limit: 5, fields: ["signature"] });
 ```
