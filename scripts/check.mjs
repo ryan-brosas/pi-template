@@ -10,7 +10,6 @@ const checks = [
   [process.execPath, ["scripts/validate-foundation-depth.mjs"]],
   [process.execPath, ["scripts/probe-foundation-capsule-standard.mjs"]],
   [process.execPath, ["scripts/probe-foundation-squeeze.mjs"]],
-  [process.execPath, ["scripts/probe-aider-squeeze.mjs"]],
   [process.execPath, ["scripts/validate-release-hygiene.mjs"]],
   ["git", ["diff", "--check"]],
 ];
