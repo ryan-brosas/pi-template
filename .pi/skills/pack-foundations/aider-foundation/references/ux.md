@@ -80,3 +80,17 @@ Robustness patterns worth copying:
 **Lesson:** give every machine-to-human channel a paired durable transcript write with fixed markdown shaping, catch encode failures with ASCII-replace reprint, validate styling at construction, and let persistent side-channels disable themselves after first failure rather than degrade the interactive path.
 
 **Probe:** patched console.print raising UnicodeEncodeError once asserts two print calls and replaced output; hex colors without '#' produce no ColorParseError escape.
+
+---
+
+<!-- capsule-v1 -->
+
+## Retrieval capsule
+
+- **Path/Symbol:** `aider/io.py` — `InputOutput.confirm_ask(question, default="y", subject=None, explicit_yes_required=False, group=None, allow_never=False)` and `restore_multiline`.
+- **Signature:** a confirmation returns `bool`; the decorator wraps nested prompt operations.
+- **Data Shape:** `ConfirmGroup.preference` shares all/skip; `never_prompts` stores `(question, subject)` suppression keys.
+- **Flow:** resolve never-prompt, auto-yes, grouped preference, or interactive input; a nested confirmation forces single-line mode and restores it in `finally`.
+- **Invariant:** `explicit_yes_required` defeats blanket yes; group choices suppress only the matching batch; nested prompts cannot leak a changed multiline mode.
+- **Probe:** `tests/basic/test_io.py::test_confirm_ask_explicit_yes_required`, `test_confirm_ask_with_group`, `test_multiline_mode_restored_after_interrupt`.
+- **Retrieve:** inspect `aider/io.py:57-71,807-925`.

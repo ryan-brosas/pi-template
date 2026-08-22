@@ -43,3 +43,17 @@ A repo map is a RANKING problem, not an indexing problem: personalization from c
 - **Invariant:** chat files contribute rank through references but are not emitted.
 - **Probe:** rank a mentioned identifier and verify its target appears while the chat file does not.
 - **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "RepoMap get_ranked_tags"})`.
+
+---
+
+<!-- capsule-v1 -->
+
+## Retrieval capsule
+
+- **Path/Symbol:** `aider/repomap.py::RepoMap.get_ranked_tags(chat_fnames, other_fnames, mentioned_fnames, mentioned_idents)`.
+- **Signature:** filename/identifier collections produce the ranked repository-map text.
+- **Data Shape:** tags become weighted file-to-file identifier edges; chat/mentioned paths and identifiers become the PageRank personalization vector.
+- **Flow:** tag extraction -> weighted graph -> personalized PageRank -> ranked definitions -> binary-search fit into the token budget.
+- **Invariant:** chat files steer rank via references but are never emitted in the map.
+- **Probe:** mention one ident and assert its target ranks while the chat file stays out; see `tests/basic/test_repomap.py`.
+- **Retrieve:** `search_graph({ project: "aider" })`; inspect `aider/repomap.py:365-707`.

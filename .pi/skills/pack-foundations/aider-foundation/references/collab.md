@@ -40,3 +40,17 @@ Double-^C exits (2s window, :994-999); a single ^C warns "^C again to exit"; an 
 - **Invariant:** capped reflection exits loudly; `ai!` and `ai?` retain distinct actions.
 - **Probe:** at the cap, no extra model turn occurs; classify both action suffixes.
 - **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "run_one reflected_message get_ai_comments"})`.
+
+---
+
+<!-- capsule-v1 -->
+
+## Retrieval capsule
+
+- **Path/Symbol:** `aider/coders/base_coder.py` — `Coder.run_one(user_message, preproc)`; `aider/watch.py` — `FileWatcher.get_ai_comments(filepath)`.
+- **Signature:** a user message drives a bounded model/edit cycle; a changed file yields classified AI-comment requests.
+- **Data Shape:** `reflected_message` is the next-turn payload; `max_reflections` the cap; watcher records carry line, verbatim comment, action.
+- **Flow:** unresolved edit/lint failures become the next user message until the reflection cap; watch comments classify bare add, `ai!` change, `ai?` question.
+- **Invariant:** the cap ends the loop loudly; watcher input preserves author text rather than a paraphrase.
+- **Probe:** assert no extra turn after the cap; classify `// ai? explain` as question and `// ai! change` as change.
+- **Retrieve:** inspect `aider/coders/base_coder.py:924-944,1560-1615` and `aider/watch.py`.

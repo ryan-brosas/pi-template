@@ -58,3 +58,17 @@ The SEARCH/REPLACE format is one of a family dispatched from a shared coder base
 - **Invariant:** `replace_closest_edit_distance` remains below that `return`, so it cannot silently apply a fuzzy edit.
 - **Probe:** `tests/basic/test_editblock.py` covers indentation recovery, a spurious blank line, and first-match behavior.
 - **Retrieve:** `mcp.codebase_memory.search_graph({project: "aider", query: "replace_most_similar_chunk apply_edits"})`.
+
+---
+
+<!-- capsule-v1 -->
+
+## Retrieval capsule
+
+- **Path/Symbol:** `aider/coders/editblock_coder.py` — `replace_most_similar_chunk(whole, part, replace)` / `EditBlockCoder.apply_edits(edits, dry_run=False)`.
+- **Signature:** a file body plus SEARCH/REPLACE chunks yields replacement text or a structured edit failure.
+- **Data Shape:** each edit carries `(path, search, replace)`; failures retain the original block and a nearest-text hint for the model's next turn.
+- **Flow:** exact/indent/leading-blank/paired-elision matching runs before a deliberately unreachable closest-edit-distance branch; failures become repair feedback.
+- **Invariant:** a near miss can never silently fuzzy-apply to a guessed location.
+- **Probe:** indentation recovery, a spurious blank line, first-match behaviour; see `tests/basic/test_editblock.py`.
+- **Retrieve:** inspect `aider/coders/editblock_coder.py:44-121,158-211`.
