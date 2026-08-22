@@ -31,7 +31,7 @@ jobs:
           zizmor .github/workflows/ 2>&1 | tee /tmp/zizmor.log
       - name: Upload audit log on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: zizmor-audit
           path: /tmp/zizmor.log
