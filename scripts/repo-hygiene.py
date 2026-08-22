@@ -64,6 +64,10 @@ def check_file(path):
     except (UnicodeDecodeError, OSError):
         return
 
+    # mixed line endings (CRLF + LF in same file)
+    if "\r\n" in content and "\n" in content.replace("\r\n", ""):
+        errors.append(f"mixed line endings: {rel}")
+
     # trailing whitespace
     for i, line in enumerate(content.splitlines(), 1):
         if line != line.rstrip():
@@ -89,6 +93,27 @@ def check_file(path):
         except Exception as e:
             errors.append(f"invalid JSON: {rel}: {e}")
 
+    # TOML validity
+    if ext == ".toml":
+        try:
+            import tomllib
+            tomllib.loads(content)
+        except Exception as e:
+            errors.append(f"invalid TOML: {rel}: {e}")
+
+    # secrets scan (lightweight): common secret patterns in code/config
+    if ext in (".py", ".mjs", ".ts", ".json", ".yml", ".yaml", ".toml", ".env"):
+        secret_patterns = [
+            (r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*['\"][A-Za-z0-9_\-]{16,}['\"]", "possible secret"),
+            (r"sk-[A-Za-z0-9]{20,}", "OpenAI-style key"),
+            (r"ghp_[A-Za-z0-9]{20,}", "GitHub token"),
+            (r"AKIA[0-9A-Z]{16}", "AWS access key"),
+        ]
+        for pat, label in secret_patterns:
+            if re.search(pat, content):
+                errors.append(f"{label} in {rel}")
+                break
+
     # typos (only in prose-ish files, skip code to avoid false positives)
     if ext in (".md", ".txt"):
         for word, fix in TYPO_MAP.items():
@@ -107,6 +132,10 @@ try:
             errors.append(f"invalid YAML: {os.path.relpath(path, BASE)}: {e}")
 except ImportError:
     pass
+
+# forbid git submodules
+if os.path.exists(os.path.join(BASE, ".gitmodules")):
+    errors.append("git submodules are forbidden (.gitmodules present)")
 
 for path in walk():
     check_file(path)

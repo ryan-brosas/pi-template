@@ -50,7 +50,11 @@ From the pre-commit configs of high-quality repos:
 - `check-integrity.py` — pack/member/router/manifest parity
 - `quality-gate.py` — skill/essentials quality (duplicates, orphans)
 - `repo-hygiene.py` — trailing whitespace, EOF newline, smart quotes, large
-  files, YAML/JSON validity, typos
+  files, mixed line endings, YAML/JSON/TOML validity, typos, secrets scan,
+  forbid-submodules
+- `.pre-commit-config.yaml` — local pre-commit enforcement (no-commit-to-branch,
+  yaml/toml, eof-fixer, trailing-whitespace, large files, codespell) + runs
+  repo-hygiene
 
 ## When to use
 
