@@ -7,7 +7,7 @@
 
 ## When NOT to Use
 
-- Pure reference skills that don’t enforce behavior or rules
+- Pure reference skills that don't enforce behavior or rules
 - Minor typo fixes where no behavioral change is introduced
 
 ## Overview

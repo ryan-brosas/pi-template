@@ -2,13 +2,13 @@
 
 ## Bot Score = 0
 
-**Cause**: Bot Management didn't run  
-**Reasons**: Internal Cloudflare request, Worker routing to zone (Orange-to-Orange), Request handled before BM (Redirect Rules, etc.)  
+**Cause**: Bot Management didn't run
+**Reasons**: Internal Cloudflare request, Worker routing to zone (Orange-to-Orange), Request handled before BM (Redirect Rules, etc.)
 **Solution**: Check request flow, ensure BM runs in request lifecycle
 
 ## JavaScript Detections Not Working
 
-**Issue**: `js_detection.passed` always false or undefined  
+**Issue**: `js_detection.passed` always false or undefined
 **Causes**:
 1. CSP headers don't allow `/cdn-cgi/challenge-platform/`
 2. Using on first page visit (needs HTML page first)
@@ -23,7 +23,7 @@ Content-Security-Policy: script-src 'self' /cdn-cgi/challenge-platform/;
 
 ## False Positives
 
-**Issue**: Legitimate users blocked  
+**Issue**: Legitimate users blocked
 **Solutions**:
 1. Check Bot Analytics for affected IPs/paths
 2. Identify detection source (ML, Heuristics, etc.)
@@ -36,7 +36,7 @@ Action: Skip (Bot Management)
 
 ## False Negatives (Bots Not Caught)
 
-**Issue**: Bots bypassing detection  
+**Issue**: Bots bypassing detection
 **Solutions**:
 1. Lower score threshold (30 → 50)
 2. Enable JavaScript Detections
@@ -45,14 +45,14 @@ Action: Skip (Bot Management)
 
 ## Verified Bot Blocked
 
-**Issue**: Search engine bot blocked  
-**Causes**: WAF Managed Rules (not just Bot Management), Yandex bot during IP update (48h)  
+**Issue**: Search engine bot blocked
+**Causes**: WAF Managed Rules (not just Bot Management), Yandex bot during IP update (48h)
 **Solution**: Create WAF exception for specific rule ID, verify bot via reverse DNS
 
 ## JA3/JA4 Missing
 
-**Issue**: `ja3Hash` or `ja4` is undefined  
-**Causes**: Non-HTTPS traffic, Worker routing traffic, Orange-to-Orange traffic via Worker, Bot Management skipped  
+**Issue**: `ja3Hash` or `ja4` is undefined
+**Causes**: Non-HTTPS traffic, Worker routing traffic, Orange-to-Orange traffic via Worker, Bot Management skipped
 **Solution**: Only available for HTTPS/TLS traffic; check request routing
 
 ## Bot Score Limitations

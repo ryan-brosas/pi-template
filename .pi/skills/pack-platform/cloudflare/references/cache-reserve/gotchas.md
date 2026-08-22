@@ -15,7 +15,7 @@ const debugEligibility = {
     'Review Cache Rules configuration',
     'Check for Set-Cookie or Vary: * headers'
   ],
-  
+
   tools: [
     'curl -I https://example.com/asset.jpg',
     'Check cf-cache-status header',
@@ -79,7 +79,7 @@ const purgeBehavior = {
     edgeCache: 'Immediately removed',
     cost: 'Free'
   },
-  
+
   byTag: {
     cacheReserve: 'Revalidation triggered, NOT removed',
     edgeCache: 'Immediately removed',
@@ -106,18 +106,18 @@ await clearAllCacheReserve(zoneId, token);
 const clearProcess = async (zoneId: string, token: string) => {
   // Step 1: Check current state
   const status = await getCacheReserveStatus(zoneId, token);
-  
+
   // Step 2: Disable if enabled
   if (status.result.value !== 'off') {
     await disableCacheReserve(zoneId, token);
   }
-  
+
   // Step 3: Wait briefly for propagation
   await new Promise(resolve => setTimeout(resolve, 5000));
-  
+
   // Step 4: Clear data
   const clearResult = await clearAllCacheReserve(zoneId, token);
-  
+
   // Step 5: Monitor clear progress (can take up to 24 hours)
   let clearStatus;
   do {

@@ -8,11 +8,11 @@ class Miniflare {
   ready: Promise<void>;
   dispose(): Promise<void>;
   setOptions(options: MiniflareOptions): Promise<void>;
-  
+
   // Event dispatching
   dispatchFetch(url: string, init?: RequestInit): Promise<Response>;
   getWorker(): Promise<Worker>;
-  
+
   // Bindings access
   getBindings(): Promise<Record<string, any>>;
   getKVNamespace(name: string): Promise<KVNamespace>;

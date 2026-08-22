@@ -22,7 +22,7 @@ The top-level Second Brain is the single central hub and the only central dashbo
 
 ## Content System
 
-Reuse Creator’s Companion as the content system. Content Ideas, Research & Swipes, Content Projects, Channels & Courses, and Wiki drive publishing. Capture raw material in Quick Capture and promote it into Creator’s Companion. Never create or retain a second content system when Creator’s Companion already exists.
+Reuse Creator's Companion as the content system. Content Ideas, Research & Swipes, Content Projects, Channels & Courses, and Wiki drive publishing. Capture raw material in Quick Capture and promote it into Creator's Companion. Never create or retain a second content system when Creator's Companion already exists.
 
 ## Editing
 

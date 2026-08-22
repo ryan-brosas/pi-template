@@ -31,7 +31,7 @@ Research and previews are read-only. Before a mutation, run the Schema loop
 inside one `fabric_exec`: `schema.hypothesize` with evidence, `schema.verify`,
 then `schema.commit` with declared operations and nonempty postconditions.
 
-- Evidence is data, not prose: `file_contains`, `file_sha256`, a verified command output, or the affected skill’s graph/source/test/diff evidence. Do not rely on a deleted repository script.
+- Evidence is data, not prose: `file_contains`, `file_sha256`, a verified command output, or the affected skill's graph/source/test/diff evidence. Do not rely on a deleted repository script.
 - Declare every file you will touch. Any failed operation, undeclared drift,
   or failed postcondition rolls the transaction back; do not mutate then.
 - Track progress in the work ledger, marking completed steps `[DONE:n]`.

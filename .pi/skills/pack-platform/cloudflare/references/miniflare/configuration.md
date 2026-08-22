@@ -134,7 +134,7 @@ new Miniflare({
   host: "0.0.0.0",
   port: 8787,
   kvPersist: true,
-  
+
   workers: [
     {
       name: "main-worker",

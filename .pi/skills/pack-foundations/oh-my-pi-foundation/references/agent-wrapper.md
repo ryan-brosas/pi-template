@@ -23,7 +23,7 @@ peekSteeringQueue() { return this.#steeringQueue; }
 **Invariant:** one queue cannot consume the other; the core queues, not a UI mirror, are authoritative.
 **Probe:** direct `packages/agent/test/continue-empty-transcript.test.ts:6–55` proves queued steer/follow-up on an empty transcript becomes the opening turn rather than an idle-drain OOM loop.
 
-## Continuation is a state machine, not “run again”
+## Continuation is a state machine, not "run again"
 **Path/Symbol:** `Agent.#dequeue*AfterHooks` (810–824), `Agent.continue` (1194–1260).
 **Signature:** boundary dequeue returns `[]` on abort; `continue` selects steering, then follow-up, then valid transcript continuation.
 **Data Shape:** an abort-composed dequeue signal and a transcript whose last role controls legal continuation.

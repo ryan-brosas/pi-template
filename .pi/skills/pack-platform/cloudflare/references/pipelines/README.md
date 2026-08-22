@@ -152,10 +152,10 @@ export default {
       product_id: "widget-001",
       amount: 29.99
     };
-    
+
     // Send single or multiple events
     await env.STREAM.send([event]);
-    
+
     return new Response('Event sent');
   },
 } satisfies ExportedHandler<Env>;
@@ -468,10 +468,10 @@ For authenticated HTTP ingestion endpoints.
 export default {
   async fetch(request, env, ctx) {
     const event = { /* ... */ };
-    
+
     // Don't block response on send
     ctx.waitUntil(env.STREAM.send([event]));
-    
+
     return new Response('OK');
   }
 };
@@ -582,14 +582,14 @@ npx wrangler pipelines sinks create ecommerce-sink \
 
 # Create pipeline with transformation
 npx wrangler pipelines create ecommerce-pipeline \
-  --sql "INSERT INTO ecommerce_sink 
-         SELECT 
+  --sql "INSERT INTO ecommerce_sink
+         SELECT
            user_id,
            UPPER(event_type) as event_type,
            product_id,
            amount,
            timestamp,
-           CASE 
+           CASE
              WHEN amount > 100 THEN 'high_value'
              ELSE 'standard'
            END as transaction_tier
@@ -617,7 +617,7 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method === 'POST') {
       const data = await request.json();
-      
+
       const event = {
         user_id: data.userId,
         event_type: data.eventType,
@@ -625,7 +625,7 @@ export default {
         amount: data.amount,
         timestamp: new Date().toISOString()
       };
-      
+
       try {
         await env.EVENTS.send([event]);
         return new Response('Event tracked', { status: 200 });
@@ -633,7 +633,7 @@ export default {
         return new Response('Failed to track event', { status: 500 });
       }
     }
-    
+
     return new Response('Method not allowed', { status: 405 });
   }
 } satisfies ExportedHandler<Env>;
@@ -644,7 +644,7 @@ export default {
 export WRANGLER_R2_SQL_AUTH_TOKEN=$CATALOG_TOKEN
 
 npx wrangler r2 sql query "ecommerce-warehouse" "
-SELECT 
+SELECT
   event_type,
   transaction_tier,
   COUNT(*) as event_count,

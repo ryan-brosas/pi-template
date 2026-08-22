@@ -9,21 +9,21 @@ export default {
     // env: bindings, ctx: ExecutionContext
     const value = await env.KV.get("key");
     const response = await env.API.fetch(request);
-    
+
     ctx.waitUntil(logRequest(request));  // Background task
     return new Response("OK");
   },
-  
+
   async adminApi(request, env, ctx) {   // Named entrypoint
     return new Response("Admin");
   },
-  
+
   async queue(batch, env, ctx) {        // Queue consumer
     for (const msg of batch.messages) {
       await processMessage(msg.body);
     }
   },
-  
+
   async scheduled(event, env, ctx) {    // Cron
     ctx.waitUntil(runTask(env));
   }
@@ -69,21 +69,21 @@ export class Room {
     this.state = state;
     this.env = env;
   }
-  
+
   async fetch(request) {
     const url = new URL(request.url);
-    
+
     if (url.pathname === "/state") {
       const value = await this.state.storage.get("counter");
       return new Response(value || "0");
     }
-    
+
     if (url.pathname === "/increment") {
       const value = (await this.state.storage.get("counter")) || 0;
       await this.state.storage.put("counter", value + 1);
       return new Response(String(value + 1));
     }
-    
+
     return new Response("Not found", {status: 404});
   }
 }

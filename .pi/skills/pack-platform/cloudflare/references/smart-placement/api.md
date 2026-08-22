@@ -13,7 +13,7 @@ curl -X GET "https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/workers/
 Response includes `placement_status` field:
 
 ```typescript
-type PlacementStatus = 
+type PlacementStatus =
   | undefined  // Not yet analyzed
   | 'SUCCESS'  // Successfully optimized
   | 'INSUFFICIENT_INVOCATIONS'  // Not enough traffic
@@ -49,7 +49,7 @@ Smart Placement adds response header indicating routing decision:
 // Remote placement (Smart Placement routed request)
 "cf-placement: remote-LHR"  // Routed to London
 
-// Local placement (default edge routing)  
+// Local placement (default edge routing)
 "cf-placement: local-EWR"   // Stayed at Newark edge
 ```
 
@@ -66,7 +66,7 @@ Format: `{placement-type}-{IATA-code}`
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const placementHeader = request.headers.get('cf-placement');
-    
+
     if (placementHeader?.startsWith('remote-')) {
       const location = placementHeader.split('-')[1];
       console.log(`Smart Placement routed to ${location}`);
@@ -74,7 +74,7 @@ export default {
       const location = placementHeader.split('-')[1];
       console.log(`Running at edge location ${location}`);
     }
-    
+
     return new Response('OK');
   }
 };
@@ -115,7 +115,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 ## TypeScript Types
 
 ```typescript
-type PlacementStatus = 
+type PlacementStatus =
   | 'SUCCESS'
   | 'INSUFFICIENT_INVOCATIONS'
   | 'UNSUPPORTED_APPLICATION'

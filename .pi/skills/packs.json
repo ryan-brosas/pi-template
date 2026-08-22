@@ -112,7 +112,8 @@
         "git-workflow-and-versioning",
         "using-git-worktrees",
         "vercel-deploy-claimable",
-        "ci-best-practices"
+        "ci-best-practices",
+        "practices-to-ci"
       ]
     },
     {
@@ -190,6 +191,7 @@
     "quality-gate-methodology": "Use when writing/reviewing tests or quality gates: test un-fixed+fixed, broad tests, expand don't duplicate, maintain test list, turn manual catches into workflows.",
     "farmed-test-harness": "Use when writing tests for HTTP/LLM/external-service code: reuse the farmed harness (cassette recording/replay, client error handling, pytest fixtures).",
     "code-discipline": "Use when implementing/reviewing/committing code: general code-discipline (scope, verification, type-safety, tests, context-gathering, one source of truth).",
-    "ci-best-practices": "Use when writing/reviewing GitHub Actions/CI workflows: path filtering, concurrency, caching, aggregate gates, log artifacts, annotations."
+    "ci-best-practices": "Use when writing/reviewing GitHub Actions/CI workflows: path filtering, concurrency, caching, aggregate gates, log artifacts, annotations.",
+    "practices-to-ci": "Use when a repo practice should be enforced automatically: turn it into a mechanical CI check instead of a prose rule."
   }
 }

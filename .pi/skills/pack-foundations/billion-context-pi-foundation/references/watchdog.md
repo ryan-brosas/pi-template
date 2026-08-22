@@ -26,6 +26,6 @@ A stuck child holds its stdout fd open, so stdout EOF never fires — the module
 
 - `isSettled: () => settled || run.status !== "running"` — any terminal status disarms.
 - `onKill(reason)` records `run.timedOut = reason`; surfaces to the model as `(timed out: …)` in completion headers.
-- `onEofGrace()` marks “output ended but process did not exit”; finalize afterwards treats delivered output as success even without an exit code (`effectiveCode` fallback, :611-613).
+- `onEofGrace()` marks "output ended but process did not exit"; finalize afterwards treats delivered output as success even without an exit code (`effectiveCode` fallback, :611-613).
 
 **The lesson: a hung child defeats EOF (fd held open), so idle-timeout is the primary defense; escalate TERM→KILL on a grace window; re-check settled state before every kill; unref everything.**

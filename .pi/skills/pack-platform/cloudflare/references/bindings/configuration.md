@@ -34,7 +34,7 @@ API_URL = "https://api.example.com"
   "name": "my-worker",
   "main": "src/index.ts",
   "compatibility_date": "2024-01-01",
-  
+
   // Production bindings
   "vars": {
     "ENV": "production"
@@ -45,7 +45,7 @@ API_URL = "https://api.example.com"
       "id": "prod-kv-id"
     }
   ],
-  
+
   // Environment overrides
   "env": {
     "staging": {

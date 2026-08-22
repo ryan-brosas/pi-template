@@ -13,15 +13,15 @@ import assert from "node:assert";
 
 describe("worker", () => {
   let worker;
-  
+
   before(async () => {
     worker = await unstable_startWorker({ config: "wrangler.jsonc" });
   });
-  
+
   after(async () => {
     await worker.dispose();
   });
-  
+
   it("responds with 200", async () => {
     const response = await worker.fetch("http://example.com");
     assert.strictEqual(response.status, 200);
@@ -63,7 +63,7 @@ const { env, dispose } = await getPlatformProxy();
 
 describe("database", () => {
   after(async () => await dispose());
-  
+
   it("inserts user", async () => {
     const result = await env.DB.prepare(
       "INSERT INTO users (name) VALUES (?)"

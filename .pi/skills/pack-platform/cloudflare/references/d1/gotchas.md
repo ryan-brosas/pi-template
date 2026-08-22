@@ -14,8 +14,8 @@ Attacker could pass `1 OR 1=1` to dump table or `1; DROP TABLE users;--` to dele
 
 ## Common Errors
 
-**Missing Table:** "no such table" → Run migrations first  
-**Unique Constraint:** "UNIQUE constraint failed" → Catch and return 409  
+**Missing Table:** "no such table" → Run migrations first
+**Unique Constraint:** "UNIQUE constraint failed" → Catch and return 409
 **Query Timeout:** 30s exceeded → Break into smaller queries or add indexes
 
 ## N+1 Query Problem
@@ -54,7 +54,7 @@ Local uses `.wrangler/state/v3/d1/<database-id>.sqlite`. Always test migrations 
 
 ## Data Types
 
-**Boolean:** SQLite uses INTEGER (0/1) not boolean - bind 1 or 0, not true/false  
+**Boolean:** SQLite uses INTEGER (0/1) not boolean - bind 1 or 0, not true/false
 **Date/Time:** Use TEXT (ISO 8601) or INTEGER (unix timestamp), not native DATE/TIME
 
 ## Best Practices

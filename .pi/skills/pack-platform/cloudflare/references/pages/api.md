@@ -33,11 +33,11 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 // Method-specific
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { request, env, params, data } = context;
-  
+
   const user = await env.DB.prepare(
     'SELECT * FROM users WHERE id = ?'
   ).bind(params.id).first();
-  
+
   return Response.json(user);
 };
 
@@ -110,7 +110,7 @@ const errorHandler: PagesFunction = async (context) => {
 const auth: PagesFunction = async (context) => {
   const token = context.request.headers.get('Authorization');
   if (!token) return new Response('Unauthorized', { status: 401 });
-  
+
   context.data.userId = await verifyToken(token);
   return context.next();
 };
@@ -131,24 +131,24 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
   await env.KV.put('key', JSON.stringify({ data: 'value' }), {
     expirationTtl: 3600
   });
-  
+
   // D1
   const result = await env.DB.prepare(
     'SELECT * FROM users WHERE id = ?'
   ).bind(userId).first();
-  
+
   // R2
   const object = await env.BUCKET.get('file.txt');
   const content = await object?.text();
-  
+
   // Queue
   await env.QUEUE.send({ event: 'user.signup', userId: 123 });
-  
+
   // AI
   const aiResponse = await env.AI.run('@cf/meta/llama-2-7b-chat-int8', {
     prompt: 'Hello world'
   });
-  
+
   return Response.json({ success: true });
 };
 ```
@@ -162,12 +162,12 @@ Full Workers API, bypasses file-based routing:
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    
+
     // Custom routing
     if (url.pathname.startsWith('/api/')) {
       return new Response('API response');
     }
-    
+
     // REQUIRED: Serve static assets
     return env.ASSETS.fetch(request);
   }
@@ -185,11 +185,11 @@ import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export async function GET(request: Request) {
   const { env, cf, ctx } = getRequestContext();
-  
+
   const data = await env.DB.prepare(
     'SELECT * FROM users'
   ).all();
-  
+
   return Response.json(data);
 }
 ```

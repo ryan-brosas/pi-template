@@ -31,7 +31,7 @@ export class CodeSandbox extends Container {
 export default {
   async fetch(request: Request, env: Env) {
     const { code, executionId } = await request.json();
-    
+
     const container = env.CODE_SANDBOX.getByName(executionId);
     await container.startAndWaitForPorts({
       startOptions: {

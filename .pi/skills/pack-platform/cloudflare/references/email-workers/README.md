@@ -40,7 +40,7 @@ interface ForwardableEmailMessage {
   readonly headers: Headers;    // Message headers
   readonly raw: ReadableStream; // Raw message stream
   readonly rawSize: number;     // Message size in bytes
-  
+
   setReject(reason: string): void;
   forward(rcptTo: string, headers?: Headers): Promise<void>;
   reply(message: EmailMessage): Promise<void>;
@@ -108,10 +108,10 @@ export default {
     const parser = new PostalMime.default();
     const rawEmail = new Response(message.raw);
     const email = await parser.parse(await rawEmail.arrayBuffer());
-    
+
     // email contains: headers, from, to, subject, html, text, attachments
     console.log(email.subject, email.from);
-    
+
     await message.forward("inbox@example.com");
   },
 };
@@ -153,7 +153,7 @@ export default {
 export default {
   async email(message, env, ctx) {
     const subject = message.headers.get('Subject') || '';
-    
+
     if (subject.toLowerCase().includes('billing')) {
       await message.forward("billing@example.com");
     } else if (subject.toLowerCase().includes('support')) {
@@ -175,7 +175,7 @@ export default {
     const parser = new PostalMime.default();
     const rawEmail = new Response(message.raw);
     const email = await parser.parse(await rawEmail.arrayBuffer());
-    
+
     // Store in KV
     const key = `email:${Date.now()}:${message.from}`;
     await env.EMAIL_ARCHIVE.put(key, JSON.stringify({
@@ -183,7 +183,7 @@ export default {
       subject: email.subject,
       receivedAt: new Date().toISOString(),
     }));
-    
+
     await message.forward("inbox@example.com");
   },
 };
@@ -195,7 +195,7 @@ export default {
 export default {
   async email(message, env, ctx) {
     const subject = message.headers.get('Subject');
-    
+
     // Notify via webhook
     ctx.waitUntil(
       fetch('https://hooks.slack.com/services/YOUR/WEBHOOK/URL', {
@@ -206,7 +206,7 @@ export default {
         }),
       })
     );
-    
+
     await message.forward("inbox@example.com");
   },
 };
@@ -218,7 +218,7 @@ export default {
 export default {
   async email(message, env, ctx) {
     const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
-    
+
     if (message.rawSize > MAX_SIZE) {
       message.setReject("Message too large");
     } else {
@@ -315,7 +315,7 @@ export default {
       msg.asRaw()
     );
     await env.EMAIL.send(message);
-    
+
     return Response.json({ ok: true });
   }
 };
@@ -383,7 +383,7 @@ export default {
       await message.forward("inbox@example.com");
       return;
     }
-    
+
     // Normal processing
   },
 };
@@ -396,7 +396,7 @@ export default {
   async email(message, env, ctx) {
     // Forward immediately
     await message.forward("inbox@example.com");
-    
+
     // Non-blocking operations
     ctx.waitUntil(
       Promise.all([
@@ -417,7 +417,7 @@ export default {
     const customHeaders = new Headers();
     customHeaders.set('X-Processed-By', 'Email-Worker');
     customHeaders.set('X-Original-To', message.to);
-    
+
     await message.forward("inbox@example.com", customHeaders);
   },
 };
@@ -430,7 +430,7 @@ export default {
   async email(message, env, ctx) {
     const subject = message.headers.get('Subject') || '(no subject)';
     const messageId = message.headers.get('Message-ID') || '';
-    
+
     // Avoid throwing on missing headers
   },
 };
@@ -511,11 +511,11 @@ export default {
 export default {
   async email(message, env, ctx) {
     const [localPart, domain] = message.to.split('@');
-    
+
     // Route based on subdomain or local part
     const tenantId = extractTenantId(localPart);
     const config = await env.TENANT_CONFIG.get(tenantId, 'json');
-    
+
     if (config?.forwardTo) {
       await message.forward(config.forwardTo);
     } else {
@@ -535,7 +535,7 @@ export default {
     const parser = new PostalMime.default();
     const rawEmail = new Response(message.raw);
     const email = await parser.parse(await rawEmail.arrayBuffer());
-    
+
     // Process attachments
     for (const attachment of email.attachments) {
       const key = `attachments/${Date.now()}-${attachment.filename}`;
@@ -548,7 +548,7 @@ export default {
         })
       );
     }
-    
+
     await message.forward("inbox@example.com");
   },
 };
@@ -564,7 +564,7 @@ export default {
   async email(message, env, ctx) {
     const rateKey = `rate:${message.from}`;
     const lastReply = await env.RATE_LIMIT.get(rateKey);
-    
+
     if (!lastReply) {
       // Send auto-reply
       const msg = createMimeMessage();
@@ -575,16 +575,16 @@ export default {
         contentType: 'text/plain',
         data: 'Thank you for contacting us.',
       });
-      
+
       const reply = new EmailMessage('noreply@example.com', message.from, msg.asRaw());
       await message.reply(reply);
-      
+
       // Rate limit: 1 reply per hour
       ctx.waitUntil(
         env.RATE_LIMIT.put(rateKey, Date.now().toString(), { expirationTtl: 3600 })
       );
     }
-    
+
     await message.forward("inbox@example.com");
   },
 };

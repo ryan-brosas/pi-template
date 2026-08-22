@@ -18,15 +18,15 @@ DO Storage provides:
 ```typescript
 export class Counter extends DurableObject {
   sql: SqlStorage;
-  
+
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.sql = ctx.storage.sql;
     this.sql.exec('CREATE TABLE IF NOT EXISTS data(key TEXT PRIMARY KEY, value INTEGER)');
   }
-  
+
   async increment(): Promise<number> {
-    this.sql.exec('INSERT OR REPLACE INTO data VALUES (?, ?) RETURNING value', 'counter', 
+    this.sql.exec('INSERT OR REPLACE INTO data VALUES (?, ?) RETURNING value', 'counter',
       (this.sql.exec('SELECT value FROM data WHERE key = ?', 'counter').one()?.value || 0) + 1);
   }
 }

@@ -39,10 +39,16 @@ jobs:
         id: integrity
         run: |
           python3 scripts/check-integrity.py 2>&1 | tee /tmp/check-integrity.log
+      - name: Repo hygiene
+        id: hygiene
+        run: |
+          python3 scripts/repo-hygiene.py 2>&1 | tee /tmp/repo-hygiene.log
       - name: Upload check log on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: check-logs
-          path: /tmp/check-integrity.log
+          path: |
+            /tmp/check-integrity.log
+            /tmp/repo-hygiene.log
           retention-days: 2

@@ -257,7 +257,7 @@ const matches = await env.VECTORIZE.query(queryVector, {
 
 // Range query for prefix search (strings)
 const matches = await env.VECTORIZE.query(queryVector, {
-  filter: { 
+  filter: {
     category: { $gte: "elec", $lt: "eled" }  // Matches "electronics"
   }
 });
@@ -326,20 +326,20 @@ import { Ai } from '@cloudflare/ai';
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const ai = new Ai(env.AI);
-    
+
     // Generate embedding
     const userQuery = "what is a vector database";
     const embeddings = await ai.run("@cf/baai/bge-base-en-v1.5", {
       text: [userQuery]
     });
-    
+
     // embeddings.data is number[][]
     // Pass embeddings.data[0], NOT embeddings or embeddings.data
     const matches = await env.VECTORIZE.query(embeddings.data[0], {
       topK: 3,
       returnMetadata: "all"
     });
-    
+
     return Response.json({ matches });
   }
 };
@@ -358,19 +358,19 @@ import OpenAI from 'openai';
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const openai = new OpenAI({ apiKey: env.OPENAI_KEY });
-    
+
     const userQuery = "semantic search query";
     const response = await openai.embeddings.create({
       model: "text-embedding-ada-002",
       input: userQuery
     });
-    
+
     // Pass response.data[0].embedding, NOT response
     const matches = await env.VECTORIZE.query(response.data[0].embedding, {
       topK: 5,
       returnMetadata: "all"
     });
-    
+
     return Response.json({ matches });
   }
 };
@@ -382,18 +382,18 @@ export default {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const { query } = await request.json();
-    
+
     // 1. Generate query embedding
     const embeddings = await env.AI.run("@cf/baai/bge-base-en-v1.5", {
       text: [query]
     });
-    
+
     // 2. Search Vectorize
     const matches = await env.VECTORIZE.query(embeddings.data[0], {
       topK: 5,
       returnMetadata: "all"
     });
-    
+
     // 3. Fetch full documents from R2/D1/KV
     const documents = await Promise.all(
       matches.matches.map(async (match) => {
@@ -402,15 +402,15 @@ export default {
         return obj?.text();
       })
     );
-    
+
     // 4. Build context for LLM
     const context = documents.filter(Boolean).join("\n\n");
-    
+
     // 5. Generate response with context
     const llmResponse = await env.AI.run("@cf/meta/llama-3-8b-instruct", {
       prompt: `Context: ${context}\n\nQuestion: ${query}\n\nAnswer:`
     });
-    
+
     return Response.json({ answer: llmResponse, sources: matches.matches });
   }
 };
@@ -598,11 +598,11 @@ try {
   // - topK exceeds limits
   // - Index not found/not bound
   console.error("Vectorize query failed:", error);
-  
+
   // Fallback strategy
-  return Response.json({ 
-    error: "Search unavailable", 
-    matches: [] 
+  return Response.json({
+    error: "Search unavailable",
+    matches: []
   }, { status: 503 });
 }
 ```

@@ -96,13 +96,13 @@ return new Response(null, { status: 101, webSocket: client });
 ```typescript
 export class Counter {
   private value = 0;
-  
+
   constructor(private state: DurableObjectState) {
     state.blockConcurrencyWhile(async () => {
       this.value = (await state.storage.get('value')) || 0;
     });
   }
-  
+
   async fetch(request: Request): Promise<Response> {
     if (new URL(request.url).pathname === '/increment') {
       await this.state.storage.put('value', ++this.value);

@@ -62,7 +62,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 export async function onRequest(context) {
   console.log('Request:', context.request.method, context.request.url);
   console.log('Headers:', Object.fromEntries(context.request.headers));
-  
+
   const response = await context.next();
   console.log('Response status:', response.status);
   return response;

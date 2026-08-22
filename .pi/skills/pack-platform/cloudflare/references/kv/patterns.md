@@ -6,7 +6,7 @@
 async function getCachedData(env: Env, key: string, fetcher: () => Promise<any>): Promise<any> {
   const cached = await env.MY_KV.get(key, "json");
   if (cached) return cached;
-  
+
   const data = await fetcher();
   await env.MY_KV.put(key, JSON.stringify(data), { expirationTtl: 300 });
   return data;
@@ -27,13 +27,13 @@ interface Session { userId: string; expiresAt: number; }
 async function createSession(env: Env, userId: string): Promise<string> {
   const sessionId = crypto.randomUUID();
   const expiresAt = Date.now() + (24 * 60 * 60 * 1000);
-  
+
   await env.SESSIONS.put(
     `session:${sessionId}`,
     JSON.stringify({ userId, expiresAt }),
     { expirationTtl: 86400, metadata: { createdAt: Date.now() } }
   );
-  
+
   return sessionId;
 }
 
@@ -70,14 +70,14 @@ async function rateLimit(env: Env, identifier: string, limit: number, windowSeco
   const key = `ratelimit:${identifier}`;
   const now = Date.now();
   const data = await env.MY_KV.get<{ count: number, resetAt: number }>(key, "json");
-  
+
   if (!data || data.resetAt < now) {
     await env.MY_KV.put(key, JSON.stringify({ count: 1, resetAt: now + windowSeconds * 1000 }), { expirationTtl: windowSeconds });
     return true;
   }
-  
+
   if (data.count >= limit) return false;
-  
+
   await env.MY_KV.put(key, JSON.stringify({ count: data.count + 1, resetAt: data.resetAt }), { expirationTtl: Math.ceil((data.resetAt - now) / 1000) });
   return true;
 }
@@ -89,19 +89,19 @@ async function rateLimit(env: Env, identifier: string, limit: number, windowSeco
 async function getVariant(env: Env, userId: string, testName: string): Promise<string> {
   const assigned = await env.AB_TESTS.get(`test:${testName}:user:${userId}`);
   if (assigned) return assigned;
-  
+
   const test = await env.AB_TESTS.get<{ variants: string[], weights: number[] }>(`test:${testName}:config`, { type: "json", cacheTtl: 3600 });
   if (!test) return "control";
-  
+
   const hash = await hashString(userId);
   const random = (hash % 100) / 100;
   let cumulative = 0, variant = test.variants[0];
-  
+
   for (let i = 0; i < test.variants.length; i++) {
     cumulative += test.weights[i];
     if (random < cumulative) { variant = test.variants[i]; break; }
   }
-  
+
   await env.AB_TESTS.put(`test:${testName}:user:${userId}`, variant, { expirationTtl: 2592000 });
   return variant;
 }

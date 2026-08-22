@@ -30,6 +30,6 @@ Response bodies can only be read once:
 export default {
   async fetch(request, env, ctx) {
     const response = await fetch('https://api.example.com');
-    
+
     // Clone before caching
     ctx.waitUntil(cach

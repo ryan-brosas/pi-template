@@ -103,7 +103,7 @@ async function uploadWithErrorHandling(url: string, file: File) {
   formData.append('file', file);
   const response = await fetch(url, { method: 'POST', body: formData });
   const result = await response.json();
-  
+
   if (!result.success) {
     throw new Error(result.errors[0]?.message || 'Upload failed');
   }

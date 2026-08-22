@@ -40,11 +40,11 @@ new_sqlite_classes = ["Counter", "Session"]
 ```typescript
 export class MyDurableObject extends DurableObject {
   sql: SqlStorage;
-  
+
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.sql = ctx.storage.sql;
-    
+
     // Initialize schema
     this.sql.exec(`
       CREATE TABLE IF NOT EXISTS users(
@@ -103,10 +103,10 @@ const stub = env.MY_DO.get(id, { locationHint: "enam" });
 ```typescript
 export class Counter extends DurableObject {
   value: number;
-  
+
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
-    
+
     // Block concurrent requests during init
     ctx.blockConcurrencyWhile(async () => {
       this.value = (await ctx.storage.get("value")) || 0;

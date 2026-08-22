@@ -7,11 +7,11 @@ Source-grounded reference for `src/browser_harness/helpers.py` (539 lines, read 
 ## Core plumbing
 
 - `cdp(method, session_id=None, **params)` :53-55 — THE core (fan-in 18): wraps `_send` (connect/request/close per call, 5s timeout, raises RuntimeError on error field).
-- JS evaluation layer: `_runtime_evaluate` :113-118 (returnByValue + awaitPromise), `_runtime_value` :94-110 (raises with line/col + expression snippet on exceptionDetails), `_decode_unserializable_js_value` :80-91 (NaN/Infinity/-0/BigInt round-trip), `js()` :460-474 — evaluates as-is FIRST and retries inside a function wrapper only on “Illegal return statement”, so both `document.title` and `const x=1; return x` work without mis-wrapping nested returns.
+- JS evaluation layer: `_runtime_evaluate` :113-118 (returnByValue + awaitPromise), `_runtime_value` :94-110 (raises with line/col + expression snippet on exceptionDetails), `_decode_unserializable_js_value` :80-91 (NaN/Infinity/-0/BigInt round-trip), `js()` :460-474 — evaluates as-is FIRST and retries inside a function wrapper only on "Illegal return statement", so both `document.title` and `const x=1; return x` work without mis-wrapping nested returns.
 
 ## The input problem (why fill_input exists)
 
-`type_text` uses `Input.insertText` — which BYPASSES framework listeners, leaving React controlled inputs and submit buttons stale. `fill_input(selector,text)` :177-214 fixes this: focus via JS → select-all via RAW `rawKeyDown`/`keyUp` (NOT press_key: with Ctrl/Cmd held, press_key's extra `char` event makes Chrome treat “a” as printable text, leaving the field uncleared) → Backspace → per-character `press_key` → synthetic `input`+`change` events so frameworks see it.
+`type_text` uses `Input.insertText` — which BYPASSES framework listeners, leaving React controlled inputs and submit buttons stale. `fill_input(selector,text)` :177-214 fixes this: focus via JS → select-all via RAW `rawKeyDown`/`keyUp` (NOT press_key: with Ctrl/Cmd held, press_key's extra `char` event makes Chrome treat "a" as printable text, leaving the field uncleared) → Backspace → per-character `press_key` → synthetic `input`+`change` events so frameworks see it.
 
 `press_key` :224-235 carries `windowsVirtualKeyCode`/`code` so listeners checking e.keyCode fire; the `char` event fires only for printable chars WITHOUT Alt/Ctrl/Meta modifiers (modifier+key = shortcut).
 

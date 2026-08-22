@@ -69,7 +69,7 @@ async updateFromExternal(key: string) {
   const version = this.ctx.storage.sql.exec<{ v: number }>("SELECT version as v FROM data WHERE key = ?", key).one()?.v;
   const externalData = await fetch("https://api.example.com/data");  // Other requests can interleave here
   const newVersion = this.ctx.storage.sql.exec<{ v: number }>("SELECT version as v FROM data WHERE key = ?", key).one()?.v;
-  
+
   if (version !== newVersion) throw new Error("Concurrent modification");
   this.ctx.storage.sql.exec("UPDATE data SET value = ?, version = version + 1 WHERE key = ?", await externalData.text(), key);
 }

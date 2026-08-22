@@ -40,7 +40,7 @@ export default {
 
     // Read response
     const { value } = await reader.read();
-    
+
     await socket.close();
     return new Response(value);
   }
@@ -90,7 +90,7 @@ export default {
 
     try {
       await socket.opened; // Wait for connection
-      
+
       const writer = socket.writable.getWriter();
       await writer.write(new TextEncoder().encode("SELECT 1\n"));
       await writer.close();
@@ -172,7 +172,7 @@ async function connectToPrivateService(
 
   try {
     socket = connect({ hostname: host, port }, { secureTransport: "on" });
-    
+
     await socket.opened; // Throws if connection fails
 
     const writer = socket.writable.getWriter();
@@ -181,7 +181,7 @@ async function connectToPrivateService(
 
     const reader = socket.readable.getReader();
     const chunks: Uint8Array[] = [];
-    
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -350,7 +350,7 @@ export default {
     const client = new Client({
       connectionString: env.DB.connectionString
     });
-    
+
     await client.connect();
     const result = await client.query('SELECT * FROM users');
     await client.end();
@@ -399,9 +399,9 @@ function isAllowedHost(hostname: string): boolean {
     'api.private.net',
     /^10\.0\.1\.\d+$/ // Private subnet regex
   ];
-  
-  return allowed.some(pattern => 
-    pattern instanceof RegExp 
+
+  return allowed.some(pattern =>
+    pattern instanceof RegExp
       ? pattern.test(hostname)
       : pattern === hostname
   );
@@ -411,11 +411,11 @@ export default {
   async fetch(req: Request) {
     const url = new URL(req.url);
     const target = url.searchParams.get('target');
-    
+
     if (!target || !isAllowedHost(target)) {
       return new Response('Forbidden', { status: 403 });
     }
-    
+
     const socket = connect({ hostname: target, port: 443 });
     // ...
   }
@@ -465,7 +465,7 @@ import { connect } from 'cloudflare:sockets';
 export default {
   async fetch(req: Request) {
     const socket = connect({ hostname: "google.com", port: 80 });
-    
+
     const writer = socket.writable.getWriter();
     await writer.write(
       new TextEncoder().encode("GET / HTTP/1.0\r\n\r\n")
@@ -537,7 +537,7 @@ class PostgresProtocol implements Protocol {
       { hostname: host, port },
       { secureTransport: "starttls" }
     );
-    
+
     // Postgres wire protocol
     const secureSocket = socket.startTls();
     await secureSocket.close();
@@ -549,17 +549,17 @@ export default {
   async fetch(req: Request) {
     const url = new URL(req.url);
     const protocol = url.pathname.slice(1); // /ssh or /postgres
-    
+
     const protocols: Record<string, Protocol> = {
       ssh: new SSHProtocol(),
       postgres: new PostgresProtocol()
     };
-    
+
     const handler = protocols[protocol];
     if (!handler) {
       return new Response('Unknown protocol', { status: 400 });
     }
-    
+
     const result = await handler.connect('internal.net', 22);
     return new Response(result);
   }

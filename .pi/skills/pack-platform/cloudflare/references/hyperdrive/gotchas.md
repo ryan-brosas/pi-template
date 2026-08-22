@@ -74,7 +74,7 @@ try {
 ```sql
 -- Show Hyperdrive connections
 SELECT usename, application_name, client_addr, state
-FROM pg_stat_activity 
+FROM pg_stat_activity
 WHERE application_name = 'Cloudflare Hyperdrive';
 
 -- Count active

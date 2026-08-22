@@ -23,9 +23,9 @@ head_sampling_rate = 1  # 100% sampling
 
 ```typescript
 // Good - structured logging
-console.log({ 
-  user_id: 123, 
-  action: "login", 
+console.log({
+  user_id: 123,
+  action: "login",
   status: "success",
   duration_ms: 45
 });

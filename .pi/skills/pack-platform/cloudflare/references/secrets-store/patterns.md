@@ -16,7 +16,7 @@ export default {
     let resp = await fetch("https://api.example.com", {
       headers: { "Authorization": `Bearer ${key}` }
     });
-    
+
     // Fallback during rotation
     if (!resp.ok && env.FALLBACK_KEY) {
       key = await env.FALLBACK_KEY.get();
@@ -24,7 +24,7 @@ export default {
         headers: { "Authorization": `Bearer ${key}` }
       });
     }
-    
+
     return resp;
   }
 }
@@ -55,7 +55,7 @@ async function encryptValue(value: string, key: string): Promise<string> {
   const encrypted = await crypto.subtle.encrypt(
     { name: "AES-GCM", iv }, keyMaterial, enc.encode(value)
   );
-  
+
   const combined = new Uint8Array(iv.length + encrypted.byteLength);
   combined.set(iv);
   combined.set(new Uint8Array(encrypted), iv.length);
@@ -109,7 +109,7 @@ export default {
       const resp = await fetch("https://api.example.com", {
         headers: { "Authorization": `Bearer ${apiKey}` }
       });
-      
+
       ctx.waitUntil(
         fetch("https://log.example.com/log", {
           method: "POST",

@@ -33,4 +33,4 @@ curl https://your-worker.workers.dev
 ```jsonc
 // Temporarily set to 100% sampling for debugging
 {
-  "observability": 
+  "observability":

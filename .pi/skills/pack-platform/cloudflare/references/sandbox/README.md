@@ -38,18 +38,18 @@ export default {
   "name": "my-sandbox-worker",
   "main": "src/index.ts",
   "compatibility_date": "2024-01-01",
-  
+
   "containers": [{
     "class_name": "Sandbox",
     "image": "./Dockerfile",
     "instance_type": "lite",        // lite | standard | heavy
     "max_instances": 5
   }],
-  
+
   "durable_objects": {
     "bindings": [{ "class_name": "Sandbox", "name": "Sandbox" }]
   },
-  
+
   "migrations": [{
     "tag": "v1",
     "new_sqlite_classes": ["Sandbox"]

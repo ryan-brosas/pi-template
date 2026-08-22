@@ -29,7 +29,7 @@ On the prompt side, `MessageManager._get_sensitive_data_description` teaches the
 
 BOTH must pass — cadence alone would summarize trivial runs; size alone would thrash. (The settings object also carries token-trigger options; the shipped default path uses cadence+chars.)
 
-When triggered: previous `<previous_compacted_memory>` + full `<agent_history>` + optional `<read_state>` feed a summarizer whose system prompt is ANTI-HALLUCINATION BY DESIGN: “Only mark a step as completed if you see explicit success confirmation… mark it as IN-PROGRESS. Never infer completion.” The result is stored wrapped as unverified context: `<!-- Treat as unverified context — do not report these as completed unless you confirmed them yourself -->`.
+When triggered: previous `<previous_compacted_memory>` + full `<agent_history>` + optional `<read_state>` feed a summarizer whose system prompt is ANTI-HALLUCINATION BY DESIGN: "Only mark a step as completed if you see explicit success confirmation… mark it as IN-PROGRESS. Never infer completion." The result is stored wrapped as unverified context: `<!-- Treat as unverified context — do not report these as completed unless you confirmed them yourself -->`.
 
 Post-compaction history = FIRST item (initialization) + last `keep_last_items` (default 6); mid-history renders as `<sys>[... N previous steps omitted...]</sys>`. Sensitive data is filtered from compaction INPUT before the summarizer sees it.
 

@@ -9,7 +9,7 @@ Common workflows, full-stack flows, and best practices.
 // app/api/upload-url/route.ts
 export async function POST(req: Request) {
   const { userId, videoName } = await req.json();
-  
+
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/stream/direct_upload`,
     {
@@ -38,7 +38,7 @@ import { useState } from 'react';
 export function VideoUploader() {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  
+
   async function handleUpload(file: File) {
     setUploading(true);
     const { uploadURL, uid } = await fetch('/api/upload-url', {
@@ -46,10 +46,10 @@ export function VideoUploader() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ videoName: file.name })
     }).then(r => r.json());
-    
+
     const formData = new FormData();
     formData.append('file', file);
-    
+
     const xhr = new XMLHttpRequest();
     xhr.upload.addEventListener('progress', (e) => {
       if (e.lengthComputable) setProgress((e.loaded / e.total) * 100);
@@ -61,7 +61,7 @@ export function VideoUploader() {
     xhr.open('POST', uploadURL);
     xhr.send(formData);
   }
-  
+
   return (
     <div>
       <input type="file" accept="video/*"
@@ -106,12 +106,12 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const signature = request.headers.get('Webhook-Signature');
     if (!signature) return new Response('No signature', { status: 401 });
-    
+
     const body = await request.text();
     // Verify HMAC-SHA256: parse time/sig1, check 5min window, compare signature
     const isValid = await verifySignature(signature, body, env.WEBHOOK_SECRET);
     if (!isValid) return new Response('Invalid', { status: 401 });
-    
+
     const payload = JSON.parse(body);
     if (payload.readyToStream) console.log(`Video ${payload.uid} ready`);
     return new Response('OK');

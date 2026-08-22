@@ -55,8 +55,8 @@ Default: 30s per consumer invocation. Increase if needed:
 
 ## Cost Optimization
 
-Operations: write + read + delete = 3 ops per message  
-Retries add read ops  
+Operations: write + read + delete = 3 ops per message
+Retries add read ops
 Formula: `((messages × 3) - 1M) / 1M × $0.40` per month
 
 ```typescript

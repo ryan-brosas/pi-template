@@ -57,9 +57,9 @@ export default {
 interface TailItem {
   scriptName: string;           // Producer Worker name
   eventTimestamp: number;        // Epoch time
-  outcome: 'ok' | 'exception' | 'exceededCpu' | 'exceededMemory' 
+  outcome: 'ok' | 'exception' | 'exceededCpu' | 'exceededMemory'
          | 'canceled' | 'scriptNotFound' | 'responseStreamDisconnected' | 'unknown';
-  
+
   event: {
     request?: {
       url: string;               // Redacted by default
@@ -72,19 +72,19 @@ interface TailItem {
       status: number;
     };
   };
-  
+
   logs: Array<{
     timestamp: number;
     level: 'debug' | 'info' | 'log' | 'warn' | 'error';
     message: any[];              // Args passed to console function
   }>;
-  
+
   exceptions: Array<{
     timestamp: number;
     name: string;                // Error type (Error, TypeError, etc.)
     message: string;             // Error description
   }>;
-  
+
   diagnosticsChannelEvents: Array<{
     channel: string;
     message: any;
@@ -135,7 +135,7 @@ export default {
       logs: event.logs,
       exceptions: event.exceptions,
     }));
-    
+
     ctx.waitUntil(
       fetch(env.LOG_ENDPOINT, {
         method: "POST",
@@ -189,11 +189,11 @@ export default {
         logs: event.logs,
         exceptions: event.exceptions,
       });
-      
+
       // TTL: 24 hours
       return env.LOGS_KV.put(key, value, { expirationTtl: 86400 });
     });
-    
+
     ctx.waitUntil(Promise.all(promises));
   }
 };
@@ -204,7 +204,7 @@ export default {
 ```typescript
 export default {
   async tail(events, env, ctx) {
-    const writes = events.map(event => 
+    const writes = events.map(event =>
       env.ANALYTICS.writeDataPoint({
         // String dimensions
         blobs: [
@@ -223,7 +223,7 @@ export default {
         ],
       })
     );
-    
+
     ctx.waitUntil(Promise.all(writes));
   }
 };
@@ -235,12 +235,12 @@ export default {
 export default {
   async tail(events, env, ctx) {
     // Only process API routes
-    const apiEvents = events.filter(event => 
+    const apiEvents = events.filter(event =>
       event.event?.request?.url?.includes('/api/')
     );
-    
+
     if (apiEvents.length === 0) return;
-    
+
     ctx.waitUntil(
       fetch(env.API_LOGS_ENDPOINT, {
         method: "POST",
@@ -259,9 +259,9 @@ export default {
     // Send errors to one place, everything else to another
     const errors = events.filter(e => e.outcome === 'exception');
     const success = events.filter(e => e.outcome === 'ok');
-    
+
     const tasks = [];
-    
+
     if (errors.length > 0) {
       tasks.push(
         fetch(env.ERROR_ENDPOINT, {
@@ -270,7 +270,7 @@ export default {
         })
       );
     }
-    
+
     if (success.length > 0) {
       tasks.push(
         fetch(env.SUCCESS_ENDPOINT, {
@@ -279,7 +279,7 @@ export default {
         })
       );
     }
-    
+
     ctx.waitUntil(Promise.all(tasks));
   }
 };
@@ -298,7 +298,7 @@ export default {
       status: event.event?.response?.status,
       colo: event.event?.request?.cf?.colo,
     }));
-    
+
     ctx.waitUntil(
       fetch(env.METRICS_ENDPOINT, {
         method: "POST",
@@ -403,7 +403,7 @@ export default {
   async tail(events, env, ctx) {
     // Log to console for debugging (won't be captured by self)
     console.log('Received events:', events.length);
-    
+
     try {
       // Your logic
       await processEvents(events, env);
@@ -436,7 +436,7 @@ export default {
   async tail(events, env, ctx) {
     const sampleRate = 0.1;  // 10%
     const sampledEvents = events.filter(() => Math.random() < sampleRate);
-    
+
     if (sampledEvents.length > 0) {
       ctx.waitUntil(sendToEndpoint(sampledEvents, env));
     }
@@ -474,7 +474,7 @@ export default {
        fetch(endpoint, { body: JSON.stringify(events) });
      }
    };
-   
+
    // [x] CORRECT
    export default {
      async tail(events, env, ctx) {
@@ -503,10 +503,10 @@ export default {
 ```typescript
 export default {
   async tail(events, env, ctx) {
-    const errors = events.filter(e => 
+    const errors = events.filter(e =>
       e.outcome === 'exception' || e.exceptions.length > 0
     );
-    
+
     for (const event of errors) {
       ctx.waitUntil(
         fetch(`https://sentry.io/api/${env.SENTRY_PROJECT}/store/`, {
@@ -532,7 +532,7 @@ export default {
 ```typescript
 export default {
   async tail(events, env, ctx) {
-    const logs = events.flatMap(event => 
+    const logs = events.flatMap(event =>
       event.logs.map(log => ({
         ddsource: "cloudflare-worker",
         ddtags: `worker:${event.scriptName},outcome:${event.outcome}`,
@@ -542,7 +542,7 @@ export default {
         timestamp: log.timestamp,
       }))
     );
-    
+
     ctx.waitUntil(
       fetch("https://http-intake.logs.datadoghq.com/v1/input", {
         method: "POST",

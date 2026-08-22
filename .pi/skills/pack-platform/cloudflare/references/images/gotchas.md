@@ -20,4 +20,4 @@
 
 ### 4. Responsive Images
 - Use `srcset` with multiple widths (400w, 800w, 1200w)
-- Set appropriate 
+- Set appropriate

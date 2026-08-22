@@ -31,7 +31,7 @@ const auth: PagesFunction<Env> = async (context) => {
   if (context.request.url.includes('/public/')) return context.next();
   const authHeader = context.request.headers.get('Authorization');
   if (!authHeader?.startsWith('Bearer ')) return new Response('Unauthorized', { status: 401 });
-  
+
   try {
     const payload = await verifyJWT(authHeader.substring(7), context.env.JWT_SECRET);
     context.data.user = payload;
@@ -103,7 +103,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
   const cacheKey = `data:${url.pathname}`;
   const cached = await env.KV.get(cacheKey, 'json');
   if (cached) return Response.json(cached, { headers: { 'X-Cache': 'HIT' } });
-  
+
   const data = await env.DB.prepare('SELECT * FROM data WHERE path = ?').bind(url.pathname).first();
   await env.KV.put(cacheKey, JSON.stringify(data), {expirationTtl: 3600});
   return Response.json(data, {headers: {'X-Cache': 'MISS', 'Cache-Control': 'public, max-age=3600'}});

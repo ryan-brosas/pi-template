@@ -8,7 +8,7 @@
   "name": "my-cron-worker",
   "main": "src/index.ts",
   "compatibility_date": "2024-01-01",
-  
+
   "triggers": {
     "crons": [
       "*/5 * * * *",     // Every 5 minutes

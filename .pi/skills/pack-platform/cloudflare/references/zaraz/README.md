@@ -121,12 +121,12 @@ Access Zaraz data in Workers:
 export default {
   async fetch(req: Request): Promise<Response> {
     const url = new URL(req.url);
-    
+
     // Inject Zaraz tracking
     if (url.pathname === '/checkout') {
       const response = await fetch(req);
       const html = await response.text();
-      
+
       const tracking = `
         <script>
           zaraz.track('checkout_started', {
@@ -134,11 +134,11 @@ export default {
           });
         </script>
       `;
-      
+
       const modified = html.replace('</body>', tracking + '</body>');
       return new Response(modified, response);
     }
-    
+
     return fetch(req);
   }
 };
@@ -209,7 +209,7 @@ Build custom tools:
 export default class CustomAnalytics {
   async handleEvent(event) {
     const { type, payload } = event;
-    
+
     await fetch('https://analytics.example.com/track', {
       method: 'POST',
       body: JSON.stringify({

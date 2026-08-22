@@ -12,7 +12,7 @@
 
 **CSP Fix:**
 ```html
-<meta http-equiv="Content-Security-Policy" 
+<meta http-equiv="Content-Security-Policy"
       content="script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com;">
 ```
 

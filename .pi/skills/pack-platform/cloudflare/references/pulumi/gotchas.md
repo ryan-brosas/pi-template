@@ -79,7 +79,7 @@ const kv = new cloudflare.WorkersKvNamespace(`${stack}-kv`, {accountId, title: `
 
 ### 4. Protect Production Resources
 ```typescript
-const prodDb = new cloudflare.D1Database("prod-db", {accountId, name: "production-database"}, 
+const prodDb = new cloudflare.D1Database("prod-db", {accountId, name: "production-database"},
     {protect: true}); // Cannot delete without removing protect
 ```
 

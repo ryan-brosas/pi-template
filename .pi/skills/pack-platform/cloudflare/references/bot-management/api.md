@@ -21,12 +21,12 @@ export default {
   async fetch(request: Request): Promise<Response> {
     const cf = request.cf as any;
     const botMgmt = cf?.botManagement;
-    
+
     if (!botMgmt) return fetch(request);
     if (botMgmt.verifiedBot) return fetch(request); // Allow verified bots
     if (botMgmt.score === 1) return new Response('Blocked', { status: 403 });
     if (botMgmt.score < 30) return new Response('Challenge required', { status: 429 });
-    
+
     return fetch(request);
   }
 };
@@ -62,17 +62,17 @@ export default {
   async fetch(request: Request): Promise<Response> {
     const cf = request.cf as any;
     const ja4Signals = cf?.ja4Signals;
-    
+
     if (!ja4Signals) return fetch(request); // Not available for HTTP or Worker routing
-    
+
     // Check for anomalous behavior
     const heuristicRatio = ja4Signals.heuristic_ratio_1h ?? 0;
     const browserRatio = ja4Signals.browser_ratio_1h ?? 0;
-    
+
     if (heuristicRatio > 0.5 || browserRatio < 0.3) {
       return new Response('Suspicious traffic', { status: 403 });
     }
-    
+
     return fetch(request);
   }
 };
@@ -88,10 +88,10 @@ export default {
   async fetch(request: Request): Promise<Response> {
     const cf = request.cf as any;
     const botMgmt = cf?.botManagement;
-    
+
     if (botMgmt?.ja4 === MOBILE_APP_JA4) return fetch(request); // Allow mobile app
     if (botMgmt?.score && botMgmt.score < 30) return new Response('Bot detected', { status: 403 });
-    
+
     return fetch(request);
   }
 };
@@ -103,12 +103,12 @@ export default {
   async fetch(request: Request): Promise<Response> {
     const cf = request.cf as any;
     const botMgmt = cf?.botManagement;
-    
+
     if (botMgmt?.corporateProxy) return fetch(request); // Exempt corporate proxy traffic
     if (botMgmt?.score && botMgmt.score < 30 && !botMgmt.verifiedBot) {
       return new Response('Bot detected', { status: 403 });
     }
-    
+
     return fetch(request);
   }
 };
@@ -120,7 +120,7 @@ export default {
   async fetch(request: Request): Promise<Response> {
     const cf = request.cf as any;
     const botMgmt = cf?.botManagement;
-    
+
     console.log({
       score: botMgmt?.score,
       verifiedBot: botMgmt?.verifiedBot,
@@ -130,7 +130,7 @@ export default {
       jsDetection: botMgmt?.jsDetection?.passed,
       corporateProxy: botMgmt?.corporateProxy,
     });
-    
+
     return fetch(request);
   }
 };

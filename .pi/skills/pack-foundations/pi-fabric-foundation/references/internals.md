@@ -17,7 +17,7 @@ Three env vars — `PI_FABRIC_BUDGET`, `PI_FABRIC_BUDGET_FILE`, `PI_FABRIC_BUDGE
 ### Write/read semantics (:120-175)
 
 - **Append-after-completion**: each manager appends ONE line after its child settles. `O_APPEND` makes small single-line writes atomic across concurrent POSIX writers — sufficient precisely BECAUSE writes are one-per-settlement.
-- **Tolerant reads**: malformed JSON lines are skipped, never abort (“a single bad entry must not abort the whole read”, matching ypi's rlm_cost parser). Missing file reads as zero.
+- **Tolerant reads**: malformed JSON lines are skipped, never abort ("a single bad entry must not abort the whole read", matching ypi's rlm_cost parser). Missing file reads as zero.
 - **Swallowed write failures**: a failed append must not break the agent run — runaway spend is still bounded by the RACE-FREE ceiling: the per-execution call count (`agents.maxPerExecution`). The ledger is explicitly the BEST-EFFORT layer; concurrent children can each pass the check before any cost lands, so slight overshoot is accepted by design.
 - `readBudgetLedgerDetailed` adds byRunner/byActor rollups; the entry parser accepts legacy flat rows while validating optional attribution fields.
 
@@ -27,7 +27,7 @@ Three env vars — `PI_FABRIC_BUDGET`, `PI_FABRIC_BUDGET_FILE`, `PI_FABRIC_BUDGE
 
 `clipUtf8(text, maxBytes, suffix="…")`: iterates CODE POINTS (`for (const character of text)`) accumulating `utf8Bytes` per char — never splits multibyte sequences; reserves the suffix budget FIRST; `maxBytes<=0` → empty.
 
-`canonicalizeText(input, maxBytes=8KB)`: whitespace-collapse → clip → returns `{text, truncated, sourceBytes}` — the ORIGINAL size survives truncation, so downstream UI can say “showing 8KB of 41KB” instead of lying by omission.
+`canonicalizeText(input, maxBytes=8KB)`: whitespace-collapse → clip → returns `{text, truncated, sourceBytes}` — the ORIGINAL size survives truncation, so downstream UI can say "showing 8KB of 41KB" instead of lying by omission.
 
 Constants: summaries capped at 32KB, request sources at 8KB.
 

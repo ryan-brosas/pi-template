@@ -48,11 +48,11 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const task = await context.env.TODO_LIST.get('Task:123');
   await context.env.TODO_LIST.delete('Task:123');
   const keys = await context.env.TODO_LIST.list({ prefix: 'Task:' });
-  
+
   // With options
   await context.env.TODO_LIST.put('session', data, { expirationTtl: 3600 });
   const value = await context.env.TODO_LIST.get('key', { type: 'json' });
-  
+
   return new Response(task);
 };
 ```
@@ -67,13 +67,13 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const result = await context.env.DB.prepare('SELECT * FROM users WHERE id = ?')
     .bind(123)
     .first();
-  
+
   // Batch
   const data = await context.env.DB.batch([
     context.env.DB.prepare('SELECT * FROM users'),
     context.env.DB.prepare('SELECT * FROM posts')
   ]);
-  
+
   return Response.json(result);
 };
 ```
@@ -86,19 +86,19 @@ interface Env { BUCKET: R2Bucket; }
 export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
   const key = url.pathname.slice(1);
-  
+
   // GET
   const obj = await context.env.BUCKET.get(key);
   if (!obj) return new Response('Not found', { status: 404 });
-  
+
   // PUT
   await context.env.BUCKET.put(key, context.request.body, {
     httpMetadata: { contentType: 'application/octet-stream' }
   });
-  
+
   // DELETE
   await context.env.BUCKET.delete(key);
-  
+
   return new Response(obj.body);
 };
 ```
@@ -137,7 +137,7 @@ interface Env { AUTH_SERVICE: Fetcher; }
 export const onRequest: PagesFunction<Env> = async (context) => {
   // Forward request
   return context.env.AUTH_SERVICE.fetch(context.request);
-  
+
   // Custom request
   const req = new Request('https://internal/verify', {
     method: 'POST',

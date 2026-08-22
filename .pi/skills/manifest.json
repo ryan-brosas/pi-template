@@ -695,6 +695,12 @@
       "status": "retained",
       "pack": "pack-platform",
       "modelVisible": false
+    },
+    {
+      "name": "practices-to-ci",
+      "status": "retained",
+      "pack": "pack-platform",
+      "modelVisible": false
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 ## CPU Time Limits
 
-**Standard**: 10ms CPU time  
+**Standard**: 10ms CPU time
 **Unbound**: 30ms CPU time
 
 **Solutions**:
@@ -79,17 +79,17 @@ export default {
 
 ### "Error: Body has already been used"
 
-**Cause**: Response body read twice  
+**Cause**: Response body read twice
 **Solution**: Clone response before reading: `response.clone()`
 
 ### "Error: Too much CPU time used"
 
-**Cause**: Exceeded CPU limit  
+**Cause**: Exceeded CPU limit
 **Solution**: Use `ctx.waitUntil()` for background work
 
 ### "Error: Subrequest depth limit exceeded"
 
-**Cause**: Too many nested subrequests  
+**Cause**: Too many nested subrequests
 **Solution**: Flatten request chain, use service bindings
 
 ## See Also

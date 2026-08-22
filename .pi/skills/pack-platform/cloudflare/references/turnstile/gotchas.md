@@ -16,8 +16,8 @@
 
 ### CSP Configuration
 ```html
-<meta http-equiv="Content-Security-Policy" 
-      content="script-src 'self' https://challenges.cloudflare.com; 
+<meta http-equiv="Content-Security-Policy"
+      content="script-src 'self' https://challenges.cloudflare.com;
                frame-src https://challenges.cloudflare.com;">
 ```
 

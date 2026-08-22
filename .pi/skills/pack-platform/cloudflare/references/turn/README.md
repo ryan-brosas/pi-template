@@ -125,7 +125,7 @@ interface RTCIceServer {
 async function getTURNConfig(): Promise<RTCIceServer[]> {
   const response = await fetch('/api/turn-credentials');
   const data = await response.json();
-  
+
   return [
     {
       urls: 'stun:stun.cloudflare.com:3478'
@@ -187,7 +187,7 @@ async function generateTURNCredentials(
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    
+
     if (url.pathname !== '/turn-credentials') {
       return new Response('Not found', { status: 404 });
     }
@@ -216,7 +216,7 @@ export default {
     }
 
     const data = await response.json();
-    
+
     return new Response(JSON.stringify({
       iceServers: [
         {
@@ -251,7 +251,7 @@ class TURNCredentialsManager {
     turnKeySecret: string
   ): Promise<RTCIceServer[]> {
     const now = Date.now();
-    
+
     // Return cached credentials if still valid
     if (this.credentials && this.credentials.expiresAt > now) {
       return this.buildIceServers(this.credentials);
@@ -260,7 +260,7 @@ class TURNCredentialsManager {
     // Generate new credentials
     const ttl = 3600; // 1 hour
     const data = await this.generateCredentials(turnKeyId, turnKeySecret, ttl);
-    
+
     this.credentials = {
       username: data.username,
       credential: data.credential,
@@ -409,7 +409,7 @@ Ensure connectivity for high-bandwidth screen sharing streams.
 
 ```typescript
 const iceServers = await getTURNConfig();
-const pc = new RTCPeerConnection({ 
+const pc = new RTCPeerConnection({
   iceServers,
   bundlePolicy: 'max-bundle' // Reduce overhead
 });
@@ -519,15 +519,15 @@ vars = { ENVIRONMENT = "production" }
    ```typescript
    // Limit credential generation per client
    const rateLimiter = new Map<string, number>();
-   
+
    function checkRateLimit(clientId: string): boolean {
      const lastRequest = rateLimiter.get(clientId) ?? 0;
      const now = Date.now();
-     
+
      if (now - lastRequest < 5000) { // 5 second cooldown
        return false;
      }
-     
+
      rateLimiter.set(clientId, now);
      return true;
    }
@@ -542,7 +542,7 @@ vars = { ENVIRONMENT = "production" }
    async function validateClient(request: Request): Promise<boolean> {
      const token = request.headers.get('Authorization')?.split(' ')[1];
      if (!token) return false;
-     
+
      // Implement JWT validation or session check
      return validateToken(token);
    }
@@ -638,7 +638,7 @@ class TURNMonitor {
   }
 
   private updateLatency(latency: number): void {
-    this.metrics.averageLatency = 
+    this.metrics.averageLatency =
       (this.metrics.averageLatency + latency) / 2;
   }
 

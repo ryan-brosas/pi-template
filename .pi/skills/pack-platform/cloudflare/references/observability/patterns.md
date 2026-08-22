@@ -7,18 +7,18 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const customerId = request.headers.get('X-Customer-ID');
     const apiKey = request.headers.get('X-API-Key');
-    
+
     if (!customerId || !apiKey) {
       return new Response('Unauthorized', { status: 401 });
     }
-    
+
     // Track API usage per customer
     env.ANALYTICS.writeDataPoint({
       'blobs': [customerId, request.url, request.method],
       'doubles': [1], // request_count
       'indexes': [customerId]
     });
-    
+
     return processRequest(request);
   }
 }

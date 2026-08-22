@@ -98,17 +98,17 @@ export default {
   async fetch(request, env, ctx) {
     const response = await env.AI.run(
       '@cf/meta/llama-3-8b-instruct',
-      { 
+      {
         messages: [{ role: 'user', content: 'Hello!' }]
       },
-      { 
-        gateway: { 
+      {
+        gateway: {
           id: 'my-gateway',
           metadata: { userId: '123', team: 'engineering' }
-        } 
+        }
       }
     );
-    
+
     return new Response(JSON.stringify(response));
   }
 };
@@ -239,17 +239,17 @@ try {
     console.error('Rate limit exceeded:', error.message);
     // Implement backoff or use dynamic routing with fallback
   }
-  
+
   // Gateway authentication failed
   if (error.status === 401) {
     console.error('Gateway authentication failed - check cf-aig-authorization token');
   }
-  
+
   // Provider authentication failed
   if (error.status === 403) {
     console.error('Provider authentication failed - check API key or BYOK setup');
   }
-  
+
   throw error;
 }
 ```
@@ -325,7 +325,7 @@ export default {
       { prompt: 'Hello!' },
       { gateway: { id: 'my-gateway' } }
     );
-    
+
     return Response.json(response);
   }
 } satisfies ExportedHandler<Env>;

@@ -34,7 +34,7 @@ hint = "wnam"  # West North America
 
 Optional region hints guide Smart Placement decisions:
 - `"wnam"` - West North America
-- `"enam"` - East North America  
+- `"enam"` - East North America
 - `"weur"` - Western Europe
 - `"eeur"` - Eastern Europe
 - `"apac"` - Asia Pacific

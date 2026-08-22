@@ -25,7 +25,7 @@ export default {
     const parser = new PostalMime.default();
     const rawEmail = new Response(message.raw);
     const email = await parser.parse(await rawEmail.arrayBuffer());
-    
+
     console.log({
       from: email.from,
       to: email.to,
@@ -33,7 +33,7 @@ export default {
       html: email.html,
       attachments: email.attachments
     });
-    
+
     await message.forward("destination@example.com");
   },
 };
@@ -43,4 +43,4 @@ export default {
 
 ```typescript
 export default {
-  async email(message, env, 
+  async email(message, env,

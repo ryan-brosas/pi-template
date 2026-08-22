@@ -30,4 +30,4 @@ curl "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/snippets/snippet_rules
       {
         "description": "Trigger snippet on specific cookie",
         "enabled": true,
-        "expression": "http.cookie eq 
+        "expression": "http.cookie eq

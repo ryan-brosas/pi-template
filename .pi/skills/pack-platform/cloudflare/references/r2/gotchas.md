@@ -89,6 +89,6 @@ if (!key || key.includes('..') || key.startsWith('/')) {
 
 ## Common Errors
 
-**"oldString not found"**: Object key doesn't exist  
-**List compatibility_date**: Set `compatibility_date >= 2022-08-04` or enable `r2_list_honor_include` flag  
+**"oldString not found"**: Object key doesn't exist
+**List compatibility_date**: Set `compatibility_date >= 2022-08-04` or enable `r2_list_honor_include` flag
 **Multipart part size**: Ensure uniform size except final part

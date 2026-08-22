@@ -117,11 +117,11 @@ const clearAllCacheReserve = async (zoneId: string, apiToken: string) => {
     { method: 'GET', headers: { 'Authorization': `Bearer ${apiToken}` } }
   );
   const status = await statusResponse.json();
-  
+
   if (status.result.value !== 'off') {
     throw new Error('Cache Reserve must be OFF before clearing data');
   }
-  
+
   // Step 2: Clear Cache Reserve data
   const clearResponse = await fetch(
     `https://api.cloudflare.com/client/v4/zones/${zoneId}/cache/cache_reserve_clear`,
