@@ -27,3 +27,13 @@ Create every foundation leaf from the canonical loader/map structure and every n
 
 ## Capsule versions and stopping rules
 `<!-- capsule-v1 -->` remains legacy retrieval metadata. Every **new or substantively rewritten** reference must use `<!-- capsule-v2 -->` and satisfy the decisive-source contract by direct inspection. Keep the canonical pinned commit; do not vendor modules. Stop a wave when its chosen graph seam has a precise retrieval target, decisive source/test evidence, a preserved invariant, and a behavior boundary—not when a repository has been exhaustively described. Volume follows the seam; source excerpt length follows the ambiguity it prevents.
+
+## Reference runbooks
+
+Detailed guidance (load on demand):
+- `references/graph-rules.md`
+- `references/quality-bar.md`
+- `references/skill-anatomy.md`
+- `references/squeeze-process.md`
+- `references/wiring-verification.md`
+- `references/workflow.md`

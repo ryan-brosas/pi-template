@@ -76,3 +76,8 @@ Lower levels (prose, code review) are inspection, not verification.
 ```
 
 If `<evidence>` is empty, the claim is unverified. **Do not say "done".**
+
+## References
+
+Detailed reference material:
+- `references/VERIFICATION_PROTOCOL.md`

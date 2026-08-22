@@ -95,3 +95,15 @@ Wrote before RED; "obviously correct" with no test; description vague or over bu
   <risks>Untested, regressed marker, none</risks>
 </skill_result>
 ```
+
+## References
+
+Detailed reference material:
+- `references/anti-patterns.md`
+- `references/claude-search-optimization.md`
+- `references/discovery-workflow.md`
+- `references/file-organization.md`
+- `references/flowcharts-and-examples.md`
+- `references/rationalization-hardening.md`
+- `references/testing-methodology.md`
+- `references/testing-skill-types.md`

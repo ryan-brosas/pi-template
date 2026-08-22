@@ -53,3 +53,8 @@ Unscoped selections, jumping to `gemini-pro` without a named gap, asking Veda to
   <risks>Unscoped scan, unnecessary high-tier usage, authentication, rate limits, or none</risks>
 </skill_result>
 ```
+
+## References
+
+Detailed reference material:
+- `references/workflow.md`

@@ -86,3 +86,10 @@ Reading summary without JSON (loses precision); running fallow but not acting on
 ## Anti-Patterns
 
 **"I know it's bad"** (run Fallow); **"small project, no need"** (even small projects have dead code); **"delete all dead"** (check public API first); **"summary is enough"** (JSON is the contract); **"fallow said so"** (Fallow is evidence, not authority — use judgment).
+
+## References
+
+Detailed reference material:
+- `references/cli-reference.md`
+- `references/gotchas.md`
+- `references/patterns.md`

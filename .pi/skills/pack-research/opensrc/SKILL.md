@@ -59,3 +59,16 @@ Reading source without a question (drift); assuming docs are right (verify); rea
 ## Anti-Patterns
 
 **Trust the docs**; **skip the tests**; **read wrong version**; **read without a question**; **"I think it works"**; **drift into reading the whole codebase**.
+
+## References
+
+Detailed reference material:
+- `references/analysis-tips.md`
+- `references/anti-patterns.md`
+- `references/architecture.md`
+- `references/cli-usage.md`
+- `references/common-patterns.md`
+- `references/example-workflow.md`
+- `references/further-reading.md`
+- `references/registry-support.md`
+- `references/source-structure.md`
