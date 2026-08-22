@@ -54,6 +54,7 @@
         "mem0-foundation",
         "pi-fabric-foundation",
         "pi-upstream-foundation",
+        "oh-my-pi-foundation",
         "pydantic-ai-harness-foundation",
         "jobspy-foundation",
         "linkedin-mcp-foundation"
@@ -201,6 +202,7 @@
     "localterm-foundation": "Use when building terminal UIs, terminal rendering, or pi bash-tool security: streaming secret redaction, spawn-side env scrub, and the localterm terminal stack.",
     "pi-fabric-foundation": "Use when building on Pi Fabric internals: Schema mutation guard, cross-process budget ledger, compaction bounds, actors, or provider patterns.",
     "pi-upstream-foundation": "Use when building a coding-agent harness: the agent loop, branch-summarization compaction, settings manager, or model catalog.",
+    "oh-my-pi-foundation": "Use when building or hardening an LLM agent loop: steering/asides injection, interruptible tool batches, soft tool requirement gate, Harmony-leak recovery, synthetic result pairing.",
     "jobspy-foundation": "Use when scraping job listings across sites (LinkedIn, Glassdoor, Naukri, Bayt, BdJobs): the JobSpy unified scraper, proxy rotation, and markdown conversion.",
     "linkedin-mcp-foundation": "Use when building LinkedIn automation: the linkedin-mcp-server session state, cookie bridge, daemon lock/descriptor, and config validation.",
     "billion-context-pi-foundation": "Use when building long-context agent delegation: subagent spawning, context compress/decompress, tool guardrails, delegate watchdogs, and fleet status widgets.",

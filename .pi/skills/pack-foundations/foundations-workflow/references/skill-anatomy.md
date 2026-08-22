@@ -9,9 +9,17 @@ The target structure for a foundation skill: a lean surface plus focused topic r
 ├── SKILL.md              # LEAN surface (~230-280 words): what loads into context
 └── references/
     ├── architecture.md   # solves, stack, full module map, data flow, graph signals
-    ├── <subsystem>.md    # one file per major subsystem (what it gives, e.g. secret-defense.md)
+    ├── <subsystem>.md    # one file per major subsystem (what it gives, e.g. secret-defense.md) — typically 8+
     └── reuse-guide.md    # use cases, every reusable primitive, red flags, verification, provenance
 ```
+
+## Depth floors (minimums, never caps)
+
+- **Reference files: ≥10 per repo.** Count every file under `references/` (architecture.md, each per-subsystem file, reuse-guide.md). Typical shape: 1 architecture + 8+ subsystem files + 1 reuse-guide.
+- **Reference file size: ≥700 lines each.** A floor, not a target and never a cap — large subsystems routinely exceed it.
+- **SKILL.md: no floor.** It stays lean (~230-280 words); the 600-word validator warning still stands. Depth never migrates into the surface.
+- **Floors are met by depth, not padding.** If a file falls under 700 lines, the study stage missed material: split subsystems finer, mine more tests for probes, quote more failure-mode comments verbatim, record more line anchors. Go past the floor whenever the repo warrants it.
+- **Why:** the floor forces full-file reading of crowned subsystems at authoring time and leaves the use-time model enough exact material (signatures, constants, line anchors) to port without re-indexing the repo.
 
 ## Lean SKILL.md anatomy (in order)
 

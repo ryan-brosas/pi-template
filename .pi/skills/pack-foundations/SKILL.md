@@ -5,7 +5,7 @@ description: "Foundations router: reusable proven code from indexed inspiration 
 
 # Pack: Foundations
 
-Reusable proven code, encoded from indexed inspiration repositories. Each leaf answers: what the repo solves, the reusable primitives (with graph anchors), and the exact skill-line for reuse. Pick at most 2 members matching the task, most specific first; read each fully. Each leaf is lean; load `references/` only when porting. Users may invoke any leaf via `/skill:<name>`.
+Each leaf encodes an indexed inspiration repo: what it solves, its reusable primitives with graph anchors, and the exact reuse skill-line. Pick 2 members max per task; read fully; load `references/` when porting; invoke via `/skill:<name>`.
 
 ## Members
 
@@ -27,6 +27,7 @@ Reusable proven code, encoded from indexed inspiration repositories. Each leaf a
 - localterm-foundation: terminal rendering, secret-scrubbed bash, streaming redaction
 - pi-fabric-foundation: Schema mutation guard, budget ledger, compaction bounds
 - pi-upstream-foundation: agent loop, branch-summarization compaction
+- oh-my-pi-foundation: agent-harness loop — steering/asides queues, interruptible tool batches, soft tool gate, Harmony-leak recovery
 - pydantic-ai-harness-foundation: capability/toolset abstractions, compaction strategies, spend budgets
 - mem0-foundation: agent memory — add/search pipeline, metadata filters, vector stores
 - jobspy-foundation: multi-site job scraping (8 sites)

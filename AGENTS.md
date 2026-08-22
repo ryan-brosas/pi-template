@@ -6,7 +6,7 @@
 node scripts/check.mjs
 ```
 
-This command runs all seven dependency-free Node validators, a commit-convention
+This command runs all 8 dependency-free Node validators, a commit-convention
 gate, and `git diff --check`.
 There is no install, test, lint, typecheck, build, or format command. GitHub runs
 the same check from `.github/workflows/check.yml` on pushes to `main` and on
@@ -98,7 +98,7 @@ then `schema.commit` with declared operations and nonempty postconditions.
   `/verify`.
 - `.pi/work/`: tracked durable work records; local pointers and progress logs
   stay ignored.
-- `scripts/`: the canonical check runner and seven structural validators.
+- `scripts/`: the canonical check runner and 8 structural validators.
 
 ## Conventions
 
