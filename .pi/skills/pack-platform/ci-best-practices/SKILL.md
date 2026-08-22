@@ -79,6 +79,20 @@ concurrency:
   aider's `check_pypi_version` pattern (a scheduled version-drift check).
 - Use `workflow_dispatch` to allow manual triggering alongside the cron.
 
+## Input security (critical)
+
+- **Never interpolate `inputs.*` directly into `run:`** — a malicious input can
+  inject shell. Pass inputs via `env:` and reference them as shell vars:
+  ```yaml
+  env:
+    VERSION: ${{ inputs.version }}
+  run: echo "$VERSION"
+  ```
+- Use `dry_run` / `dry-run` inputs (default true) for destructive automation so
+  it logs what it would do without acting. Farmed from modelcontextprotocol's
+  cut-release and opencode's close-prs.
+- Use `workflow_dispatch` inputs with `type: choice` for enum options.
+
 ## When to use
 
 Apply these when writing or reviewing any GitHub Actions workflow. They
