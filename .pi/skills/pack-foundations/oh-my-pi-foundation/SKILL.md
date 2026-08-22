@@ -1,6 +1,6 @@
 ---
 name: oh-my-pi-foundation
-description: "Use when building or hardening an LLM agent harness: steering, compaction cuts, and context reduction; plan handoff, durable workers, fanout, experiments, or advisor delivery."
+description: "Use when building or hardening an LLM agent harness: steering, compaction and context reduction; memory, patch editing, telemetry; plan handoff, durable workers, fanout, experiments, or advisor delivery."
 disable-model-invocation: true
 ---
 # Oh My Pi: Agent Harness Foundation
@@ -17,10 +17,16 @@ Live provider/tool loops, queue-owning facades, context compaction, replay, plan
 - `references/durable-workers.md` — parent-scoped worker session persistence and teardown-safe records.
 - `references/fanout-and-budgets.md` — ordered fanout, cancellation-safe concurrency, soft-to-hard execution budgets.
 - `references/isolation-and-provider-permits.md` — worktree isolation and narrow provider concurrency permits.
-- `references/experiment-control.md` — clean-baseline branch isolation, branch-bound resume, durable run ledgers.
+- `references/experiment-control.md` — clean
+- `references/hashline.md` — line-anchored patch language and applier; pure materialize-then-syntax-veto apply pipeline.
+- `references/mnemopi.md` — bank/session-scoped persistent memory facade and linear-vs-polyphonic recall orchestration.
+- `references/stats.md` — honest usage windows and pure user-metric extraction that degrade instead of failing.-baseline branch isolation, branch-bound resume, durable run ledgers.
 - `references/advice-delivery.md` — severity-based steer/aside/preserve routing to a live agent.
 
-## Provenance
+
+## Wave coverage ledger
+- [DONE: wave1] hashline (patch/apply seam), mnemopi (facade + orchestration), stats (usage windows + user metrics) — 3 capsules, check mjs green at wave close.
+- Pending waves: hashline fs/clipboard/snippets; mnemopi beam internals, embedding/model seams; stats sync-worker, embedded-client, db internals.## Provenance
 oh-my-pi (MIT), `main@96f428097`; Codebase Memory project `oh-my-pi` (114,761 nodes / 595,806 edges, `full` index since 2026-08-22 — tests graph-covered; only `parse_partial` ranges read directly).
 
 ## Boundaries

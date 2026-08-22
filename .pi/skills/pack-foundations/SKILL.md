@@ -25,7 +25,7 @@ Each leaf encodes an indexed repo: what it solves, reusable primitives, graph an
 - localterm-foundation: terminal rendering, secret-scrubbed bash
 - pi-fabric-foundation: Schema mutation guard, budget ledger, compaction bounds
 - pi-upstream-foundation: agent loop, branch-summary compaction
-- oh-my-pi-foundation: harness loop, plan handoff, durable workers, fanout, experiments, advisor
+- oh-my-pi-foundation: harness loop, compaction, memory, patch editing, telemetry, plan handoff, durable workers, fanout, experiments, advisor
 - pydantic-ai-harness-foundation: toolset abstractions, compaction strategies
 - mem0-foundation: agent memory — add/search pipeline, metadata filters
 - jobspy-foundation: multi-site job scraping (8 sites)
