@@ -22,10 +22,14 @@ When writing tests for code that:
 - `cassette_utils.py` — (from pydantic-ai, 542 lines) unified verification for
   VCR HTTP cassettes and XAI protobuf cassettes. Record real responses, replay
   them in tests, verify cassette contents. Use for any HTTP/LLM integration test.
+  Adapted to be standalone (no pydantic-ai imports).
+- `harness_utils.py` — (from pydantic-ai conftest) portable utilities:
+  `try_import` (graceful optional-import handling), session-scoped `event_loop`
+  fixture, `raise_if_exception`.
+- `mock_async_stream.py` — (from pydantic-ai) wraps a sync iterator as an async
+  stream for testing async/await code. Adapted to be standalone.
 - `conftest.py` — (from graphrag) pytest options + fixtures, including
-  `--run_slow` gating for slow tests. Add `pytest_addoption` to your conftest.
-- `client_utils.py` — (from mem0) test helpers for API error handling
-  (AuthenticationError, NetworkError, RateLimitError) and async/sync patterns.
+  `--run_slow` gating for slow tests.
 
 ## How to Use
 

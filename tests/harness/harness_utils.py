@@ -1,0 +1,57 @@
+"""Portable test utilities farmed from pydantic-ai's test suite.
+
+These are the reusable, dependency-free patterns (adapted to be standalone —
+no pydantic-ai imports). Stack your leverage: reuse these instead of writing
+them from scratch.
+"""
+from __future__ import annotations
+
+import asyncio
+from collections.abc import Callable, Generator, Iterator
+from contextlib import contextmanager
+from typing import Any
+
+import pytest
+
+
+@contextmanager
+def try_import() -> Generator[Callable[[], bool]]:
+    """Gracefully handle optional imports in tests.
+
+    Wrap an import block; if it raises ImportError (optional dependency
+    missing), the test continues and check_import() returns False. If the
+    import succeeds, check_import() returns True. Lets a test skip cleanly
+    when an optional dependency is absent instead of erroring.
+
+    Usage:
+        with try_import() as has_import:
+            import optional_lib
+        if not has_import():
+            pytest.skip("optional_lib not installed")
+    """
+    import_success = False
+
+    def check_import() -> bool:
+        return import_success
+
+    try:
+        yield check_import
+    except ImportError:
+        pass
+    else:
+        import_success = True
+
+
+@pytest.fixture(scope="session", autouse=True)
+def event_loop() -> Iterator[None]:
+    """Provide a session-scoped asyncio event loop."""
+    new_loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(new_loop)
+    yield
+    new_loop.close()
+
+
+def raise_if_exception(e: Any) -> None:
+    """Re-raise if the value is an Exception (used with mock results)."""
+    if isinstance(e, Exception):
+        raise e

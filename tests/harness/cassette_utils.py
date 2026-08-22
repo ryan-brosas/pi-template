@@ -18,7 +18,12 @@ from urllib.parse import urlparse
 import pytest
 import yaml
 
-from pydantic_ai._utils import is_str_dict
+
+def is_str_dict(value: Any) -> bool:
+    """Return True if value is a dict whose keys and values are all strings."""
+    return isinstance(value, dict) and all(
+        isinstance(k, str) and isinstance(v, str) for k, v in value.items()
+    )
 
 try:
     from yaml import CSafeLoader as SafeLoader
