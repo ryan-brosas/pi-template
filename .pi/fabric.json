@@ -5,17 +5,7 @@
     "memoryLimitBytes": 4294967295
   },
   "schema": {
-    "mode": "audit",
-    "trustedCommands": {
-      "canonical-check": {
-        "command": "node",
-        "args": [
-          "scripts/check.mjs"
-        ],
-        "shell": false,
-        "timeoutMs": 120000
-      }
-    }
+    "mode": "audit"
   },
   "compaction": {
     "engine": "pi"

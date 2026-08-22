@@ -15,7 +15,6 @@ Pick at most 2 members below matching the task, most specific first; read each f
 - development-lifecycle: plan project lifecycle and phases
 - fabric-native-execution: use Pi Fabric native providers (memory/state/mesh/compact)
 - incremental-implementation: implement multi-file changes in slices
-- jetbrains-ide-workflow: IDE search, edit, refactor, diagnostics, builds, runs
 - planning-and-task-breakdown: break goals into ordered tasks
 - prototype: validate an idea with a throwaway build
 - shipping-and-launch: merge, deploy, release, or finish

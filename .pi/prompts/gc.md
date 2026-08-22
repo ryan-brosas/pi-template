@@ -52,8 +52,7 @@ Output:
 
 This command is read-only analysis. Before any deletion or refactor, run the
 Schema loop inside one `fabric_exec` — `schema.hypothesize` (evidence:
-`file_contains`/`file_sha256` literals or the `canonical-check` trusted
-command) → `schema.verify` → `schema.commit` with declared operations and
+`file_contains`/`file_sha256` literals or verified command output) → `schema.verify` → `schema.commit` with declared operations and
 nonempty postconditions. If verification fails, do not mutate. **Dual mode:**
 read-only analysis is identical in both modes; cleanup branches by mode —
 Schema mode (`schema.status().mode === "enforce"`) runs the loop above,

@@ -124,8 +124,7 @@ The ledger IS the plan's acceptance record. A station without a ledger entry has
 
 Research and planning are read-only. Before writing the plan file, run the
 Schema loop inside one `fabric_exec`: `schema.hypothesize` (evidence:
-`file_contains`/`file_sha256` literals or the `canonical-check` trusted
-command) → `schema.verify` → `schema.commit` with declared operations and
+`file_contains`/`file_sha256` literals or verified command output) → `schema.verify` → `schema.commit` with declared operations and
 nonempty postconditions. Only `committed` authorizes the write; then write in
 the same `fabric_exec`. Mark completed steps `[DONE:n]`. If verification fails
 or scope changes, do not mutate. After verification, record the gate decision (passed/disposition; evidence kinds: command, artifact, trace, custom) with the session's workflow recorder when available, or carry it in the completion report.

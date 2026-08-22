@@ -24,7 +24,7 @@ AGENTS.md                    # project agent rules (this repo's own)
 README.md
 .gitignore
 .pi/
-├── fabric.json            # Pi Fabric Schema guard (enforce or audit + canonical-check)
+├── fabric.json            # Pi Fabric Schema guard (enforce or audit)
 ├── settings.json          # Pi-native settings (thinking level, theme, compaction)
 ├── prompts/               # slash commands (9, incl. /init, /create, /ship)
 ├── skills/                # 131 skill files: 11 pack routers + 116 pack leaves + 4 core safety
@@ -94,7 +94,7 @@ require the commit loop with automatic rollback; otherwise (`audit` mode, guard
 off, or project untrusted), each mutation requires explicit per-mutation user
 approval (AGENTS.md Mutation Authority).
 `.pi/fabric.json` holds the guard configuration (`schema.mode`: `enforce` or
-`audit`, plus the `canonical-check` trusted command). And it provides the contract: full-code mode, the QuickJS memory ceiling, Schema mode (enforce or audit), prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
+`audit`). And it provides the contract: full-code mode, the QuickJS memory ceiling, Schema mode (enforce or audit), prompt dispositions, host-selectable agent runner, ignored `.veda/` state, and referenced skill paths.
 
 ### Optional Veda lane
 

@@ -12,7 +12,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 ## Success Criteria
 
 1. A developer clones the repository, trusts it in Pi, reloads, and runs /init to get a complete context artifact set. (Verifiable by following README.md:9-17.)
-2. The canonical `node scripts/check.mjs` command exits 0. It runs all 8 structural validators, a commit-convention gate, and `git diff --check`; GitHub CI runs the same command. (Verifiable locally and in `.github/workflows/check.yml`.)
+2. Completion is verified with direct evidence: `git diff --check`, parsing `packs.json`/`manifest.json`, and inspecting call sites. There is no canonical check script. (Verifiable by the empty `scripts/` directory.)
 3. Mutating commands defer to the Schema guard and never touch unrelated working-tree changes. (Verifiable by command behavior and scope checks.)
 4. The repository stays clonable with no package install, build, or runtime harness. (Verifiable by README.md:7,16 and the absence of manifests.)
 
@@ -31,7 +31,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
 
 ## System Context
 
-- **External actors:** A developer operating Pi in the repository; the host-configured Schema trusted commands (`canonical-check`).
+- **External actors:** A developer operating Pi in the repository; the host-configured Schema guard (`schema.hypothesize` → `schema.verify` → `schema.commit`).
 - **External systems:** The Pi coding-agent runtime (Fabric provider), and the Git remote at origin https://github.com/ryan-brosas/pi-template.git. (git remote -v.)
 - **Trust boundaries:** No application runtime, so no data boundary exists. Secret policy bans committed credentials (AGENTS.md Constraints table). Schema commit authorizes or denies mutation operations.
 - **Runtime and environment:** Pi host with Pi Fabric; Node.js v26.7.0 available for the validation scripts (host tool, not a project dependency).
@@ -44,7 +44,7 @@ Rendered by /init on 2026-08-09 from .pi/templates/project.md. Read on demand fo
   - Skills (.pi/skills/) - 116 leaves in 11 packs (11 pack routers, 4 core safety skills); catalog in packs.json, ledger in manifest.json; progressive-disclosure visibility.
   - Templates (.pi/templates/) - 12 format templates rendered by /init, /create, /plan, and /verify.
   - Settings (.pi/settings.json, .pi/fabric.json) - Pi runtime preferences and Pi Fabric Schema configuration.
-  - Gates (scripts/) - one canonical check runner and 8 dependency-free Node validators owned by the template itself.
+  - Gates - direct evidence verification (`git diff --check`, `packs.json`/`manifest.json` parity); no check scripts.
   - Context artifacts (AGENTS.md, .pi/*.md) - durable product and architecture records.
 - **Composition Roots:** No application composition. The Pi host and the /init command are the wiring points: Pi loads .pi/settings.json and .pi/prompts/; /init renders templates into artifacts.
 - **Dependency Rules:** Pi host reads .pi/settings.json and .pi/prompts/; Pi Fabric reads .pi/fabric.json; scripts read .pi/skills/packs.json and manifest.json; /init renders .pi/templates/*.md. No layer imports another; nothing depends on application code because none exists.
@@ -110,8 +110,8 @@ No external application API, database, deployment provider, or credential-bearin
 
 - **Unit, integration, contract, e2e seams:** None. The repository has no application test suite.
 - **Test locations:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Canonical gate:** `node scripts/check.mjs` runs the eight structural validators, a commit-convention gate (unpushed commit subjects and branch names), and `git diff --check`. The validators cover skill catalog structure, manifest parity, router dispatch, Pi Fabric and AGENTS contracts, work management, Notion workspace safety, foundation depth, and release hygiene.
-- **CI:** `.github/workflows/check.yml` runs the canonical gate on pushes to `main` and pull requests.
+- **Canonical gate:** none — there are no check scripts. Completion is verified with direct evidence (`git diff --check`, parsing `packs.json`/`manifest.json`, inspecting call sites).
+- **CI:** `.github/workflows/check.yml` is a stub (no check step); no canonical gate runs in CI.
 - **Coverage gaps:** The repository has no application test suite. Slash-command behavior still requires direct Pi probes when a prompt workflow changes.
 
 ## Observability
@@ -126,7 +126,7 @@ No external application API, database, deployment provider, or credential-bearin
 | Failure                               | Symptom                      | Detection                              | Recovery                                             |
 |---------------------------------------|------------------------------|----------------------------------------|------------------------------------------------------|
 | Schema commit failed                  | Mutation blocked             | Verify/commit rejection in fabric_exec | Revise scope, re-run the loop; do not mutate         |
-| Skill catalog drift                   | Validator nonzero            | node scripts/validate-skill-packs.mjs  | Fix packs.json/manifest.json membership              |
+| Skill catalog drift                   | packs.json/manifest.json mismatch | manual parse + compare against on-disk paths | Fix packs.json/manifest.json membership              |
 | Stale generated counts                | Artifacts disagree with tree | Cross-artifact rg checks               | Regenerate tech-stack.md and reconcile               |
 | Accidentally sweeping concurrent work | Out-of-scope files staged    | git status, scoped diff review         | Unstage only the declared files; never revert others |
 
@@ -136,7 +136,7 @@ No external application API, database, deployment provider, or credential-bearin
 - The Schema guard (enforce or audit) with the `hypothesize → verify → commit` loop is the authority for non-trivial mutations; audit mode relies on explicit user approval rather than rollback enforcement. (AGENTS.md Mutation Authority.)
 - Generated local state (.idea/, .pi/implementation-notes.md, .pi/fabric/, .pi/work/ide-inspections/, and .pi/work dotfiles) is gitignored and never committed.
 - The product surface stays Pi-native. OpenCode runtime wrappers must not return. (README.md:34-35.)
-- Skills membership is owned by .pi/skills/packs.json. Adding or moving a skill requires passing node scripts/validate-skill-packs.mjs. (AGENTS.md Skills section.)
+- Skills membership is owned by .pi/skills/packs.json. Adding or moving a skill requires updating packs.json + manifest.json and verifying parity against on-disk paths. (AGENTS.md Skills section.)
 
 ## Decisions
 
@@ -167,7 +167,7 @@ No external application API, database, deployment provider, or credential-bearin
 - README.md:9-17 install flow; README.md:18-39 layout and generated-state boundaries; README.md:41-58 command table; README.md:34-35 removed OpenCode wrappers.
 - AGENTS.md Mutation Authority, Skills, Constraints, Architecture sections.
 - .pi/settings.json and .pi/fabric.json configuration values.
-- `node scripts/check.mjs` is the canonical local and CI gate; it runs all eight validators, a commit-convention gate, and `git diff --check`.
+- There is no canonical check script. Completion is verified with direct evidence: `git diff --check`, parsing `packs.json`/`manifest.json`, and inspecting call sites.
 - git remote -v shows origin at github.com/ryan-brosas/pi-template.git.
 
 ---

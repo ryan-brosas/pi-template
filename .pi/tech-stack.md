@@ -21,7 +21,7 @@ Evidence: `README.md:1-12`; `git remote -v` (origin github.com/ryan-brosas/pi-te
 | Skills                        | Markdown with YAML frontmatter | Reusable task-specific agent guidance under `.pi/skills/`       |
 | Pi settings                   | JSON                           | Thinking level, theme, and compaction configuration             |
 | Pi Fabric settings            | JSON                           | Schema and mutation-guard configuration                         |
-| Validation gates              | Node.js (ESM)                  | Dependency-free structural checks under `scripts/`              |
+| Validation gates              | none (manual)                  | Direct evidence: `git diff --check`, parse packs.json/manifest.json, inspect call sites |
 
 There is no `src/`, `lib/`, or `app/` source tree and no indexed application code.
 
@@ -39,12 +39,12 @@ There is no `src/`, `lib/`, or `app/` source tree and no indexed application cod
 
 ## Project Dependencies vs Host Tools
 
-- **Project dependencies:** None. The repository requires only the Pi host and Pi Fabric; the 8 validation scripts run on plain Node with no imports beyond Node built-ins.
+- **Project dependencies:** None. The repository requires only the Pi host and Pi Fabric; there are no validation scripts — completion is verified with direct evidence (`git diff --check`, parsing `packs.json`/`manifest.json`, inspecting call sites).
 - **Host tools (installed, not project dependencies):** these programs are available in the local environment. They become stack entries only when a project file uses them. Veda and AGY are now used by README's Optional Veda lane; the rest are installed but not project-used.
 
 | Tool        | Version | Evidence                        | Used by the project?                                                                              |
 |-------------|---------|---------------------------------|---------------------------------------------------------------------------------------------------|
-| Node.js     | v26.7.0 | `node --version`, 2026-08-12    | Yes, validation scripts                                                                           |
+| Node.js     | v26.7.0 | `node --version`, 2026-08-12    | No (no scripts)                                                                                   |
 | npm         | 12.0.1  | `npm --version`, 2026-08-09     | No                                                                                                |
 | pnpm        | 11.3.0  | `pnpm --version`, 2026-08-09    | No                                                                                                |
 | Bun         | 1.3.14  | `bun --version`, 2026-08-09     | No                                                                                                |
@@ -78,41 +78,32 @@ Do not add commands based only on this host inventory. A project command require
 2. Non-trivial mutations require an accepted checklist with a Schema contract.
 3. The executor owns declared writes and verification after handoff.
 4. Unrelated working-tree changes must remain untouched.
-5. `.pi/fabric.json` pins `schema.mode` (enforce or audit) and the `canonical-check` trusted command (`node scripts/check.mjs`).
+5. `.pi/fabric.json` pins `schema.mode` (enforce or audit).
 
 ## Commands
 
 | Command                                                  | Status | Purpose                                                                                          | Verified           |
 |----------------------------------------------------------|--------|--------------------------------------------------------------------------------------------------|--------------------|
-| `node scripts/validate-skill-packs.mjs`                  | works  | Pack catalog, membership, visibility, metadata budget                                            | 2026-08-09, exit 0 |
-| `node scripts/sync-skill-manifest.mjs --check`           | works  | Manifest parity                                                                                  | 2026-08-09, exit 0 |
-| `node scripts/probe-skill-routing.mjs`                   | works  | Router dispatch probes                                                                           | 2026-08-09, exit 0 |
-| `node scripts/validate-pi-fabric.mjs`                    | works  | Schema dispositions, mode config (enforce or audit), skill paths                                 | 2026-08-09, exit 0 |
-| `node scripts/validate-work-management.mjs`              | works  | Local slug work IDs, .pi/work ownership, GitHub templates, /init GitHub setup safety             | 2026-08-09, exit 0 |
-| `node scripts/validate-foundation-depth.mjs`           | works  | Foundation depth: debt ledger, clearance bar                              | 2026-08-22, exit 0 |
-| `node scripts/validate-notion-workspace-skill.mjs`       | works  | Notion workspace skill safety: auth check, search-before-fetch, hub boundary, catalog membership | 2026-08-09, exit 0 |
-| `node scripts/check.mjs`                                 | works  | Canonical gate: all validators + commit-convention gate + `git diff --check`                     | 2026-08-16, exit 0 |
-| `node scripts/validate-release-hygiene.mjs`              | works  | Release hygiene: machine paths, secrets, runtime state, documented counts                        | 2026-08-11, exit 0 |
 | `git diff --check`                                       | works  | Whitespace check on changed files                                                                | 2026-08-09, exit 0 |
+| parse `packs.json` + `manifest.json`                     | manual | Verify skill membership, visibility, and manifest parity against on-disk paths                   | 2026-08-23 |
 | install / dev / test / lint / typecheck / build / format | none   | No command exists in the current tree                                                            | probed 2026-08-09  |
 
 ## CI
 
-- **Workflows:** `.github/workflows/check.yml` runs `node scripts/check.mjs` on pushes to `main` and pull requests.
-- **Local reproduction:** `node scripts/check.mjs` runs the same gates locally; CI enforces them on push and PR.
+- **Workflows:** `.github/workflows/check.yml` is a stub (no check step). No canonical gate runs in CI; completion is verified with direct evidence.
 
 ## Generated Files
 
-- `.pi/skills/manifest.json` is generated from the skill tree and `packs.json` by `node scripts/sync-skill-manifest.mjs` (no `--check` writes it). Regenerate after adding or moving skills; verify with `--check`.
+- `.pi/skills/manifest.json` tracks skill membership; it is maintained by hand alongside `packs.json`; after adding or moving skills, update both and verify parity against on-disk paths.
 - `.pi/tech-stack.md`, `.pi/project.md`, `AGENTS.md`, `.pi/roadmap.md`, `.pi/state.md`, `.pi/user.md` are rendered by `/init` from `.pi/templates/`; regenerate with `/init` and review the diff.
 - Ignored generated state: `.idea/`, `inspect/`, `.pi/implementation-notes.md`, `.pi/fabric/`, `.pi/work/ide-inspections/`, `.veda/`, and `.pi/work` dotfiles never commit.
 
 ## Testing
 
 - **Unit / integration / contract / e2e tests:** None in the working tree. Historical tests exist in Git history but were deleted in the current uncommitted cleanup; init does not restore them.
-- **Structural gates:** the 8 Node scripts above, run before completion claims.
+- **Structural gates:** none — completion is verified with direct evidence (`git diff --check`, parsing `packs.json`/`manifest.json`, inspecting call sites).
  - **CI static analysis:** Qodana (JetBrains engine) scans via `.github/workflows/qodana.yml` with the per-project `qodana.yaml`; needs a `QODANA_TOKEN` secret (skips without it); SARIF uploads to code scanning.
-- **Coverage gaps:** templates have no automated checks; prompts, config values, skill paths, and work-management ownership are pinned by validators. Roadmap Phase 2 (Contract Verification) lays out prompt, config, and template validators (.pi/roadmap.md).
+- **Coverage gaps:** templates have no automated checks; prompts, config values, and skill paths are verified by direct inspection. Roadmap Phase 2 (Contract Verification) lays out prompt, config, and template validators (.pi/roadmap.md).
 
 ## Active Integrations
 
@@ -158,15 +149,9 @@ Target approximately half of the available context for one implementation plan. 
 Always run before claiming complete:
 
 ```bash
-# Canonical gate (exit 0 required): node scripts/check.mjs runs every validator
-node scripts/check.mjs
-node scripts/validate-skill-packs.mjs
-node scripts/sync-skill-manifest.mjs --check
-node scripts/probe-skill-routing.mjs
-node scripts/validate-pi-fabric.mjs
-node scripts/validate-work-management.mjs
-node scripts/validate-release-hygiene.mjs
+# No canonical gate exists. Verify with direct evidence:
 git diff --check
+# then parse .pi/skills/packs.json + manifest.json and compare against on-disk paths
 ```
 
 There is no typecheck, lint, test, or build command in this repository.

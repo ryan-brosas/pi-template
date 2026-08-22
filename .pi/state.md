@@ -26,12 +26,8 @@ No issue tracker or active bead is configured. Do not invent issue IDs. This fil
 
 | Gate                       | Command                                        | Last result                               | Date       |
 |----------------------------|------------------------------------------------|-------------------------------------------|------------|
-| Canonical check            | `node scripts/check.mjs`                       | pass, 8 validators + convention gate + git diff --check | 2026-08-16 |
-| Skill packs                | `node scripts/validate-skill-packs.mjs`        | pass, packs=10 leaves=88 visible=14       | 2026-08-12 |
-| Manifest parity            | `node scripts/sync-skill-manifest.mjs --check` | pass                                      | 2026-08-09 |
-| Routing probes             | `node scripts/probe-skill-routing.mjs`         | pass, all probes                          | 2026-08-09 |
 | Whitespace (changed files) | `git diff --check`                             | pass                                      | 2026-08-09 |
-| Release hygiene            | `node scripts/validate-release-hygiene.mjs`    | pass                                      | 2026-08-11 |
+| Skill catalog parity        | parse `packs.json` + `manifest.json`           | manual, compare against on-disk paths      | 2026-08-23 |
 
 **Pending checks:** fresh-clone smoke procedure and README command audit are next; GitHub CI runs the canonical gate on pushes to `main` and pull requests.
 

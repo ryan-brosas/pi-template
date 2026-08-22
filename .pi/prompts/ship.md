@@ -112,8 +112,7 @@ Output:
 
 Reading and planning are read-only. Before the first edit, run the Schema loop
 inside one `fabric_exec`: `schema.hypothesize` (evidence:
-`file_contains`/`file_sha256` literals or the `canonical-check` trusted
-command) → `schema.verify` → `schema.commit` with declared operations and
+`file_contains`/`file_sha256` literals or verified command output) → `schema.verify` → `schema.commit` with declared operations and
 nonempty postconditions. Only `committed` authorizes the edits; then implement
 in the same `fabric_exec`. Keep the declared operations aligned with the plan
 until every item is complete; mark each with `[DONE:n]`. If verification fails

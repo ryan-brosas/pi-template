@@ -76,8 +76,8 @@ then `schema.commit` with declared operations and nonempty postconditions.
 - `.pi/templates/agents.md` is the source for the `AGENTS.md` rendered by
   `/init`. Change both files when this repository's rendered rules change.
 - After a skill catalog change, update `.pi/skills/packs.json` and
-  `.pi/skills/manifest.json`; the canonical check enforces membership,
-  visibility, and manifest parity.
+  `.pi/skills/manifest.json`; verify membership, visibility, and manifest
+  parity directly by parsing both files and comparing against on-disk paths.
 - Do not hand-edit generated output when a source template exists.
 
 ## Product map

@@ -90,7 +90,7 @@ can seed a spec from it. Resolve `<id>` in this order:
 
 That write is a mutation: run the Schema loop inside one `fabric_exec` —
 `schema.hypothesize` (evidence: `file_contains`/`file_sha256` literals or the
-`canonical-check` trusted command) → `schema.verify` → `schema.commit` with
+verified command output) → `schema.verify` → `schema.commit` with
 declared operations and nonempty postconditions — before writing.
 
 ## Schema boundary
