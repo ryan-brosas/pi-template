@@ -1,0 +1,27 @@
+name: quality-gate
+
+# Applies the test/gate methodology (Pillar 4) to the agent infrastructure:
+# verifies skills/prompts/templates/essentials are well-formed — no duplicates,
+# no missing essentials, no broken structure. Runs on PRs touching .pi/.
+# Warnings (orphaned references, near-duplicate descriptions) are reported but
+# don't block; hard failures (duplicates, missing essentials, invalid JSON) do.
+
+on:
+  pull_request:
+    paths:
+      - '.pi/**'
+      - 'scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Run quality gate
+        run: python3 scripts/quality-gate.py
