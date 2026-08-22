@@ -3,61 +3,26 @@ name: browser-harness-foundation
 description: "Use when building browser automation tooling: a CDP daemon that attaches to a real browser, high-level page helpers, action recording, and video composition from recordings."
 disable-model-invocation: true
 ---
+# Browser Harness Foundation
 
-# Browser-Harness Foundation
+## Use this for
+Browser automation tooling that must attach to a real (already-open) browser over the DevTools protocol, offer high-level imperative page helpers, record user actions, and compose videos from those recordings. Source and tests are ground truth; references carry decisive excerpts and graph retrieval.
 
-## Solves
-A daemon + CDP helper harness that drives a real logged-in browser, records actions, and composes videos from recordings. Sharpest part: the daemon attaches to the active tab and exposes simple imperative helpers.
-
-## When to use
-Building browser automation tooling: a CDP daemon, page helpers, action recording, video composition.
-
-## Key skill-lines
-- Drive a real logged-in browser -> the daemon pattern: auto-start, attach to a classified tab (real/blank/newtab/inspect), enable CDP domains in PARALLEL (fits the 5s IPC budget), expose flat helpers over one `cdp()` core.
-- Recover from stale CDP sessions -> session-replacement CHAINS + retry-only-on-known-replacement; never silently redirect an explicit session to the daemon's current tab.
-- Browser automation API -> `helpers.py`: pre-imported imperative functions over a cdp() core, explicit waits (load/element/network-idle).
-- Action recording -> `recorder.py`: start/stop, recordings list, URL scrubbing.
-- Video from browser actions -> the composition pipeline: validate composition strictly, match events to beats, verify viewport, render.
-
-## Capsule map
-
-### CDP daemon
-- Auto-start, classified-tab attach, parallel CDP domain enable, session-replacement chains — `references/daemon.md`.
-### Page helpers & recording
-- Pre-imported imperative `helpers.py`, explicit waits, action recorder with URL scrubbing, video composition — `references/helpers.md`, `references/recorder-video.md`, `references/ux.md`.
-
-## Extending the foundation
-1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
-2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
-3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
-
-
-## Full view (memory graph)
-
-Indexed in Codebase Memory as **`browser-harness`** (`/mnt/hdd/utopia/inspo/browser-harness`, branch `main`). Pull the full view before porting:
-
-- `codebase_memory_get_architecture({ project: "browser-harness", aspects: ["overview", "entry_points", "hotspots", "boundaries"] })` — shape, hotspots by fan-in, package boundaries.
-- `codebase_memory_search_graph({ project: "browser-harness", query: "<symbol>" })` — find a specific symbol.
-- `codebase_memory_trace_path({ project: "browser-harness", ... })` — call flows across packages.
-- `codebase_memory_check_index_coverage({ project: "browser-harness", paths: [...] })` — confirm a cited path is indexed.
-
-Confirm every claim against source — the graph is an index, not truth.
-
-## References (load on demand)
-- `references/DEEP.md` — architecture map, admin/auth surface, red flags, verification.
-- `references/daemon.md` — Daemon internals: DevTools-port discovery, session replacement, domain enable, tab classification.
+## Load the matching source dump
+- `references/daemon.md` — DevTools-port discovery, session replacement, CDP domain enable, tab classification.
 - `references/helpers.md` — the full imperative helper API over the `cdp()` core, with verified anchors.
 - `references/recorder-video.md` — action recording + URL scrubbing + the video composition pipeline.
 - `references/ux.md` — human-facing auth flows: PKCE/device-code/manual-key triage, agent-vs-human output modes.
 
-## Skill Result Contract
+## Capsule map
+- **CDP daemon** — `references/daemon.md`: auto-start, classified-tab attach, parallel CDP domain enable, session-replacement chains.
+- **Recording & helpers** — `references/helpers.md`, `references/recorder-video.md`, `references/ux.md`: pre-imported imperative helpers with explicit waits, action recorder with URL scrubbing and video composition.
 
-```xml
-<skill_result>
-  <skill>browser-harness-foundation</skill>
-  <status>success|partial|blocked|failure</status>
-  <evidence>Harness pattern ported, provenance cited, verified</evidence>
-  <artifacts>Daemon + helper API + recorder</artifacts>
-  <risks>Wrong-tab attach, unscrubbed URLs, broken composition, or none</risks>
-</skill_result>
-```
+## Extending the foundation
+Add one references-fileshaped capsule per portable seam: one loader line, one grouped map entry, decisive source with an invariant, a direct-test probe, and a `search_graph`/trace retrieval.
+
+## Provenance
+Indexed in Codebase Memory as `browser-harness` (`/mnt/hdd/utopia/inspo/browser-harness`); source and its direct tests remain authoritative; the graph is a discovery index, not truth.
+
+## Boundaries
+Adopt the daemon lifecycle, helper API, recorder, and composition contracts; adapt CDP transport and video encoders; omit auth-flow and output-mode presentation unless a target requires it.

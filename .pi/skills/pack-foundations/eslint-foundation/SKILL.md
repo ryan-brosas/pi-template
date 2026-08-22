@@ -6,30 +6,21 @@ disable-model-invocation: true
 # ESLint Foundation
 
 ## Use this for
-Flat-config lint pipelines, config resolution/validation, RuleTester-backed rule development, and AST walk helpers. Code and the full-indexed tests are ground truth; these references carry decisive excerpts plus live Codebase Memory retrieval calls.
+A lint rule engine or flat-config linter: the verify pipeline, config loading and validation, a RuleTester harness, and AST rule primitives. Source and tests are authoritative; the capsule contract is the loadable dump for reuse.
 
-## Capsule map
-
-### Lint pipeline
-- Linter.verify normalization, ESLint.lintFiles discovery/worker scaling, flat-config loading + validation — `references/verify-pipeline.md`.
-
-### Rule primitives
-- RuleTester harness and ast-utils rule primitives — `references/rules-and-tester.md`.
-
-## Extending the foundation
-1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
-2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in the matching reference.
-3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
-
-## Full view (memory graph)
-Indexed in Codebase Memory as **`eslint`** — `main@dc1e7a84` (14,207 nodes / 39,421 edges, full index including tests). Core lib paths are graph-covered (metadata match). Re-run `index_status`, `check_index_coverage`, `search_graph`, `trace_path`, and `get_code_snippet` before porting.
-
-## Load the source dump
-- `references/verify-pipeline.md` — Linter.verify normalization, ESLint.lintFiles file discovery/worker scaling, config loading + flat-config validation.
+## Load the matching source dump
+- `references/verify-pipeline.md` — Linter.verify normalization, ESLint.lintFiles discovery/worker scaling, FlatConfig loading + validation.
 - `references/rules-and-tester.md` — RuleTester harness and ast-utils rule primitives.
 
+## Capsule map
+- **Lint pipeline** — `references/verify-pipeline.md`: verify normalization, discovery/worker scaling, flat-config AI + validation.
+- **Rule primitives** — `references/rules-and-tester.md`: RuleTester harness, shared AST-tree rules and CAN-be-gated utilities.
+
+## Extending the foundation
+Add one references-fileshaped capsule per new rule-mode seam (loader, map, decisive source, invariant, probe, retrieval).
+
 ## Provenance
-ESLint (MIT), `main@dc1e7a84`; Codebase Memory project `eslint` (14,207 nodes / 39,421 edges, full index — including tests). Core lib paths are graph-covered (metadata match).
+Indexed in Codebase Memory as `eslint` (`/mnt/hdd/utopia/inspo/eslint`, main@dc1e7a84); 14,207 nodes / 39,421 edges, full index. Confirm every claim against source — the graph is an index, not truth.
 
 ## Boundaries
-Adopt pure contracts and the API seams. Adapt provider/transport specifics (none for the linter core) and any local config schema. Omit docs tooling and internal experiment rules.
+Adopt flf-config flow and the verify/lintFiles seam; port the RuleTester contract; omit ESLint's CLI/plugin-ecosystem packaging unless a target requires it.

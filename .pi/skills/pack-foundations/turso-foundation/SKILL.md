@@ -1,59 +1,27 @@
 ---
 name: turso-foundation
-description: "Use when building storage engines: bi-temporal MVCC with Hekaton-style commit dependencies, checksum-chained WAL framing with three-phase commit ordering, SQLite-compatible b-tree rebalancing, and pin-count eviction safety."
+description: "Use when building a SQLite-compatible storage engine: bi-temporal MVCC with Hekaton-style commit dependencies, checksum-chained WAL framing with three-phase commit, b-tree rebalancing, and pin-count durability."
 disable-model-invocation: true
 ---
-
 # Turso Foundation
 
-## Solves
-How turso (SQLite-compatible database in Rust) implements the hard storage-engine core: optimistic MVCC with counted commit dependencies, a checksum-chained WAL whose visibility is granted only from IO completion callbacks, b-tree rebalancing with proven bounds, and a pager that treats durability as an ordering property.
+## Use this for
+A SQLite-compatible storage engine: MVCC with commit dependencies, checksum-chained WAL with three-phase commit ordering, b-tree rebalancing limits, and pin-count eviction. Source and tests are the contract; the references carry the decisive excerpts.
 
-## When to use
-Building databases, embedded storage engines, write-ahead logs, MVCC layers, page caches with async write-back, or any system where durability ordering and eviction safety are correctness requirements.
-
-## Key skill-lines
-- Optimistic MVCC -> tagged-u64 version timestamps, first-committer-wins deferred to ONE commit-time scan, Hekaton counted dependencies with acyclic wait graph (`references/mvcc.md`).
-- WAL -> cumulative Fibonacci checksum chained per generation, publish-visibility-only-from-IO-completion, recovery that proves-then-discards, checkpoint locks held until the last durable fact publishes (`references/wal.md`).
-- Storage -> asserted 3→5 sibling rebalancing bounds, mandatory legality-repair passes, PinGuard counted pins making unsafe states unrepresentable, write-pending sentinels for async spill (`references/storage.md`).
-- Cross-cutting -> named perf constants beside their failure-mode comments, honest TODO debt, verification probes mined from 20k lines of tests.
+## Load the matching source dump
+- `references/mvcc.md` — bi-temporal MVCC, first-committer-wins, Hekaton counted dependencies.
+- `references/wal.md` — checksum-chained WAL framing, three-phase commit ordering, recovery, checkpointing.
+- `references/storage.md` — SQLite-compatible b-tree rebalancing, pin discipline, spill tags, durability ordering.
 
 ## Capsule map
-
-### MVCC
-- Tagged-u64 versions, first-committer-wins, Hekaton counted dependencies — `references/mvcc.md`.
-### WAL & storage
-- Checksum-chained WAL, publish-on-IO-completion, b-tree rebalancing bounds, PinGuard — `references/wal.md`, `references/storage.md`.
+- **MVCC** — `references/mvcc.md`: tagged-u64 versions, conflict rules, commit dependency graph, GC clocks.
+- **WAL & storage** — `references/wal.md`, `references/storage.md`: publish-on-IO, three-phase commits, rebalancing bounds, PinGuard.
 
 ## Extending the foundation
-1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
-2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
-3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+Add one references-file capsule per seam (loader, grouped map, decisive source, invariant, invariant probe, retrieval).
 
+## Provenance
+Indexed in Codebase Memory as `turso` (`/mnt/hdd/utopia/inspo/turso`); 43,962 nodes / 310,242 edges. Confirm every claim against source — the graph is an index, not truth.
 
-## Full view (memory graph)
-
-Indexed in Codebase Memory as **`turso`** (`/mnt/hdd/utopia/inspo/turso`). 43,962 nodes / 310,242 edges; 663 Rust files.
-
-- `codebase_memory_get_architecture({ project: "turso", aspects: ["overview", "hotspots"] })`
-- `codebase_memory_search_graph({ project: "turso", query: "<symbol>" })`
-- `codebase_memory_check_index_coverage({ project: "turso", paths: [...] })`
-
-Confirm every claim against source — the graph is an index, not truth.
-
-## References (load on demand)
-- `references/mvcc.md` — version timestamps, conflict rules, commit dependencies, GC clocks.
-- `references/wal.md` — frame format, commit phases, recovery, checkpointing, read-marks, constants.
-- `references/storage.md` — balancing, redistribution legality, pin discipline, spill tags, durability ordering.
-
-## Skill Result Contract
-
-```xml
-<skill_result>
-  <skill>turso-foundation</skill>
-  <status>success|partial|blocked|failure</status>
-  <evidence>Pattern ported, provenance cited, verified</evidence>
-  <artifacts>Ported primitive + path</artifacts>
-  <risks>Torn durability windows, use-after-eviction, snapshot-isolation violations, or none</risks>
-</skill_result>
-```
+## Boundaries
+Adopt the MVCC, WAL, and b-tree durability contracts; keep SQLite frame compatibility windows; omit the server, protocol, and cloud layers unless a target requires them.

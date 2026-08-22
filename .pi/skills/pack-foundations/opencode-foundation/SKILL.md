@@ -3,61 +3,27 @@ name: opencode-foundation
 description: "Use when building client/server coding-agent harnesses: shadow-git snapshot undo, deferred-suspension permission models, protocol-first API codegen, and multi-surface clients."
 disable-model-invocation: true
 ---
-
 # OpenCode Foundation
 
-## Solves
-A production coding-agent monorepo: the agent engine (`packages/opencode`), a protocol-generated server, and many clients (TUI/web/desktop/IDE) over one API — plus the two hardest agent problems done well: undoing AI edits and gating tool calls on humans.
+## Use this for
+Client/server coding-agent harnesses: shadow-git snapshot undo, a deferred-suspension permission model, protocol-first API codegen, and multi-surface clients. Source and tests are the contract; references resolve to decisive excerpts and flows.
 
-## When to use
-Building client/server agent architectures, edit-undo systems, permission/approval flows, or Effect-TS service layers.
-
-## Key skill-lines
-- Undo for AI edits -> the shadow-git snapshot: per-worktree hidden repo with SHARED object database via alternates; ignore-drift correction; 7-day gc (`references/snapshot.md`).
-- Tool-call gating -> the permission model: last-match-wins rulesets, fail-toward-asking, Deferred-suspended requests, rejection text as CorrectedError feedback (`references/permissions.md`).
-- Multi-surface architecture -> protocol-first codegen: `@opencode-ai/protocol` defines the API once; `makeDefaultApi` generates the server; TUI/web/desktop are thin clients.
-- Effect-TS layering -> services as `Context.Service` + `Layer.effect` with InstanceState per directory; every external failure degrades to logWarning, never aborts the task.
+## Load the matching source dump
+- `references/snapshot.md` — shadow-git undo: alternates seeding, ignore-drift correction, semaphores, NUL pathspecs.
+- `references/permissions.md` — ruleset evaluation, Deferred suspension, rejection-as-feedback, session-scoped approval.
+- `references/sessions.md` — event-sourced persistence, fork-as-graph-rewrite, patch semantics, stream guards.
+- `references/editing.md` — nine-replacer fuzzy edit chain, collision triad, locked edit transactions, four-pass applier.
 
 ## Capsule map
-
-### Shadow-git undo
-- Per-worktree hidden repo, SHARED object DB via alternates, ignore-drift correction, 7-day gc — `references/snapshot.md`.
-### Permission model
-- Last-match-wins rulesets, fail-toward-asking, Deferred-suspended requests, rejection-as-feedback — `references/permissions.md`.
-### Sessions & editing
-- Event-sourced persistence, fork-as-graph-rewrite, replacer chains, locked edit transactions — `references/sessions.md`, `references/editing.md`.
+- **Shadow-git undo** — `references/snapshot.md`: per-worktree hidden repo, SHARED object DB via alternates, ignore-drift correction.
+- **Permission model** — `references/permissions.md`: last-match-wins rulesets, defer-on-ask, Deferred suspension.
+- **Sessions & editing** — `references/sessions.md`, `references/editing.md`: event-sourced persistence, fork-as-rewrite, replacer chain, locked edits.
 
 ## Extending the foundation
-1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
-2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
-3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+Add one references-fileshaped capsule per portable seam: one loader line, one grouped map entry, decisive source with an invariant, direct-test probe, and `search_graph` retrieval.
 
+## Provenance
+Indexed in Codebase Memory as `opencode` (`/mnt/hdd/utopia/inspo/opencode`); 64,850 nodes / 234,775 edges. Confirm every claim against source — the graph is an index, not truth.
 
-## Full view (memory graph)
-
-Indexed in Codebase Memory as **`opencode`** (`/mnt/hdd/utopia/inspo/opencode`). 64,850 nodes / 234,775 edges; engine packages: opencode (5,144), core (2,319), tui (1,339), server, protocol, sdk.
-
-- `codebase_memory_get_architecture({ project: "opencode", aspects: ["overview", "entry_points", "hotspots", "boundaries"] })`
-- `codebase_memory_search_graph({ project: "opencode", query: "<symbol>" })`
-- `codebase_memory_trace_path({ project: "opencode", ... })`
-- `codebase_memory_check_index_coverage({ project: "opencode", paths: [...] })`
-
-Confirm every claim against source — the graph is an index, not truth.
-
-## References (load on demand)
-- `references/snapshot.md` — shadow-git undo: alternates seeding, exclude syncing, NUL pathspecs, semaphore locking.
-- `references/permissions.md` — ruleset evaluation, Deferred suspension, rejection-as-feedback, session-scoped approval growth.
-- `references/sessions.md` — event-sourced persistence, fork-as-graph-rewrite, patch semantics, synthetic-transcript prompt assembly, stream processor guards, abort tombstones.
-- `references/editing.md` — nine-replacer fuzzy edit chain, collision triad, locked edit transactions with BOM/EOL preservation, V4A patch parser and four-pass applier.
-
-## Skill Result Contract
-
-```xml
-<skill_result>
-  <skill>opencode-foundation</skill>
-  <status>success|partial|blocked|failure</status>
-  <evidence>Pattern ported, provenance cited, verified</evidence>
-  <artifacts>Ported primitive + path</artifacts>
-  <risks>Broken revert, permission bypass, stale async state, or none</risks>
-</skill_result>
-```
+## Boundaries
+Adopt shadow-git undo, deferred-suspension permissions, and event-sourced sessions; adapt the client surfaces and transport; omit site-specific TUI and per-cli behavior unless a target requires it.

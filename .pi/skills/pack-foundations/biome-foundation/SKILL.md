@@ -5,55 +5,24 @@ disable-model-invocation: true
 ---
 # Biome Foundation
 
-## Solves
-How biome ships Rust-speed linting/formatting for many languages from ONE architecture: a lossless CST core (rowan), a language-agnostic formatter IR with best-fitting printing, and a rule engine where cheap signal detection separates from expensive diagnostics.
+## Use this for
+Linters, formatters, or language-server tooling that must round-trip source losslessly and reason over small, flat, memoizable IRs. Biome source and direct tests are ground truth; the capsules carry decisive excerpts and live graph retrieval.
 
-## When to use
-Building parsers/editors over syntax trees, formatters, linters, code-action systems, or any toolchain where losslessness, speed, and multi-language scale are requirements.
-
-## Key skill-lines
-- Lossless CST -> trivia as (kind,length) pieces pinned to tokens; green/red split with zipper cursors; fixed-slot arity with explicit holes; bottom-up hash-consing saving 17% memory (`references/cst.md`).
-- Formatter -> flat 24-byte element stream with inline tags (size static_asserted), shadow-replay fits checking, BestFitting variants with documented quadratic cost, pointer-interned memoization, deferred source-map markers (`references/formatter-ir.md`).
-- Analyzer -> five-method Rule state machine (cheap run / lazy diagnostic+action), kind-indexed dispatch tables, positional suppression pre-pass flagging unused ignores, services-as-scheduling-key (`references/analyzer.md`).
+## Load the matching source dump
+- `references/cst.md` — trivia pinning, green/red zipper, slot holes, hash-consing, text reconstruction.
+- `references/formatter-ir.md` — element vocabulary, fits algorithm, BestFitting, Fill, interning post-mortem, source maps.
+- `references/analyzer.md` — Rule anatomy, registry dispatch, suppression pass, signal heap, services-as-phases, FixKind policy.
 
 ## Capsule map
-
-### Lossless CST
-- Trivia as (kind,length) pieces, green/red split with zipper cursors, fixed-slot arity, hash-consing — `references/cst.md`.
-### Formatter IR
-- Flat 24-byte element stream, BestFitting variants, pointer-interned memoization, deferred source maps — `references/formatter-ir.md`.
-### Rule engine
-- Three-method RuleState, kind-indexed dispatch, positional suppression — `references/analyzer.md`.
+- **Lossless CST** — `references/cst.md`: trivia as (kind,length) pieces, green/red split with zipper cursors, fixed-slot arity, hash-consing.
+- **Formatter IR** — `references/formatter-ir.md`: flat element stream of fixed-width records, BestFitting variants, pointer-interning memoization, deferred source maps.
+- **Rule engine** — `references/analyzer.md`: method-based RuleState, kind-indexed dispatch, positional suppression.
 
 ## Extending the foundation
-1. Load the matching reference, then pre-walk one uncovered seam in the indexed repo with Codebase Memory.
-2. Add a source-backed capsule here (Path/Symbol, Signature, Data Shape, Flow, Invariant, Probe, Retrieve) and put the decisive excerpt in a matching reference.
-3. Record module coverage and open gaps in the durable work record, then run `node scripts/check.mjs`.
+Add one references-fileshaped capsule per new portable seam: one loader line, one grouped map entry, decisive source with an invariant, a direct-test probe, and a `search_graph` retrieval.
 
+## Provenance
+Indexed in Codebase Memory as `biome` (`/mnt/hdd/utopia/inspo/biome`); 141,682 nodes / 644,530 edges; largest packages biome_js_analyze, biome_css_syntax, biome_js_formatter. Confirm every claim against source — the graph is an index, not truth.
 
-## Full view (memory graph)
-
-Indexed in Codebase Memory as **`biome`** (`/mnt/hdd/utopia/inspo/biome`). 141,682 nodes / 644,530 edges; 4,549 Rust files; biggest packages: biome_js_analyze (8,718), biome_css_syntax (7,532), biome_js_formatter (6,125).
-
-- `codebase_memory_get_architecture({ project: "biome", aspects: ["overview", "hotspots"] })`
-- `codebase_memory_search_graph({ project: "biome", query: "<symbol>" })`
-- `codebase_memory_check_index_coverage({ project: "biome", paths: [...] })`
-
-Confirm every claim against source — the graph is an index, not truth.
-
-## References (load on demand)
-- `references/cst.md` — trivia pinning, green/red zipper, slot holes, hash-consing, text reconstruction.
-- `references/formatter-ir.md` — element vocabulary, fits algorithm, BestFitting, Fill, interning bug post-mortem, source maps.
-- `references/analyzer.md` — Rule anatomy, registry dispatch, suppression pre-pass, signal heap, services-as-phases, FixKind policy.
-
-## Skill Result Contract
-
-```xml
-<skill_result>
-  <skill>biome-foundation</skill>
-  <status>success|partial|blocked|failure</status>
-  <evidence>Pattern ported, provenance cited, verified</evidence>
-  <artifacts>Ported primitive + path</artifacts>
-  <risks>Lost whitespace fidelity, wrong fit verdicts, suppressed-but-emitted diagnostics, or none</risks>
-</skill_result>
-```
+## Boundaries
+Adopt the CST/IR/rule abstractions and best-fitting printer; adapt syntax-tree libraries and AoT serialization; omit Biome-specific CLI, config, and language extensions unless a target requires them.
