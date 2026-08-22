@@ -1,36 +1,38 @@
 ---
 name: aider-foundation
-description: "Use when building AI pair-programming harnesses: repo maps, repairable SEARCH/REPLACE edits, bounded collaboration loops, provider policy, scoped Git safety, context compression, and terminal confirmation UX."
+description: "Use when building AI pair-programming harnesses: token-bounded repository context, repairable edits, explicit file and consent gates, plan-to-edit handoff, diagnostic feedback, provider policy, and scoped Git safety."
 disable-model-invocation: true
 ---
 # Aider: AI Pair-Programming Foundation
 
 ## Use this for
-Build or harden an AI coding harness that must select repository context under a token budget, apply model-authored edits without silent fuzzy matches, return failures to the model through bounded loops, and preserve user-controlled Git and confirmation boundaries. Aider source and direct tests are ground truth; these references carry decisive excerpts and graph retrieval.
+Build or harden an AI coding harness that selects repository context under a token budget, turns plans into guarded edits, returns actionable repair diagnostics, and preserves user-controlled consent, retry, and Git boundaries. Aider source and direct tests are ground truth; the capsules carry decisive excerpts and live graph retrieval.
 
 ## Load the matching source dump
 - `references/repomap.md` — PageRank-ranked tags, chat-file exclusion, and token-budget fitting.
+- `references/context-orchestration.md` — fixed prompt ordering and tail-preserving history reduction.
 - `references/edit-formats.md` — SEARCH/REPLACE matching ladder and loud repair failure loop.
+- `references/edit-admission.md` — registered format dispatch, transcript sanitation on a mode switch, and per-target edit consent.
+- `references/git-safety.md` — dirty baselines and edited-path-only commits.
+- `references/diagnostic-feedback.md` — preserved failing output with line-scoped structural context before model reflection.
 - `references/collab.md` — AI-comment watch routing and bounded lint/edit reflection.
-- `references/model-policy.md` — exact-over-generic settings, deep overrides, and capped retry recovery.
-- `references/git-safety.md` — staged-plus-unstaged dirty baselines and edited-path-only commits.
-- `references/context-orchestration.md` — fixed prompt ordering and tail-preserving compression.
+- `references/architect-handoff.md` — consent-gated plan-to-editor transfer in an isolated edit session.
 - `references/ux.md` — grouped confirmation preference, explicit-yes protection, and multiline restoration.
+- `references/model-policy.md` — exact-over-generic settings, deep overrides, and capped retry recovery.
 
 ## Capsule map
-- **Token-bounded context** — `references/repomap.md`: rank definitions into a budget while excluding conversational control files.
-- **Repairable edit application** — `references/edit-formats.md`: accept only bounded structural variations and return exact failure context without silent fuzzy edits.
-- **Bounded collaboration loops** — `references/collab.md`: reflect edits and lint failures to the model within an explicit cap.
-- **Provider policy and recovery** — `references/model-policy.md`: exact policy wins, overrides merge deliberately, and retry stops at the model-time bound.
-- **Scoped change safety** — `references/git-safety.md`: snapshot existing dirt before editing and commit only model-edited paths.
-- **Context assembly and compression** — `references/context-orchestration.md`: hold the active turn last and summarize only archived history with bounded depth.
-- **Terminal confirmation UX** — `references/ux.md`: preserve explicit consent and restore input mode around nested prompts.
+Each capsule pairs decisive evidence, a preserved invariant, a direct-test probe, and a live `search_graph` retrieval. The map records portable seams, not a source census.
+
+- **Context selection and assembly** — `references/repomap.md`, `references/context-orchestration.md`: budget repository context and preserve the active turn while compressing archival history.
+- **Edit protocol and mutation boundary** — `references/edit-formats.md`, `references/edit-admission.md`, `references/git-safety.md`, `references/diagnostic-feedback.md`: select a compatible format, ask before expanding scope, reject unsafe matches, keep a reversible baseline, and feed compact diagnostics back to the model.
+- **Collaboration and consent** — `references/collab.md`, `references/architect-handoff.md`, `references/ux.md`: bound reflection, turn a reviewed plan into a separate edit pass, and never weaken explicit consent.
+- **Provider policy and recovery** — `references/model-policy.md`: exact policy wins; user overrides merge deliberately; retry terminates at its time bound.
 
 ## Extending the foundation
-Add one graph-selected, source-confirmed capsule per seam. Add one loader line and one map entry; keep decisive evidence, an invariant, a direct-test probe, and a `search_graph` retrieval in the capsule rather than expanding the leaf.
+Add one graph-selected, source-confirmed capsule per new portable seam. Add exactly one loader line and one grouped map reference; retain decisive source, an invariant, a direct-test probe, and a `search_graph` retrieval in the capsule rather than expanding this leaf.
 
 ## Provenance
-Aider (Apache-2.0), `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c`; Codebase Memory project `aider` (full index: 7,507 nodes / 19,923 edges, recorded 2026-08-16). Cited source and test paths have metadata-match/no-precision-issue coverage (best-effort index evidence; source and tests authoritative).
+Aider (Apache-2.0), `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c`; Codebase Memory project `aider` (full index: 7,507 nodes / 19,923 edges, inspected 2026-08-16). Parse-partial tree/site/fixture ranges and 74 intentionally excluded non-code assets are a best-effort coverage caveat; source and direct tests remain authoritative.
 
 ## Boundaries
-Adopt the pure context-selection, repair-loop, capped-retry, and scoped-mutation contracts; adapt provider dialects, editor/watch transports, and host Git integration; omit Aider CLI, prompt wording, UI styling, and commit-message generation unless required.
+Adopt context selection, guarded edit admission, repair feedback, diagnostic reflection, consent, bounded retry, and scoped mutation contracts. Adapt model-provider dialects, editor/watch transports, and host Git integration. Omit Aider CLI/prompt wording, UI styling, analytics, onboarding, scraping, voice, and commit-message generation unless a target requirement needs them.

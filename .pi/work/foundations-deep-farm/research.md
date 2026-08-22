@@ -12,7 +12,7 @@ Turn indexed inspiration repositories into small, reusable code shortcuts. Codeb
 |---|------|---------------|------:|--------|
 | 1 | oh-my-pi | oh-my-pi | 84,012 | repair in progress |
 | 2 | eslint | eslint | 14,207 | queued after pilot |
-| A1 | aider | aider | 7,507 | squeezed — canonical leaf |
+| A1 | aider | aider | 7,507 | squeezed — evidence-complete |
 | 3 | vitest | vitest | queued |
 | 4 | rsbuild | rsbuild | queued |
 | 5 | nest | nest | queued |
@@ -50,3 +50,10 @@ The user approved editing the workflow and three retained references, deleting s
 - [DONE:13] Aider full re-squeeze: refreshed canonical inspo clone and Codebase Memory **full** index at `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c` (7,507 nodes / 19,923 edges; 0 skipped; 28 parse-partial tree/site/fixture files as coverage caveats). The census covers the app, coder-format family, model/provider policy, Git wrapper, I/O, context/history, tests, CLI, website, benchmark, scripts, and tree-sitter queries. This wave added source-backed capsules for provider/retry, scoped Git safety, and context orchestration (three new `references/*.md`), upgraded all four prior references to `capsule-v1` retrieval contracts, and regrew the leaf Capsule map around them. Canonical green.
 
 - [DONE:14] Aider canonical squeeze closed: kept the seven source-backed `capsule-v2` references unchanged, refactored `aider-foundation/SKILL.md` into the uniform loader/map shape, confirmed each capsule once per surface. Preflight: `aider` full index at `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c`, 7,507 nodes / 19,923 edges; cited source/test paths metadata-match/no-recorded-issue (best-effort). Squeeze and canonical checks are GREEN evidence.
+
+- [DONE:15] Aider evidence-complete squeeze: re-opened the thin leaf-only closure and reran the full process under the live full index `main@5dc9490bb35f9729ef2c95d00a19ccd30c26339c` (7,507 nodes / 19,923 edges; parse-partial tree/site/fixture ranges and 74 excluded non-code assets are the coverage caveat). Final source map has ten `capsule-v2` seams: context (`repomap`, `context-orchestration`); edit/mutation (`edit-formats`, `edit-admission`, `git-safety`, `diagnostic-feedback`); collaboration/consent (`collab`, `architect-handoff`, `ux`); provider policy (`model-policy`). Source and direct-test paths were re-read for every seam. The upstream direct-test command is blocked in this clone (`/usr/bin/python: No module named pytest`), so no test pass is claimed; deterministic source-symbol, capsule-standard, map-parity, routing, and squeeze probes are the executable GREEN evidence.
+
+### Aider module disposition
+- **Mined (portable harness contracts):** `coders/{base_coder,chat_chunks,editblock_coder,architect_coder}`, `repomap`, `models`, `repo`, `io`, `linter`, `watch`, `history` — represented by the ten capsules above.
+- **Subsumed:** alternate coder-format and prompt modules (`ask`, `context`, `wholefile`, `udiff`, editor and function variants, `*_prompts`, `search_replace`) share the format-selection, edit-repair, admission, or prompt-assembly contracts; no separate portable behavior without a target requirement.
+- **Omitted with reason:** CLI/argument/bootstrap/UI/analytics/onboarding/report/version/help/voice/scrape/URLs/openrouter integration and shell/pexpect transport (`args*`, `main`, `commands`, `gui`, `analytics`, `onboarding`, `report`, `versioncheck`, `help*`, `voice`, `scrape`, `urls`, `openrouter`, `run_cmd`, `waiting`, `mdstream`, `copypaste`, `dump`, `special`, `deprecated`, `exceptions`, `format_settings`, `llm`, `sendchat`, `reasoning_tags`, `utils`) are host-specific interfaces, vendor/provider transports, or presentation mechanics rather than reusable coding-harness contracts.
